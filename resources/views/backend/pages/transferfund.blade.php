@@ -64,26 +64,27 @@
     <div class="row justify-content-center mt-4">
         <div class="col-lg-7">
             <div class="transfer-card">
-                <form>
+                <form method="POST" action="{{ route('admin.transfers.store') }}">
+                    @csrf
                     <div class="mb-3">
-                        <label for="memberId" class="form-label">Member ID*</label>
-                        <input type="text" class="form-control" id="memberId" placeholder="Enter Member ID">
+                        <label for="member_id" class="form-label">Member ID*</label>
+                        <input type="text" class="form-control" id="member_id" name="member_id" placeholder="Enter Member ID" required>
                     </div>
                     <div class="mb-3">
                         <label for="amount" class="form-label">Amount*</label>
-                        <input type="text" class="form-control" id="amount" placeholder="Enter Transfer Amount">
+                        <input type="number" step="0.01" class="form-control" id="amount" name="amount" placeholder="Enter Transfer Amount" required>
                     </div>
                     <div class="mb-3">
                         <label for="wallet" class="form-label">Wallet*</label>
-                        <select class="form-select" id="wallet">
-                            <option selected>----- Select Wallet -----</option>
-                            <option value="1">Main Wallet</option>
-                            <option value="2">Commission Wallet</option>
+                        <select class="form-select" id="wallet" name="wallet" required>
+                            <option value="">----- Select Wallet -----</option>
+                            <option value="main">Main Wallet</option>
+                            <option value="commission">Commission Wallet</option>
                         </select>
                     </div>
                     <div class="mb-4">
                         <label for="remark" class="form-label">Remark*</label>
-                        <textarea class="form-control" id="remark" rows="3" placeholder="Enter Remark"></textarea>
+                        <textarea class="form-control" id="remark" name="remark" rows="3" placeholder="Enter Remark" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-proceed">Proceed</button>
                 </form>

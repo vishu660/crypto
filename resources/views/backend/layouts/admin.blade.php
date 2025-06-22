@@ -379,24 +379,24 @@
                 </li>
                 <!-- Fund Deduction Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundDeductionMenu" role="button" aria-expanded="false" aria-controls="fundDeductionMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.deductions.*') || request()->routeIs('admin-deduction-report') || request()->routeIs('admin-deduct-fund') ? 'active' : '' }}" data-bs-toggle="collapse" href="#fundDeductionMenu" role="button" aria-expanded="false" aria-controls="fundDeductionMenu">
                         <span><i class="bi bi-slash-circle me-2"></i>Fund Deduction</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="fundDeductionMenu">
-                        <a class="nav-link" href="#">All Deductions</a>
-                        <a class="nav-link" href="#">Manual Deduction</a>
+                        <a class="nav-link {{ request()->routeIs('admin.deductions.all') || request()->routeIs('admin-deduction-report') ? 'active' : '' }}" href="{{ route('admin.deductions.all') }}">All Deductions</a>
+                        <a class="nav-link {{ request()->routeIs('admin.deductions.manual') || request()->routeIs('admin-deduct-fund') ? 'active' : '' }}" href="{{ route('admin.deductions.manual') }}">Manual Deduction</a>
                     </div>
                 </li>
                 <!-- Fund Transfer Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundTransferMenu" role="button" aria-expanded="false" aria-controls="fundTransferMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.transfers.*') || request()->routeIs('admin-transfer-report') || request()->routeIs('admin-transfer-fund') ? 'active' : '' }}" data-bs-toggle="collapse" href="#fundTransferMenu" role="button" aria-expanded="false" aria-controls="fundTransferMenu">
                         <span><i class="bi bi-cash-coin me-2"></i>Fund Transfer</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="fundTransferMenu">
-                        <a class="nav-link" href="#">Transfer History</a>
-                        <a class="nav-link" href="#">New Transfer</a>
+                        <a class="nav-link {{ request()->routeIs('admin.transfers.history') || request()->routeIs('admin-transfer-report') ? 'active' : '' }}" href="{{ route('admin.transfers.history') }}">Transfer History</a>
+                        <a class="nav-link {{ request()->routeIs('admin.transfers.new') || request()->routeIs('admin-transfer-fund') ? 'active' : '' }}" href="{{ route('admin.transfers.new') }}">New Transfer</a>
                     </div>
                 </li>
                 <!-- Activation Dropdown -->
@@ -499,5 +499,25 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     @stack('scripts')
+    <script>
+        // Auto-expand dropdown menus when on active sub-pages
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if we're on fund deduction pages
+            if (window.location.pathname.includes('deduct-fund') || window.location.pathname.includes('deduction-report')) {
+                const fundDeductionMenu = document.getElementById('fundDeductionMenu');
+                if (fundDeductionMenu) {
+                    fundDeductionMenu.classList.add('show');
+                }
+            }
+            
+            // Check if we're on fund transfer pages
+            if (window.location.pathname.includes('transfer-fund') || window.location.pathname.includes('transfer-report')) {
+                const fundTransferMenu = document.getElementById('fundTransferMenu');
+                if (fundTransferMenu) {
+                    fundTransferMenu.classList.add('show');
+                }
+            }
+        });
+    </script>
 </body>
 </html>

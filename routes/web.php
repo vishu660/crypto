@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Backend\FundRequestController;
+use App\Http\Controllers\Backend\FundDeductionController;
+use App\Http\Controllers\Backend\FundTransferController;
 
 Route::get('/', function () {
     return view('backend.pages.dashboard');
@@ -28,21 +30,22 @@ Route::get('/admin-level-settings', function () {
     return view('backend.pages.levelsettings');
 })->name('admin-level-settings');
 
-Route::get('/admin-deduct-fund', function () {
-    return view('backend.pages.deductfund');
-})->name('admin-deduct-fund');
+// Fund Deduction Routes
+Route::get('/admin-deduct-fund', [FundDeductionController::class, 'deductFund'])->name('admin-deduct-fund');
+Route::get('/admin-deduction-report', [FundDeductionController::class, 'deductionReport'])->name('admin-deduction-report');
+Route::get('/admin/all-deductions', [FundDeductionController::class, 'allDeductions'])->name('admin.deductions.all');
+Route::get('/admin/manual-deduction', [FundDeductionController::class, 'manualDeduction'])->name('admin.deductions.manual');
+Route::post('/admin/store-deduction', [FundDeductionController::class, 'storeDeduction'])->name('admin.deductions.store');
+Route::get('/admin/get-deduction-data', [FundDeductionController::class, 'getDeductionData'])->name('admin.deductions.data');
 
-Route::get('/admin-deduction-report', function () {
-    return view('backend.pages.deductionreport');
-})->name('admin-deduction-report');
-
-Route::get('/admin-transfer-fund', function () {
-    return view('backend.pages.transferfund');
-})->name('admin-transfer-fund');
-
-Route::get('/admin-transfer-report', function () {
-    return view('backend.pages.transferreport');
-})->name('admin-transfer-report');
+// Fund Transfer Routes
+Route::get('/admin-transfer-fund', [FundTransferController::class, 'transferFund'])->name('admin-transfer-fund');
+Route::get('/admin-transfer-report', [FundTransferController::class, 'transferReport'])->name('admin-transfer-report');
+Route::get('/admin/transfer-history', [FundTransferController::class, 'transferHistory'])->name('admin.transfers.history');
+Route::get('/admin/new-transfer', [FundTransferController::class, 'newTransfer'])->name('admin.transfers.new');
+Route::post('/admin/store-transfer', [FundTransferController::class, 'storeTransfer'])->name('admin.transfers.store');
+Route::get('/admin/get-transfer-data', [FundTransferController::class, 'getTransferData'])->name('admin.transfers.data');
+Route::get('/admin/get-member-balance', [FundTransferController::class, 'getMemberBalance'])->name('admin.transfers.balance');
 
 Route::get('/verify-otp', function () {
     return view('backend.auth.verify-otp');
