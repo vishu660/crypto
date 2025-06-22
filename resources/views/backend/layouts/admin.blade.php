@@ -401,13 +401,13 @@
                 </li>
                 <!-- Activation Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#activationMenu" role="button" aria-expanded="false" aria-controls="activationMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.wallet-activation') || request()->routeIs('admin.activation-report') ? 'active' : '' }}" data-bs-toggle="collapse" href="#activationMenu" role="button" aria-expanded="false" aria-controls="activationMenu">
                         <span><i class="bi bi-box-arrow-in-right me-2"></i>Activation</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="activationMenu">
-                        <a class="nav-link" href="#">All Activations</a>
-                        <a class="nav-link" href="#">New Activation</a>
+                        <a class="nav-link {{ request()->routeIs('admin.wallet-activation') ? 'active' : '' }}" href="{{ route('admin.wallet-activation') }}">Wallet Activation</a>
+                        <a class="nav-link {{ request()->routeIs('admin.activation-report') ? 'active' : '' }}" href="{{ route('admin.activation-report') }}">Activation Report</a>
                     </div>
                 </li>
                 <li class="nav-item mt-4 mb-2">

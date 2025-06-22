@@ -59,3 +59,11 @@ Route::get('/admin/all-fund-requests', [FundRequestController::class, 'allReques
 Route::get('/admin/approved-fund-requests', [FundRequestController::class, 'approvedRequests'])->name('admin.fund-requests.approved');
 Route::get('/admin/pending-fund-requests', [FundRequestController::class, 'pendingRequests'])->name('admin.fund-requests.pending');
 
+// Activation Routes
+Route::get('/admin/wallet-activation', function () {
+    return view('backend.pages.walletactivation');
+})->name('admin.wallet-activation');
+Route::get('/admin/activation-report', function () {
+    return view('backend.pages.activationreport');
+})->name('admin.activation-report');
+

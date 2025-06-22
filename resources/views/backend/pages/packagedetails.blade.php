@@ -7,10 +7,18 @@
     h4, .card-title {
         color: #00fff7;
     }
-    .card {
-        background-color: #181f2a;
-        border: 1px solid #00fff7;
-        color: #fff;
+    .package-box {
+        border: 2px solid #00fff7;
+        border-radius: 12px;
+        background: #181f2a;
+        box-shadow: none;
+        margin-bottom: 24px;
+    }
+    .package-box .card-body {
+        background: transparent;
+        border: none;
+        border-radius: 0 0 12px 12px;
+        padding: 32px 24px;
     }
     .form-control, .form-select {
         background-color: #101820;
@@ -100,7 +108,7 @@
     <div class="row">
         <!-- Add New Package Form -->
         <div class="col-lg-4">
-            <div class="card">
+            <div class="package-box">
                 <div class="card-body">
                     <h5 class="card-title mb-4">Add New Package</h5>
                     <form>
@@ -131,7 +139,7 @@
         </div>
         <!-- Package Details Table -->
         <div class="col-lg-8">
-            <div class="card">
+            <div class="package-box">
                 <div class="card-body">
                     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
                         <div class="d-flex align-items-center">
