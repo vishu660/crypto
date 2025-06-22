@@ -448,8 +448,8 @@
                         <a class="nav-link" href="{{ route('admin.all-members') }}">All Members</a>
                         <a class="nav-link" href="{{ route('admin.active-members') }}">Active Members</a>
                         <a class="nav-link" href="{{ route('admin.inactive-members') }}">Inactive Members</a>
-                        <a class="nav-link" href="#">Blocked Members</a>
-                        <a class="nav-link" href="#">Password Details</a>
+                        <a class="nav-link" href="{{ route('admin.blocked-members') }}">Blocked Members</a>
+                        <a class="nav-link" href="{{ route('admin.password-details') }}">Password Details</a>
                     </div>
                 </li>
                 <!-- Network Dropdown -->

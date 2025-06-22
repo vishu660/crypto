@@ -31,4 +31,10 @@ class MemberController extends Controller
         $members = User::where('status', 'blocked')->get();
         return view('backend.pages.blocked_members', compact('members'));
     }
+
+    public function passwordDetails()
+    {
+        $members = \App\Models\User::all();
+        return view('backend.pages.password_details', compact('members'));
+    }
 } 

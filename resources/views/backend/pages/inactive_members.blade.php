@@ -33,20 +33,40 @@
                     <th>Mobile No</th>
                     <th>Email ID</th>
                     <th>Join Date</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($members as $member)
-                <tr>
-                    <td>{{ $member->id ?? '-' }}</td>
-                    <td>{{ $member->full_name ?? '-' }}</td>
-                    <td>{{ $member->mobile_no ?? '-' }}</td>
-                    <td>{{ $member->email_id ?? '-' }}</td>
-                    <td>{{ $member->created_at ? $member->created_at->format('d-m-Y h:i a') : '-' }}</td>
-                </tr>
-                @endforeach
+                @if($members->count() > 0)
+                    @foreach($members as $member)
+                    <tr>
+                        <td>{{ $member->id ?? '-' }}</td>
+                        <td>{{ $member->full_name ?? '-' }}</td>
+                        <td>{{ $member->mobile_no ?? '-' }}</td>
+                        <td>{{ $member->email_id ?? '-' }}</td>
+                        <td>{{ $member->created_at ? $member->created_at->format('d-m-Y h:i a') : '-' }}</td>
+                        <td>
+                            <button class="btn-details">Details</button>
+                            <button class="btn-block">Block Now</button>
+                        </td>
+                    </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">No data available in table</td>
+                    </tr>
+                @endif
             </tbody>
         </table>
+        <div class="d-flex justify-content-between align-items-center mt-2">
+            <div class="datatable-info">
+                Showing 0 to 0 of 0 entries
+            </div>
+            <div class="datatable-pagination">
+                <button class="btn btn-sm btn-secondary me-1" disabled>Previous</button>
+                <button class="btn btn-sm btn-secondary" disabled>Next</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -87,13 +107,57 @@
     font-size: 1rem;
 }
 .members-table th {
-    background: #232b33;
-    color: #fff;
-    font-weight: 600;
-    border-bottom: 2px solid #00e6fb;
+    background: #b8c7ce;
+    color: #232b33;
+    font-weight: bold;
+    border-bottom: 2px solid #b8c7ce;
+    font-size: 1.05rem;
 }
 .members-table tr:last-child td {
     border-bottom: none;
+}
+.btn-details {
+    background: #ffb400;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 7px 16px;
+    font-weight: 600;
+    margin-right: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn-details:hover {
+    background: #ff9800;
+}
+.btn-block {
+    background: #ff5c6c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 7px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn-block:hover {
+    background: #e53935;
+}
+.datatable-info {
+    color: #b8c7ce;
+    font-size: 1rem;
+}
+.datatable-pagination .btn-secondary {
+    background: #232b33;
+    color: #b8c7ce;
+    border: 1px solid #b8c7ce;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    padding: 2px 14px;
+    opacity: 0.7;
+}
+.datatable-pagination .btn-secondary:disabled {
+    opacity: 0.5;
 }
 @media (max-width: 900px) {
     .members-container {

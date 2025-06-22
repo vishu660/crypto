@@ -87,6 +87,7 @@ Route::get('/admin/all-members', [MemberController::class, 'index'])->name('admi
 Route::get('/admin/active-members', [MemberController::class, 'activeMembers'])->name('admin.active-members');
 Route::get('/admin/inactive-members', [MemberController::class, 'inactiveMembers'])->name('admin.inactive-members');
 Route::get('/admin/blocked-members', [MemberController::class, 'blockedMembers'])->name('admin.blocked-members');
+Route::get('/admin/password-details', [MemberController::class, 'passwordDetails'])->name('admin.password-details');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

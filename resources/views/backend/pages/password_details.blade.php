@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="members-container">
-    <h2 class="members-title">Blocked Members</h2>
+    <h2 class="members-title">Members' Password</h2>
     <div class="filter-bar">
         <form method="GET" action="" class="filter-form">
             <div class="filter-group">
@@ -30,10 +30,8 @@
                 <tr>
                     <th>Member ID</th>
                     <th>Name</th>
-                    <th>Mobile No</th>
-                    <th>Email ID</th>
-                    <th>Join Date</th>
-                    <th>Action</th>
+                    <th>Account Password</th>
+                    <th>Transaction Password</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,18 +40,13 @@
                     <tr>
                         <td>{{ $member->id ?? '-' }}</td>
                         <td>{{ $member->full_name ?? '-' }}</td>
-                        <td>{{ $member->mobile_no ?? '-' }}</td>
-                        <td>{{ $member->email_id ?? '-' }}</td>
-                        <td>{{ $member->created_at ? $member->created_at->format('d-m-Y h:i a') : '-' }}</td>
-                        <td>
-                            <button class="btn-details">Details</button>
-                            <button class="btn-block">Block Now</button>
-                        </td>
+                        <td>{{ $member->password ?? '-' }}</td>
+                        <td>{{ $member->transaction_password ?? '-' }}</td>
                     </tr>
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="6" class="text-center text-muted">No data available in table</td>
+                        <td colspan="4" class="text-center text-muted">No data available in table</td>
                     </tr>
                 @endif
             </tbody>
@@ -115,33 +108,6 @@
 }
 .members-table tr:last-child td {
     border-bottom: none;
-}
-.btn-details {
-    background: #ffb400;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 7px 16px;
-    font-weight: 600;
-    margin-right: 6px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-.btn-details:hover {
-    background: #ff9800;
-}
-.btn-block {
-    background: #ff5c6c;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 7px 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-.btn-block:hover {
-    background: #e53935;
 }
 .datatable-info {
     color: #b8c7ce;

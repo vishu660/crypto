@@ -4,22 +4,86 @@
 
 @push('styles')
 <style>
-    /* Page-specific styles can go here */
+    body {
+        background: #101820;
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+    }
+    .mail-card {
+        background-color: #181f2a;
+        border-radius: 12px;
+        border: 1px solid #00fff7;
+        box-shadow: 0 2px 8px #00fff71a;
+        color: #fff;
+        padding: 24px 24px 18px 24px;
+    }
     .mail-nav .nav-link {
         color: #b2f7ef;
         padding: 10px 15px;
         border-left: 3px solid transparent;
         transition: all 0.2s;
+        background: transparent;
+        border-radius: 6px;
     }
     .mail-nav .nav-link.active, .mail-nav .nav-link:hover {
         border-left-color: #00fff7;
-        background-color: #00fff71a;
-        color: #fff;
+        background-color: #101820;
+        color: #00fff7;
     }
     .mail-nav .nav-link .badge {
         background-color: #00fff7 !important;
         color: #101820 !important;
         font-weight: 600;
+    }
+    .compose-btn {
+        background-color: #00fff7;
+        color: #101820;
+        border: none;
+        font-weight: 600;
+        border-radius: 6px;
+        transition: background 0.2s;
+    }
+    .compose-btn:hover {
+        background-color: #00e0d5;
+        color: #101820;
+    }
+    .send-btn {
+        background-color: #00fff7;
+        color: #101820;
+        border: none;
+        font-weight: 600;
+        border-radius: 6px;
+        transition: background 0.2s;
+    }
+    .send-btn:hover {
+        background-color: #00e0d5;
+        color: #101820;
+    }
+    .form-control, .form-select {
+        background-color: #101820;
+        border: 1px solid #00fff7;
+        color: #fff;
+    }
+    .form-control:focus, .form-select:focus {
+        background-color: #101820;
+        border-color: #00e0d5;
+        color: #fff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 255, 247, 0.25);
+    }
+    .form-control::placeholder {
+        color: #888;
+    }
+    .card-title, .breadcrumb-title {
+        color: #00fff7;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    .mail-card h5.card-title {
+        color: #00fff7;
+    }
+    .mail-card label.form-label {
+        color: #00fff7;
+        font-weight: 500;
     }
 </style>
 @endpush
