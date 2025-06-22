@@ -303,23 +303,23 @@
                 <!-- Fund Deduction Dropdown -->
                 <li class="nav-item mb-2">
                     <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundDeductionMenu" role="button" aria-expanded="false" aria-controls="fundDeductionMenu">
-                        <span><i class="bi bi-slash-circle me-2"></i>Fund Deduction</span>
+                        <span><i class="bi bi-dash-circle me-2"></i>Fund Deduction</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="fundDeductionMenu">
-                        <a class="nav-link" href="#">All Deductions</a>
-                        <a class="nav-link" href="#">Manual Deduction</a>
+                        <a class="nav-link {{ request()->routeIs('admin-deduct-fund') ? 'active' : '' }}" href="{{ route('admin-deduct-fund') }}">Deduct Fund</a>
+                        <a class="nav-link {{ request()->routeIs('admin-deduction-report') ? 'active' : '' }}" href="{{ route('admin-deduction-report') }}">Deduction Report</a>
                     </div>
                 </li>
                 <!-- Fund Transfer Dropdown -->
                 <li class="nav-item mb-2">
                     <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundTransferMenu" role="button" aria-expanded="false" aria-controls="fundTransferMenu">
-                        <span><i class="bi bi-cash-coin me-2"></i>Fund Transfer</span>
+                        <span><i class="bi bi-arrow-left-right me-2"></i>Fund Transfer</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="fundTransferMenu">
-                        <a class="nav-link" href="#">Transfer History</a>
-                        <a class="nav-link" href="#">New Transfer</a>
+                        <a class="nav-link {{ request()->routeIs('admin-transfer-fund') ? 'active' : '' }}" href="{{ route('admin-transfer-fund') }}">Transfer Fund</a>
+                        <a class="nav-link {{ request()->routeIs('admin-transfer-report') ? 'active' : '' }}" href="{{ route('admin-transfer-report') }}">Transfer Report</a>
                     </div>
                 </li>
                 <!-- Activation Dropdown -->

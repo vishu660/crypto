@@ -13,32 +13,12 @@
         position: relative;
     }
     .level-card {
-        background-color: #181f2acc;
-        border: 1px solid #00fff733;
+        background-color: #181f2a;
+        border: 1px solid #00fff7;
         border-radius: 8px;
         padding: 25px;
-        backdrop-filter: blur(5px);
-        box-shadow: 0 4px 12px #00000033;
         color: #fff;
         position: relative;
-    }
-    .level-card::before, .level-card::after {
-        content: '';
-        position: absolute;
-        width: 25px;
-        height: 25px;
-        border-color: #00fff7;
-        border-style: solid;
-    }
-    .level-card::before {
-        top: -1px;
-        left: -1px;
-        border-width: 2px 0 0 2px;
-    }
-    .level-card::after {
-        bottom: -1px;
-        right: -1px;
-        border-width: 0 2px 2px 0;
     }
     .form-control {
         background-color: #101820;
