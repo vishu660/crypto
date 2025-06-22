@@ -2,6 +2,92 @@
 
 @section('title', 'Package Details')
 
+@push('styles')
+<style>
+    h4, .card-title {
+        color: #00fff7;
+    }
+    .card {
+        background-color: #181f2a;
+        border: 1px solid #00fff7;
+        color: #fff;
+    }
+    .form-control, .form-select {
+        background-color: #101820;
+        border: 1px solid #00fff7;
+        color: #fff;
+    }
+    .form-control:focus, .form-select:focus {
+        background-color: #101820;
+        border-color: #00e0d5;
+        color: #fff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 255, 247, 0.25);
+    }
+    .form-control::placeholder {
+        color: #888;
+    }
+    .btn-primary {
+        background-color: #00fff7;
+        border-color: #00fff7;
+        color: #101820;
+        font-weight: 600;
+    }
+    .btn-primary:hover {
+        background-color: #00e0d5;
+        border-color: #00d0c5;
+        color: #101820;
+    }
+    .table {
+        --bs-table-bg: transparent;
+        --bs-table-striped-bg: #2a3442;
+        --bs-table-hover-bg: #232b38;
+        --bs-table-color: #fff;
+        --bs-table-border-color: #00fff733;
+        color: var(--bs-table-color);
+        border-color: var(--bs-table-border-color);
+    }
+    .table thead th {
+        color: #00fff7;
+    }
+    .table td, .table th {
+        border-color: #00fff733;
+    }
+    .table-hover tbody tr:hover {
+        background-color: #2a3442;
+        color: #fff;
+    }
+    .table-hover tbody tr:hover > td,
+    .table-hover tbody tr:hover > th {
+        color: #fff;
+    }
+    .badge.bg-success {
+        background-color: #28a745 !important;
+        color: #fff;
+    }
+    .pagination .page-link {
+        background-color: transparent;
+        border-color: #00fff7;
+        color: #00fff7;
+        margin: 0 2px;
+        border-radius: 0.25rem;
+    }
+    .pagination .page-item.active .page-link {
+        background-color: #00fff7;
+        border-color: #00fff7;
+        color: #101820;
+    }
+    .pagination .page-item.disabled .page-link {
+        background-color: transparent;
+        border-color: #00fff780;
+        color: #00fff780;
+    }
+    .pagination .page-link:hover {
+        background-color: #00fff71a;
+        color: #00fff7;
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -25,6 +111,14 @@
                         <div class="mb-3">
                             <label for="roiPercentage" class="form-label">ROI(%)*</label>
                             <input type="text" class="form-control" id="roiPercentage" placeholder="Enter ROI Precentage">
+                        </div>
+                        <div class="mb-3">
+                            <label for="consultationTestUserDebit" class="form-label">Consultation Test User Debit</label>
+                            <input type="text" class="form-control" id="consultationTestUserDebit" placeholder="Enter amount">
+                        </div>
+                        <div class="mb-3">
+                            <label for="consultationIncome7Debit" class="form-label">Consultation Income Debit</label>
+                            <input type="text" class="form-control" id="consultationIncomeDebit" placeholder="Enter amount">
                         </div>
                         <div class="mb-3">
                             <label for="directBonus" class="form-label">Direct Bonus(%)*</label>
@@ -167,4 +261,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

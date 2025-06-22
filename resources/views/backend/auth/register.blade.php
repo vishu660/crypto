@@ -6,42 +6,63 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background: url('https://i.ibb.co/GHf70Fv/lock-bg.jpg') no-repeat center center fixed;
-      background-size: cover;
+      background: #101820; /* Dark background */
+      color: #fff;
       font-family: 'Poppins', sans-serif;
     }
 
     .signup-card {
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: #181f2a; /* Dark card background */
       padding: 30px;
       border-radius: 12px;
       max-width: 400px;
       margin: auto;
       margin-top: 5%;
       color: #fff;
+      border: 1px solid #00fff7; /* Cyan border */
+      box-shadow: 0 2px 8px #00fff71a;
+    }
+
+    .form-control {
+        background-color: #101820;
+        border: 1px solid #00fff7;
+        color: #fff;
+    }
+
+    .form-control:focus {
+        background-color: #101820;
+        border-color: #00e0d5;
+        color: #fff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 255, 247, 0.25);
     }
 
     .form-control::placeholder {
-      color: #ccc;
+      color: #888;
+    }
+
+    .input-group-text {
+        background-color: #101820;
+        border: 1px solid #00fff7;
+        color: #00fff7;
     }
 
     .signup-btn {
-      background-color: #ffa500;
-      color: #000;
+      background-color: #00fff7; /* Cyan button */
+      color: #101820; /* Dark text on button */
       border: none;
       font-weight: 600;
     }
 
     .signup-btn:hover {
-      background-color: #e69500;
+      background-color: #00e0d5; /* Slightly darker cyan */
     }
 
-    .form-check-label a {
-      color: #ffa500;
+    .form-check-label a, .text-center a {
+      color: #00fff7; /* Cyan links */
       text-decoration: none;
     }
 
-    .form-check-label a:hover {
+    .form-check-label a:hover, .text-center a:hover {
       text-decoration: underline;
     }
 
@@ -55,6 +76,7 @@
       text-align: center;
       font-weight: bold;
       margin-bottom: 20px;
+      color: #00fff7; /* Cyan heading */
     }
   </style>
 </head>
@@ -110,7 +132,7 @@
     
       <button type="submit" class="btn signup-btn w-100">Sign Up</button>
     
-      <p class="text-center mt-3">Already have an account? <a href="#" class="text-warning fw-bold">SIGNIN here</a></p>
+      <p class="text-center mt-3">Already have an account? <a href="#" class="fw-bold">SIGNIN here</a></p>
     </form>
     
   </div>
