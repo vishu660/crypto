@@ -420,8 +420,11 @@
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="teamMenu">
-                        <a class="nav-link" href="#">All Members</a>
-                        <a class="nav-link" href="#">Add Member</a>
+                        <a class="nav-link" href="{{ route('admin.all-members') }}">All Members</a>
+                        <a class="nav-link" href="{{ route('admin.active-members') }}">Active Members</a>
+                        <a class="nav-link" href="{{ route('admin.inactive-members') }}">Inactive Members</a>
+                        <a class="nav-link" href="#">Blocked Members</a>
+                        <a class="nav-link" href="#">Password Details</a>
                     </div>
                 </li>
                 <!-- Network Dropdown -->

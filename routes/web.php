@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Backend\FundRequestController;
 use App\Http\Controllers\Backend\FundDeductionController;
 use App\Http\Controllers\Backend\FundTransferController;
+use App\Http\Controllers\Backend\MemberController;
 
 Route::get('/', function () {
     return view('backend.pages.dashboard');
@@ -58,4 +59,9 @@ Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('admin-re
 Route::get('/admin/all-fund-requests', [FundRequestController::class, 'allRequests'])->name('admin.fund-requests.all');
 Route::get('/admin/approved-fund-requests', [FundRequestController::class, 'approvedRequests'])->name('admin.fund-requests.approved');
 Route::get('/admin/pending-fund-requests', [FundRequestController::class, 'pendingRequests'])->name('admin.fund-requests.pending');
+
+Route::get('/admin/all-members', [MemberController::class, 'index'])->name('admin.all-members');
+Route::get('/admin/active-members', [MemberController::class, 'activeMembers'])->name('admin.active-members');
+Route::get('/admin/inactive-members', [MemberController::class, 'inactiveMembers'])->name('admin.inactive-members');
+Route::get('/admin/blocked-members', [MemberController::class, 'blockedMembers'])->name('admin.blocked-members');
 
