@@ -86,8 +86,9 @@
     <img src="https://i.ibb.co/pz3r8r3/logo.png" class="logo" alt="Company Logo">
     <h2>SIGN UP</h2>
 
-    <form action="{{ route('admin-register.submit') }}" method="POST">
+    <form action="{{ route('admin-login.submit') }}" method="POST">
       @csrf
+   
       @if ($errors->any())
       <div class="alert alert-danger">
           <ul>
@@ -98,41 +99,19 @@
       </div>
   @endif
   
+     
       <div class="mb-3">
-        <label for="fullname" class="form-label">Full Name *</label>
-        <input type="text" class="form-control" id="fullname" name="full_name" placeholder="Full Name" required>
+        <label for="email" class="form-label">Username</label>
+        <input type="email" class="form-control" id="email" name="email_id" placeholder="Username" required>
       </div>
-    
       <div class="mb-3">
-        <label for="email" class="form-label">Email ID *</label>
-        <input type="email" class="form-control" id="email" name="email_id" placeholder="Email ID" required>
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
       </div>
-    
-      <div class="mb-3">
-        <label for="mobile" class="form-label">Mobile No. *</label>
-        <div class="input-group mb-3">
-          <span class="input-group-text">+91-IN</span>
-          <input type="text" class="form-control" id="mobile" name="mobile_no" placeholder="Mobile No" required>
-        </div>
-      </div>
-    
-      <input type="hidden" name="country_code" value="+91">
-    
-      <div class="mb-3">
-        <label for="introducer" class="form-label">Introducer *</label>
-        <input type="text" class="form-control" id="introducer" name="introducer" placeholder="PNZ00001" required>
-      </div>
-    
-      <div class="form-check mb-3">
-        <input class="form-check-input" type="checkbox" value="1" name="terms_accepted" id="terms" required>
-        <label class="form-check-label" for="terms">
-          I've read & accept the <a href="#">Terms & Conditions</a>
-        </label>
-      </div>
-    
+
       <button type="submit" class="btn signup-btn w-100">Sign Up</button>
     
-      <p class="text-center mt-3">Already have an account? <a href="{{ route('login') }}" class="fw-bold">SIGNIN here</a></p>
+      <p class="text-center mt-3">Already have an account? <a href="{{ route('admin-register') }}" class="fw-bold">SIGNIN here</a></p>
     </form>
     
   </div>
