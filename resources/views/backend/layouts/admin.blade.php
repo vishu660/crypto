@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    @stack('styles')
     <style>
         body {
             background: #101820;
@@ -60,10 +61,20 @@
             cursor: pointer;
             font-weight: 500;
             letter-spacing: 0.5px;
+            padding: 12px 20px;
             transition: color 0.2s, background 0.2s;
+            border-left: 4px solid transparent;
+        }
+        .sidebar .nav-link .bi {
+             color: #00fff7;
+             transition: color 0.2s;
         }
         .sidebar .nav-link.active, .sidebar .nav-link:hover {
             background: #101820;
+            color: #fff;
+            border-left: 4px solid #00fff7;
+        }
+        .sidebar .nav-link.active .bi, .sidebar .nav-link:hover .bi {
             color: #fff;
         }
         .sidebar .submenu {
@@ -73,29 +84,32 @@
         .sidebar .submenu .nav-link {
             color: #b2f7ef;
             font-size: 0.95em;
+            border-left: none;
+            padding: 8px 20px;
         }
         .sidebar .submenu .nav-link:hover {
-            color: #00fff7;
+            color: #fff;
+            background: #101820;
         }
         .sidebar .fw-bold.text-success {
             color: #00fff7 !important;
             letter-spacing: 1px;
+            padding: 10px 20px;
         }
         .dashboard-card {
-            background: #1a232e;
-            border-radius: 10px;
+            background: #181f2a;
+            border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
             color: #fff;
-            border: 1px solid #00fff722;
-            box-shadow: 0 2px 8px #00fff71a;
+            border: 1px solid #00fff7;
+            box-shadow: 0 4px 12px #00000033;
         }
         .main-content {
             margin-left: 220px;
             padding: 84px 24px 24px 24px; /* header + spacing */
         }
         .bi {
-            color: #00fff7;
             font-size: 1.2em;
             vertical-align: -0.125em;
         }
@@ -132,11 +146,22 @@
             border-radius: 8px !important;
             box-shadow: 0 4px 24px #0008 !important;
             border: none !important;
+            background: #181f2a !important;
         }
         .goog-te-menu2 {
             max-height: 300px !important;
             overflow-y: auto !important;
-            border-radius: 8px !important;
+            border-radius: 8px !importan;
+            background: #181f2a !important;
+        }
+        .goog-te-menu2-item div, .goog-te-menu2-item:link, .goog-te-menu2-item:visited, .goog-te-menu2-item:active {
+            color: #fff !important;
+        }
+        .goog-te-menu2-item-selected div, .goog-te-menu2-item-selected:link, .goog-te-menu2-item-selected:visited, .goog-te-menu2-item-selected:active {
+            color: #00fff7 !important;
+        }
+        .goog-te-menu2-item:hover {
+            background: #101820 !important;
         }
         .goog-te-menu2 table {
             width: 100% !important;
