@@ -454,13 +454,13 @@
                 </li>
                 <!-- Network Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#networkMenu" role="button" aria-expanded="false" aria-controls="networkMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.referral-list') || request()->routeIs('admin.downline-list') ? 'active' : '' }}" data-bs-toggle="collapse" href="#networkMenu" role="button" aria-expanded="false" aria-controls="networkMenu">
                         <span><i class="bi bi-rss me-2"></i>Network</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="networkMenu">
-                        <a class="nav-link" href="#">Network Tree</a>
-                        <a class="nav-link" href="#">Directs</a>
+                        <a class="nav-link {{ request()->routeIs('admin.referral-list') ? 'active' : '' }}" href="{{ route('admin.referral-list') }}">Referral List</a>
+                        <a class="nav-link {{ request()->routeIs('admin.downline-list') ? 'active' : '' }}" href="{{ route('admin.downline-list') }}">Downline List</a>
                     </div>
                 </li>
                 <li class="nav-item mt-4 mb-2">
@@ -468,13 +468,17 @@
                 </li>
                 <!-- Earnings Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#earningsMenu" role="button" aria-expanded="false" aria-controls="earningsMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.total-earnings') || request()->routeIs('admin.roi-income') ? 'active' : '' }}" data-bs-toggle="collapse" href="#earningsMenu" role="button" aria-expanded="false" aria-controls="earningsMenu">
                         <span><i class="bi bi-trophy me-2"></i>Earnings</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="earningsMenu">
-                        <a class="nav-link" href="#">All Earnings</a>
-                        <a class="nav-link" href="#">Bonuses</a>
+                        <a class="nav-link {{ request()->routeIs('admin.total-earnings') ? 'active' : '' }}" href="{{ route('admin.total-earnings') }}">Total Earnings</a>
+                        <a class="nav-link {{ request()->routeIs('admin.roi-income') ? 'active' : '' }}" href="{{ route('admin.roi-income') }}">ROI Income</a>
+                        <a class="nav-link {{ request()->routeIs('admin.passiveincome') ? 'active' : '' }}" href="{{ route('admin.passiveincome') }}">Passive Income</a>
+                        <a class="nav-link {{ request()->routeIs('admin.directincome') ? 'active' : '' }}" href="{{ route('admin.directincome') }}">Direct Income</a>
+                        <a class="nav-link {{ request()->routeIs('admin.royalty') ? 'active' : '' }}" href="{{ route('admin.royalty') }}">Royalty</a>
+                        <a class="nav-link {{ request()->routeIs('admin.rewards') ? 'active' : '' }}" href="{{ route('admin.rewards') }}">Rewards</a>
                     </div>
                 </li>
                 <!-- Wallets Details Dropdown -->
@@ -484,8 +488,8 @@
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="walletsMenu">
-                        <a class="nav-link" href="#">Wallet Summary</a>
-                        <a class="nav-link" href="#">Add Wallet</a>
+                        <a class="nav-link {{ request()->routeIs('admin.walletbalance') ? 'active' : '' }}" href="{{ route('admin.walletbalance') }}">Wallet Balance</a>
+                        <a class="nav-link {{ request()->routeIs('admin.accountdetails') ? 'active' : '' }}" href="{{ route('admin.accountdetails') }}">Account Details</a>
                     </div>
                 </li>
                 <!-- Payout Details Dropdown -->
@@ -495,8 +499,9 @@
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="payoutMenu">
-                        <a class="nav-link" href="#">All Payouts</a>
-                        <a class="nav-link" href="#">Request Payout</a>
+                        <a class="nav-link {{ request()->routeIs('admin.unpaidpayouts') ? 'active' : '' }}" href="{{ route('admin.unpaidpayouts') }}">Unpaid Payouts</a>
+                        <a class="nav-link {{ request()->routeIs('admin.paidpayouts') ? 'active' : '' }}" href="{{ route('admin.paidpayouts') }}">Paid Payouts</a>
+                        <a class="nav-link {{ request()->routeIs('admin.rejectedpayouts') ? 'active' : '' }}" href="{{ route('admin.rejectedpayouts') }}">Rejected Payouts</a>
                     </div>
                 </li>
                 <li class="nav-item mt-4 mb-2">
@@ -509,8 +514,12 @@
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="systemMenu">
-                        <a class="nav-link" href="#">Settings</a>
-                        <a class="nav-link" href="#">Logs</a>
+                        <a class="nav-link {{ request()->routeIs('admin.memberincomeblock') ? 'active' : '' }}" href="{{ route('admin.memberincomeblock') }}">Member Income Block</a>
+                        <a class="nav-link" href="#">Holidays</a>
+                        <a class="nav-link" href="#">System Settings</a>
+                        <a class="nav-link" href="#">Payout Controls</a>
+                        <a class="nav-link" href="#">News & Notifications</a>
+                        <a class="nav-link" href="#">Promotional Files</a>
                     </div>
                 </li>
                 <li class="nav-item mt-4">
