@@ -28,6 +28,22 @@ Route::get('/admin-level-settings', function () {
     return view('backend.pages.levelsettings');
 })->name('admin-level-settings');
 
+Route::get('/admin-deduct-fund', function () {
+    return view('backend.pages.deductfund');
+})->name('admin-deduct-fund');
+
+Route::get('/admin-deduction-report', function () {
+    return view('backend.pages.deductionreport');
+})->name('admin-deduction-report');
+
+Route::get('/admin-transfer-fund', function () {
+    return view('backend.pages.transferfund');
+})->name('admin-transfer-fund');
+
+Route::get('/admin-transfer-report', function () {
+    return view('backend.pages.transferreport');
+})->name('admin-transfer-report');
+
 Route::get('/verify-otp', function () {
     return view('backend.auth.verify-otp');
 })->name('verify-otp');

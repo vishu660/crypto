@@ -331,167 +331,164 @@
     <!-- Sidebar -->
     <nav class="sidebar py-4 @stack('sidebar-class')">
         <div class="position-sticky">
-            <div id="sidebarAccordion">
-                <ul class="nav flex-column">
-                    <!-- Dashboard with icon -->
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex align-items-center" href="{{ route('admin-dashboard') }}">
-                            <i class="bi bi-cpu me-2"></i>Dashboard
-                        </a>
-                    </li>
-                    <!-- Add New User with icon -->
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex align-items-center" href="{{ route('admin-register') }}">
-                            <i class="bi bi-person-plus me-2"></i>Add New User
-                        </a>
-                    </li>
-                    <!-- Support with icon -->
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin-support') ? 'active' : '' }}" href="{{ route('admin-support') }}">
-                            <i class="bi bi-envelope me-2"></i>Support
-                        </a>
-                    </li>
-                    <!-- Package Details with icon -->
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin-package-details') ? 'active' : '' }}" href="{{ route('admin-package-details') }}">
-                            <i class="bi bi-code-slash me-2"></i>Package Details
-                        </a>
-                    </li>
-                    <!-- Level Settings with icon -->
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin-level-settings') ? 'active' : '' }}" href="{{ route('admin-level-settings') }}">
-                            <i class="bi bi-bar-chart-steps me-2"></i>Level Settings
-                        </a>
-                    </li>
-                    <li class="nav-item mt-4 mb-2">
-                        <span class="fw-bold text-success">FUNDS | ACTIVATIONS</span>
-                    </li>
-                    <!-- Fund Requests Dropdown -->
-                    @php $isFundRequestActive = request()->routeIs('admin.fund-requests.*'); @endphp
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex justify-content-between align-items-center {{ $isFundRequestActive ? 'active' : '' }}" data-bs-toggle="collapse" href="#fundRequestsMenu" role="button" aria-expanded="{{ $isFundRequestActive ? 'true' : 'false' }}" aria-controls="fundRequestsMenu">
-                            <span><i class="bi bi-graph-up-arrow me-2"></i>Fund Requests</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="collapse submenu {{ $isFundRequestActive ? 'show' : '' }}" id="fundRequestsMenu" data-bs-parent="#sidebarAccordion">
-                            <a class="nav-link {{ request()->routeIs('admin.fund-requests.all') ? 'active' : '' }}" href="{{ route('admin.fund-requests.all') }}">All Requests</a>
-                            <a class="nav-link {{ request()->routeIs('admin.fund-requests.pending') ? 'active' : '' }}" href="{{ route('admin.fund-requests.pending') }}">Pending</a>
-                            <a class="nav-link {{ request()->routeIs('admin.fund-requests.approved') ? 'active' : '' }}" href="{{ route('admin.fund-requests.approved') }}">Approved</a>
-                        </div>
-                    </li>
-                    <!-- Fund Deduction Dropdown -->
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundDeductionMenu" role="button" aria-expanded="false" aria-controls="fundDeductionMenu">
-                            <span><i class="bi bi-slash-circle me-2"></i>Fund Deduction</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="collapse submenu" id="fundDeductionMenu" data-bs-parent="#sidebarAccordion">
-                            <a class="nav-link" href="#">All Deductions</a>
-                            <a class="nav-link" href="#">Manual Deduction</a>
-                        </div>
-                    </li>
-                    <!-- Fund Transfer Dropdown -->
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundTransferMenu" role="button" aria-expanded="false" aria-controls="fundTransferMenu">
-                            <span><i class="bi bi-cash-coin me-2"></i>Fund Transfer</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="collapse submenu" id="fundTransferMenu" data-bs-parent="#sidebarAccordion">
-                            <a class="nav-link" href="#">Transfer History</a>
-                            <a class="nav-link" href="#">New Transfer</a>
-                        </div>
-                    </li>
-                    <!-- Activation Dropdown -->
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#activationMenu" role="button" aria-expanded="false" aria-controls="activationMenu">
-                            <span><i class="bi bi-box-arrow-in-right me-2"></i>Activation</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="collapse submenu" id="activationMenu" data-bs-parent="#sidebarAccordion">
-                            <a class="nav-link" href="#">All Activations</a>
-                            <a class="nav-link" href="#">New Activation</a>
-                        </div>
-                    </li>
-                    <li class="nav-item mt-4 mb-2">
-                        <span class="fw-bold text-success">TEAM | NETWORK</span>
-                    </li>
-                    <!-- Team Dropdown -->
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#teamMenu" role="button" aria-expanded="false" aria-controls="teamMenu">
-                            <span><i class="bi bi-people-fill me-2"></i>Team</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="collapse submenu" id="teamMenu" data-bs-parent="#sidebarAccordion">
-                            <a class="nav-link" href="#">All Members</a>
-                            <a class="nav-link" href="#">Add Member</a>
-                        </div>
-                    </li>
-                    <!-- Network Dropdown -->
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#networkMenu" role="button" aria-expanded="false" aria-controls="networkMenu">
-                            <span><i class="bi bi-rss me-2"></i>Network</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="collapse submenu" id="networkMenu" data-bs-parent="#sidebarAccordion">
-                            <a class="nav-link" href="#">Network Tree</a>
-                            <a class="nav-link" href="#">Directs</a>
-                        </div>
-                    </li>
-                    <li class="nav-item mt-4 mb-2">
-                        <span class="fw-bold text-success">WALLETS | EARNINGS | PAYOUTS</span>
-                    </li>
-                    <!-- Earnings Dropdown -->
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#earningsMenu" role="button" aria-expanded="false" aria-controls="earningsMenu">
-                            <span><i class="bi bi-trophy me-2"></i>Earnings</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="collapse submenu" id="earningsMenu" data-bs-parent="#sidebarAccordion">
-                            <a class="nav-link" href="#">All Earnings</a>
-                            <a class="nav-link" href="#">Bonuses</a>
-                        </div>
-                    </li>
-                    <!-- Wallets Details Dropdown -->
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#walletsMenu" role="button" aria-expanded="false" aria-controls="walletsMenu">
-                            <span><i class="bi bi-lock me-2"></i>Wallets Details</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="collapse submenu" id="walletsMenu" data-bs-parent="#sidebarAccordion">
-                            <a class="nav-link" href="#">Wallet Summary</a>
-                            <a class="nav-link" href="#">Add Wallet</a>
-                        </div>
-                    </li>
-                    <!-- Payout Details Dropdown -->
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#payoutMenu" role="button" aria-expanded="false" aria-controls="payoutMenu">
-                            <span><i class="bi bi-cash-stack me-2"></i>Payout Details</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="collapse submenu" id="payoutMenu" data-bs-parent="#sidebarAccordion">
-                            <a class="nav-link" href="#">All Payouts</a>
-                            <a class="nav-link" href="#">Request Payout</a>
-                        </div>
-                    </li>
-                    <li class="nav-item mt-4 mb-2">
-                        <span class="fw-bold text-success">SETTINGS</span>
-                    </li>
-                    <!-- System Controls Dropdown -->
-                    <li class="nav-item mb-2">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#systemMenu" role="button" aria-expanded="false" aria-controls="systemMenu">
-                            <span><i class="bi bi-gear me-2"></i>System Controls</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="collapse submenu" id="systemMenu" data-bs-parent="#sidebarAccordion">
-                            <a class="nav-link" href="#">Settings</a>
-                            <a class="nav-link" href="#">Logs</a>
-                        </div>
-                    </li>
-                    <li class="nav-item mt-4">
-                        <a class="btn btn-outline-info w-100" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</a>
-                    </li>
-                </ul>
-            </div>
+            <ul class="nav flex-column">
+                <!-- Dashboard with icon -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center" href="{{ route('admin-dashboard') }}">
+                        <i class="bi bi-cpu me-2"></i>Dashboard
+                    </a>
+                </li>
+                <!-- Add New User with icon -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center" href="{{ route('admin-register') }}">
+                        <i class="bi bi-person-plus me-2"></i>Add New User
+                    </a>
+                </li>
+                <!-- Support with icon -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin-support') ? 'active' : '' }}" href="{{ route('admin-support') }}">
+                        <i class="bi bi-envelope me-2"></i>Support
+                    </a>
+                </li>
+                <!-- Package Details with icon -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin-package-details') ? 'active' : '' }}" href="{{ route('admin-package-details') }}">
+                        <i class="bi bi-code-slash me-2"></i>Package Details
+                    </a>
+                </li>
+                <!-- Level Settings with icon -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin-level-settings') ? 'active' : '' }}" href="{{ route('admin-level-settings') }}">
+                        <i class="bi bi-bar-chart-steps me-2"></i>Level Settings
+                    </a>
+                </li>
+                <li class="nav-item mt-4 mb-2">
+                    <span class="fw-bold text-success">FUNDS | ACTIVATIONS</span>
+                </li>
+                <!-- Fund Requests Dropdown -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundRequestsMenu" role="button" aria-expanded="false" aria-controls="fundRequestsMenu">
+                        <span><i class="bi bi-graph-up-arrow me-2"></i>Fund Requests</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <div class="collapse submenu" id="fundRequestsMenu">
+                        <a class="nav-link" href="{{ route('admin.fund-requests.all') }}">All Requests</a>
+                        <a class="nav-link" href="{{ route('admin.fund-requests.pending') }}">Pending</a>
+                        <a class="nav-link" href="{{ route('admin.fund-requests.approved') }}">Approved</a>
+                    </div>
+                </li>
+                <!-- Fund Deduction Dropdown -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundDeductionMenu" role="button" aria-expanded="false" aria-controls="fundDeductionMenu">
+                        <span><i class="bi bi-slash-circle me-2"></i>Fund Deduction</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <div class="collapse submenu" id="fundDeductionMenu">
+                        <a class="nav-link" href="#">All Deductions</a>
+                        <a class="nav-link" href="#">Manual Deduction</a>
+                    </div>
+                </li>
+                <!-- Fund Transfer Dropdown -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundTransferMenu" role="button" aria-expanded="false" aria-controls="fundTransferMenu">
+                        <span><i class="bi bi-cash-coin me-2"></i>Fund Transfer</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <div class="collapse submenu" id="fundTransferMenu">
+                        <a class="nav-link" href="#">Transfer History</a>
+                        <a class="nav-link" href="#">New Transfer</a>
+                    </div>
+                </li>
+                <!-- Activation Dropdown -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#activationMenu" role="button" aria-expanded="false" aria-controls="activationMenu">
+                        <span><i class="bi bi-box-arrow-in-right me-2"></i>Activation</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <div class="collapse submenu" id="activationMenu">
+                        <a class="nav-link" href="#">All Activations</a>
+                        <a class="nav-link" href="#">New Activation</a>
+                    </div>
+                </li>
+                <li class="nav-item mt-4 mb-2">
+                    <span class="fw-bold text-success">TEAM | NETWORK</span>
+                </li>
+                <!-- Team Dropdown -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#teamMenu" role="button" aria-expanded="false" aria-controls="teamMenu">
+                        <span><i class="bi bi-people-fill me-2"></i>Team</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <div class="collapse submenu" id="teamMenu">
+                        <a class="nav-link" href="#">All Members</a>
+                        <a class="nav-link" href="#">Add Member</a>
+                    </div>
+                </li>
+                <!-- Network Dropdown -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#networkMenu" role="button" aria-expanded="false" aria-controls="networkMenu">
+                        <span><i class="bi bi-rss me-2"></i>Network</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <div class="collapse submenu" id="networkMenu">
+                        <a class="nav-link" href="#">Network Tree</a>
+                        <a class="nav-link" href="#">Directs</a>
+                    </div>
+                </li>
+                <li class="nav-item mt-4 mb-2">
+                    <span class="fw-bold text-success">WALLETS | EARNINGS | PAYOUTS</span>
+                </li>
+                <!-- Earnings Dropdown -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#earningsMenu" role="button" aria-expanded="false" aria-controls="earningsMenu">
+                        <span><i class="bi bi-trophy me-2"></i>Earnings</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <div class="collapse submenu" id="earningsMenu">
+                        <a class="nav-link" href="#">All Earnings</a>
+                        <a class="nav-link" href="#">Bonuses</a>
+                    </div>
+                </li>
+                <!-- Wallets Details Dropdown -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#walletsMenu" role="button" aria-expanded="false" aria-controls="walletsMenu">
+                        <span><i class="bi bi-lock me-2"></i>Wallets Details</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <div class="collapse submenu" id="walletsMenu">
+                        <a class="nav-link" href="#">Wallet Summary</a>
+                        <a class="nav-link" href="#">Add Wallet</a>
+                    </div>
+                </li>
+                <!-- Payout Details Dropdown -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#payoutMenu" role="button" aria-expanded="false" aria-controls="payoutMenu">
+                        <span><i class="bi bi-cash-stack me-2"></i>Payout Details</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <div class="collapse submenu" id="payoutMenu">
+                        <a class="nav-link" href="#">All Payouts</a>
+                        <a class="nav-link" href="#">Request Payout</a>
+                    </div>
+                </li>
+                <li class="nav-item mt-4 mb-2">
+                    <span class="fw-bold text-success">SETTINGS</span>
+                </li>
+                <!-- System Controls Dropdown -->
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#systemMenu" role="button" aria-expanded="false" aria-controls="systemMenu">
+                        <span><i class="bi bi-gear me-2"></i>System Controls</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <div class="collapse submenu" id="systemMenu">
+                        <a class="nav-link" href="#">Settings</a>
+                        <a class="nav-link" href="#">Logs</a>
+                    </div>
+                </li>
+                <li class="nav-item mt-4">
+                    <a class="btn btn-outline-info w-100" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</a>
+                </li>
+            </ul>
         </div>
     </nav>
     <!-- Main Content -->
