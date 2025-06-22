@@ -8,7 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    @stack('styles')
     <style>
         body {
             background: #101820;
@@ -91,6 +90,10 @@
             color: #fff;
             background: #101820;
         }
+        .sidebar .submenu .nav-link.active {
+            color: #fff;
+            background: #101820;
+        }
         .sidebar .fw-bold.text-success {
             color: #00fff7 !important;
             letter-spacing: 1px;
@@ -108,6 +111,15 @@
         .main-content {
             margin-left: 220px;
             padding: 84px 24px 24px 24px; /* header + spacing */
+            transition: margin-left 0.3s;
+            background-color: #101820;
+            background-image:
+                linear-gradient(rgba(0, 255, 247, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 247, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .main-content.full-width {
+            margin-left: 0;
         }
         .bi {
             font-size: 1.2em;
@@ -187,10 +199,79 @@
         .goog-te-gadget-simple .goog-te-menu-value span {
             display: inline !important;
         }
+
         .dropdown-toggle::after {
             display: none !important;
+        .card {
+            background-color: #181f2acc;
+            border: 1px solid #00fff733;
+            border-radius: 8px;
+            padding: 25px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 12px #00000033;
+            color: #fff;
+            position: relative;
+        }
+        .card::before, .card::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border-color: #00fff7;
+            border-style: solid;
+        }
+        .card::before {
+            top: -1px;
+            left: -1px;
+            border-width: 2px 0 0 2px;
+        }
+        .card::after {
+            bottom: -1px;
+            right: -1.5px;
+            border-width: 0 2px 2px 0;
+        }
+        .form-control, .form-select {
+            background-color: #101820;
+            border: 1px solid #00fff7;
+            color: #fff;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #101820;
+            border-color: #00e0d5;
+            box-shadow: 0 0 0 0.2rem rgba(0, 255, 247, 0.25);
+            color: #fff;
+        }
+        .input-group-text {
+            background-color: #101820;
+            border: 1px solid #00fff7;
+            color: #00fff7;
+        }
+        .table {
+            color: #fff;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #00fff71a;
+            color: #00fff7;
+        }
+        h1, h2, h3, h4, h5, h6, .text-white {
+             color: #fff !important;
+        }
+        .text-primary, h5.card-title {
+            color: #00fff7 !important;
+        }
+        .btn-primary, .btn-update, .send-btn, .compose-btn {
+            background-color: #00fff7;
+            border-color: #00fff7;
+            color: #101820;
+            font-weight: 600;
+        }
+        .btn-primary:hover, .btn-update:hover, .send-btn:hover, .compose-btn:hover {
+            background-color: #00e0d5;
+            border-color: #00d0c5;
+            color: #101820;
         }
     </style>
+    @stack('styles')
 </head>
 <body>
     <!-- Header -->
@@ -273,7 +354,7 @@
       });
     </script>
     <!-- Sidebar -->
-    <nav class="sidebar py-4">
+    <nav class="sidebar py-4 @stack('sidebar-class')">
         <div class="position-sticky">
             <ul class="nav flex-column">
                 <!-- Dashboard with icon -->
@@ -290,7 +371,7 @@
                 </li>
                 <!-- Support with icon -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex align-items-center" href="#">
+                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin-support') ? 'active' : '' }}" href="{{ route('admin-support') }}">
                         <i class="bi bi-envelope me-2"></i>Support
                     </a>
                 </li>
@@ -302,7 +383,7 @@
                 </li>
                 <!-- Level Settings with icon -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex align-items-center" href="#">
+                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin-level-settings') ? 'active' : '' }}" href="{{ route('admin-level-settings') }}">
                         <i class="bi bi-bar-chart-steps me-2"></i>Level Settings
                     </a>
                 </li>
@@ -316,31 +397,31 @@
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="fundRequestsMenu">
-                        <a class="nav-link" href="#">All Requests</a>
-                        <a class="nav-link" href="#">Pending</a>
-                        <a class="nav-link" href="#">Approved</a>
+                        <a class="nav-link" href="{{ route('admin.fund-requests.all') }}">All Requests</a>
+                        <a class="nav-link" href="{{ route('admin.fund-requests.pending') }}">Pending</a>
+                        <a class="nav-link" href="{{ route('admin.fund-requests.approved') }}">Approved</a>
                     </div>
                 </li>
                 <!-- Fund Deduction Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundDeductionMenu" role="button" aria-expanded="false" aria-controls="fundDeductionMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.deductions.*') || request()->routeIs('admin-deduction-report') || request()->routeIs('admin-deduct-fund') ? 'active' : '' }}" data-bs-toggle="collapse" href="#fundDeductionMenu" role="button" aria-expanded="false" aria-controls="fundDeductionMenu">
                         <span><i class="bi bi-slash-circle me-2"></i>Fund Deduction</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="fundDeductionMenu">
-                        <a class="nav-link" href="#">All Deductions</a>
-                        <a class="nav-link" href="#">Manual Deduction</a>
+                        <a class="nav-link {{ request()->routeIs('admin.deductions.all') || request()->routeIs('admin-deduction-report') ? 'active' : '' }}" href="{{ route('admin.deductions.all') }}">All Deductions</a>
+                        <a class="nav-link {{ request()->routeIs('admin.deductions.manual') || request()->routeIs('admin-deduct-fund') ? 'active' : '' }}" href="{{ route('admin.deductions.manual') }}">Manual Deduction</a>
                     </div>
                 </li>
                 <!-- Fund Transfer Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundTransferMenu" role="button" aria-expanded="false" aria-controls="fundTransferMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.transfers.*') || request()->routeIs('admin-transfer-report') || request()->routeIs('admin-transfer-fund') ? 'active' : '' }}" data-bs-toggle="collapse" href="#fundTransferMenu" role="button" aria-expanded="false" aria-controls="fundTransferMenu">
                         <span><i class="bi bi-cash-coin me-2"></i>Fund Transfer</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="fundTransferMenu">
-                        <a class="nav-link" href="#">Transfer History</a>
-                        <a class="nav-link" href="#">New Transfer</a>
+                        <a class="nav-link {{ request()->routeIs('admin.transfers.history') || request()->routeIs('admin-transfer-report') ? 'active' : '' }}" href="{{ route('admin.transfers.history') }}">Transfer History</a>
+                        <a class="nav-link {{ request()->routeIs('admin.transfers.new') || request()->routeIs('admin-transfer-fund') ? 'active' : '' }}" href="{{ route('admin.transfers.new') }}">New Transfer</a>
                     </div>
                 </li>
                 <!-- Activation Dropdown -->
@@ -436,11 +517,32 @@
         </div>
     </nav>
     <!-- Main Content -->
-    <main class="main-content">
+    <main class="main-content @stack('main-content-class')">
         @yield('content')
     </main>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     @stack('scripts')
+    <script>
+        // Auto-expand dropdown menus when on active sub-pages
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if we're on fund deduction pages
+            if (window.location.pathname.includes('deduct-fund') || window.location.pathname.includes('deduction-report')) {
+                const fundDeductionMenu = document.getElementById('fundDeductionMenu');
+                if (fundDeductionMenu) {
+                    fundDeductionMenu.classList.add('show');
+                }
+            }
+            
+            // Check if we're on fund transfer pages
+            if (window.location.pathname.includes('transfer-fund') || window.location.pathname.includes('transfer-report')) {
+                const fundTransferMenu = document.getElementById('fundTransferMenu');
+                if (fundTransferMenu) {
+                    fundTransferMenu.classList.add('show');
+                }
+            }
+        });
+    </script>
 </body>
 </html>
