@@ -2,9 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+
+use App\Http\Controllers\Admin\AdminController;
+
+// Public Routes
+Route::get('/', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/admin/login', [AuthController::class, 'login'])->name('admin-login.submit');
+
 use App\Http\Controllers\Backend\FundRequestController;
 use App\Http\Controllers\Backend\FundDeductionController;
 use App\Http\Controllers\Backend\FundTransferController;
+use App\Http\Controllers\Backend\MemberController;
 
 Route::get('/', function () {
     return view('backend.pages.dashboard');
@@ -55,9 +63,17 @@ Route::get('/register', [AuthController::class, 'showRegister'])->name('admin-re
 Route::post('/register', [AuthController::class, 'register'])->name('admin-register.submit');
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('admin-register.verify-otp');
 
+// Admin Protected Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin-dashboard');
+    Route::get('/package-details', function () {
+        return view('backend.pages.packagedetails');
+    })->name('admin-package-details');
+});
 Route::get('/admin/all-fund-requests', [FundRequestController::class, 'allRequests'])->name('admin.fund-requests.all');
 Route::get('/admin/approved-fund-requests', [FundRequestController::class, 'approvedRequests'])->name('admin.fund-requests.approved');
 Route::get('/admin/pending-fund-requests', [FundRequestController::class, 'pendingRequests'])->name('admin.fund-requests.pending');
+
 
 // Activation Routes
 Route::get('/admin/wallet-activation', function () {
@@ -66,4 +82,10 @@ Route::get('/admin/wallet-activation', function () {
 Route::get('/admin/activation-report', function () {
     return view('backend.pages.activationreport');
 })->name('admin.activation-report');
+
+Route::get('/admin/all-members', [MemberController::class, 'index'])->name('admin.all-members');
+Route::get('/admin/active-members', [MemberController::class, 'activeMembers'])->name('admin.active-members');
+Route::get('/admin/inactive-members', [MemberController::class, 'inactiveMembers'])->name('admin.inactive-members');
+Route::get('/admin/blocked-members', [MemberController::class, 'blockedMembers'])->name('admin.blocked-members');
+
 

@@ -199,6 +199,9 @@
         .goog-te-gadget-simple .goog-te-menu-value span {
             display: inline !important;
         }
+
+        .dropdown-toggle::after {
+            display: none !important;
         .card {
             background-color: #181f2acc;
             border: 1px solid #00fff733;
@@ -295,8 +298,30 @@
         <div class="d-flex align-items-center">
             <i class="bi bi-gear" style="font-size:1.5rem; color:#fff; margin-right:12px;"></i>
             <span style="font-size:1.1rem; color:#fff; margin-right:8px;">SETTINGS</span>
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" style="height:32px; width:32px; border-radius:50%; object-fit:cover; margin-right:8px;">
-            <span style="font-size:1.1rem; color:#fff;">DEMO</span>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" style="height:32px; width:32px; border-radius:50%; object-fit:cover; margin-right:8px;">
+                    <span style="font-size:1.1rem; color:#fff;">DEMO</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" style="min-width: 180px;">
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-person-circle me-2" style="color:#00fff7; font-size:1.2rem;"></i> <span>PROFILE</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-gear me-2" style="color:#00fff7; font-size:1.2rem;"></i> <span>SECURITY</span>
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-power me-2" style="color:#00fff7; font-size:1.2rem;"></i> <span>LOGOUT</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     <!-- Google Translate Widget Script -->
@@ -420,8 +445,11 @@
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="teamMenu">
-                        <a class="nav-link" href="#">All Members</a>
-                        <a class="nav-link" href="#">Add Member</a>
+                        <a class="nav-link" href="{{ route('admin.all-members') }}">All Members</a>
+                        <a class="nav-link" href="{{ route('admin.active-members') }}">Active Members</a>
+                        <a class="nav-link" href="{{ route('admin.inactive-members') }}">Inactive Members</a>
+                        <a class="nav-link" href="#">Blocked Members</a>
+                        <a class="nav-link" href="#">Password Details</a>
                     </div>
                 </li>
                 <!-- Network Dropdown -->

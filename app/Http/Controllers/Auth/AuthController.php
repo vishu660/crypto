@@ -102,7 +102,7 @@ class AuthController extends Controller
             $user = Auth::user();
             if ($user->status !== 'active') {
                 Auth::logout();
-                return back()->withErrors(['email_id' => 'Your account is not active yet.']);
+                return back()->withErrors(['email_id' => 'You do not have permission to access this page.']);
             }
             $request->session()->regenerate();
             return redirect()->route('admin-dashboard');

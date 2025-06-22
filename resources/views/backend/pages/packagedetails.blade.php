@@ -113,6 +113,10 @@
                     <h5 class="card-title mb-4">Add New Package</h5>
                     <form>
                         <div class="mb-3">
+                            <label for="packageName" class="form-label">Package Name</label>
+                            <input type="text" class="form-control" name="" id="packageName" placeholder="Enter Package Name">
+                        </div>
+                        <div class="mb-3">
                             <label for="packageAmount" class="form-label">Package Amount*</label>
                             <input type="text" class="form-control" id="packageAmount" placeholder="Enter Package Amount">
                         </div>
