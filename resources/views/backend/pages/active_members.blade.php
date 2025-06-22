@@ -3,9 +3,9 @@
 @section('content')
 <div class="members-container">
     <h2 class="members-title">Active Members</h2>
-    <div class="filter-bar compact-bar">
-        <form method="GET" action="" class="filter-form compact-form">
-            <div class="filter-group compact-group">
+    <div class="filter-bar">
+        <form method="GET" action="" class="filter-form">
+            <div class="filter-group">
                 <span class="filter-label">Show</span>
                 <select name="entries" class="filter-select">
                     <option value="50">50</option>
@@ -13,19 +13,19 @@
                     <option value="200">200</option>
                 </select>
                 <span class="filter-label">entries</span>
-                <input type="date" name="start_date" class="filter-input compact-input" placeholder="start date">
+                <input type="date" name="start_date" class="filter-input" placeholder="start date">
                 <span class="filter-to">to</span>
-                <input type="date" name="end_date" class="filter-input compact-input" placeholder="end date">
-                <button type="submit" class="filter-btn compact-btn"><i class="bi bi-search"></i></button>
+                <input type="date" name="end_date" class="filter-input" placeholder="end date">
+                <button type="submit" class="filter-btn"><i class="bi bi-search"></i></button>
             </div>
-            <div class="filter-search-group compact-search-group">
+            <div class="filter-search-group">
                 <span class="filter-label">Search:</span>
-                <input type="text" name="search" id="search" class="filter-search-input compact-search-input" placeholder="Search...">
+                <input type="text" name="search" id="search" class="filter-search-input" placeholder="Search...">
             </div>
         </form>
     </div>
-    <div class="members-table-wrapper compact-table-wrapper">
-        <table class="members-table compact-table">
+    <div class="members-table-wrapper">
+        <table class="members-table">
             <thead>
                 <tr>
                     <th>Member ID</th>
@@ -38,22 +38,37 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($members as $member)
-                <tr>
-                    <td>{{ $member->id ?? '-' }}</td>
-                    <td>{{ $member->full_name ?? '-' }}</td>
-                    <td>{{ $member->mobile_no ?? '-' }}</td>
-                    <td>{{ $member->email_id ?? '-' }}</td>
-                    <td>{{ $member->created_at ? $member->created_at->format('d-m-Y h:i a') : '-' }}</td>
-                    <td>{{ $member->updated_at ? $member->updated_at->format('d-m-Y h:i a') : '-' }}</td>
-                    <td>
-                        <button class="btn-details">Details</button>
-                        <button class="btn-block">Block Now</button>
-                    </td>
-                </tr>
-                @endforeach
+                @if($members->count() > 0)
+                    @foreach($members as $member)
+                    <tr>
+                        <td>{{ $member->id ?? '-' }}</td>
+                        <td>{{ $member->full_name ?? '-' }}</td>
+                        <td>{{ $member->mobile_no ?? '-' }}</td>
+                        <td>{{ $member->email_id ?? '-' }}</td>
+                        <td>{{ $member->created_at ? $member->created_at->format('d-m-Y h:i a') : '-' }}</td>
+                        <td>{{ $member->updated_at ? $member->updated_at->format('d-m-Y h:i a') : '-' }}</td>
+                        <td>
+                            <button class="btn-details">Details</button>
+                            <button class="btn-block">Block Now</button>
+                        </td>
+                    </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">No data available in table</td>
+                    </tr>
+                @endif
             </tbody>
         </table>
+        <div class="d-flex justify-content-between align-items-center mt-2">
+            <div class="datatable-info">
+                Showing 0 to 0 of 0 entries
+            </div>
+            <div class="datatable-pagination">
+                <button class="btn btn-sm btn-secondary me-1" disabled>Previous</button>
+                <button class="btn btn-sm btn-secondary" disabled>Next</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -96,8 +111,9 @@
 .members-table th {
     background: #b8c7ce;
     color: #232b33;
-    font-weight: 600;
-    border-bottom: 2px solid #00e6fb;
+    font-weight: bold;
+    border-bottom: 2px solid #b8c7ce;
+    font-size: 1.05rem;
 }
 .members-table tr:last-child td {
     border-bottom: none;
@@ -128,6 +144,22 @@
 }
 .btn-block:hover {
     background: #e53935;
+}
+.datatable-info {
+    color: #b8c7ce;
+    font-size: 1rem;
+}
+.datatable-pagination .btn-secondary {
+    background: #232b33;
+    color: #b8c7ce;
+    border: 1px solid #b8c7ce;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    padding: 2px 14px;
+    opacity: 0.7;
+}
+.datatable-pagination .btn-secondary:disabled {
+    opacity: 0.5;
 }
 @media (max-width: 900px) {
     .members-container {
@@ -204,115 +236,6 @@
     padding: 6px 10px;
     font-size: 1rem;
     width: 160px;
-}
-.compact-bar {
-    background: transparent;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    border-radius: 0;
-    border-bottom: none;
-    box-shadow: none;
-}
-.compact-form {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0;
-    margin-bottom: 0;
-}
-.compact-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.filter-label {
-    color: #b8c7ce;
-    font-size: 1rem;
-    font-weight: 500;
-}
-.filter-select {
-    background: #b8c7ce;
-    color: #232b33;
-    border: none;
-    border-radius: 3px;
-    padding: 2px 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    outline: none;
-}
-.compact-input {
-    width: 120px;
-    padding: 4px 8px;
-    font-size: 0.98rem;
-}
-.compact-btn {
-    background: #b8c7ce;
-    color: #232b33;
-    border-radius: 3px;
-    padding: 4px 10px;
-    font-size: 1rem;
-    margin-left: 4px;
-    border: none;
-    transition: background 0.2s;
-}
-.compact-btn:hover {
-    background: #00e6fb;
-    color: #181f26;
-}
-.compact-search-group {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-.compact-search-input {
-    width: 140px;
-    padding: 4px 8px;
-    font-size: 0.98rem;
-    background: #232b33;
-    border: 1px solid #b8c7ce;
-    color: #fff;
-    border-radius: 3px;
-}
-.compact-table-wrapper {
-    margin-top: 0;
-}
-.compact-table {
-    border-radius: 0;
-    box-shadow: none;
-    border: none;
-    margin-top: 0;
-}
-.compact-table th {
-    background: #b8c7ce;
-    color: #232b33;
-    font-weight: bold;
-    border-bottom: 2px solid #b8c7ce;
-    font-size: 1.05rem;
-}
-.compact-table td {
-    background: #232b33;
-    color: #fff;
-    font-size: 1rem;
-}
-.compact-table tr:last-child td {
-    border-bottom: none;
-}
-@media (max-width: 900px) {
-    .members-container {
-        padding: 12px 2px;
-    }
-    .members-title {
-        font-size: 1.3rem;
-    }
-    .compact-table th, .compact-table td {
-        padding: 8px 6px;
-        font-size: 0.95rem;
-    }
-    .compact-input, .compact-search-input {
-        width: 80px;
-        font-size: 0.9rem;
-    }
 }
 </style>
 @endsection 

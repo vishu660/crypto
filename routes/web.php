@@ -14,7 +14,7 @@ use App\Http\Controllers\Backend\FundDeductionController;
 use App\Http\Controllers\Backend\FundTransferController;
 use App\Http\Controllers\Backend\MemberController;
 
-Route::get('/', function () {
+Route::get('/admin-dashboard', function () {
     return view('backend.pages.dashboard');
 })->name('admin-dashboard');
 
@@ -78,4 +78,5 @@ Route::get('/admin/all-members', [MemberController::class, 'index'])->name('admi
 Route::get('/admin/active-members', [MemberController::class, 'activeMembers'])->name('admin.active-members');
 Route::get('/admin/inactive-members', [MemberController::class, 'inactiveMembers'])->name('admin.inactive-members');
 Route::get('/admin/blocked-members', [MemberController::class, 'blockedMembers'])->name('admin.blocked-members');
+Route::get('/admin/password-details', [MemberController::class, 'passwordDetails'])->name('admin.password-details');
 
