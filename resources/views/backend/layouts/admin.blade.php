@@ -8,7 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    @stack('styles')
     <style>
         body {
             background: #101820;
@@ -108,6 +107,10 @@
         .main-content {
             margin-left: 220px;
             padding: 84px 24px 24px 24px; /* header + spacing */
+            transition: margin-left 0.3s;
+        }
+        .main-content.full-width {
+            margin-left: 0;
         }
         .bi {
             font-size: 1.2em;
@@ -188,6 +191,7 @@
             display: inline !important;
         }
     </style>
+    @stack('styles')
 </head>
 <body>
     <!-- Header -->
@@ -248,7 +252,7 @@
       });
     </script>
     <!-- Sidebar -->
-    <nav class="sidebar py-4">
+    <nav class="sidebar py-4 @stack('sidebar-class')">
         <div class="position-sticky">
             <ul class="nav flex-column">
                 <!-- Dashboard with icon -->
@@ -265,7 +269,7 @@
                 </li>
                 <!-- Support with icon -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex align-items-center" href="#">
+                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin-support') ? 'active' : '' }}" href="{{ route('admin-support') }}">
                         <i class="bi bi-envelope me-2"></i>Support
                     </a>
                 </li>
@@ -277,7 +281,7 @@
                 </li>
                 <!-- Level Settings with icon -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex align-items-center" href="#">
+                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin-level-settings') ? 'active' : '' }}" href="{{ route('admin-level-settings') }}">
                         <i class="bi bi-bar-chart-steps me-2"></i>Level Settings
                     </a>
                 </li>
@@ -411,7 +415,7 @@
         </div>
     </nav>
     <!-- Main Content -->
-    <main class="main-content">
+    <main class="main-content @stack('main-content-class')">
         @yield('content')
     </main>
     <!-- Bootstrap JS -->
