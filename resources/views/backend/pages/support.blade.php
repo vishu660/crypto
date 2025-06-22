@@ -4,43 +4,7 @@
 
 @push('styles')
 <style>
-    .main-content {
-        background-color: #101820;
-        position: relative;
-    }
-    .breadcrumb-title {
-        color: #fff;
-    }
-    .breadcrumb-path {
-        color: #00fff7;
-    }
-    h5.card-title {
-        color: #00fff7;
-    }
-    .mail-card {
-        background-color: #181f2a;
-        border: 1px solid #00fff7;
-        border-radius: 8px;
-        padding: 25px;
-        box-shadow: none;
-        color: #fff;
-        position: relative;
-    }
-    .mail-card::before, .mail-card::after {
-        display: none;
-    }
-    .compose-btn {
-        background-color: #00fff7;
-        border: 1px solid #00fff7;
-        color: #101820;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-    }
-    .compose-btn:hover {
-        background-color: #00e0d5;
-        border-color: #00d0c5;
-        color: #101820;
-    }
+    /* Page-specific styles can go here */
     .mail-nav .nav-link {
         color: #b2f7ef;
         padding: 10px 15px;
@@ -56,35 +20,6 @@
         background-color: #00fff7 !important;
         color: #101820 !important;
         font-weight: 600;
-    }
-    .form-control, .form-select {
-        background-color: #101820;
-        border: 1px solid #00fff7;
-        color: #fff;
-    }
-    .form-control::placeholder {
-        color: #888;
-    }
-    .form-control:focus, .form-select:focus {
-        background-color: #101820;
-        border-color: #00e0d5;
-        box-shadow: 0 0 0 0.2rem rgba(0, 255, 247, 0.25);
-        color: #fff;
-    }
-    .send-btn {
-        background-color: #00fff7;
-        border-color: #00fff7;
-        color: #101820;
-        font-weight: 600;
-        padding: 8px 24px;
-    }
-    .send-btn:hover {
-        background-color: #00e0d5;
-        border-color: #00d0c5;
-        color: #101820;
-    }
-    .footer {
-        display: none;
     }
 </style>
 @endpush
