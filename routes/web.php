@@ -4,9 +4,26 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
+use App\Http\Controllers\Backend\FundRequestController;
+use App\Http\Controllers\Backend\FundDeductionController;
+use App\Http\Controllers\Backend\FundTransferController;
+use App\Http\Controllers\Backend\MemberController;
+
 Route::get('/', function () {
     return view('welcome');
 });
+use App\Http\Controllers\Auth\AuthController;
+
+use App\Http\Controllers\Admin\AdminController;
+
+// Public Routes
+Route::get('/', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/admin/login', [AuthController::class, 'login'])->name('admin-login.submit');
+
+
+Route::get('/admin-dashboard', function () {
+    return view('backend.pages.dashboard');
+})->name('admin-dashboard');
 
 
 Route::get('/admin-dashboard', function () {
@@ -87,3 +104,102 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Activation Routes
+Route::get('/admin/wallet-activation', function () {
+    return view('backend.pages.walletactivation');
+})->name('admin.wallet-activation');
+Route::get('/admin/activation-report', function () {
+    return view('backend.pages.activationreport');
+})->name('admin.activation-report');
+
+Route::get('/admin/all-members', [MemberController::class, 'index'])->name('admin.all-members');
+Route::get('/admin/active-members', [MemberController::class, 'activeMembers'])->name('admin.active-members');
+Route::get('/admin/inactive-members', [MemberController::class, 'inactiveMembers'])->name('admin.inactive-members');
+Route::get('/admin/blocked-members', [MemberController::class, 'blockedMembers'])->name('admin.blocked-members');
+Route::get('/admin/password-details', [MemberController::class, 'passwordDetails'])->name('admin.password-details');
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/admin/referral-list', function () {
+    return view('backend.pages.referrallist');
+})->name('admin.referral-list');
+
+Route::get('/admin/downline-list', function () {
+    return view('backend.pages.downlinelist');
+})->name('admin.downline-list');
+
+Route::get('/admin/total-earnings', function () {
+    return view('backend.pages.totalearnings');
+})->name('admin.total-earnings');
+
+Route::get('/admin/roi-income', function () {
+    return view('backend.pages.roiincome');
+})->name('admin.roi-income');
+
+Route::get('admin/passive-income', function () {
+    return view('backend.pages.passiveincome');
+})->name('admin.passiveincome');
+
+Route::get('admin/direct-income', function () {
+    return view('backend.pages.directincome');
+})->name('admin.directincome');
+
+Route::get('admin/royalty', function () {
+    return view('backend.pages.royalty');
+})->name('admin.royalty');
+
+Route::get('admin/rewards', function () {
+    return view('backend.pages.rewards');
+})->name('admin.rewards');
+
+Route::get('admin/wallet-balance', function () {
+    return view('backend.pages.walletbalance');
+})->name('admin.walletbalance');
+
+Route::get('admin/account-report', function () {
+    return view('backend.pages.accountreport');
+})->name('admin.accountreport');
+
+Route::get('admin/account-details', function () {
+    return view('backend.pages.accountdetails');
+})->name('admin.accountdetails');
+
+Route::get('admin/unpaid-payouts', function () {
+    return view('backend.pages.unpaidpayouts');
+})->name('admin.unpaidpayouts');
+
+Route::get('admin/paid-payouts', function () {
+    return view('backend.pages.paidpayouts');
+})->name('admin.paidpayouts');
+
+Route::get('admin/rejected-payouts', function () {
+    return view('backend.pages.rejectedpayouts');
+})->name('admin.rejectedpayouts');
+
+Route::get('admin/member-income-block', function () {
+    return view('backend.pages.memberincomeblock');
+})->name('admin.memberincomeblock');
+
+Route::get('/admin/holidays', function () {
+    return view('backend.pages.holidays');
+})->name('admin.holidays');
+
+Route::get('/admin/systemsettings', function () {
+    return view('backend.pages.systemsettings');
+})->name('admin.systemsettings');
+
+Route::get('/admin/payoutcontrols', function () {
+    return view('backend.pages.payoutcontrols');
+})->name('admin.payoutcontrols');
+
+Route::get('/admin/news', function () {
+    return view('backend.pages.news');
+})->name('admin.news');
+
+Route::get('/admin/promotionalfiles', function () {
+    return view('backend.pages.promotionalfiles');
+})->name('admin.promotionalfiles');
+
+

@@ -1,6 +1,6 @@
 @extends('backend.layouts.admin')
 
-@section('title', 'Fund Transfer')
+@section('title', 'Wallet Activation')
 
 @push('styles')
 <style>
@@ -12,7 +12,7 @@
         background-size: 40px 40px;
         position: relative;
     }
-    .transfer-card {
+    .activation-card {
         background-color: #181f2a;
         padding: 30px;
         color: #fff;
@@ -57,30 +57,31 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <p class="text-white"><a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a> / Fund Transfer / New Transfer</p>
-            <h4 class="mt-2" style="color:#fff;">New Transfer</h4>
+            <p class="text-white"><a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a> / Activation / Wallet Activation</p>
+            <h4 class="mt-2" style="color:#fff;">Wallet Activation</h4>
         </div>
     </div>
     <div class="row justify-content-center mt-4">
         <div class="col-lg-7">
-            <div class="transfer-card">
-                <form method="POST" action="{{ route('admin.transfers.store') }}">
+            <div class="activation-card">
+                <form method="POST" action="#">
                     @csrf
                     <div class="mb-3">
                         <label for="member_id" class="form-label">Member ID*</label>
                         <input type="text" class="form-control" id="member_id" name="member_id" placeholder="Enter Member ID" required>
                     </div>
                     <div class="mb-3">
-                        <label for="amount" class="form-label">Amount*</label>
-                        <input type="number" step="0.01" class="form-control" id="amount" name="amount" placeholder="Enter Transfer Amount" required>
+                        <label for="package" class="form-label">Package*</label>
+                        <select class="form-select" id="package" name="package" required>
+                            <option value="">Select Package</option>
+                            <option value="basic">Basic</option>
+                            <option value="standard">Standard</option>
+                            <option value="premium">Premium</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="wallet" class="form-label">Wallet*</label>
-                        <select class="form-select" id="wallet" name="wallet" required>
-                            <option value="">----- Select Wallet -----</option>
-                            <option value="main">Main Wallet</option>
-                            <option value="commission">Commission Wallet</option>
-                        </select>
+                        <input type="text" class="form-control" id="wallet" name="wallet" value="Topup Wallet" readonly>
                     </div>
                     <div class="mb-4">
                         <label for="remark" class="form-label">Remark*</label>

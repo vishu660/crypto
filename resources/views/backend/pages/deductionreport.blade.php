@@ -84,7 +84,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <p style="color:#00fff7;" class="mb-0">Dashboard / Deduction / Fund Deduction Report</p>
+            <p class="text-white">Dashboard / Deduction / Fund Deduction Report</p>
             <h4 class="mt-2" style="color:#fff;">Fund Deduction Report</h4>
         </div>
     </div>

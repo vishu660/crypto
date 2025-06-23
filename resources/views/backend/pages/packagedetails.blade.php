@@ -93,7 +93,7 @@
     <div class="row">
         <div class="col-12">
             <div class="d-flex align-items-center mb-3">
-                <h4 class="me-auto mb-0">Dashboard / Package / Package Details</h4>
+                <h4 class="me-auto mb-0"><a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a> / Package / Package Details</h4>
             </div>
         </div>
     </div>
@@ -222,7 +222,7 @@
                                 </tr>
                                  <tr>
                                     <td>50000</td>
-                                    <td>10 %</td>
+                                     <td>10 %</td>
                                     <td>5 %</td>
                                     <td>21-02-2024 01:42:pm</td>
                                     <td><span class="badge bg-success">Active</span></td>
