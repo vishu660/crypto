@@ -152,4 +152,24 @@ Route::get('admin/member-income-block', function () {
     return view('backend.pages.memberincomeblock');
 })->name('admin.memberincomeblock');
 
+Route::get('/admin/holidays', function () {
+    return view('backend.pages.holidays');
+})->name('admin.holidays');
+
+Route::get('/admin/systemsettings', function () {
+    return view('backend.pages.systemsettings');
+})->name('admin.systemsettings');
+
+Route::get('/admin/payoutcontrols', function () {
+    return view('backend.pages.payoutcontrols');
+})->name('admin.payoutcontrols');
+
+Route::get('/admin/news', function () {
+    return view('backend.pages.news');
+})->name('admin.news');
+
+Route::get('/admin/promotionalfiles', function () {
+    return view('backend.pages.promotionalfiles');
+})->name('admin.promotionalfiles');
+
 

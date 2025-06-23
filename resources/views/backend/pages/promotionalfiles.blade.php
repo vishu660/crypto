@@ -1,10 +1,10 @@
 @extends('backend.layouts.admin')
 
-@section('title', 'Income Blocked Members')
+@section('title', 'Promotional Files')
 
 @push('styles')
 <style>
-    .block-box {
+    .promo-box {
         border: 2px solid #00fff7;
         border-radius: 12px;
         background: #181f2a;
@@ -12,29 +12,30 @@
         padding: 32px 24px;
         margin-bottom: 24px;
     }
-    .block-form-label {
+    .promo-form-label {
         color: #b2f7ef;
         font-weight: 500;
         margin-bottom: 6px;
     }
-    .block-form-input {
+    .promo-form-input, .promo-form-file {
         background: #101820 !important;
         color: #fff;
         border: 1.5px solid #00fff7;
         border-radius: 6px;
         padding: 10px 14px;
         margin-bottom: 18px;
+        width: 100%;
     }
-    .block-form-input:focus {
+    .promo-form-input:focus, .promo-form-file:focus {
         outline: none !important;
         box-shadow: none !important;
         border-color: #00fff7;
     }
-    .block-form-input::placeholder {
+    .promo-form-input::placeholder {
         color: #fff;
         opacity: 1;
     }
-    .block-form-btn {
+    .promo-form-btn {
         width: 100%;
         background: transparent;
         color: #00fff7;
@@ -45,16 +46,9 @@
         font-size: 1.1em;
         transition: background 0.2s, color 0.2s;
     }
-    .block-form-btn:hover {
+    .promo-form-btn:hover {
         background: #00fff7;
         color: #101820;
-    }
-    .earnings-box {
-        border: 2px solid #00fff7;
-        border-radius: 12px;
-        background: #181f2a;
-        box-shadow: none;
-        padding: 32px 24px;
     }
     .filter-box {
         border: 2px solid #00fff7;
@@ -65,6 +59,8 @@
         margin-bottom: 24px;
         background: transparent;
         width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
     }
     .filter-box .form-control {
         border: none !important;
@@ -148,71 +144,65 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <p class="text-white"><a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a> / Settings / Income Blocked Members</p>
-            <h3 class="text-white mt-3">Income Blocked Members</h3>
+            <p class="text-white">Dashboard / Settings / Promotional Files</p>
+            <h3 class="text-white mt-3">Promotional Files</h3>
         </div>
     </div>
     <div class="row mt-4">
         <div class="col-md-4">
-            <div class="block-box">
-                <h5 class="text-white mb-3">Block Member from Income</h5>
+            <div class="promo-box">
+                <h5 class="text-white mb-3">Add Promotional Files</h5>
                 <form>
-                    <label class="block-form-label">Member ID*</label>
-                    <input type="text" class="block-form-input w-100" placeholder="Enter Member ID">
-                    <button type="submit" class="block-form-btn">Proceed</button>
+                    <label class="promo-form-label">Title*</label>
+                    <input type="text" class="promo-form-input" placeholder="Title">
+                    <label class="promo-form-label">Attachment*</label>
+                    <input type="file" class="promo-form-file" style="color:#fff;">
+                    <button type="submit" class="promo-form-btn">Proceed</button>
                 </form>
             </div>
         </div>
         <div class="col-md-8">
-            <div class="earnings-box">
-                <div class="row mb-3">
-                    <div class="col-md-12">
-                        <div class="filter-box">
-                            <input type="text" class="form-control" placeholder="start date">
-                            <span class="input-group-text">to</span>
-                            <input type="text" class="form-control" placeholder="end date">
-                            <button class="btn" type="button"><i class="bi bi-search"></i></button>
-                        </div>
-                    </div>
+            <div class="filter-box mb-3">
+                <input type="text" class="form-control" placeholder="start date">
+                <span class="input-group-text">to</span>
+                <input type="text" class="form-control" placeholder="end date">
+                <button class="btn" type="button"><i class="bi bi-search"></i></button>
+            </div>
+            <div class="d-flex align-items-center mb-2">
+                <label class="form-label mb-0 me-2" style="color:#b2f7ef;">Show</label>
+                <select class="form-select form-select-sm me-2" style="width: 70px;">
+                    <option>50</option>
+                </select>
+                <label class="form-label mb-0 me-3" style="color:#b2f7ef;">entries</label>
+                <div class="ms-auto d-flex align-items-center">
+                    <label for="search" class="form-label me-2 mb-0" style="color:#b2f7ef;">Search:</label>
+                    <input type="search" class="form-control" id="search">
                 </div>
-                <div class="d-flex align-items-center mb-2">
-                    <label class="form-label mb-0 me-2" style="color:#b2f7ef;">Show</label>
-                    <select class="form-select form-select-sm me-2" style="width: 70px;">
-                        <option>50</option>
-                    </select>
-                    <label class="form-label mb-0 me-3" style="color:#b2f7ef;">entries</label>
-                    <div class="ms-auto d-flex align-items-center">
-                        <label for="search" class="form-label me-2 mb-0" style="color:#b2f7ef;">Search:</label>
-                        <input type="search" class="form-control" id="search">
-                    </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>File</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4" class="text-center">No data available in table</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+                <div class="datatable-info">
+                    Showing 0 to 0 of 0 entries
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead>
-                            <tr>
-                                <th>Member ID</th>
-                                <th>Name</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td colspan="3" class="text-center">No data available in table</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="row mt-3 align-items-center">
-                    <div class="col-md-6">
-                        Showing 0 to 0 of 0 entries
-                    </div>
-                    <div class="col-md-6">
-                        <ul class="pagination justify-content-end mb-0">
-                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </div>
+                <div class="datatable-pagination">
+                    <button class="btn btn-sm btn-secondary me-1" disabled>Previous</button>
+                    <button class="btn btn-sm btn-secondary" disabled>Next</button>
                 </div>
             </div>
         </div>

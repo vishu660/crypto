@@ -103,7 +103,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h4 class="text-white">Dashboard / Account / Account Details</h4>
+            <p class="text-white"><a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a> / Account / Account Details</p>
             <h3 class="text-white mt-3">Account Details</h3>
         </div>
     </div>

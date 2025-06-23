@@ -515,11 +515,11 @@
                     </a>
                     <div class="collapse submenu" id="systemMenu">
                         <a class="nav-link {{ request()->routeIs('admin.memberincomeblock') ? 'active' : '' }}" href="{{ route('admin.memberincomeblock') }}">Member Income Block</a>
-                        <a class="nav-link" href="#">Holidays</a>
-                        <a class="nav-link" href="#">System Settings</a>
-                        <a class="nav-link" href="#">Payout Controls</a>
-                        <a class="nav-link" href="#">News & Notifications</a>
-                        <a class="nav-link" href="#">Promotional Files</a>
+                        <a class="nav-link {{ request()->routeIs('admin.holidays') ? 'active' : '' }}" href="{{ route('admin.holidays') }}">Holidays</a>
+                        <a class="nav-link {{ request()->routeIs('admin.systemsettings') ? 'active' : '' }}" href="{{ route('admin.systemsettings') }}">System Settings</a>
+                        <a class="nav-link {{ request()->routeIs('admin.payoutcontrols') ? 'active' : '' }}" href="{{ route('admin.payoutcontrols') }}">Payout Controls</a>
+                        <a class="nav-link {{ request()->routeIs('admin.news') ? 'active' : '' }}" href="{{ route('admin.news') }}">News & Notifications</a>
+                        <a class="nav-link {{ request()->routeIs('admin.promotionalfiles') ? 'active' : '' }}" href="{{ route('admin.promotionalfiles') }}">Promotional Files</a>
                     </div>
                 </li>
                 <li class="nav-item mt-4">

@@ -103,7 +103,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h4 class="text-white">Dashboard / Network / Referral List</h4>
+            <p class="text-white"><a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a> / Network / Referral List</p>
             <h3 class="text-white mt-3">Referral List</h3>
         </div>
     </div>
