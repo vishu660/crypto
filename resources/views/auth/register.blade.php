@@ -86,18 +86,8 @@
     <img src="https://i.ibb.co/pz3r8r3/logo.png" class="logo" alt="Company Logo">
     <h2>SIGN UP</h2>
 
-    <form action="{{ route('admin-register.submit') }}" method="POST">
+    <form action="{{ route('register') }}" method="POST">
       @csrf
-      @if ($errors->any())
-      <div class="alert alert-danger">
-          <ul>
-          @foreach ($errors->all() as $error)
-              <li>{{ $error }}</li>
-          @endforeach
-          </ul>
-      </div>
-  @endif
-  
       <div class="mb-3">
         <label for="fullname" class="form-label">Full Name *</label>
         <input type="text" class="form-control" id="fullname" name="full_name" placeholder="Full Name" required>
@@ -105,7 +95,7 @@
     
       <div class="mb-3">
         <label for="email" class="form-label">Email ID *</label>
-        <input type="email" class="form-control" id="email" name="email_id" placeholder="Email ID" required>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Email ID" required>
       </div>
     
       <div class="mb-3">
@@ -132,7 +122,7 @@
     
       <button type="submit" class="btn signup-btn w-100">Sign Up</button>
     
-      <p class="text-center mt-3">Already have an account? <a href="{{ route('login') }}" class="fw-bold">SIGNIN here</a></p>
+      <p class="text-center mt-3">Already have an account? <a href="#" class="fw-bold">SIGNIN here</a></p>
     </form>
     
   </div>

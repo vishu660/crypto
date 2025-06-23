@@ -511,8 +511,10 @@
                     </div>
                 </li>
                 <li class="nav-item mt-4">
-                    <a class="btn btn-outline-info w-100" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</a>
-                </li>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                    <button class="btn btn-outline-info w-100"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</button>
+                </form>                </li>
             </ul>
         </div>
     </nav>
