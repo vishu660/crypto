@@ -19,6 +19,11 @@ class CreateUsersTable extends Migration
             $table->foreign('introducer_id')->references('id')->on('users')->onDelete('set null');
             $table->string('password');
             $table->string('transaction_password');
+            $table->string('company_name')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('country')->nullable();
+            $table->string('profile_image')->nullable();
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->decimal('balance', 10, 2)->default(0.00);
             $table->string('order_id')->nullable();

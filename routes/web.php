@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Backend\FundRequestController;
@@ -9,6 +8,7 @@ use App\Http\Controllers\Backend\FundTransferController;
 use App\Http\Controllers\Backend\MemberController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -96,11 +96,11 @@ Route::get('/admin/new-transfer', function () {
     return view('backend.pages.transferfund');
 })->name('admin.transfers.new');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/admin/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/admin/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/admin/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 require __DIR__.'/auth.php';
 
@@ -214,3 +214,8 @@ Route::get('/admin/updatepassword', function () {
 // })->name('admin.settings');
 
 
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
+});

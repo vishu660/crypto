@@ -117,40 +117,42 @@
         <div class="col-lg-9">
             <div class="profile-section">
                 <h5>Update Profile</h5>
-                <form>
+                <form method="POST" action="{{ route('admin.profile.update') }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
                     <div class="row mb-3">
                         <div class="col-md-6 mb-3 mb-md-0">
                             <label class="form-label">Company Name*</label>
-                            <input type="text" class="form-control" value="DEMO">
+                            <input type="text" class="form-control" name="company_name"  value="DEMO">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Contact No*</label>
-                            <input type="text" class="form-control" value="1234567891">
+                            <input type="text" class="form-control" name="contact_no" value="1234567891">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6 mb-3 mb-md-0">
                             <label class="form-label">Email*</label>
-                            <input type="email" class="form-control" value="xxxx@gmail.comt">
+                            <input type="email" class="form-control" name="email"  value="xyz@gmail.comt">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">City*</label>
-                            <input type="text" class="form-control" value="Pune">
+                            <input type="text" class="form-control" name="city" value="Pune">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6 mb-3 mb-md-0">
                             <label class="form-label">State*</label>
-                            <input type="text" class="form-control" value="Maharastra">
+                            <input type="text" name="state" class="form-control" value="Maharastra">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Country*</label>
-                            <input type="text" class="form-control" value="India">
+                            <input type="text" name="country" class="form-control" value="India">
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Profile Image*</label>
-                        <input type="file" class="form-control">
+                        <input type="file" name="profile_image class="form-control">
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>
