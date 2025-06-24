@@ -53,9 +53,7 @@ Route::get('/admin/support', function () {
     return view('backend.pages.support');
 })->name('admin-support');
 
-Route::get('/admin/package-details', function () {
-    return view('backend.pages.packagedetails');
-})->name('admin-package-details');
+Route::get('/admin/package-details', [PackageController::class, 'index'])->name('admin-package-details');
 
 Route::get('/admin/level-settings', function () {
     return view('backend.pages.levelsettings');

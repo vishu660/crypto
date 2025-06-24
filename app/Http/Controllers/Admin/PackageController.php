@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Package;
 
 class PackageController extends Controller
 {
@@ -12,11 +13,9 @@ class PackageController extends Controller
      */
     public function index()
     {
-        //
-        $plans = Plan::latest()->paginate(10); // 10 per page
-        return view('backend.package.index', compact('plans'));
+        $packages = Package::latest()->paginate(10);
+        return view('backend.pages.packagedetails', compact('packages'));
     }
-
     /**
      * Show the form for creating a new resource.
      */

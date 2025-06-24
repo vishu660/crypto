@@ -244,28 +244,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($plans as $plan)
-                                <tr>
-                                    <td>₹{{ $plan->investment_amount }}</td>
-                                    <td>{{ $plan->roi_percent }} %</td>
-                                    <td>{{ $plan->direct_bonus_percent }} %</td>
-                                    <td>{{ \Carbon\Carbon::parse($plan->created_at)->format('d-m-Y h:i:a') }}</td>
-                                    <td>
-                                        <span class="badge bg-{{ $plan->is_active ? 'success' : 'danger' }}">
-                                            {{ $plan->is_active ? 'Active' : 'Inactive' }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('package.edit', $plan->id) }}" class="btn btn-sm btn-outline-info">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="text-center text-muted">No packages found.</td>
-                                </tr>
-                            @endforelse
+                            @foreach($packages as $package)
+                            <tr>
+                                <td>₹{{ $package->investment_amount }}</td>
+                                <td>{{ $package->roi_percent }} %</td>
+                                <td>{{ $package->direct_bonus_percent }} %</td>
+                                <td>{{ \Carbon\Carbon::parse($package->created_at)->format('d-m-Y h:i:a') }}</td>
+                                <td>
+                                    <span class="badge bg-{{ $package->is_active ? 'success' : 'danger' }}">
+                                        {{ $package->is_active ? 'Active' : 'Inactive' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{{ route('package.edit', $package->id) }}" class="btn btn-sm btn-outline-info">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        
+                        @if($packages->isEmpty())
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">No packages found.</td>
+                            </tr>
+                        @endif
+                        
                         </tbody>
                     </table>
                 </div>
@@ -273,7 +276,8 @@
                 {{-- Pagination (optional) --}}
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-end">
-                        {{ $plans->links() }}
+                        {{ $packages->links() }}
+
                     </ul>
                 </nav>
             </div>
