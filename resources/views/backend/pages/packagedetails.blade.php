@@ -103,36 +103,108 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title mb-4">Add New Package</h5>
-                    <form>
+
+                    <form method="POST" action="{{ route('package.store') }}">
+                        @csrf
+
+                        <input type="hidden" name="id" value="{{ old('id') }}">
+                        <input type="hidden" name="consultation_income_debit" value="0">
+                        <input type="hidden" name="consultation_test_user_debit" value="0">
+
                         <div class="mb-3">
-                            <label for="packageName" class="form-label">Package Name</label>
-                            <input type="text" class="form-control" name="" id="packageName" placeholder="Enter Package Name">
+                            <label class="form-label">Package Name</label>
+                            <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Enter Package Name">
                         </div>
+
                         <div class="mb-3">
-                            <label for="packageAmount" class="form-label">Package Amount*</label>
-                            <input type="text" class="form-control" id="packageAmount" placeholder="Enter Package Amount">
+                            <label class="form-label">Investment Amount*</label>
+                            <input type="number" class="form-control" name="investment_amount" value="{{ old('investment_amount') }}" placeholder="Enter Package Amount">
                         </div>
+
                         <div class="mb-3">
-                            <label for="roiPercentage" class="form-label">ROI(%)*</label>
-                            <input type="text" class="form-control" id="roiPercentage" placeholder="Enter ROI Precentage">
+                            <label class="form-label">ROI(%)*</label>
+                            <input type="number" class="form-control" name="roi_percent" value="{{ old('roi_percent') }}" placeholder="Enter ROI Percentage">
                         </div>
+
                         <div class="mb-3">
-                            <label for="consultationTestUserDebit" class="form-label">Consultation Test User Debit</label>
-                            <input type="text" class="form-control" id="consultationTestUserDebit" placeholder="Enter amount">
+                            <label class="form-label">Validity Days*</label>
+                            <input type="number" class="form-control" name="validity_days" value="{{ old('validity_days') }}" placeholder="Enter Validity Days">
                         </div>
+
                         <div class="mb-3">
-                            <label for="consultationIncome7Debit" class="form-label">Consultation Income Debit</label>
-                            <input type="text" class="form-control" id="consultationIncomeDebit" placeholder="Enter amount">
+                            <label class="form-label">Direct Bonus(%)*</label>
+                            <input type="number" class="form-control" name="direct_bonus_percent" value="{{ old('direct_bonus_percent') }}" placeholder="Enter Direct Bonus(%)">
                         </div>
+
                         <div class="mb-3">
-                            <label for="directBonus" class="form-label">Direct Bonus(%)*</label>
-                            <input type="text" class="form-control" id="directBonus" placeholder="Enter Direct Bonus(%)">
+                            <label class="form-label">IBOT Investment*</label>
+                            <input type="number" class="form-control" name="ibot_investment" value="{{ old('ibot_investment') }}" placeholder="Enter IBOT Investment">
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Proceed</button>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" name="is_active" value="1" {{ old('is_active') ? 'checked' : '' }}>
+                            <label class="form-check-label">Active</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Type of Investment Days*</label>
+                            <select name="type_of_investment_days" class="form-select" id="typeOfInvestmentDays">
+                                <option value="daily" {{ old('type_of_investment_days') == 'daily' ? 'selected' : '' }}>Daily</option>
+                                <option value="weekly" {{ old('type_of_investment_days') == 'weekly' ? 'selected' : '' }}>Weekly</option>
+                                <option value="monthly" {{ old('type_of_investment_days') == 'monthly' ? 'selected' : '' }}>Monthly</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3" id="dailyDaysDiv" style="display:none;">
+                            <label class="form-label">Select Days:</label>
+                            <div class="row">
+                                @foreach(['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] as $day)
+                                    <div class="col-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="daily_days[]" value="{{ $day }}"
+                                            {{ is_array(old('daily_days')) && in_array($day, old('daily_days')) ? 'checked' : '' }}>
+                                            <label class="form-check-label">{{ $day }}</label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="mb-3" id="weeklyDayDiv" style="display:none;">
+                            <label class="form-label">Select One Day:</label>
+                            <select name="weekly_day" class="form-select">
+                                @foreach(['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'] as $day)
+                                    <option value="{{ $day }}" {{ old('weekly_day') == $day ? 'selected' : '' }}>{{ $day }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3" id="monthlyDateDiv" style="display:none;">
+                            <label class="form-label">Select Date (1-31):</label>
+                            <select name="monthly_date" class="form-select">
+                                @for($i=1; $i<=31; $i++)
+                                    <option value="{{ $i }}" {{ old('monthly_date') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Proceed</button>
                     </form>
+
+                    <script>
+                        function showInvestmentFields() {
+                            var type = document.getElementById('typeOfInvestmentDays').value;
+                            document.getElementById('dailyDaysDiv').style.display = (type === 'daily') ? 'block' : 'none';
+                            document.getElementById('weeklyDayDiv').style.display = (type === 'weekly') ? 'block' : 'none';
+                            document.getElementById('monthlyDateDiv').style.display = (type === 'monthly') ? 'block' : 'none';
+                        }
+                        document.getElementById('typeOfInvestmentDays').addEventListener('change', showInvestmentFields);
+                        window.onload = showInvestmentFields;
+                    </script>
                 </div>
             </div>
         </div>
+
         <!-- Package Details Table -->
         <div class="col-lg-8">
             <div class="card">
