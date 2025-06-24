@@ -4,15 +4,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 
 use App\Http\Controllers\Admin\AdminController;
-
-// Public Routes
-Route::get('/', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/admin/login', [AuthController::class, 'login'])->name('admin-login.submit');
-
 use App\Http\Controllers\Backend\FundRequestController;
 use App\Http\Controllers\Backend\FundDeductionController;
 use App\Http\Controllers\Backend\FundTransferController;
 use App\Http\Controllers\Backend\MemberController;
+
+// Public Routes
+Route::get('/index', function () {
+    return view('index');
+})->name('index');
+
+
+
+
 
 Route::get('/admin-dashboard', function () {
     return view('backend.pages.dashboard');
@@ -89,8 +93,7 @@ Route::get('/admin/inactive-members', [MemberController::class, 'inactiveMembers
 Route::get('/admin/blocked-members', [MemberController::class, 'blockedMembers'])->name('admin.blocked-members');
 Route::get('/admin/password-details', [MemberController::class, 'passwordDetails'])->name('admin.password-details');
 
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+
 
 Route::get('/admin/referral-list', function () {
     return view('backend.pages.referrallist');
