@@ -172,4 +172,16 @@ Route::get('/admin/promotionalfiles', function () {
     return view('backend.pages.promotionalfiles');
 })->name('admin.promotionalfiles');
 
+Route::get('/admin/profile', function () {
+    return view('backend.pages.profile');
+})->name('admin.profile');
+
+Route::get('/admin/updatepassword', function () {
+    return view('backend.pages.updatepassword');
+})->name('admin.updatepassword');
+
+Route::get('/admin/settings', function () {
+    return view('backend.pages.settings');
+})->name('admin.settings');
+
 
