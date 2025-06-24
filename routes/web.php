@@ -11,7 +11,7 @@ use App\Http\Controllers\Backend\FundDeductionController;
 use App\Http\Controllers\Backend\FundTransferController;
 use App\Http\Controllers\Backend\MemberController;
 use App\Http\Controllers\Admin\ProfileController;
-
+use App\Http\Controllers\Admin\PackageController;
 
 
 
@@ -227,3 +227,5 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
 });
+
+Route::get('/package/{id}/edit', [PlanController::class, 'edit'])->name('package.edit');

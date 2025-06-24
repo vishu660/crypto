@@ -13,6 +13,8 @@ class PackageController extends Controller
     public function index()
     {
         //
+        $plans = Plan::latest()->paginate(10); // 10 per page
+        return view('backend.package.index', compact('plans'));
     }
 
     /**
