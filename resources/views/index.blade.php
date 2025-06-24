@@ -485,8 +485,19 @@
             <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User" style="width:36px; height:36px; border-radius:50%; box-shadow:0 0 8px #00eaff88;">
           </a>
           <div class="dropdown-menu dropdown-menu-end user-dropdown-menu p-3 mt-2" aria-labelledby="userDropdown">
-            <a href="#" class="btn btn-outline-info w-100 mb-2">Login</a>
-            <a href="#" class="btn btn-outline-info w-100">Register</a>
+         {{-- If admin is logged in --}}
+         @auth
+         @if(Auth::user()->role === 'admin')
+           <a href="{{ route('admin-dashboard') }}" class="btn btn-outline-info w-100">Admin Dashboard</a>
+         @elseif(Auth::user()->role === 'user')
+           <a href="{{ route('user-dashboard') }}" class="btn btn-outline-info w-100">User Dashboard</a>
+         @endif
+       @endauth
+   
+       @guest
+         <a href="{{ route('login') }}" class="btn btn-outline-info w-100 mb-2">Login</a>
+         <a href="{{ route('admin-register') }}" class="btn btn-outline-info w-100">Register</a>
+       @endguest
           </div>
         </div>
       </div>
