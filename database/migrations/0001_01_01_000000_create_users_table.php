@@ -11,11 +11,9 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('full_name');
-            $table->string('email_id')->unique();
+            $table->string('email')->unique();
             $table->string('mobile_no')->unique();
             $table->string('country_code')->default('+91');
-            $table->unsignedBigInteger('plan_id')->nullable();
-            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('set null');
             $table->string('introducer')->nullable(); 
             $table->unsignedBigInteger('introducer_id')->nullable();
             $table->foreign('introducer_id')->references('id')->on('users')->onDelete('set null');
@@ -28,7 +26,6 @@ class CreateUsersTable extends Migration
             $table->timestamp('otp_expires_at')->nullable();
             $table->enum('status', ['pending', 'active', 'inactive', 'banned'])->default('pending');
             $table->boolean('terms_accepted')->default(false);
-
             $table->timestamps();
         });
     }

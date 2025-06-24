@@ -48,12 +48,12 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <p style="color:#00fff7;" class="mb-0">Dashboard / Earnings / Level Details</p>
-            <h4 class="mt-2" style="color:#fff;">Level Details</h4>
+        <div class="row">
+            <div class="col-12">
+                <p class="text-white">Dashboard / Earnings / Level Details</p>
+                <h4 class="mt-2" style="color:#fff;">Level Details</h4>
+            </div>
         </div>
-    </div>
     <div class="row mt-4">
         <div class="col-12">
             <div class="level-card">

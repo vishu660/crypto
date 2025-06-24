@@ -86,7 +86,8 @@
     <img src="https://i.ibb.co/pz3r8r3/logo.png" class="logo" alt="Company Logo">
     <h2>SIGN UP</h2>
 
-    <form action="{{ route('admin-login.submit') }}" method="POST">
+    <form action="{{ route('login') }}" method="POST">
+
       @csrf
    
       @if ($errors->any())
@@ -102,7 +103,7 @@
      
       <div class="mb-3">
         <label for="email" class="form-label">Username</label>
-        <input type="email" class="form-control" id="email" name="email_id" placeholder="Username" required>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Username" required>
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
@@ -111,7 +112,7 @@
 
       <button type="submit" class="btn signup-btn w-100">Sign Up</button>
     
-      <p class="text-center mt-3">Already have an account? <a href="{{ route('admin-register') }}" class="fw-bold">SIGNIN here</a></p>
+      <p class="text-center mt-3">Already have an account? <a href="#" class="fw-bold">SIGNIN here</a></p>
     </form>
     
   </div>

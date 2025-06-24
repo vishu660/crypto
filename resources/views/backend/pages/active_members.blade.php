@@ -2,6 +2,11 @@
 
 @section('content')
 <div class="members-container">
+    <div class="row">
+        <div class="col-12">
+            <p class="text-white"><a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a>/Team /Active Members</p>
+        </div>
+    </div>
     <h2 class="members-title">Active Members</h2>
     <div class="filter-bar">
         <form method="GET" action="" class="filter-form">

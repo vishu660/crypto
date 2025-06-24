@@ -7,18 +7,10 @@
     h4, .card-title {
         color: #00fff7;
     }
-    .package-box {
-        border: 2px solid #00fff7;
-        border-radius: 12px;
-        background: #181f2a;
-        box-shadow: none;
-        margin-bottom: 24px;
-    }
-    .package-box .card-body {
-        background: transparent;
-        border: none;
-        border-radius: 0 0 12px 12px;
-        padding: 32px 24px;
+    .card {
+        background-color: #181f2a;
+        border: 1px solid #00fff7;
+        color: #fff;
     }
     .form-control, .form-select {
         background-color: #101820;
@@ -101,14 +93,14 @@
     <div class="row">
         <div class="col-12">
             <div class="d-flex align-items-center mb-3">
-                <h4 class="me-auto mb-0">Dashboard / Package / Package Details</h4>
+                <h4 class="me-auto mb-0"><a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a> / Package / Package Details</h4>
             </div>
         </div>
     </div>
     <div class="row">
         <!-- Add New Package Form -->
         <div class="col-lg-4">
-            <div class="package-box">
+            <div class="card">
                 <div class="card-body">
                     <h5 class="card-title mb-4">Add New Package</h5>
                     <form>
@@ -143,7 +135,7 @@
         </div>
         <!-- Package Details Table -->
         <div class="col-lg-8">
-            <div class="package-box">
+            <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
                         <div class="d-flex align-items-center">
@@ -230,7 +222,7 @@
                                 </tr>
                                  <tr>
                                     <td>50000</td>
-                                    <td>10 %</td>
+                                     <td>10 %</td>
                                     <td>5 %</td>
                                     <td>21-02-2024 01:42:pm</td>
                                     <td><span class="badge bg-success">Active</span></td>

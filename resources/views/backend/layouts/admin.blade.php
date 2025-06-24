@@ -202,6 +202,7 @@
 
         .dropdown-toggle::after {
             display: none !important;
+        }
         .card {
             background-color: #181f2acc;
             border: 1px solid #00fff733;
@@ -270,6 +271,110 @@
             border-color: #00d0c5;
             color: #101820;
         }
+        .settings-dropdown-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            text-decoration: none;
+            position: relative;
+        }
+        .settings-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 48px;
+            right: 0;
+            background: #232b38;
+            border: none;
+            border-radius: 0;
+            box-shadow: 0 8px 32px #0008;
+            padding: 0;
+            z-index: 2000;
+            min-width: 340px;
+            width: 340px;
+        }
+        .settings-dropdown-menu.show {
+            display: block;
+            animation: fadeIn 0.2s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .settings-dropdown-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            gap: 0;
+            position: relative;
+            height: 240px;
+        }
+        .settings-dropdown-divider {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            background: #313a47;
+            z-index: 1;
+        }
+        .settings-dropdown-tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            background: transparent;
+            transition: background 0.18s, color 0.18s;
+            border-bottom: 1px solid #313a47;
+            border-right: none;
+            height: 80px;
+            margin: 0;
+        }
+        .settings-dropdown-tile:nth-child(2), .settings-dropdown-tile:nth-child(4) {
+            border-top: 1px solid #313a47;
+        }
+        .settings-dropdown-tile:nth-child(5), .settings-dropdown-tile:nth-child(6) {
+            border-bottom: none;
+        }
+        .settings-dropdown-tile:hover {
+            background: #181f2a;
+            color: #00fff7;
+        }
+        .settings-dropdown-tile i {
+            font-size: 2.1rem;
+            margin-bottom: 8px;
+            color: #b2f7ef;
+            transition: color 0.18s;
+        }
+        .settings-dropdown-tile:hover i {
+            color: #00fff7;
+        }
+        @media (max-width: 600px) {
+            .settings-dropdown-menu {
+                min-width: 180px;
+                width: 180px;
+            }
+            .settings-dropdown-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: none;
+                height: auto;
+            }
+            .settings-dropdown-divider {
+                display: none;
+            }
+            .settings-dropdown-tile {
+                height: 60px;
+            }
+        }
+        .dropdown-menu .dropdown-item:hover {
+            background: #101820 !important;
+        }
     </style>
     @stack('styles')
 </head>
@@ -295,9 +400,48 @@
             </div>
         </div>
         <!-- Right: Settings + User -->
-        <div class="d-flex align-items-center">
-            <i class="bi bi-gear" style="font-size:1.5rem; color:#fff; margin-right:12px;"></i>
-            <span style="font-size:1.1rem; color:#fff; margin-right:8px;">SETTINGS</span>
+        <div class="d-flex align-items-center position-relative">
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="settingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-gear" style="font-size:1.5rem; color:#b2f7ef; margin-right:8px;"></i>
+                    <span style="font-size:1.1rem; color:#fff;">SETTINGS</span>
+                </a>
+                <div class="dropdown-menu fade dropdown-menu-end w-300px text-center p-0 mt-1" aria-labelledby="settingsDropdown" style="background:#232b38; border:none;">
+                    <div class="row row-grid gx-0">
+                        <div class="col-4">
+                            <a href="{{ route('admin.holidays') }}" class="dropdown-item text-decoration-none p-2 bg-none">
+                                <div><i class="bi bi-calendar2-week" style="font-size:1.5rem; color:#b2f7ef;"></i></div>
+                                <div class="fw-500 fs-12px text-white" style="font-size:11px;">HOLIDAYS</div>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="{{ route('admin.payoutcontrols') }}" class="dropdown-item text-decoration-none p-2 bg-none">
+                                <div><i class="bi bi-arrow-left-right" style="font-size:1.5rem; color:#b2f7ef;"></i></div>
+                                <div class="fw-500 fs-12px text-white" style="font-size:11px;">PAYOUTS</div>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="{{ route('admin.systemsettings') }}" class="dropdown-item text-decoration-none p-2 bg-none">
+                                <div><i class="bi bi-display" style="font-size:1.5rem; color:#b2f7ef;"></i></div>
+                                <div class="fw-500 fs-12px text-white" style="font-size:11px;">SYSTEM</div>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="{{ route('admin.news') }}" class="dropdown-item text-decoration-none p-2 bg-none">
+                                <div><i class="bi bi-bell" style="font-size:1.5rem; color:#b2f7ef;"></i></div>
+                                <div class="fw-500 fs-12px text-white" style="font-size:11px;">NEWS</div>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="{{ route('admin.promotionalfiles') }}" class="dropdown-item text-decoration-none p-2 bg-none">
+                                <div><i class="bi bi-file-earmark-pdf" style="font-size:1.5rem; color:#b2f7ef;"></i></div>
+                                <div class="fw-500 fs-12px text-white" style="font-size:11px;">FILES</div>
+                            </a>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                </div>
+            </div>
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" style="height:32px; width:32px; border-radius:50%; object-fit:cover; margin-right:8px;">
@@ -305,13 +449,13 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" style="min-width: 180px;">
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="#">
-                            <i class="bi bi-person-circle me-2" style="color:#00fff7; font-size:1.2rem;"></i> <span>PROFILE</span>
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.profile') }}">
+                            <i class="bi bi-person-circle me-2" style="color:#00fff7; font-size:1.2rem;"></i> <span>Profile</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="#">
-                            <i class="bi bi-gear me-2" style="color:#00fff7; font-size:1.2rem;"></i> <span>SECURITY</span>
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.updatepassword') }}">
+                            <i class="bi bi-shield-lock me-2" style="color:#00fff7; font-size:1.2rem;"></i> <span>Security</span>
                         </a>
                     </li>
                     <li><hr class="dropdown-divider"></li>
@@ -515,16 +659,18 @@
                     </a>
                     <div class="collapse submenu" id="systemMenu">
                         <a class="nav-link {{ request()->routeIs('admin.memberincomeblock') ? 'active' : '' }}" href="{{ route('admin.memberincomeblock') }}">Member Income Block</a>
-                        <a class="nav-link" href="#">Holidays</a>
-                        <a class="nav-link" href="#">System Settings</a>
-                        <a class="nav-link" href="#">Payout Controls</a>
-                        <a class="nav-link" href="#">News & Notifications</a>
-                        <a class="nav-link" href="#">Promotional Files</a>
+                        <a class="nav-link {{ request()->routeIs('admin.holidays') ? 'active' : '' }}" href="{{ route('admin.holidays') }}">Holidays</a>
+                        <a class="nav-link {{ request()->routeIs('admin.systemsettings') ? 'active' : '' }}" href="{{ route('admin.systemsettings') }}">System Settings</a>
+                        <a class="nav-link {{ request()->routeIs('admin.payoutcontrols') ? 'active' : '' }}" href="{{ route('admin.payoutcontrols') }}">Payout Controls</a>
+                        <a class="nav-link {{ request()->routeIs('admin.news') ? 'active' : '' }}" href="{{ route('admin.news') }}">News & Notifications</a>
+                        <a class="nav-link {{ request()->routeIs('admin.promotionalfiles') ? 'active' : '' }}" href="{{ route('admin.promotionalfiles') }}">Promotional Files</a>
                     </div>
                 </li>
                 <li class="nav-item mt-4">
-                    <a class="btn btn-outline-info w-100" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</a>
-                </li>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                    <button class="btn btn-outline-info w-100"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</button>
+                </form>                </li>
             </ul>
         </div>
     </nav>
@@ -554,6 +700,44 @@
                     fundTransferMenu.classList.add('show');
                 }
             }
+        });
+    </script>
+    <script>
+        // Dropdown open/close logic (hover and click)
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('settingsDropdownToggle');
+            const menu = document.getElementById('settingsDropdownMenu');
+            const parent = toggle.parentElement;
+            let isOpen = false;
+            let hoverTimeout;
+
+            // Open on click (for mobile/touch)
+            toggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                menu.classList.toggle('show');
+                isOpen = menu.classList.contains('show');
+            });
+
+            // Open on hover
+            parent.addEventListener('mouseenter', function() {
+                clearTimeout(hoverTimeout);
+                menu.classList.add('show');
+                isOpen = true;
+            });
+            parent.addEventListener('mouseleave', function() {
+                hoverTimeout = setTimeout(function() {
+                    menu.classList.remove('show');
+                    isOpen = false;
+                }, 120);
+            });
+
+            // Close on outside click
+            document.addEventListener('click', function(e) {
+                if (isOpen && !menu.contains(e.target) && !toggle.contains(e.target)) {
+                    menu.classList.remove('show');
+                    isOpen = false;
+                }
+            });
         });
     </script>
 </body>

@@ -148,7 +148,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h4 class="text-white">Dashboard / Settings / Income Blocked Members</h4>
+            <p class="text-white"><a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a> / Settings / Income Blocked Members</p>
             <h3 class="text-white mt-3">Income Blocked Members</h3>
         </div>
     </div>

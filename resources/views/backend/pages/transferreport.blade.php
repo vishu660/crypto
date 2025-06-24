@@ -84,7 +84,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <p style="color:#00fff7;" class="mb-0">Dashboard / Transfer Fund / Transfer Report</p>
+            <p class="text-white"><a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a> / Transfer Fund / Transfer Report</p>
             <h4 class="mt-2" style="color:#fff;">Transfer Report</h4>
         </div>
     </div>

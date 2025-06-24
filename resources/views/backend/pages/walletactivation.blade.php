@@ -57,7 +57,7 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <p style="color:#00fff7;" class="mb-0">Dashboard / Activation / Wallet Activation</p>
+            <p class="text-white"><a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a> / Activation / Wallet Activation</p>
             <h4 class="mt-2" style="color:#fff;">Wallet Activation</h4>
         </div>
     </div>

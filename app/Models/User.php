@@ -12,7 +12,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'full_name', 'email_id', 'mobile_no', 'country_code', 'introducer',
+        'full_name', 'email', 'mobile_no', 'country_code', 'introducer',
         'password', 'transaction_password', 'role', 'status',
         'otp', 'otp_expires_at', 'terms_accepted'
     ];
@@ -40,4 +40,13 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User::class, 'introducer_id');
     }
+
+    public static function generateReferralCode($length = 11)
+{
+    do {
+        $code = strtoupper(Str::random($length));
+    } while (self::where('introducer', $code)->exists());
+
+    return $code;
+}
 }
