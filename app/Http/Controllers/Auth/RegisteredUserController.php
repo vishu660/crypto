@@ -38,16 +38,22 @@ class RegisteredUserController extends Controller
             'introducer' => ['nullable', 'string'],
             'terms_accepted' => ['accepted'],
         ]);
-
-        // Generate Passwords and OTP
+    
+        // Lookup introducer_id if introducer code is provided
+        $introducerUser = null;
+        if ($request->filled('introducer')) {
+            $introducerUser = User::where('introducer', $request->introducer)->first();
+        }
+    
+        // Generate passwords and OTP
         $rawPassword = Str::random(8);
         $rawTxnPassword = rand(1000, 9999);
         $otp = rand(1000, 9999);
-
+    
         // Cache OTP for 5 mins
         Cache::put('otp_' . $request->mobile_no, $otp, now()->addMinutes(5));
-
-        // Send OTP via SMS API (optional)
+    
+        // Send OTP (optional)
         try {
             Http::post('https://www.fast2sms.com/dev/bulkV2', [
                 'authorization' => 'YOUR_API_KEY',
@@ -59,14 +65,15 @@ class RegisteredUserController extends Controller
         } catch (\Exception $e) {
             return back()->withErrors(['mobile_no' => 'OTP sending failed: ' . $e->getMessage()]);
         }
-
+    
         // Create user
         $user = User::create([
             'full_name' => $request->full_name,
             'email' => $request->email,
             'mobile_no' => $request->mobile_no,
             'country_code' => $request->country_code,
-            'introducer' => $request->introducer,
+            'introducer' => User::generateReferralCode(),
+            'introducer_id' => $introducerUser?->id, 
             'password' => Hash::make($rawPassword),
             'transaction_password' => Hash::make($rawTxnPassword),
             'role' => 'user',
@@ -75,10 +82,9 @@ class RegisteredUserController extends Controller
             'otp_expires_at' => now()->addMinutes(5),
             'terms_accepted' => true,
         ]);
-
+    
         event(new Registered($user));
-
-        // Send to OTP verification page
+    
         return redirect()->route('verify-otp')->with([
             'user_id' => $user->id,
             'otp' => $otp,
@@ -86,4 +92,5 @@ class RegisteredUserController extends Controller
             'rawTxnPassword' => $rawTxnPassword,
         ]);
     }
+    
 }

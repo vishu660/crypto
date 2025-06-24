@@ -40,4 +40,13 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User::class, 'introducer_id');
     }
+
+    public static function generateReferralCode($length = 11)
+{
+    do {
+        $code = strtoupper(Str::random($length));
+    } while (self::where('introducer', $code)->exists());
+
+    return $code;
+}
 }
