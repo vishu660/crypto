@@ -10,8 +10,6 @@ use App\Http\Controllers\Backend\FundRequestController;
 use App\Http\Controllers\Backend\FundDeductionController;
 use App\Http\Controllers\Backend\FundTransferController;
 use App\Http\Controllers\Backend\MemberController;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ProfileController;
 
 
