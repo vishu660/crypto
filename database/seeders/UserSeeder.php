@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         // Create Admin
         User::create([
             'full_name' => 'Admin User',
-            'email_id' => 'admin@gmail.com',
+            'email' => 'admin@gmail.com',
             'mobile_no' => '9999999999',
             'country_code' => '+91',
             'introducer' => null,
@@ -27,6 +27,18 @@ class UserSeeder extends Seeder
             'terms_accepted' => true,
         ]);
 
-     
+        // Create Normal User
+        User::create([
+            'full_name' => 'Test User',
+            'email' => 'user@gmail.com',
+            'mobile_no' => '8888888888',
+            'country_code' => '+91',
+            'introducer' => 'admin@gmail.com',
+            'password' => Hash::make('user@123'),
+            'transaction_password' => Hash::make('5678'),
+            'role' => 'user', 
+            'status' => 'active',
+            'terms_accepted' => true,
+        ]);
     }
 }

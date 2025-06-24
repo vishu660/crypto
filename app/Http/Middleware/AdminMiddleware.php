@@ -9,18 +9,20 @@ class AdminMiddleware
 {
     public function handle($request, Closure $next)
     {
-        $role = strtolower(Auth::user()->role);
-        $roleRouteMap = [
-            'admin' => 'admin',
-            'customer' => 'user',
-        ];
+       
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $user = Auth::user();
+        $role = strtolower($user->role);
 
         if ($role === 'admin') {
+          
             return $next($request);
-        } else {
-            $request->session()->flash('error', 'You do not have permission to access this page.');
-            $redirectRoute = $roleRouteMap[$role] ?? 'login';
-            return redirect()->route($redirectRoute);
         }
+
+        
+        return redirect()->route('user-dashboard')->with('error', 'You do not have permission to access admin area.');
     }
 }
