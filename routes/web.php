@@ -11,12 +11,7 @@ use App\Http\Controllers\Backend\FundRequestController;
 use App\Http\Controllers\Backend\FundDeductionController;
 use App\Http\Controllers\Backend\FundTransferController;
 use App\Http\Controllers\Backend\MemberController;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Admin\AdminController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
 // // Public Routes
@@ -25,7 +20,7 @@ Route::get('/', function () {
 
 
 // Public Routes
-Route::get('/index', function () {
+Route::get('/', function () {
     return view('index');
 })->name('index');
 
