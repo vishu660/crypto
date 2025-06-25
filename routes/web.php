@@ -231,3 +231,5 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 Route::get('/package/{id}/edit', [PackageController::class, 'edit'])->name('package.edit');
 Route::delete('/admin/package/{id}', [PackageController::class, 'destroy'])->name('package.destroy');
 Route::put('/admin/package/{id}', [PackageController::class, 'update'])->name('package.update');
+// web.php
+

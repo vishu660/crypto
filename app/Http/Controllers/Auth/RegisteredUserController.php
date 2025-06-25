@@ -20,10 +20,27 @@ class RegisteredUserController extends Controller
     /**
      * Show the registration form
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('auth.register');
+        $referralCode = $request->query('ref'); 
+    
+        $adminUser = \App\Models\User::where('role', 'admin')->first();
+        $adminIntroducer = $adminUser ? $adminUser->introducer : 'ADMINCODE';
+    
+        $introducerCode = $adminIntroducer;
+    
+        if ($referralCode) {
+            $refUser = \App\Models\User::where('introducer', $referralCode)->first();
+            if ($refUser) {
+                $introducerCode = $refUser->introducer;
+            }
+        }
+    
+        return view('auth.register', [
+            'introducerCode' => $introducerCode,
+        ]);
     }
+    
 
     /**
      * Handle user registration request
@@ -90,6 +107,7 @@ class RegisteredUserController extends Controller
             'otp' => $otp,
             'rawPassword' => $rawPassword,
             'rawTxnPassword' => $rawTxnPassword,
+            'introducer' => $introducerUser?->introducer,
         ]);
     }
     

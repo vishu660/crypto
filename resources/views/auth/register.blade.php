@@ -147,11 +147,11 @@
     
       <input type="hidden" name="country_code" value="+91">
     
-      <div class="mb-3">
-        <label for="introducer" class="form-label">Introducer *</label>
-        <input type="text" class="form-control" id="introducer" name="introducer" placeholder="PNZ00001" required>
+        <div class="mb-3">
+          <label for="introducer" class="form-label">Introducer *</label>
+          <input type="text" class="form-control" id="introducer" name="introducer"
+              value="{{ $introducerCode ?? '' }}" readonly>
       </div>
-    
       <div class="form-check mb-3">
         <input class="form-check-input" type="checkbox" value="1" name="terms_accepted" id="terms" required>
         <label class="form-check-label" for="terms">
