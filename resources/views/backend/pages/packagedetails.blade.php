@@ -240,23 +240,9 @@
                     <table class="table table-hover align-middle">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Package Name</th>
-                                <th scope="col">Package Amount</th>
-                                <th scope="col">ROI (%)</th>
-                                <th scope="col">Direct Bonus (%)</th>
-                                <th scope="col">Created Date</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-      
-                            @foreach($packages as $package)
-                            <tr>
-                                <td>{{ $package->id }}</td>
+                                <th>#</th>
                                 <th>Package Name</th>
-                                <th>Investment Amount</th>
+                                <th>Package Amount</th>
                                 <th>ROI (%)</th>
                                 <th>Validity Days</th>
                                 <th>Direct Bonus (%)</th>
@@ -269,8 +255,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($packages as $package)
+                            @foreach($packages as $package)
                             <tr>
+                                <td>{{ $package->id }}</td>
                                 <td>{{ $package->name }}</td>
                                 <td>₹{{ $package->investment_amount }}</td>
                                 <td>{{ $package->roi_percent }} %</td>
@@ -301,17 +288,17 @@
                                     </a>
                                 </td>
                             </tr>
-                        @endforeach
-                        
-                        @if($packages->isEmpty())
+                            @endforeach
+                
+                            @if($packages->isEmpty())
                             <tr>
-                                <td colspan="6" class="text-center text-muted">No packages found.</td>
+                                <td colspan="12" class="text-center text-muted">No packages found.</td>
                             </tr>
-                        @endif
-                        
+                            @endif
                         </tbody>
                     </table>
                 </div>
+                
 
                 {{-- Pagination (optional) --}}
                 <nav aria-label="Page navigation">
