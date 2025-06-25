@@ -15,15 +15,21 @@ class Package extends Model
         'roi_percent',
         'validity_days',
         'direct_bonus_percent',
-        'ibot_investment',
+        'introducer_id',
+        'is_active',
         'type_of_investment_days',
         'daily_days',
         'weekly_day',
         'monthly_date',
-        'is_active',
     ];
 
     protected $casts = [
-        'daily_days' => 'array',
+        'daily_days' => 'array', // JSON field ko array me convert karega
+        'is_active' => 'boolean',
     ];
+    public function introducer()
+    {
+        return $this->belongsTo(User::class, 'introducer_id');
+    }
 }
+

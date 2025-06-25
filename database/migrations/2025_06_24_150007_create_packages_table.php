@@ -18,7 +18,8 @@ return new class extends Migration
             $table->decimal('roi_percent', 5, 2);
             $table->integer('validity_days');
             $table->decimal('direct_bonus_percent', 5, 2);
-            $table->decimal('ibot_investment', 10, 2);
+            $table->unsignedBigInteger('introducer_id')->nullable();            
+            $table->foreign('introducer_id')->references('id')->on('users')->onDelete('set null');
             $table->boolean('is_active')->default(0);
             $table->string('type_of_investment_days');
             $table->json('daily_days')->nullable();

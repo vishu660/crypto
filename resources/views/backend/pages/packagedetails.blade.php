@@ -109,7 +109,7 @@
                 <div class="card-body">
                     <h5 class="card-title mb-4">Add New Package</h5>
 
-                    <form method="POST" action="{{ route('package.store') }}">
+                    <form method="POST" action="">
                         @csrf
 
                         <input type="hidden" name="id" value="{{ old('id') }}">
@@ -142,8 +142,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">IBOT Investment*</label>
-                            <input type="number" class="form-control" name="ibot_investment" value="{{ old('ibot_investment') }}" placeholder="Enter IBOT Investment">
+                            <label class="form-label">Introducer Code (Admin)</label>
+                            <input type="text" class="form-control" name="introducer_code" value="{{ auth()->user()->introducer ?? '' }}" readonly>
                         </div>
 
                         <div class="mb-3 form-check">
@@ -240,13 +240,12 @@
                     <table class="table table-hover align-middle">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Package Name</th>
-                                <th>Package Amount</th>
+                                <th>Investment Amount</th>
                                 <th>ROI (%)</th>
                                 <th>Validity Days</th>
                                 <th>Direct Bonus (%)</th>
-                                <th>IBOT Investment</th>
+                                <th>Introducer</th>
                                 <th>Status</th>
                                 <th>Type of Investment Days</th>
                                 <th>Selected Days/Date</th>
@@ -255,15 +254,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($packages as $package)
+                        @foreach($packages as $package)
                             <tr>
-                                <td>{{ $package->id }}</td>
                                 <td>{{ $package->name }}</td>
                                 <td>₹{{ $package->investment_amount }}</td>
                                 <td>{{ $package->roi_percent }} %</td>
                                 <td>{{ $package->validity_days }}</td>
                                 <td>{{ $package->direct_bonus_percent }} %</td>
-                                <td>{{ $package->ibot_investment }}</td>
+                                <td>
+                                    @if($package->introducer)
+                                        {{ $package->introducer->introducer ?? '-' }}
+                                    @else
+                                        {{ $package->introducer_id ?? '-' }}
+                                    @endif
+                                </td>
                                 <td>
                                     <span class="badge bg-{{ $package->is_active ? 'success' : 'danger' }}">
                                         {{ $package->is_active ? 'Active' : 'Inactive' }}
@@ -282,23 +286,30 @@
                                     @endif
                                 </td>
                                 <td>{{ \Carbon\Carbon::parse($package->created_at)->format('d-m-Y h:i:a') }}</td>
-                                <td>
-                                    <a href="{{ route('package.edit', $package->id) }}" class="btn btn-sm btn-outline-info">
-                                        <i class="bi bi-pencil-square"></i>
+                                <td class="d-flex justify-content-between">
+                                    <a href="{{ route('package.edit', $package->id) }}" class="btn btn-sm btn-outline-info me-1">
+                                        <i class="bi bi-pencil-square"></i> 
                                     </a>
+                                    <form action="{{ route('package.destroy', $package->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this package?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
-                            @endforeach
-                
-                            @if($packages->isEmpty())
+                        @endforeach
+                        
+                        @if($packages->isEmpty())
                             <tr>
-                                <td colspan="12" class="text-center text-muted">No packages found.</td>
+                                <td colspan="6" class="text-center text-muted">No packages found.</td>
                             </tr>
-                            @endif
+                        @endif
+                        
                         </tbody>
                     </table>
                 </div>
-                
 
                 {{-- Pagination (optional) --}}
                 <nav aria-label="Page navigation">
