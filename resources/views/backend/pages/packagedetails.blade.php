@@ -45,12 +45,17 @@
         --bs-table-border-color: #00fff733;
         color: var(--bs-table-color);
         border-color: var(--bs-table-border-color);
+        font-size: 0.92rem;
     }
     .table thead th {
         color: #00fff7;
     }
     .table td, .table th {
         border-color: #00fff733;
+        padding-top: 0.35rem;
+        padding-bottom: 0.35rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
     }
     .table-hover tbody tr:hover {
         background-color: #2a3442;
@@ -250,16 +255,46 @@
                             @foreach($packages as $package)
                             <tr>
                                 <td>{{ $package->id }}</td>
+                                <th>Package Name</th>
+                                <th>Investment Amount</th>
+                                <th>ROI (%)</th>
+                                <th>Validity Days</th>
+                                <th>Direct Bonus (%)</th>
+                                <th>IBOT Investment</th>
+                                <th>Status</th>
+                                <th>Type of Investment Days</th>
+                                <th>Selected Days/Date</th>
+                                <th>Created At</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($packages as $package)
+                            <tr>
                                 <td>{{ $package->name }}</td>
                                 <td>₹{{ $package->investment_amount }}</td>
                                 <td>{{ $package->roi_percent }} %</td>
+                                <td>{{ $package->validity_days }}</td>
                                 <td>{{ $package->direct_bonus_percent }} %</td>
-                                <td>{{ \Carbon\Carbon::parse($package->created_at)->format('d-m-Y h:i:a') }}</td>
+                                <td>{{ $package->ibot_investment }}</td>
                                 <td>
                                     <span class="badge bg-{{ $package->is_active ? 'success' : 'danger' }}">
                                         {{ $package->is_active ? 'Active' : 'Inactive' }}
                                     </span>
                                 </td>
+                                <td>{{ ucfirst($package->type_of_investment_days) }}</td>
+                                <td>
+                                    @if($package->type_of_investment_days == 'daily')
+                                        {{ is_array($package->daily_days ?? null) ? implode(', ', $package->daily_days) : ($package->daily_days ?? '-') }}
+                                    @elseif($package->type_of_investment_days == 'weekly')
+                                        {{ $package->weekly_day ?? '-' }}
+                                    @elseif($package->type_of_investment_days == 'monthly')
+                                        {{ $package->monthly_date ?? '-' }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>{{ \Carbon\Carbon::parse($package->created_at)->format('d-m-Y h:i:a') }}</td>
                                 <td>
                                     <a href="{{ route('package.edit', $package->id) }}" class="btn btn-sm btn-outline-info">
                                         <i class="bi bi-pencil-square"></i>
