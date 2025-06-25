@@ -104,7 +104,7 @@
                 <div class="card-body">
                     <h5 class="card-title mb-4">Add New Package</h5>
 
-                    <form method="POST" action="">
+                    <form method="POST" action="{{ route('package.store') }}">
                         @csrf
 
                         <input type="hidden" name="id" value="{{ old('id') }}">
@@ -235,6 +235,8 @@
                     <table class="table table-hover align-middle">
                         <thead>
                             <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Package Name</th>
                                 <th scope="col">Package Amount</th>
                                 <th scope="col">ROI (%)</th>
                                 <th scope="col">Direct Bonus (%)</th>
@@ -244,8 +246,11 @@
                             </tr>
                         </thead>
                         <tbody>
+      
                             @foreach($packages as $package)
                             <tr>
+                                <td>{{ $package->id }}</td>
+                                <td>{{ $package->name }}</td>
                                 <td>₹{{ $package->investment_amount }}</td>
                                 <td>{{ $package->roi_percent }} %</td>
                                 <td>{{ $package->direct_bonus_percent }} %</td>

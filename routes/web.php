@@ -224,6 +224,8 @@ Route::get('/admin/updatepassword', function () {
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
+    Route::post('package-details', [PackageController::class, 'store'])->name('package.store');
+
 });
 
 Route::get('/package/{id}/edit', [PlanController::class, 'edit'])->name('package.edit');

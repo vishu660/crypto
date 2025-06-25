@@ -19,11 +19,11 @@ return new class extends Migration
             $table->integer('validity_days');
             $table->decimal('direct_bonus_percent', 5, 2);
             $table->decimal('ibot_investment', 10, 2);
-            $table->enum('type_of_investment_days', ['daily', 'weekly', 'monthly']);
-            $table->json('daily_days')->nullable(); // For daily investment days
+            $table->boolean('is_active')->default(0);
+            $table->string('type_of_investment_days');
+            $table->json('daily_days')->nullable();
             $table->string('weekly_day')->nullable();
             $table->integer('monthly_date')->nullable();
-            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
