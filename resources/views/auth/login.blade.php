@@ -112,7 +112,7 @@
 
       <button type="submit" class="btn signup-btn w-100">Sign Up</button>
     
-      <p class="text-center mt-3">Already have an account? <a href="#" class="fw-bold">SIGNIN here</a></p>
+      <p class="text-center mt-3">Already have an account? <a href="{{ route('register') }}" class="fw-bold">SIGNIN here</a></p>
     </form>
     
   </div>

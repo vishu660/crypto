@@ -20,26 +20,21 @@ class RegisteredUserController extends Controller
     /**
      * Show the registration form
      */
-    public function create(Request $request): View
+    public function create(Request $request, $referralCode = null): View
     {
-        $referralCode = $request->query('ref'); 
-    
-        $adminUser = \App\Models\User::where('role', 'admin')->first();
-        $adminIntroducer = $adminUser ? $adminUser->introducer : 'ADMINCODE';
-    
-        $introducerCode = $adminIntroducer;
+        $adminUser = User::where('role', 'admin')->first();
+        $introducerCode = $adminUser?->introducer ?? 'ADMINCODE';
     
         if ($referralCode) {
-            $refUser = \App\Models\User::where('introducer', $referralCode)->first();
+            $refUser = User::where('introducer', $referralCode)->first();
             if ($refUser) {
                 $introducerCode = $refUser->introducer;
             }
         }
     
-        return view('auth.register', [
-            'introducerCode' => $introducerCode,
-        ]);
+        return view('auth.register', ['introducerCode' => $introducerCode]);
     }
+    
     
 
     /**
@@ -102,13 +97,14 @@ class RegisteredUserController extends Controller
     
         event(new Registered($user));
     
-        return redirect()->route('verify-otp')->with([
+        // Store values in session for OTP page
+        session([
             'user_id' => $user->id,
-            'otp' => $otp,
             'rawPassword' => $rawPassword,
             'rawTxnPassword' => $rawTxnPassword,
-            'introducer' => $introducerUser?->introducer,
         ]);
+    
+        return redirect()->route('verify-otp');
     }
     
 }
