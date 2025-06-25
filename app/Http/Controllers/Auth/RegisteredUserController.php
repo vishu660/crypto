@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 
 class RegisteredUserController extends Controller
 {
+    
     /**
      * Show the registration form
      */
@@ -24,15 +25,14 @@ class RegisteredUserController extends Controller
     {
         if ($referralCode) {
             $refUser = User::where('referral_id', $referralCode)->first();
-            if (!$refUser) {
-                $adminUser = User::where('role', 'admin')->first();
-                $referralCode = $adminUser?->referral_id ?? 'ADMINCODE';
+            if ($refUser) {
+                return view('auth.register', ['referralCode' => $referralCode]);
             }
-        } else {
-           
-            $adminUser = User::where('role', 'admin')->first();
-            $referralCode = $adminUser?->referral_id ?? 'ADMINCODE';
         }
+    
+      
+        $adminUser = User::where('role', 'admin')->first();
+        $referralCode = $adminUser?->referral_id ?? 'ADMINCODE';
     
         return view('auth.register', ['referralCode' => $referralCode]);
     }
@@ -50,7 +50,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'mobile_no' => ['required', 'digits_between:7,15', 'unique:users,mobile_no'],
             'country_code' => ['required', 'string'],
-            'referral_id' => ['nullable', 'exists:users,referral_id'],
+            'referral_id' => ['nullable', 'string'],
             'terms_accepted' => ['accepted'],
         ]);
     

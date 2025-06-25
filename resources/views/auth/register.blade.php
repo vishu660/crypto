@@ -152,6 +152,16 @@
           <input type="text" class="form-control" id="referral" name="referral_id"
               value="{{ $referralCode ?? '' }}" readonly>
       </div>
+      @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+        </ul>
+    </div>
+@endif
+
       <div class="form-check mb-3">
         <input class="form-check-input" type="checkbox" value="1" name="terms_accepted" id="terms" required>
         <label class="form-check-label" for="terms">

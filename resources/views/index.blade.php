@@ -496,7 +496,7 @@
    
        @guest
          <a href="{{ route('login') }}" class="btn btn-outline-info w-100 mb-2">Login</a>
-         <a href="{{ route('admin-register') }}" class="btn btn-outline-info w-100">Register</a>
+         <a href="{{ route('register') }}" class="btn btn-outline-info w-100">Register</a>
        @endguest
           </div>
         </div>
