@@ -149,7 +149,7 @@
     
         <div class="mb-3">
           <label for="referral" class="form-label">referral *</label>
-          <input type="text" class="form-control" id="referral" name="referral"
+          <input type="text" class="form-control" id="referral" name="referral_id"
               value="{{ $referralCode ?? '' }}" readonly>
       </div>
       <div class="form-check mb-3">

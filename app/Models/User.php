@@ -17,8 +17,8 @@ class User extends Authenticatable
         'email',
         'mobile_no',
         'country_code',
-        'introducer',
-        'introducer_id',
+        'referral_id',
+        'referral_by',
         'password',
         'transaction_password',
         'company_name',
@@ -54,16 +54,16 @@ class User extends Authenticatable
     }
 
    
-    public function introducerUser()
+    public function referralUser()
     {
-        return $this->belongsTo(User::class, 'introducer_id');
+        return $this->belongsTo(User::class, 'referral_by');
     }
 
     public static function generateReferralCode($length = 11)
 {
     do {
         $code = strtoupper(Str::random($length));
-    } while (self::where('introducer', $code)->exists());
+    } while (self::where('referral_id', $code)->exists());
 
     return $code;
 }
