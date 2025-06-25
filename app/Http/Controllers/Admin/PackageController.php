@@ -14,7 +14,7 @@ class PackageController extends Controller
      */
     public function index()
     {
-        $packages = Package::with('introducer')->latest()->paginate(10);
+        $packages = Package::with('referral')->latest()->paginate(10);
         
         return view('backend.pages.packagedetails', compact('packages'));
     }
@@ -50,7 +50,7 @@ class PackageController extends Controller
         $package->roi_percent = $validated['roi_percent'];
         $package->validity_days = $validated['validity_days'];
         $package->direct_bonus_percent = $validated['direct_bonus_percent'];
-        $package->introducer_id = auth()->id();
+        $package->referral_by = auth()->id();
         $package->type_of_investment_days = $validated['type_of_investment_days'];
         $package->is_active = $request->has('is_active') ? 1 : 0;
     
@@ -79,7 +79,7 @@ class PackageController extends Controller
 
     public function referrer()
     {
-        return $this->belongsTo(User::class, 'introducer_id');
+        return $this->belongsTo(User::class, 'referral_by');
     }
     /**
      * Show the form for editing the specified resource.

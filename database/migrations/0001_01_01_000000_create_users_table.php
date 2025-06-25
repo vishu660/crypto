@@ -14,9 +14,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('mobile_no')->unique();
             $table->string('country_code')->default('+91');
-            $table->string('introducer')->nullable(); 
-            $table->unsignedBigInteger('introducer_id')->nullable();
-            $table->foreign('introducer_id')->references('id')->on('users')->onDelete('set null');
+            $table->string('referral_id')->nullable(); 
+            $table->unsignedBigInteger('referral_by')->nullable();
+            $table->foreign('referral_by')->references('id')->on('users')->onDelete('set null');
             $table->string('password');
             $table->string('transaction_password');
             $table->string('company_name')->nullable();

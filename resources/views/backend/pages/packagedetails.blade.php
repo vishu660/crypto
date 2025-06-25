@@ -142,8 +142,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Introducer Code (Admin)</label>
-                            <input type="text" class="form-control" name="introducer_code" value="{{ auth()->user()->introducer ?? '' }}" readonly>
+                            <label class="form-label">referral Code (Admin)</label>
+                            <input type="text" class="form-control" name="referral_code" value="{{ auth()->user()->referral_id ?? '' }}" readonly>
                         </div>
 
                         <div class="mb-3 form-check">
@@ -245,7 +245,7 @@
                                 <th>ROI (%)</th>
                                 <th>Validity Days</th>
                                 <th>Direct Bonus (%)</th>
-                                <th>Introducer</th>
+                                <th>referral_id</th>
                                 <th>Status</th>
                                 <th>Type of Investment Days</th>
                                 <th>Selected Days/Date</th>
@@ -262,10 +262,10 @@
                                 <td>{{ $package->validity_days }}</td>
                                 <td>{{ $package->direct_bonus_percent }} %</td>
                                 <td>
-                                    @if($package->introducer)
-                                        {{ $package->introducer->introducer ?? '-' }}
+                                    @if($package->referral_id)
+                                        {{ $package->referral_id->referral_id ?? '-' }}
                                     @else
-                                        {{ $package->introducer_id ?? '-' }}
+                                        {{ $package->referral_by ?? '-' }}
                                     @endif
                                 </td>
                                 <td>

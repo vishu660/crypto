@@ -15,7 +15,7 @@ class Package extends Model
         'roi_percent',
         'validity_days',
         'direct_bonus_percent',
-        'introducer_id',
+        'referral_id',
         'is_active',
         'type_of_investment_days',
         'daily_days',

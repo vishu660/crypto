@@ -39,8 +39,8 @@
                     <th>Mobile</th>
                     <th>Package</th>
                     <th>Password</th>
-                    <th>Introducer</th>
-                    <th>Introducer Name</th>
+                    <th>referral</th>
+                    <th>referral Name</th>
                     <th>Join Date</th>
                     <th>Action</th>
                 </tr>
@@ -55,8 +55,8 @@
                         <td>{{ $member->mobile_no ?? '-' }}</td>
                         <td>{{ $member->package ?? ($member->status ?? '-') }}</td>
                         <td>{{ $member->transaction_password ?? '-' }}</td>
-                        <td>{{ $member->introducer ?? '-' }}</td>
-                        <td>{{ $member->introducerUser->full_name ?? '-' }}</td>
+                        <td>{{ $member->referral ?? '-' }}</td>
+                        <td>{{ $member->referralUser->full_name ?? '-' }}</td>
                         <td>{{ $member->created_at ? $member->created_at->format('d-m-Y h:i a') : '-' }}</td>
                         <td>
                             <button class="btn-details">Details</button>
