@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         if ($user->role === 'admin') {
             return redirect()->route('admin-dashboard');
         }elseif ($user->role === 'user') {
-            return redirect()->route('user-dashboard'); // ✅ या जहां आप भेजना चाहें
+            return redirect()->route('user-dashboard');
         }
     
         return redirect()->route('login')->withErrors(['email' => 'Unauthorized role.']);

@@ -22,18 +22,21 @@ class RegisteredUserController extends Controller
      */
     public function create(Request $request, $referralCode = null): View
     {
-        $adminUser = User::where('role', 'admin')->first();
-        $introducerCode = $adminUser?->introducer ?? 'ADMINCODE';
-    
         if ($referralCode) {
-            $refUser = User::where('introducer', $referralCode)->first();
-            if ($refUser) {
-                $introducerCode = $refUser->introducer;
+            $refUser = User::where('referral_id', $referralCode)->first();
+            if (!$refUser) {
+                $adminUser = User::where('role', 'admin')->first();
+                $referralCode = $adminUser?->referral_id ?? 'ADMINCODE';
             }
+        } else {
+           
+            $adminUser = User::where('role', 'admin')->first();
+            $referralCode = $adminUser?->referral_id ?? 'ADMINCODE';
         }
     
-        return view('auth.register', ['introducerCode' => $introducerCode]);
+        return view('auth.register', ['referralCode' => $referralCode]);
     }
+    
     
     
 
@@ -47,14 +50,14 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'mobile_no' => ['required', 'digits_between:7,15', 'unique:users,mobile_no'],
             'country_code' => ['required', 'string'],
-            'introducer' => ['nullable', 'string'],
+            'referral_id' => ['nullable', 'exists:users,referral_id'],
             'terms_accepted' => ['accepted'],
         ]);
     
-        // Lookup introducer_id if introducer code is provided
-        $introducerUser = null;
-        if ($request->filled('introducer')) {
-            $introducerUser = User::where('introducer', $request->introducer)->first();
+        // Lookup introducer_id if referral_id code is provided
+        $referralUser = null;
+        if ($request->filled('referral_id')) {
+            $referralUser = User::where('referral_id', $request->referral_id)->first();
         }
     
         // Generate passwords and OTP
@@ -84,8 +87,8 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'mobile_no' => $request->mobile_no,
             'country_code' => $request->country_code,
-            'introducer' => User::generateReferralCode(),
-            'introducer_id' => $introducerUser?->id, 
+            'referral_id' => User::generateReferralCode(),
+            'referral_by' => $referralUser?->id, 
             'password' => Hash::make($rawPassword),
             'transaction_password' => Hash::make($rawTxnPassword),
             'role' => 'user',
