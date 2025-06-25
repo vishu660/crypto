@@ -14,7 +14,7 @@
             OTP sent to: <strong>{{ $user->mobile_no }}</strong>
         </div>
 
-        <form action="{{ route('admin-register.verify-otp') }}" method="POST">
+        <form action="{{ route('verify-otp.post') }}" method="POST">
             @csrf
             <input type="hidden" name="user_id" value="{{ $user->id }}">
 

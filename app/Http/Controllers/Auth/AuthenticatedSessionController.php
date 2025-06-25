@@ -31,12 +31,13 @@ class AuthenticatedSessionController extends Controller
     
         if ($user->role === 'admin') {
             return redirect()->route('admin-dashboard');
-        } elseif ($user->role === 'user') {
-            return redirect()->route('user-dashboard');
+        }elseif ($user->role === 'user') {
+            return redirect()->route('user-dashboard'); // ✅ या जहां आप भेजना चाहें
         }
     
         return redirect()->route('login')->withErrors(['email' => 'Unauthorized role.']);
     }
+    
 
     /**
      * Destroy an authenticated session.
@@ -50,5 +51,27 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function showOtpForm(Request $request)
+    {
+        $userId = session('user_id') ?? $request->query('user_id');
+        $rawPassword = session('rawPassword');
+        $rawTxnPassword = session('rawTxnPassword');
+
+        $user = \App\Models\User::find($userId);
+
+        $userId = session('user_id');
+$rawPassword = session('rawPassword');
+
+if (!$user || !$rawPassword) {
+    return redirect()->route('register')->withErrors(['user' => 'Session expired. Please register again.']);
+}
+
+        return view('backend.auth.verify-otp', [
+            'user' => $user,
+            'rawPassword' => $rawPassword,
+            'rawTxnPassword' => $rawTxnPassword,
+        ]);
     }
 }
