@@ -33,8 +33,10 @@
                             <input type="number" class="form-control" name="direct_bonus_percent" value="{{ old('direct_bonus_percent', $package->direct_bonus_percent) }}" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">referral Code (Admin)</label>
-                            <input type="text" class="form-control" value="{{ $package->referral_id ? $package->referral_id->referral_id : '' }}" readonly>
+                            <label class="form-label">Referral Code (Admin)</label>
+                            <input type="text" class="form-control" name="referral_code" 
+                                value="{{ auth()->check() && auth()->user()->referral_id ? auth()->user()->referral_id : (auth()->check() ? auth()->user()->id : '') }}" 
+                                readonly>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Type of Investment Days*</label>
