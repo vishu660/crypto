@@ -351,7 +351,7 @@
                                 <td>{{ $package->direct_bonus_percent }} %</td>
                                 <td>
                                     @if($package->referral_id)
-                                        {{ $package->referral_id->referral_id ?? '-' }}
+                                        {{ $package->referral_income ?? '-' }}
                                     @else
                                         {{ $package->referral_by ?? '-' }}
                                     @endif

@@ -29,7 +29,12 @@ class Package extends Model
     ];
     public function introducer()
     {
-        return $this->belongsTo(User::class, 'introducer_id');
+        return $this->belongsTo(User::class, 'referral_income');
+    }
+
+    public function referral()
+    {
+        return $this->belongsTo(User::class, 'referral_income');
     }
 }
 

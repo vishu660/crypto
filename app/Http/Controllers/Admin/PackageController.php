@@ -33,10 +33,7 @@ class PackageController extends Controller
                 'roi_percent' => 'required|numeric|min:0|max:100',
                 'validity_days' => 'required|integer|min:1',
                 'direct_bonus_percent' => 'required|numeric|min:0|max:100',
-<<<<<<< HEAD
                 'referral_income' => 'required|numeric',
-=======
->>>>>>> 188e3d6510010e6e8a90bcc58d0476bf9bbfa11a
                 'type_of_investment_days' => 'required|in:daily,weekly,monthly',
                 'is_active' => 'nullable|boolean',
                 'daily_days' => 'nullable|array|min:1',
@@ -66,11 +63,7 @@ class PackageController extends Controller
             $package->roi_percent = $validated['roi_percent'];
             $package->validity_days = $validated['validity_days'];
             $package->direct_bonus_percent = $validated['direct_bonus_percent'];
-<<<<<<< HEAD
             $package->referral_income = $validated['referral_income'];
-=======
-            $package->referral_id = auth()->check() ? auth()->id() : null;
->>>>>>> 188e3d6510010e6e8a90bcc58d0476bf9bbfa11a
             $package->type_of_investment_days = $validated['type_of_investment_days'];
             $package->is_active = $request->has('is_active') ? 1 : 0;
 
@@ -95,11 +88,8 @@ class PackageController extends Controller
 
             DB::commit();
 
-<<<<<<< HEAD
             return redirect()->route('admin-dashboard')->with('success', 'Package created successfully.');
-=======
-            return redirect()->route('admin.package.index')->with('success', 'Package created successfully.');
->>>>>>> 188e3d6510010e6e8a90bcc58d0476bf9bbfa11a
+            return redirect()->route('backend.pages.store')->with('success', 'Package created successfully.');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             DB::rollBack();
@@ -120,11 +110,8 @@ class PackageController extends Controller
             $package = Package::findOrFail($id);
             return view('backend.pages.package_edit', compact('package'));
         } catch (\Exception $e) {
-<<<<<<< HEAD
             return redirect()->route('admin-dashboard')->with('error', 'Package not found.');
-=======
-            return redirect()->route('admin.package.index')->with('error', 'Package not found.');
->>>>>>> 188e3d6510010e6e8a90bcc58d0476bf9bbfa11a
+            return redirect()->route('backend.pages.store')->with('error', 'Package not found.');
         }
     }
 
@@ -142,10 +129,7 @@ class PackageController extends Controller
                 'roi_percent' => 'required|numeric|min:0|max:100',
                 'validity_days' => 'required|integer|min:1',
                 'direct_bonus_percent' => 'required|numeric|min:0|max:100',
-<<<<<<< HEAD
                 'referral_income' => 'required|numeric',
-=======
->>>>>>> 188e3d6510010e6e8a90bcc58d0476bf9bbfa11a
                 'type_of_investment_days' => 'required|in:daily,weekly,monthly',
                 'is_active' => 'nullable|boolean',
                 'daily_days' => 'nullable|array|min:1',
