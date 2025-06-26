@@ -128,7 +128,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">ROI(%)*</label>
-                            <input type="number" class="form-control" name="roi_percent" value="{{ old('roi_percent') }}" placeholder="Enter ROI Percentage">
+                            <input type="text" class="form-control" name="roi_percent" value="{{ old('roi_percent') }}" placeholder="Enter ROI Percentage">
                         </div>
 
                         <div class="mb-3">
@@ -138,12 +138,12 @@
 
                         <div class="mb-3">
                             <label class="form-label">Direct Bonus(%)*</label>
-                            <input type="number" class="form-control" name="direct_bonus_percent" value="{{ old('direct_bonus_percent') }}" placeholder="Enter Direct Bonus(%)">
+                            <input type="text" class="form-control" name="direct_bonus_percent" value="{{ old('direct_bonus_percent') }}" placeholder="Enter Direct Bonus(%)">
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">referral Code (Admin)</label>
-                            <input type="text" class="form-control" name="referral_code" value="{{ auth()->user()->referral_id ?? '' }}" readonly>
+                            <label class="form-label">referral Income</label>
+                            <input type="text" class="form-control" name="referral_income" value="{{  old('direct_bonus_percent') }}">
                         </div>
 
                         <div class="mb-3 form-check">
@@ -245,7 +245,7 @@
                                 <th>ROI (%)</th>
                                 <th>Validity Days</th>
                                 <th>Direct Bonus (%)</th>
-                                <th>referral_id</th>
+                                <th> referral income</th>
                                 <th>Status</th>
                                 <th>Type of Investment Days</th>
                                 <th>Selected Days/Date</th>

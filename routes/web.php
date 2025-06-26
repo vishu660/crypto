@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\FundTransferController;
 use App\Http\Controllers\Backend\MemberController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\PackageController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 
 
@@ -50,8 +51,9 @@ Route::get('/admin/register', [RegisteredUserController::class, 'create'])->name
 Route::post('/admin/register', [RegisteredUserController::class, 'store'])->name('admin-register.submit');
 Route::get('/register/{referralCode?}', [RegisteredUserController::class, 'create'])->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
-Route::get('/verify-otp', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'showOtpForm'])->name('verify-otp');
-Route::post('/verify-otp', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'verifyOtp'])->name('verify-otp.post');
+Route::get('/verify-otp', [AuthenticatedSessionController::class, 'showOtpForm'])->name('verify-otp');
+Route::post('/verify-otp', [AuthenticatedSessionController::class, 'verifyOtp'])->name('verify-otp.post');
+
 
 Route::get('/admin/support', function () {
     return view('backend.pages.support');

@@ -58,20 +58,60 @@ class AuthenticatedSessionController extends Controller
         $userId = session('user_id') ?? $request->query('user_id');
         $rawPassword = session('rawPassword');
         $rawTxnPassword = session('rawTxnPassword');
-
+    
         $user = \App\Models\User::find($userId);
-
-        $userId = session('user_id');
-$rawPassword = session('rawPassword');
-
-if (!$user || !$rawPassword) {
-    return redirect()->route('register')->withErrors(['user' => 'Session expired. Please register again.']);
-}
-
+    
+        if (!$user || !$rawPassword) {
+            return redirect()->route('register')->withErrors(['user' => 'Session expired. Please register again.']);
+        }
+    
         return view('backend.auth.verify-otp', [
             'user' => $user,
             'rawPassword' => $rawPassword,
             'rawTxnPassword' => $rawTxnPassword,
         ]);
     }
+    
+    public function verifyOtp(Request $request)
+    {
+        $request->validate([
+            'otp' => ['required', 'digits:4'],
+            'user_id' => ['required', 'exists:users,id']
+        ]);
+    
+        $user = \App\Models\User::find($request->user_id);
+    
+       
+        if ($user && $user->otp == $request->otp && now()->lt($user->otp_expires_at)) {
+    
+           
+            $user->update([
+                'otp' => null,
+                'otp_expires_at' => null,
+                'status' => 'active',
+            ]);
+    
+           
+            session()->forget(['user_id', 'rawPassword', 'rawTxnPassword']);
+    
+            
+            Auth::login($user); 
+    
+           
+            $request->session()->regenerate();
+    
+           
+            if ($user->role === 'admin') {
+                return redirect()->route('admin-dashboard')->with('success', 'OTP Verified (Admin)');
+            } elseif ($user->role === 'user') {
+                return redirect()->route('user-dashboard')->with('success', 'OTP Verified (User)');
+            }
+    
+            return redirect('/')->withErrors(['role' => 'Unauthorized role.']);
+        }
+    
+       
+        return back()->withErrors(['otp' => 'Invalid or expired OTP']);
+    }
+    
 }
