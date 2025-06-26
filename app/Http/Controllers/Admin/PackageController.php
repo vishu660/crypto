@@ -16,7 +16,7 @@ class PackageController extends Controller
      */
     public function index()
     {
-        $packages = Package::with('referral')->latest()->paginate(1);
+        $packages = Package::with('referral')->latest()->paginate(10);
         
         return view('backend.pages.packagedetails', compact('packages'));
     }
@@ -88,8 +88,7 @@ class PackageController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin-dashboard')->with('success', 'Package created successfully.');
-            return redirect()->route('backend.pages.store')->with('success', 'Package created successfully.');
+            return redirect()->route('backend.pages.packagedetails')->with('success', 'Package created successfully.');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             DB::rollBack();
@@ -110,8 +109,7 @@ class PackageController extends Controller
             $package = Package::findOrFail($id);
             return view('backend.pages.package_edit', compact('package'));
         } catch (\Exception $e) {
-            return redirect()->route('admin-dashboard')->with('error', 'Package not found.');
-            return redirect()->route('backend.pages.store')->with('error', 'Package not found.');
+            return redirect()->route('backend.pages.packagedetails')->with('error', 'Package not found.');
         }
     }
 

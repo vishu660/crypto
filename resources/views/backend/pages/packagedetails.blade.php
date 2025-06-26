@@ -218,7 +218,7 @@
                 <div class="card-body">
                     <h5 class="card-title mb-4">Add New Package</h5>
 
-                    <form method="POST" action="">
+                    <form method="POST" action="{{ route('package.store') }}">
                         @csrf
 
                         <input type="hidden" name="id" value="{{ old('id') }}">

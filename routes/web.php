@@ -226,7 +226,6 @@ Route::get('/admin/updatepassword', function () {
 // })->name('admin.settings');
 
 
-
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
