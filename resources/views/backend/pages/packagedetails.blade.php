@@ -90,6 +90,115 @@
         background-color: #00fff71a;
         color: #00fff7;
     }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Hide number input spinners for Firefox */
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+    .custom-pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+    }
+    .custom-pagination .pagination {
+        background: transparent;
+        border-radius: 6px;
+        padding: 0;
+        box-shadow: none;
+        gap: 6px;
+    }
+    .custom-pagination .page-item .page-link {
+        color: #00fff7;
+        background: #181f2a;
+        border: 1px solid #00fff7;
+        margin: 0 2px;
+        border-radius: 4px;
+        min-width: 38px;
+        min-height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        font-size: 1.1rem;
+        transition: background 0.2s, color 0.2s;
+    }
+    .custom-pagination .page-item.active .page-link {
+        background: #00fff7;
+        color: #181f2a;
+        border-color: #00fff7;
+    }
+    .custom-pagination .page-item.disabled .page-link {
+        color: #00fff780;
+        border-color: #00fff780;
+        background: #232b38;
+    }
+    .custom-pagination .page-link:hover {
+        background: #00fff71a;
+        color: #00fff7;
+    }
+    /* Tailwind pagination override */
+    nav[role="navigation"] {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+    nav[role="navigation"] > div {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0 !important;
+    }
+    nav[role="navigation"] > div > span,
+    nav[role="navigation"] > div > a {
+        background: #181f2a !important;
+        color: #00fff7 !important;
+        border: 1px solid #00fff7 !important;
+        border-radius: 4px !important;
+        margin: 0 2px !important;
+        min-width: 38px;
+        min-height: 38px;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        font-size: 1.1rem;
+        transition: background 0.2s, color 0.2s;
+        box-shadow: none !important;
+        padding: 0 !important;
+        vertical-align: middle !important;
+    }
+    nav[role="navigation"] > div > span[aria-current="page"] {
+        background: #00fff7 !important;
+        color: #181f2a !important;
+        border-color: #00fff7 !important;
+    }
+    nav[role="navigation"] > div > span[aria-disabled="true"] {
+        color: #00fff780 !important;
+        border-color: #00fff780 !important;
+        background: #232b38 !important;
+    }
+    nav[role="navigation"] > div > a:hover {
+        background: #00fff71a !important;
+        color: #00fff7 !important;
+    }
+    nav[role="navigation"] svg {
+        width: 20px !important;
+        height: 20px !important;
+        color: #00fff7 !important;
+        stroke: #00fff7 !important;
+        fill: none !important;
+        display: block;
+        margin: auto;
+    }
+    nav[role="navigation"] > div > span[aria-disabled="true"] svg {
+        color: #00fff780 !important;
+        stroke: #00fff780 !important;
+    }
 </style>
 @endpush
 
@@ -214,28 +323,7 @@
         <div class="col-lg-8">
         <div class="card">
             <div class="card-body">
-                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                        <label for="entries" class="form-label me-2">Show</label>
-                        <select class="form-select form-select-sm me-2" id="entries" style="width: 70px;">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option selected value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                        <span class="me-3">entries</span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <input type="date" class="form-control form-control-sm me-2">
-                        <span class="me-2">to</span>
-                        <input type="date" class="form-control form-control-sm me-2">
-                        <button class="btn btn-sm btn-outline-info me-3"><i class="bi bi-search"></i></button>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <label for="search" class="form-label me-2">Search:</label>
-                        <input type="search" class="form-control form-control-sm" id="search">
-                    </div>
-                </div>
+                
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead>
@@ -312,12 +400,9 @@
                 </div>
 
                 {{-- Pagination (optional) --}}
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-end">
-                        {{ $packages->links() }}
-
-                    </ul>
-                </nav>
+                <div class="custom-pagination">
+                    {{ $packages->links() }}
+                </div>
             </div>
         </div>
     </div>
