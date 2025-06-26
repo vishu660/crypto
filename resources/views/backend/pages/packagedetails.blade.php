@@ -252,7 +252,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">referral Income</label>
-                            <input type="text" class="form-control" name="referral_income" value="{{  old('direct_bonus_percent') }}">
+                            <input type="text" class="form-control" name="referral_income" value="{{  old('referral_income') }}">
                         </div>
 
                         <div class="mb-3 form-check">

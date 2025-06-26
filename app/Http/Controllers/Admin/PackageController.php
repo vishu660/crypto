@@ -16,7 +16,7 @@ class PackageController extends Controller
      */
     public function index()
     {
-        $packages = Package::with('referral')->latest()->paginate(10);
+        $packages = Package::latest()->paginate(10);
         
         return view('backend.pages.packagedetails', compact('packages'));
     }
@@ -26,6 +26,9 @@ class PackageController extends Controller
      */
     public function store(Request $request)
     {
+        // Debug: Log incoming data
+        Log::info('Package Store Request Data:', $request->all());
+        
         try {
             $validated = $request->validate([
                 'name' => 'required|string|max:255|unique:packages,name',
@@ -36,11 +39,13 @@ class PackageController extends Controller
                 'referral_income' => 'required|numeric',
                 'type_of_investment_days' => 'required|in:daily,weekly,monthly',
                 'is_active' => 'nullable|boolean',
-                'daily_days' => 'nullable|array|min:1',
+                'daily_days' => 'nullable|array',
                 'daily_days.*' => 'string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
                 'weekly_day' => 'nullable|string|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
                 'monthly_date' => 'nullable|integer|min:1|max:31',
             ]);
+
+            Log::info('Validated Data:', $validated);
 
             // Custom validation based on investment type
             if ($validated['type_of_investment_days'] === 'daily' && empty($request->daily_days)) {
@@ -57,46 +62,54 @@ class PackageController extends Controller
 
             DB::beginTransaction();
 
-            $package = new Package();
-            $package->name = $validated['name'];
-            $package->investment_amount = $validated['investment_amount'];
-            $package->roi_percent = $validated['roi_percent'];
-            $package->validity_days = $validated['validity_days'];
-            $package->direct_bonus_percent = $validated['direct_bonus_percent'];
-            $package->referral_income = $validated['referral_income'];
-            $package->type_of_investment_days = $validated['type_of_investment_days'];
-            $package->is_active = $request->has('is_active') ? 1 : 0;
+            // Create package data array
+            $packageData = [
+                'name' => $validated['name'],
+                'investment_amount' => $validated['investment_amount'],
+                'roi_percent' => $validated['roi_percent'],
+                'validity_days' => $validated['validity_days'],
+                'direct_bonus_percent' => $validated['direct_bonus_percent'],
+                'referral_income' => $validated['referral_income'],
+                'type_of_investment_days' => $validated['type_of_investment_days'],
+                'is_active' => $request->has('is_active') ? 1 : 0,
+                'daily_days' => null,
+                'weekly_day' => null,
+                'monthly_date' => null,
+            ];
 
-            // Set type-specific fields and clear others
-            $package->daily_days = null;
-            $package->weekly_day = null;
-            $package->monthly_date = null;
-
+            // Set type-specific fields
             switch ($validated['type_of_investment_days']) {
                 case 'daily':
-                    $package->daily_days = $request->daily_days ?? [];
+                    $packageData['daily_days'] = $request->daily_days ?? [];
                     break;
                 case 'weekly':
-                    $package->weekly_day = $validated['weekly_day'];
+                    $packageData['weekly_day'] = $request->weekly_day;
                     break;
                 case 'monthly':
-                    $package->monthly_date = $validated['monthly_date'];
+                    $packageData['monthly_date'] = $request->monthly_date;
                     break;
             }
 
-            $package->save();
+            Log::info('Package Data to be saved:', $packageData);
+
+            // Create package using mass assignment
+            $package = Package::create($packageData);
+
+            Log::info('Package created successfully:', ['id' => $package->id]);
 
             DB::commit();
 
-            return redirect()->route('backend.pages.packagedetails')->with('success', 'Package created successfully.');
+            return redirect()->route('admin-package-details')->with('success', 'Package created successfully.');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             DB::rollBack();
+            Log::error('Validation Error:', $e->errors());
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Package creation failed: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to create package. Please try again.')->withInput();
+            Log::error('Stack trace: ' . $e->getTraceAsString());
+            return redirect()->back()->with('error', 'Failed to create package: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -109,7 +122,7 @@ class PackageController extends Controller
             $package = Package::findOrFail($id);
             return view('backend.pages.package_edit', compact('package'));
         } catch (\Exception $e) {
-            return redirect()->route('backend.pages.packagedetails')->with('error', 'Package not found.');
+            return redirect()->route('admin-package-details')->with('error', 'Package not found.');
         }
     }
 
@@ -118,6 +131,8 @@ class PackageController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Log::info('Package Update Request Data:', $request->all());
+        
         try {
             $package = Package::findOrFail($id);
 
@@ -130,7 +145,7 @@ class PackageController extends Controller
                 'referral_income' => 'required|numeric',
                 'type_of_investment_days' => 'required|in:daily,weekly,monthly',
                 'is_active' => 'nullable|boolean',
-                'daily_days' => 'nullable|array|min:1',
+                'daily_days' => 'nullable|array',
                 'daily_days.*' => 'string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
                 'weekly_day' => 'nullable|string|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
                 'monthly_date' => 'nullable|integer|min:1|max:31',
@@ -143,7 +158,14 @@ class PackageController extends Controller
 
             DB::beginTransaction();
 
-            $package->fill($validated);
+            // Update basic fields
+            $package->name = $validated['name'];
+            $package->investment_amount = $validated['investment_amount'];
+            $package->roi_percent = $validated['roi_percent'];
+            $package->validity_days = $validated['validity_days'];
+            $package->direct_bonus_percent = $validated['direct_bonus_percent'];
+            $package->referral_income = $validated['referral_income'];
+            $package->type_of_investment_days = $validated['type_of_investment_days'];
             $package->is_active = $request->has('is_active') ? 1 : 0;
 
             // Reset all type-specific fields
@@ -157,14 +179,16 @@ class PackageController extends Controller
                     $package->daily_days = $request->daily_days ?? [];
                     break;
                 case 'weekly':
-                    $package->weekly_day = $validated['weekly_day'];
+                    $package->weekly_day = $request->weekly_day;
                     break;
                 case 'monthly':
-                    $package->monthly_date = $validated['monthly_date'];
+                    $package->monthly_date = $request->monthly_date;
                     break;
             }
 
             $package->save();
+
+            Log::info('Package updated successfully:', ['id' => $package->id]);
 
             DB::commit();
 
@@ -172,11 +196,12 @@ class PackageController extends Controller
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             DB::rollBack();
+            Log::error('Validation Error:', $e->errors());
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Package update failed: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to update package. Please try again.')->withInput();
+            return redirect()->back()->with('error', 'Failed to update package: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -192,6 +217,7 @@ class PackageController extends Controller
             // Add your business logic here if needed
             
             $package->delete();
+            Log::info('Package deleted successfully:', ['id' => $id]);
             return redirect()->back()->with('success', 'Package deleted successfully.');
             
         } catch (\Exception $e) {

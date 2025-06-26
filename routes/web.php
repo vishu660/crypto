@@ -229,12 +229,24 @@ Route::get('/admin/updatepassword', function () {
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
-    Route::post('package-details', [PackageController::class, 'store'])->name('package.store');
+    // Route::post('package-details', [PackageController::class, 'store'])->name('package.store');
 
 });
 
-Route::get('/package/{id}/edit', [PackageController::class, 'edit'])->name('package.edit');
-Route::delete('/admin/package/{id}', [PackageController::class, 'destroy'])->name('package.destroy');
+// Show package list page
+Route::get('/admin/package-details', [PackageController::class, 'index'])->name('admin-package-details');
+
+// Save package (POST)
+Route::post('/admin/package', [PackageController::class, 'store'])->name('package.store');
+
+// Edit form
+Route::get('/admin/package/{id}/edit', [PackageController::class, 'edit'])->name('package.edit');
+
+// Update form
 Route::put('/admin/package/{id}', [PackageController::class, 'update'])->name('package.update');
+
+// Delete
+Route::delete('/admin/package/{id}', [PackageController::class, 'destroy'])->name('package.destroy');
+
 // web.php
 

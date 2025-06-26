@@ -24,17 +24,14 @@ class Package extends Model
     ];
 
     protected $casts = [
-        'daily_days' => 'array', // JSON field ko array me convert karega
+        'daily_days' => 'array', 
         'is_active' => 'boolean',
+        'investment_amount' => 'decimal:2',
+        'roi_percent' => 'decimal:2',
+        'direct_bonus_percent' => 'decimal:2',
+        'referral_income' => 'decimal:2',
     ];
-    public function introducer()
-    {
-        return $this->belongsTo(User::class, 'referral_income');
-    }
 
-    public function referral()
-    {
-        return $this->belongsTo(User::class, 'referral_income');
-    }
+    // Relationships removed - referral_income is not a foreign key
+    // If you need relationships, create proper foreign key fields
 }
-
