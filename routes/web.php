@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\MailController;
+use App\Http\Controllers\Admin\WalletController;
 
 
 
@@ -63,7 +64,16 @@ Route::get('/admin/support', function () {
 Route::get('/admin/package-details', [PackageController::class, 'index'])->name('admin-package-details');
 
 Route::get('/admin/level-settings', function () {
-    return view('backend.pages.levelsettings');
+    $users = \App\Models\User::all();
+    $salaries = $users->map(function($user) {
+        return (object)[
+            'full_name' => $user->full_name,
+            'email' => $user->email,
+            'salary' => property_exists($user, 'salary') ? $user->salary : 0, // 0 if no salary column
+            'referral_count' => \App\Models\User::where('referral_by', $user->id)->count(),
+        ];
+    });
+    return view('backend.pages.levelsettings', compact('salaries'));
 })->name('admin-level-settings');
 
 Route::get('/admin/all-fund-requests', function () {
@@ -166,9 +176,7 @@ Route::get('admin/rewards', function () {
     return view('backend.pages.rewards');
 })->name('admin.rewards');
 
-Route::get('admin/wallet-balance', function () {
-    return view('backend.pages.walletbalance');
-})->name('admin.walletbalance');
+Route::get('admin/walle-history', [WalletController::class, 'index'])->name('admin.wallethistory');
 
 Route::get('admin/account-report', function () {
     return view('backend.pages.accountreport');
@@ -257,3 +265,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/mail/inbox', [MailController::class, 'inbox'])->name('admin.mail.inbox');
     Route::get('/mail/sent', [MailController::class, 'sent'])->name('admin.mail.sent');
 });
+
+Route::get('/admin/salary', function () {
+    return view('backend.pages.salary');
+})->name('admin-salary');
