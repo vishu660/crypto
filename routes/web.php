@@ -45,8 +45,9 @@ Route::get('/admin/dashboard', function () {
 })->name('admin-dashboard');
 
 Route::get('/user/dashboard', function () {
-    return view('backend.pages.user_dashboard');
-})->name('user-dashboard');
+    return view('backend.pages.user');
+})->name('user');
+
 
 Route::get('/admin/register', [RegisteredUserController::class, 'create'])->name('admin-register');
 Route::post('/admin/register', [RegisteredUserController::class, 'store'])->name('admin-register.submit');
@@ -257,3 +258,61 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/mail/inbox', [MailController::class, 'inbox'])->name('admin.mail.inbox');
     Route::get('/mail/sent', [MailController::class, 'sent'])->name('admin.mail.sent');
 });
+
+
+
+// user deshbord 
+
+// User Pages
+Route::get('/user/pages/activity', function () { return view('user.pages.activity'); })->name('user.pages.activity');
+Route::get('/user/pages/blank', function () { return view('user.pages.blank'); })->name('user.pages.blank');
+Route::get('/user/pages/email', function () { return view('user.pages.email'); })->name('user.pages.email');
+Route::get('/user/pages/exchange', function () { return view('user.pages.exchange'); })->name('user.pages.exchange');
+Route::get('/user/pages/faq', function () { return view('user.pages.faq'); })->name('user.pages.faq');
+Route::get('/user/pages/investment', function () { return view('user.pages.investment'); })->name('user.pages.investment');
+Route::get('/user/pages/mailDetails', function () { return view('user.pages.mailDetails'); })->name('user.pages.mailDetails');
+Route::get('/user/pages/market', function () { return view('user.pages.market'); })->name('user.pages.market');
+Route::get('/user/pages/notification', function () { return view('user.pages.notification'); })->name('user.pages.notification');
+Route::get('/user/pages/profile', function () { return view('user.pages.profile'); })->name('user.pages.profile');
+Route::get('/user/pages/support', function () { return view('user.pages.support'); })->name('user.pages.support');
+Route::get('/user/pages/terms-condition', function () { return view('user.pages.terms&condition'); })->name('user.pages.terms-condition');
+Route::get('/user/pages/transactions', function () { return view('user.pages.transactions'); })->name('user.pages.transactions');
+Route::get('/user/pages/transfer', function () { return view('user.pages.transfer'); })->name('user.pages.transfer');
+Route::get('/user/pages/wallet', function () { return view('user.pages.wallet'); })->name('user.pages.wallet');
+
+// User Pages Components
+Route::get('/user/pages/components/advancedFrom', function () { return view('user.pages.components.advancedFrom'); })->name('user.pages.components.advancedFrom');
+Route::get('/user/pages/components/advancedTable', function () { return view('user.pages.components.advancedTable'); })->name('user.pages.components.advancedTable');
+Route::get('/user/pages/components/alerts', function () { return view('user.pages.components.alerts'); })->name('user.pages.components.alerts');
+Route::get('/user/pages/components/ammCharts', function () { return view('user.pages.components.ammCharts'); })->name('user.pages.components.ammCharts');
+Route::get('/user/pages/components/apexCharts', function () { return view('user.pages.components.apexCharts'); })->name('user.pages.components.apexCharts');
+Route::get('/user/pages/components/badges', function () { return view('user.pages.components.badges'); })->name('user.pages.components.badges');
+Route::get('/user/pages/components/basicForm', function () { return view('user.pages.components.basicForm'); })->name('user.pages.components.basicForm');
+Route::get('/user/pages/components/basicTable', function () { return view('user.pages.components.basicTable'); })->name('user.pages.components.basicTable');
+Route::get('/user/pages/components/buttons', function () { return view('user.pages.components.buttons'); })->name('user.pages.components.buttons');
+Route::get('/user/pages/components/calender', function () { return view('user.pages.components.calender'); })->name('user.pages.components.calender');
+Route::get('/user/pages/components/cards', function () { return view('user.pages.components.cards'); })->name('user.pages.components.cards');
+Route::get('/user/pages/components/chartjs', function () { return view('user.pages.components.chartjs'); })->name('user.pages.components.chartjs');
+Route::get('/user/pages/components/createInvoice', function () { return view('user.pages.components.createInvoice'); })->name('user.pages.components.createInvoice');
+Route::get('/user/pages/components/eCharts', function () { return view('user.pages.components.eCharts'); })->name('user.pages.components.eCharts');
+Route::get('/user/pages/components/editor', function () { return view('user.pages.components.editor'); })->name('user.pages.components.editor');
+Route::get('/user/pages/components/invoice', function () { return view('user.pages.components.invoice'); })->name('user.pages.components.invoice');
+Route::get('/user/pages/components/listGroup', function () { return view('user.pages.components.listGroup'); })->name('user.pages.components.listGroup');
+Route::get('/user/pages/components/map', function () { return view('user.pages.components.map'); })->name('user.pages.components.map');
+Route::get('/user/pages/components/modals', function () { return view('user.pages.components.modals'); })->name('user.pages.components.modals');
+Route::get('/user/pages/components/pagination', function () { return view('user.pages.components.pagination'); })->name('user.pages.components.pagination');
+Route::get('/user/pages/components/progress', function () { return view('user.pages.components.progress'); })->name('user.pages.components.progress');
+Route::get('/user/pages/components/spinners', function () { return view('user.pages.components.spinners'); })->name('user.pages.components.spinners');
+Route::get('/user/pages/components/timeline', function () { return view('user.pages.components.timeline'); })->name('user.pages.components.timeline');
+
+// User Pages Authentication
+Route::get('/user/pages/authentication/404', function () { return view('user.pages.authentication.404'); })->name('user.pages.authentication.404');
+Route::get('/user/pages/authentication/505', function () { return view('user.pages.authentication.505'); })->name('user.pages.authentication.505');
+Route::get('/user/pages/authentication/forgetPassword', function () { return view('user.pages.authentication.forgetPassword'); })->name('user.pages.authentication.forgetPassword');
+Route::get('/user/pages/authentication/lockscreen', function () { return view('user.pages.authentication.lockscreen'); })->name('user.pages.authentication.lockscreen');
+Route::get('/user/pages/authentication/signIn', function () { return view('user.pages.authentication.signIn'); })->name('user.pages.authentication.signIn');
+Route::get('/user/pages/authentication/signUp', function () { return view('user.pages.authentication.signUp'); })->name('user.pages.authentication.signUp');
+
+// User Layout
+Route::get('/user/user_layout', function () { return view('user.user_layout'); })->name('user.user_layout');
+

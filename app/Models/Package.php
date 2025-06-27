@@ -34,4 +34,9 @@ class Package extends Model
 
     // Relationships removed - referral_income is not a foreign key
     // If you need relationships, create proper foreign key fields
+    public function users()
+{
+    return $this->belongsToMany(User::class, 'user_packages')->withPivot(['start_date', 'end_date', 'is_active'])->withTimestamps();
+}
+
 }

@@ -66,6 +66,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User::class, 'referral_by');
     }
+    public function packages()
+{
+    return $this->belongsToMany(Package::class, 'user_packages')->withPivot(['start_date', 'end_date', 'is_active'])->withTimestamps();
+}
+
 
     public static function generateReferralCode($length = 11)
 {
