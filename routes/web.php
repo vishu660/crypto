@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\MemberController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Admin\MailController;
 
 
 
@@ -250,3 +251,9 @@ Route::delete('/admin/package/{id}', [PackageController::class, 'destroy'])->nam
 
 // web.php
 
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+    Route::get('/mail/compose', [MailController::class, 'create'])->name('admin.mail.compose');
+    Route::post('/mail/send', [MailController::class, 'store'])->name('admin.mail.send');
+    Route::get('/mail/inbox', [MailController::class, 'inbox'])->name('admin.mail.inbox');
+    Route::get('/mail/sent', [MailController::class, 'sent'])->name('admin.mail.sent');
+});

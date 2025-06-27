@@ -1,119 +1,23 @@
 @extends('backend.layouts.admin')
 
-@section('title', 'Support - Mail')
-
-@push('styles')
-<style>
-    body {
-        background: #101820;
-        color: #fff;
-        font-family: 'Poppins', sans-serif;
-    }
-    .mail-card {
-        background-color: #181f2a;
-        border-radius: 12px;
-        border: 1px solid #00fff7;
-        box-shadow: 0 2px 8px #00fff71a;
-        color: #fff;
-        padding: 24px 24px 18px 24px;
-    }
-    .mail-nav .nav-link {
-        color: #b2f7ef;
-        padding: 10px 15px;
-        border-left: 3px solid transparent;
-        transition: all 0.2s;
-        background: transparent;
-        border-radius: 6px;
-    }
-    .mail-nav .nav-link.active, .mail-nav .nav-link:hover {
-        border-left-color: #00fff7;
-        background-color: #101820;
-        color: #00fff7;
-    }
-    .mail-nav .nav-link .badge {
-        background-color: #00fff7 !important;
-        color: #101820 !important;
-        font-weight: 600;
-    }
-    .compose-btn {
-        background-color: #00fff7;
-        color: #101820;
-        border: none;
-        font-weight: 600;
-        border-radius: 6px;
-        transition: background 0.2s;
-    }
-    .compose-btn:hover {
-        background-color: #00e0d5;
-        color: #101820;
-    }
-    .send-btn {
-        background-color: #00fff7;
-        color: #101820;
-        border: none;
-        font-weight: 600;
-        border-radius: 6px;
-        transition: background 0.2s;
-    }
-    .send-btn:hover {
-        background-color: #00e0d5;
-        color: #101820;
-    }
-    .form-control, .form-select {
-        background-color: #101820;
-        border: 1px solid #00fff7;
-        color: #fff;
-    }
-    .form-control:focus, .form-select:focus {
-        background-color: #101820;
-        border-color: #00e0d5;
-        color: #fff;
-        box-shadow: 0 0 0 0.2rem rgba(0, 255, 247, 0.25);
-    }
-    .form-control::placeholder {
-        color: #888;
-    }
-    .card-title, .breadcrumb-title {
-        color: #00fff7;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }
-    .mail-card h5.card-title {
-        color: #00fff7;
-    }
-    .mail-card label.form-label {
-        color: #00fff7;
-        font-weight: 500;
-    }
-</style>
-@endpush
+@section('title', 'Compose Mail')
 
 @section('content')
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h4 class="mb-0 breadcrumb-title">Dashboard / Mail</h4>
+            <h4 class="breadcrumb-title">
+                <a href="{{ route('admin-dashboard') }}" style="color:#00fff7;">Dashboard</a> / 
+                <a href="{{ route('admin.mail.compose') }}" style="color:#00fff7;">Compose</a>
+            </h4>
         </div>
-        @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                @foreach($errors->all() as $err)
-                    <li>{{ $err }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    
-
     </div>
+
     <div class="row mt-4">
-        <!-- Mail Sidebar -->
+        <!-- Sidebar -->
+     
+
+        <!-- Compose Form -->
         <div class="col-lg-3">
             <div class="mail-card p-3 mb-4">
                 <a href="{{ route('admin.mail.compose') }}" class="btn compose-btn w-100 mb-3">Compose</a>
@@ -175,4 +79,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

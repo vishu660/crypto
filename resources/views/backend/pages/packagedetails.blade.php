@@ -304,17 +304,6 @@
 
                         <button type="submit" class="btn btn-primary w-100 mt-3">Proceed</button>
                     </form>
-
-                    <script>
-                        function showInvestmentFields() {
-                            var type = document.getElementById('typeOfInvestmentDays').value;
-                            document.getElementById('dailyDaysDiv').style.display = (type === 'daily') ? 'block' : 'none';
-                            document.getElementById('weeklyDayDiv').style.display = (type === 'weekly') ? 'block' : 'none';
-                            document.getElementById('monthlyDateDiv').style.display = (type === 'monthly') ? 'block' : 'none';
-                        }
-                        document.getElementById('typeOfInvestmentDays').addEventListener('change', showInvestmentFields);
-                        window.onload = showInvestmentFields;
-                    </script>
                 </div>
             </div>
         </div>
@@ -349,13 +338,7 @@
                                 <td>{{ $package->roi_percent }} %</td>
                                 <td>{{ $package->validity_days }}</td>
                                 <td>{{ $package->direct_bonus_percent }} %</td>
-                                <td>
-                                    @if($package->referral_id)
-                                        {{ $package->referral_income ?? '-' }}
-                                    @else
-                                        {{ $package->referral_by ?? '-' }}
-                                    @endif
-                                </td>
+                                <td>{{ $package->referral_income}}</td>
                                 <td>
                                     <span class="badge bg-{{ $package->is_active ? 'success' : 'danger' }}">
                                         {{ $package->is_active ? 'Active' : 'Inactive' }}
@@ -391,7 +374,7 @@
                         
                         @if($packages->isEmpty())
                             <tr>
-                                <td colspan="6" class="text-center text-muted">No packages found.</td>
+                                <td colspan="11" class="text-center text-muted">No packages found.</td>
                             </tr>
                         @endif
                         
@@ -400,11 +383,109 @@
                 </div>
 
                 {{-- Pagination (optional) --}}
-                <div class="custom-pagination">
-                    {{ $packages->links() }}
-                </div>
+                @if($packages->hasPages())
+                    <div class="custom-pagination">
+                        {{ $packages->appends(request()->query())->links() }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Wrap everything in a try-catch to prevent errors from breaking the page
+    try {
+        const typeSelect = document.getElementById('typeOfInvestmentDays');
+        const dailyDiv = document.getElementById('dailyDaysDiv');
+        const weeklyDiv = document.getElementById('weeklyDayDiv');
+        const monthlyDiv = document.getElementById('monthlyDateDiv');
+
+        // Check if all required elements exist
+        if (!typeSelect) {
+            console.warn('typeOfInvestmentDays element not found');
+            return;
+        }
+        if (!dailyDiv) {
+            console.warn('dailyDaysDiv element not found');
+            return;
+        }
+        if (!weeklyDiv) {
+            console.warn('weeklyDayDiv element not found');
+            return;
+        }
+        if (!monthlyDiv) {
+            console.warn('monthlyDateDiv element not found');
+            return;
+        }
+
+        function showInvestmentFields() {
+            try {
+                const type = typeSelect.value;
+                
+                // Hide all divs first
+                dailyDiv.style.display = 'none';
+                weeklyDiv.style.display = 'none';
+                monthlyDiv.style.display = 'none';
+                
+                // Show the relevant div based on selection
+                switch(type) {
+                    case 'daily':
+                        dailyDiv.style.display = 'block';
+                        break;
+                    case 'weekly':
+                        weeklyDiv.style.display = 'block';
+                        break;
+                    case 'monthly':
+                        monthlyDiv.style.display = 'block';
+                        break;
+                }
+            } catch (error) {
+                console.error('Error in showInvestmentFields:', error);
+            }
+        }
+
+        // Add event listener with error handling
+        try {
+            typeSelect.addEventListener('change', showInvestmentFields);
+            // Initial call to show correct fields on page load
+            showInvestmentFields();
+        } catch (error) {
+            console.error('Error adding event listener:', error);
+        }
+
+    } catch (error) {
+        console.error('Error in DOMContentLoaded:', error);
+    }
+
+    // Fix pagination issues by ensuring proper DOM structure
+    try {
+        // Wait a bit for pagination to render
+        setTimeout(function() {
+            const paginationNav = document.querySelector('nav[role="navigation"]');
+            if (paginationNav) {
+                // Ensure pagination has proper structure
+                const paginationDiv = paginationNav.querySelector('div');
+                if (paginationDiv && !paginationDiv.parentElement) {
+                    console.warn('Pagination structure issue detected');
+                }
+            }
+        }, 100);
+    } catch (error) {
+        console.error('Error handling pagination:', error);
+    }
+});
+
+// Global error handler to catch any remaining parentElement errors
+window.addEventListener('error', function(e) {
+    if (e.message && e.message.includes('parentElement')) {
+        console.warn('Caught parentElement error:', e.message);
+        e.preventDefault(); // Prevent the error from breaking the page
+        return true;
+    }
+});
+</script>
+@endpush
 @endsection

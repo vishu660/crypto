@@ -52,7 +52,15 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Plan::class);
     }
-
+   
+        public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+    public function wallets()
+        {
+            return $this->hasMany(Wallet::class);
+        }
    
     public function referralUser()
     {
