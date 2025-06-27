@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         if ($user->role === 'admin') {
             return redirect()->route('admin-dashboard');
         }elseif ($user->role === 'user') {
-            return redirect()->route('user-dashboard');
+            return redirect()->route('user');
         }
     
         return redirect()->route('login')->withErrors(['email' => 'Unauthorized role.']);
@@ -104,7 +104,7 @@ class AuthenticatedSessionController extends Controller
             if ($user->role === 'admin') {
                 return redirect()->route('admin-dashboard')->with('success', 'OTP Verified (Admin)');
             } elseif ($user->role === 'user') {
-                return redirect()->route('user-dashboard')->with('success', 'OTP Verified (User)');
+                return redirect()->route('user')->with('success', 'OTP Verified (User)');
             }
     
             return redirect('/')->withErrors(['role' => 'Unauthorized role.']);

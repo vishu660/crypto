@@ -23,6 +23,6 @@ class AdminMiddleware
         }
 
         
-        return redirect()->route('user-dashboard')->with('error', 'You do not have permission to access admin area.');
+        return redirect()->route('user')->with('error', 'You do not have permission to access admin area.');
     }
 }

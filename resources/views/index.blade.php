@@ -490,7 +490,7 @@
          @if(Auth::user()->role === 'admin')
            <a href="{{ route('admin-dashboard') }}" class="btn btn-outline-info w-100">Admin Dashboard</a>
          @elseif(Auth::user()->role === 'user')
-           <a href="{{ route('user-dashboard') }}" class="btn btn-outline-info w-100">User Dashboard</a>
+           <a href="{{ route('user') }}" class="btn btn-outline-info w-100">User Dashboard</a>
          @endif
        @endauth
    
