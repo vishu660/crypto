@@ -176,7 +176,7 @@ Route::get('admin/rewards', function () {
     return view('backend.pages.rewards');
 })->name('admin.rewards');
 
-Route::get('admin/walle-history', [WalletController::class, 'index'])->name('admin.wallethistory');
+Route::get('admin/wallet-history', [WalletController::class, 'index'])->name('admin.wallethistory');
 
 Route::get('admin/account-report', function () {
     return view('backend.pages.accountreport');
@@ -269,3 +269,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 Route::get('/admin/salary', function () {
     return view('backend.pages.salary');
 })->name('admin-salary');
+
+Route::get('/admin/wallet-balance', function () {
+    return view('backend.pages.walletbalance');
+})->name('admin.walletbalance');
