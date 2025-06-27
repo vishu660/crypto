@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\MailController;
 use App\Http\Controllers\Admin\WalletController;
+use App\Http\Controllers\Admin\UserController;
 
 
 
@@ -343,4 +344,6 @@ Route::get('/admin/wallet-balance', function () {
 Route::get('/user', function () {
     return view('user.user');
 })->name('user');
+
+Route::get('/user', [UserController::class, 'dashboard'])->name('user');
 
