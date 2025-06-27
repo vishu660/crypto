@@ -45,9 +45,7 @@ Route::get('/admin/dashboard', function () {
     return view('backend.pages.dashboard');
 })->name('admin-dashboard');
 
-Route::get('/user/dashboard', function () {
-    return view('backend.pages.user');
-})->name('user');
+
 
 
 Route::get('/admin/register', [RegisteredUserController::class, 'create'])->name('admin-register');
@@ -323,14 +321,26 @@ Route::get('/user/pages/authentication/signIn', function () { return view('user.
 Route::get('/user/pages/authentication/signUp', function () { return view('user.pages.authentication.signUp'); })->name('user.pages.authentication.signUp');
 
 // User Layout
-Route::get('/user/user_layout', function () { return view('user.user_layout'); })->name('user.user_layout');
+Route::get('/user_layout', function () { return view('user.user_layout'); })->name('user.user_layout');
 
 
-Route::get('/admin/salary', function () {
-    return view('backend.pages.salary');
-})->name('admin-salary');
+// Route::get('/admin/salary', function () {
+//     return view('backend.pages.salary');
+// })->name('admin-salary');
 
 Route::get('/admin/wallet-balance', function () {
     return view('backend.pages.walletbalance');
 })->name('admin.walletbalance');
+
+// Route::get('/user_layout', function () {
+//     return view('user.user_layout'); 
+// })->name('user');;
+
+// Route::get('/user/dashboard', function () {
+//     return view('user.user_layout');
+// })->name('user');
+
+Route::get('/user', function () {
+    return view('user.user');
+})->name('user');
 
