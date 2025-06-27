@@ -464,7 +464,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark py-3 fixed-top" id="navbar">
     <div class="container-fluid">
       <a class="navbar-brand d-flex align-items-center" href="#">
-        <img src="images/ball2.png" alt="Logo" class="me-2 floating pulse" style="border-radius:12px; width:48px; height:48px;" />
+        <img src="images/logo.jpeg" alt="Logo" class="me-2 floating pulse" style="border-radius:12px; width:48px; height:48px;" />
         DEMO TOKEN
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -478,6 +478,7 @@
           <li class="nav-item"><a class="nav-link" href="#vision">Vision</a></li>
           <li class="nav-item"><a class="nav-link" href="#roadmap">Roadmap</a></li>
           <li class="nav-item"><a class="nav-link" href="#partners">Partners</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
         </ul>
         <!-- User Icon with Dropdown for Login/Register -->
         <div class="nav-item dropdown user-dropdown ms-3">
@@ -1027,32 +1028,6 @@
       <div class="joinus-x-wrap">
         <span class="joinus-x-icon">&#120143;</span>
       </div>
-      <div class="row justify-content-center joinus-cards-row mt-5">
-        <div class="col-12 col-md-6 col-lg-3 mb-4">
-          <div class="joinus-card">
-            <img src="images/binance.png" alt="Binance Smart Chain" class="joinus-card-img mb-2">
-            <div class="joinus-card-label">BINANCE SMART CHAIN</div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3 mb-4">
-          <div class="joinus-card">
-            <img src="images/bscscan.png" alt="Bscscan" class="joinus-card-img mb-2">
-            <div class="joinus-card-label">Bscscan</div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3 mb-4">
-          <div class="joinus-card">
-            <img src="images/coingecko.png" alt="CoinGecko" class="joinus-card-img mb-2">
-            <div class="joinus-card-label">CoinGecko</div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3 mb-4">
-          <div class="joinus-card">
-            <img src="images/gateio.png" alt="Gate.io" class="joinus-card-img mb-2">
-            <div class="joinus-card-label">Gate.io</div>
-          </div>
-        </div>
-      </div>
       <style>
         .joinus-logo-wrap {
           display: flex;
@@ -1142,12 +1117,96 @@
     </div>
   </section>
 
+  <!-- CONTACT US Section (Below Partners) -->
+  <section id="contact" class="py-6" style="background: linear-gradient(120deg, #0a1833 60%, #12244a 100%);">
+    <div class="container">
+      <h2 class="section-title animate__animated animate__fadeInDown">CONTACT US</h2>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <form class="contact-form-modern p-4 gradient-border" style="background:rgba(18,36,74,0.85); border-radius:18px; box-shadow:0 4px 18px 0 #00eaff18;">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="firstName" class="form-label" style="color:#ffe9a7; font-family:'Orbitron',Arial,sans-serif;">First Name</label>
+                <input type="text" id="firstName" class="form-control" placeholder="First Name" required style="background:#181f2a; color:#fff; border:1px solid #00eaff55; border-radius:12px; font-family:'Orbitron',Arial,sans-serif;" />
+              </div>
+              <div class="col-md-6">
+                <label for="lastName" class="form-label" style="color:#ffe9a7; font-family:'Orbitron',Arial,sans-serif;">Last Name</label>
+                <input type="text" id="lastName" class="form-control" placeholder="Last Name" required style="background:#181f2a; color:#fff; border:1px solid #00eaff55; border-radius:12px; font-family:'Orbitron',Arial,sans-serif;" />
+              </div>
+              <div class="col-md-6">
+                <label for="email" class="form-label" style="color:#ffe9a7; font-family:'Orbitron',Arial,sans-serif;">Email</label>
+                <input type="email" id="email" class="form-control" placeholder="Email" required style="background:#181f2a; color:#fff; border:1px solid #00eaff55; border-radius:12px; font-family:'Orbitron',Arial,sans-serif;" />
+              </div>
+              <div class="col-md-6">
+                <label for="mobile" class="form-label" style="color:#ffe9a7; font-family:'Orbitron',Arial,sans-serif;">Mobile Number</label>
+                <input type="text" id="mobile" class="form-control" placeholder="Mobile No" required style="background:#181f2a; color:#fff; border:1px solid #00eaff55; border-radius:12px; font-family:'Orbitron',Arial,sans-serif;" />
+              </div>
+              <div class="col-12">
+                <label for="message" class="form-label" style="color:#ffe9a7; font-family:'Orbitron',Arial,sans-serif;">Message</label>
+                <textarea id="message" class="form-control" rows="4" placeholder="Message" required style="background:#181f2a; color:#fff; border:1px solid #00eaff55; border-radius:12px; font-family:'Orbitron',Arial,sans-serif;"></textarea>
+              </div>
+              <div class="col-12 text-center mt-3">
+                <button type="submit" class="btn neon-btn px-5 py-2">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="container mt-5">
+      <div class="row justify-content-center align-items-center g-4 mb-2 flex-wrap">
+        <div class="col-6 col-md-3 d-flex justify-content-center align-items-center">
+          <img src="images/logo_1.png" alt="Binance Smart Chain" style="max-height:60px; width:auto; margin:10px auto; display:block;" />
+        </div>
+        <div class="col-6 col-md-3 d-flex justify-content-center align-items-center">
+          <img src="images/logo_2.png" alt="Bscscan" style="max-height:60px; width:auto; margin:10px auto; display:block;" />
+        </div>
+        <div class="col-6 col-md-3 d-flex justify-content-center align-items-center">
+          <img src="images/logo_3.png" alt="CoinGecko" style="max-height:60px; width:auto; margin:10px auto; display:block;" />
+        </div>
+        <div class="col-6 col-md-3 d-flex justify-content-center align-items-center">
+          <img src="images/logo_4.png" alt="Gate.io" style="max-height:60px; width:auto; margin:10px auto; display:block;" />
+        </div>
+      </div>
+      <div class="row justify-content-center align-items-center g-4 mt-2 flex-wrap">
+        <div class="col-6 col-md-3 d-flex justify-content-center align-items-center">
+          <img src="images/logo_5.png" alt="CoinMarketCap" style="max-height:60px; width:auto; margin:10px auto; display:block;" />
+        </div>
+        <div class="col-6 col-md-3 d-flex justify-content-center align-items-center">
+          <img src="images/logo_6.png" alt="Yahoo Finance" style="max-height:60px; width:auto; margin:10px auto; display:block;" />
+        </div>
+        <div class="col-6 col-md-3 d-flex justify-content-center align-items-center">
+          <img src="images/logo_7.png" alt="MarketWatch" style="max-height:60px; width:auto; margin:10px auto; display:block; background:none;" />
+        </div>
+        <div class="col-6 col-md-3 d-flex justify-content-center align-items-center">
+          <img src="images/logo_8.png" alt="Benzinga" style="max-height:60px; width:auto; margin:10px auto; display:block; background:none;" />
+        </div>
+      </div>
+    </div>
+    <style>
+      .contact-form-modern input, .contact-form-modern textarea {
+        font-size: 1.08rem;
+        margin-bottom: 0;
+      }
+      .contact-form-modern input:focus, .contact-form-modern textarea:focus {
+        border-color: #00eaff;
+        box-shadow: 0 0 8px #00eaff55;
+        background: #181f2a;
+        color: #fff;
+      }
+      .contact-form-modern .form-label {
+        margin-bottom: 4px;
+        font-size: 1rem;
+        letter-spacing: 1px;
+      }
+    </style>
+  </section>
   <!-- Footer (as per provided image) -->
   <footer class="footer-cogni">
     <div class="container py-5">
       <div class="row align-items-start justify-content-between gy-4">
         <div class="col-12 col-md-5 d-flex flex-column align-items-center align-items-md-start">
-          <img src="images/ball2.png" alt="COGNITOKEN" class="footer-logo mb-3">
+          <img src="images/logo.jpeg" alt="COGNITOKEN" class="footer-logo mb-3">
           <div class="footer-brand">COGNITOKEN</div>
           <div class="footer-desc">It comes from "Cognition" representing the intelligence and decision-making ability of AI.</div>
         </div>
