@@ -632,8 +632,7 @@
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <div class="collapse submenu" id="walletsMenu">
-                        <a class="nav-link {{ request()->routeIs('admin.walletbalance') ? 'active' : '' }}" href="{{ route('admin.walletbalance') }}">Wallet Balance</a>
-                        <a class="nav-link {{ request()->routeIs('admin.accountdetails') ? 'active' : '' }}" href="{{ route('admin.accountdetails') }}">Account Details</a>
+                        <a class="nav-link {{ request()->routeIs('admin.wallethistory') ? 'active' : '' }}" href="{{ route('admin.wallethistory') }}">Wallet History</a>
                     </div>
                 </li>
                 <!-- Payout Details Dropdown -->
