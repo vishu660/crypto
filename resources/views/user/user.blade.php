@@ -41,19 +41,22 @@
                     color: #fff;
                 ">
 
-                <!-- Buy Button -->
-                <a href="#"
-                   class="btn btn-success position-absolute"
-                   style="
-                       top: 15px;
-                       right: 15px;
-                       border-radius: 30px;
-                       padding: 6px 16px;
-                       font-weight: 600;
-                       font-size: 14px;
-                   ">
-                    Buy
-                </a>
+                <form method="POST" action="{{ route('packages.buy') }}">
+                    @csrf
+                    <input type="hidden" name="package_id" value="{{ $package->id }}">
+                    <button type="submit"
+                        class="btn btn-success position-absolute"
+                        style="
+                            top: 15px;
+                            right: 15px;
+                            border-radius: 30px;
+                            padding: 6px 16px;
+                            font-weight: 600;
+                            font-size: 14px;
+                        ">
+                        Buy
+                    </button>
+                </form>
 
                 <!-- Main Balance -->
                 <p class="mb-1 text-white">Investment</p>

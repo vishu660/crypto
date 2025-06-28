@@ -16,6 +16,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\MailController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\TransactionController;
 
 
 
@@ -76,9 +77,7 @@ Route::get('/admin/level-settings', function () {
     return view('backend.pages.levelsettings', compact('salaries'));
 })->name('admin-level-settings');
 
-Route::get('/admin/all-fund-requests', function () {
-    return view('backend.pages.all_fund_requests');
-})->name('admin.fund-requests.all');
+Route::get('/admin/all-fund-requests', [TransactionController::class, 'index'])->name('admin.fund-requests.all');
 
 Route::get('/admin/approved-fund-requests', function () {
     return view('backend.pages.approved_fund_requests');
@@ -342,9 +341,13 @@ Route::get('/admin/wallet-balance', function () {
 //     return view('user.user_layout');
 // })->name('user');
 
-Route::get('/user', function () {
-    return view('user.user');
-})->name('user');
+Route::get('/user', [UserController::class, 'dashboard'])->middleware('auth')->name('user');
+Route::post('/packages/buy', [UserController::class, 'buy'])->middleware('auth')->name('packages.buy');
+Route::get('/packages/buy', function() {
+    return redirect()->route('user')->with('error', 'Please use the Buy button to purchase packages.');
+})->name('packages.buy.get');
+Route::match(['get', 'post'], '/admin/transactions/{id}/approve', [TransactionController::class, 'approve'])->name('admin.transactions.approve');
 
-Route::get('/user', [UserController::class, 'dashboard'])->name('user');
+Route::get('/admin/transactions', [TransactionController::class, 'index'])->name('admin.transactions.index');
+
 
