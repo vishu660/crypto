@@ -55,14 +55,14 @@
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="{{ route('user.pages.exchange') }}">
                             <span class="d2c_icon">
                                 <i class="fas fa-exchange-alt"></i>
                             </span>
                             <span> Exchange </span>
                         </a>
-                    </li>
+                    </li> -->
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
@@ -77,14 +77,14 @@
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="../pages/market.html">
                             <span class="d2c_icon">
                                 <i class="fas fa-chart-line"></i>
                             </span>
                             <span> Market </span>
                         </a>
-                    </li>
+                    </li> -->
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
@@ -166,18 +166,18 @@
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="../pages/faq.html">
                             <span class="d2c_icon">
                                 <i class="fas fa-question-circle"></i>
                             </span>
                             <span> FAQ </span>
                         </a>
-                    </li>
+                    </li> -->
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#form_dropdown"
                             aria-expanded="false" href="#">
                             <span class="d2c_icon">
@@ -185,39 +185,39 @@
                             </span>
                             <span> Form </span>
                             <span class="fas fa-chevron-right ms-auto text-end"></span>
-                        </a>
+                        </a> -->
                         <!-- Child Sub Menu -->
-                        <ul class="sub-menu collapse" id="form_dropdown">
+                        <!-- <ul class="sub-menu collapse" id="form_dropdown"> -->
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/basicForm.html">
                                     <span> Basic Form </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/advancedFrom.html">
                                     <span> Advanced Form </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/editor.html">
                                     <span> Editor </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
-                        </ul>
+                        <!-- </ul> -->
                         <!-- End:Child Sub Menu -->
-                    </li>
+                    <!-- </li> -->
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#table_dropdown"
                             aria-expanded="false" href="#">
                             <span class="d2c_icon">
@@ -225,31 +225,31 @@
                             </span>
                             <span> table </span>
                             <span class="fas fa-chevron-right ms-auto text-end"></span>
-                        </a>
+                        </a> -->
                         <!-- Child Sub Menu -->
-                        <ul class="sub-menu collapse" id="table_dropdown">
+                        <!-- <ul class="sub-menu collapse" id="table_dropdown"> -->
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/basicTable.html">
                                     <span> Basic Table </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/advancedTable.html">
                                     <span> Advanced Table </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
-                        </ul>
+                        <!-- </ul> -->
                         <!-- End:Child Sub Menu -->
-                    </li>
+                    <!-- </li> -->
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#chart_dropdown"
                             aria-expanded="false" href="#">
                             <span class="d2c_icon">
@@ -257,47 +257,47 @@
                             </span>
                             <span> Charts </span>
                             <span class="fas fa-chevron-right ms-auto text-end"></span>
-                        </a>
+                        </a> -->
                         <!-- Child Sub Menu -->
-                        <ul class="sub-menu collapse" id="chart_dropdown">
+                        <!-- <ul class="sub-menu collapse" id="chart_dropdown"> -->
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/chartjs.html">
                                     <span> ChartJS</span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/apexCharts.html">
                                     <span> ApexCharts </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/eCharts.html">
                                     <span> E-Charts </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/ammCharts.html">
                                     <span> Amm-Charts </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
-                        </ul>
+                        <!-- </ul> -->
                         <!-- End:Child Sub Menu -->
-                    </li>
+                    <!-- </li> -->
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#authentication"
                             aria-expanded="false" href="#">
                             <span class="d2c_icon">
@@ -305,63 +305,63 @@
                             </span>
                             <span> Authentication </span>
                             <span class="fas fa-chevron-right ms-auto text-end"></span>
-                        </a>
+                        </a> -->
                         <!-- Child Sub Menu -->
-                        <ul class="sub-menu collapse" id="authentication">
+                        <!-- <ul class="sub-menu collapse" id="authentication"> -->
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/authentication/signUp.html">
                                     <span> Sing up </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/authentication/signIn.html">
                                     <span> Log In </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/authentication/forgetPassword.html">
                                     <span> Forget Password </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/authentication/lockscreen.html">
                                     <span> Lock Screen </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/authentication/404.html">
                                     <span> 404 </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/authentication/505.html">
                                     <span> 505 </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
-                        </ul>
+                        <!-- </ul> -->
                         <!-- End:Child Sub Menu -->
-                    </li>
+                    <!-- </li> -->
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#components" aria-expanded="false"
                             href="#">
                             <span class="d2c_icon">
@@ -369,145 +369,145 @@
                             </span>
                             <span> Component </span>
                             <span class="fas fa-chevron-right ms-auto text-end"></span>
-                        </a>
+                        </a> -->
                         <!-- Child Sub Menu -->
-                        <ul class="sub-menu collapse" id="components">
+                        <!-- <ul class="sub-menu collapse" id="components"> -->
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/invoice.html">
                                     <span> Invoice </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/createInvoice.html">
                                     <span> Create Invoice </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/calender.html">
                                     <span> Calendar </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link active" href="../pages/components/timeline.html">
                                     <span> Timeline </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/map.html">
                                     <span> Map </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/alerts.html">
                                     <span> Alerts </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/cards.html">
                                     <span> Cards </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/buttons.html">
                                     <span> Buttons </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/modals.html">
                                     <span> Modals </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/badges.html">
                                     <span> Badges </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/spinners.html">
                                     <span> Spinners </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/progress.html">
                                     <span> Progress </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/listGroup.html">
                                     <span> List Group </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
 
                             <!-- Child Menu Item -->
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="../pages/components/pagination.html">
                                     <span> Pagination </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End:Child Menu Item -->
-                        </ul>
+                        <!-- </ul> -->
                         <!-- End:Child Sub Menu -->
-                    </li>
+                    <!-- </li> -->
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="../pages/support.html">
                             <span class="d2c_icon">
                                 <i class="fas fa-hands-helping"></i>
                             </span>
                             <span> Support </span>
                         </a>
-                    </li>
+                    </li> -->
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="../pages/blank.html">
                             <span class="d2c_icon">
                                 <i class="far fa-file"></i>
                             </span>
                             <span> Blank </span>
                         </a>
-                    </li>
+                    </li> -->
                     <!-- End:Menu Item -->
                     <!-- Menu Item -->
                     <li class="nav-item">
