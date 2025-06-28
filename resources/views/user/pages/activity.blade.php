@@ -67,11 +67,11 @@
 
                     <!-- Menu Item -->
                     <li class="nav-item">
-                        <a class="nav-link" href="../pages/investment.html">
+                        <a class="nav-link" href="../pages/plans.html">
                             <span class="d2c_icon">
                                 <i class="fas fa-coins"></i>
                             </span>
-                            <span> Investment </span>
+                            <span> Plans </span>
                         </a>
                     </li>
                     <!-- End:Menu Item -->
