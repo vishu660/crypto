@@ -539,34 +539,47 @@
                     <p class="mb-0">Welcome Back</p>
                     <h4 class="text-capitalize fw-bold">User profile</h4>
                 </div>
+                <div class="col-auto">
+                    <!-- Role Filter -->
+                    <select class="form-select" onchange="window.location.href=this.value">
+                        <option value="{{ route('user.pages.profile') }}" {{ !request()->route('role') ? 'selected' : '' }}>All Users</option>
+                        @if(isset($availableRoles))
+                            @foreach($availableRoles as $availableRole)
+                                <option value="{{ route('user.pages.profile.by.role', $availableRole) }}" {{ request()->route('role') == $availableRole ? 'selected' : '' }}>
+                                    {{ ucfirst($availableRole) }} Users
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
             </div>
             <!-- End:Title -->
        
 
             <div class="row">
-                <div class="col-xxl-3 mb-4 mb-xxl-0 d2c_profile_details">
                 @foreach($users as $userData)
+                <div class="col-xxl-3 mb-4 mb-xxl-0 d2c_profile_details">
                     <div class="card bg-success bg-opacity-10 d2c_profile_info">
                         <img src="{{ asset('assets/images/profile_info_bg.jpg') }}" class="img-fluid rounded-top" alt="profile info bg" style="height: 150px; object-fit: cover;">
                         <div class="card-body">
                             <img src="{{ asset('assets/images/profile/profile-2.jpg') }}" class="img-fluid rounded-circle" style="width: 68px;height: 68px; object-fit: cover;margin-top: -60px;" alt="profile image">
-                            <h5 class="fw-semibold mt-3">Mitchell C. Shay</h5>
-                            <h6 class="fw-semibold text-muted">ID: {{ $userData->referral_id }}</h6>
+                            <h5 class="fw-semibold mt-3">{{ $userData->full_name ?? 'User Name' }}</h5>
+                            <h6 class="fw-semibold text-muted">ID: {{ $userData->referral_id ?? 'N/A' }}</h6>
                             <h6 class="mt-4 fw-semibold">Bio</h6>
                             <p>Amet minim mollit non deserun ullamco & sit aliqua dolor do amet sint. Velit officia consequat duis.</p>
                             <!-- contact details -->
                             <div>
                                 <p class="mb-2 text-secondary d-flex align-items-baseline">
                                     <i class="fas fa-headphones-alt me-2"></i>
-                                    <a href="tel:(684)555-0102">{{ $userData->mobile_no }}</a>
+                                    <a href="tel:{{ $userData->mobile_no ?? '' }}">{{ $userData->mobile_no ?? 'N/A' }}</a>
                                 </p>
                                 <p class="mb-2 text-secondary d-flex align-items-baseline text-break">
                                     <i class="fas fa-envelope-open-text me-2"></i>
-                                    <a href="mailto:mitchellcshay@d2c.com">{{ $userData->email }}</a>
+                                    <a href="mailto:{{ $userData->email ?? '' }}">{{ $userData->email ?? 'N/A' }}</a>
                                 </p>
                                 <p class="text-secondary d-flex align-items-baseline">
                                     <i class="fas fa-map-marker-alt me-2"></i>
-                                    2118 Thornridge Cir. Syracuse, Connecticut 35624
+                                    {{ $userData->city ?? 'N/A' }}, {{ $userData->state ?? 'N/A' }}, {{ $userData->country ?? 'N/A' }}
                                 </p>
                             </div>
                             <!-- payment method -->
@@ -588,11 +601,12 @@
                                 <a href="https://www.linkedin.com/company/designtocodes/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
                                 <a href="https://www.youtube.com/channel/UCty3RokJyzzUd2f5hhwDocg" target="_blank"><i class="fab fa-youtube"></i></a>
                             </div>
-                            <p class="mb-0">Member since Mar 28, 2023</p>
+                            <p class="mb-0">Member since {{ $userData->created_at ? $userData->created_at->format('M d, Y') : 'N/A' }}</p>
                         </div>
                     </div>
                 </div>
                 @endforeach
+                
                 <div class="col-xxl-9 d2c_profile_right">
                     <div class="row">
                         <!-- card item -->
