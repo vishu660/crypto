@@ -126,15 +126,40 @@
                                 <th>Member ID</th>
                                 <th>Name</th>
                                 <th>Request Amount</th>
-                                <th>Scan Copy</th>
-                                <th>Transaction Hash Key</th>
+                                <th>Currency</th>
+                                <th>Package Type</th>
                                 <th>Member's Remark</th>
                                 <th>Request Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Data will be populated by DataTables -->
+                            @forelse($transactions as $transaction)
+                                <tr>
+                                    <td>{{ $transaction->user_id }}</td>
+                                    <td>{{ $transaction->user->full_name ?? 'N/A' }}</td>
+                                    <td>₹{{ number_format($transaction->amount, 2) }}</td>
+                                    <td>{{ $transaction->currency }}</td>
+                                    <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>
+                                    <td>{{ $transaction->message }}</td>
+                                    <td>{{ $transaction->created_at->format('d-m-Y H:i') }}</td>
+                                    <td>
+                                        <form method="POST" action="{{ route('admin.transactions.approve', $transaction->id) }}" style="display: inline;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to approve this request?')">
+                                                <i class="bi bi-check-circle"></i> Approve
+                                            </button>
+                                        </form>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="rejectRequest({{ $transaction->id }})">
+                                            <i class="bi bi-x-circle"></i> Reject
+                                        </button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="8" class="text-center text-white">No pending fund requests found.</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -167,5 +192,24 @@ $(document).ready(function() {
         }
     });
 });
+
+function rejectRequest(transactionId) {
+    if (confirm('Are you sure you want to reject this request?')) {
+        // Create a form and submit it
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/transactions/' + transactionId + '/reject';
+        
+        // Add CSRF token
+        var csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = '_token';
+        csrfToken.value = '{{ csrf_token() }}';
+        form.appendChild(csrfToken);
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
 </script>
 @endpush 

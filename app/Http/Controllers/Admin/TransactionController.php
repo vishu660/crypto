@@ -11,7 +11,10 @@ use App\Models\Transaction;
 class TransactionController extends Controller
 {
     public function index() {
-        $transactions = Transaction::latest()->get();
+        $transactions = Transaction::with('user')
+            ->where('purpose_of_payment', 'buy_plan_one')
+            ->latest()
+            ->get();
         return view('backend.pages.all_fund_requests', compact('transactions'));
     }
 
@@ -52,5 +55,15 @@ class TransactionController extends Controller
         $transaction->save();
 
         return back()->with('success', 'Transaction approved successfully.');
+    }
+
+    public function reject($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+        $transaction->status = 'failed';
+        $transaction->message = 'Package purchase request rejected by admin';
+        $transaction->save();
+
+        return back()->with('success', 'Transaction rejected successfully.');
     }
 }

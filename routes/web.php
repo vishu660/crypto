@@ -79,13 +79,11 @@ Route::get('/admin/level-settings', function () {
 
 Route::get('/admin/all-fund-requests', [TransactionController::class, 'index'])->name('admin.fund-requests.all');
 
-Route::get('/admin/approved-fund-requests', function () {
-    return view('backend.pages.approved_fund_requests');
-})->name('admin.fund-requests.approved');
+Route::get('/admin/approved-fund-requests', [FundRequestController::class, 'approvedRequests'])->name('admin.fund-requests.approved');
 
-Route::get('/admin/pending-fund-requests', function () {
-    return view('backend.pages.pending_fund_requests');
-})->name('admin.fund-requests.pending');
+Route::get('/admin/pending-fund-requests', [FundRequestController::class, 'pendingRequests'])->name('admin.fund-requests.pending');
+
+Route::get('/admin/failed-fund-requests', [FundRequestController::class, 'failedRequests'])->name('admin.fund-requests.failed');
 
 Route::get('/admin/deduction-report', function () {
     return view('backend.pages.deductionreport');
@@ -347,6 +345,7 @@ Route::get('/packages/buy', function() {
     return redirect()->route('user')->with('error', 'Please use the Buy button to purchase packages.');
 })->name('packages.buy.get');
 Route::match(['get', 'post'], '/admin/transactions/{id}/approve', [TransactionController::class, 'approve'])->name('admin.transactions.approve');
+Route::post('/admin/transactions/{id}/reject', [TransactionController::class, 'reject'])->name('admin.transactions.reject');
 
 Route::get('/admin/transactions', [TransactionController::class, 'index'])->name('admin.transactions.index');
 

@@ -49,6 +49,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Member ID</th>
+                                <th>Name</th>
                                 <th>Amount</th>
                                 <th>Currency</th>
                                 <th>Type</th>
@@ -65,10 +66,11 @@
                                 <tr>
                                     <td>{{ $transaction->id }}</td>
                                     <td>{{ $transaction->user_id }}</td>
-                                    <td>{{ $transaction->amount }}</td>
+                                    <td>{{ $transaction->user->full_name ?? 'N/A' }}</td>
+                                    <td>₹{{ number_format($transaction->amount, 2) }}</td>
                                     <td>{{ $transaction->currency }}</td>
                                     <td>{{ ucfirst($transaction->type) }}</td>
-                                    <td>{{ ucfirst($transaction->purpose_of_payment) }}</td>
+                                    <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>
                                     <td>
                                         @if($transaction->status === 'pending')
                                             <span class="badge bg-warning text-dark">Pending</span>
@@ -83,10 +85,15 @@
                                     <td>{{ $transaction->created_at->format('d-m-Y H:i') }}</td>
                                     <td>
                                         @if($transaction->status === 'pending')
-                                            <form method="POST" action="{{ route('admin.transactions.approve', $transaction->id) }}">
+                                            <form method="POST" action="{{ route('admin.transactions.approve', $transaction->id) }}" style="display: inline;">
                                                 @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                                <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to approve this request?')">
+                                                    <i class="bi bi-check-circle"></i> Approve
+                                                </button>
                                             </form>
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="rejectRequest({{ $transaction->id }})">
+                                                <i class="bi bi-x-circle"></i> Reject
+                                            </button>
                                         @else
                                             <span class="text-muted">-</span>
                                         @endif
@@ -94,7 +101,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="11" class="text-center">No fund requests found.</td>
+                                    <td colspan="12" class="text-center text-white">No fund requests found.</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -118,5 +125,24 @@ $(document).ready(function() {
         responsive: true
     });
 });
+
+function rejectRequest(transactionId) {
+    if (confirm('Are you sure you want to reject this request?')) {
+        // Create a form and submit it
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/transactions/' + transactionId + '/reject';
+        
+        // Add CSRF token
+        var csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = '_token';
+        csrfToken.value = '{{ csrf_token() }}';
+        form.appendChild(csrfToken);
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
 </script>
 @endpush
