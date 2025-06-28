@@ -1,6 +1,6 @@
 @extends('backend.layouts.admin')
 
-@section('title', 'Approved Fund Requests')
+@section('title', 'Failed/Rejected Fund Requests')
 
 @push('styles')
 <style>
@@ -102,8 +102,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h4 class="text-white">Dashboard / Fund Requests / Approved Fund Requests</h4>
-            <h3 class="text-white mt-3">Approved Fund Requests</h3>
+            <p class="text-white"><a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a> / Fund Requests / Failed/Rejected Fund Requests</p>
+            <h3 class="text-white mt-3">Failed/Rejected Fund Requests</h3>
         </div>
     </div>
     <div class="row mt-4">
@@ -129,9 +129,9 @@
                                 <th>Currency</th>
                                 <th>Package Type</th>
                                 <th>Member's Remark</th>
-                                <th>Company's Remark</th>
+                                <th>Rejection Reason</th>
                                 <th>Request Date</th>
-                                <th>Approved Date</th>
+                                <th>Rejected Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -143,13 +143,13 @@
                                     <td>{{ $transaction->currency }}</td>
                                     <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>
                                     <td>{{ $transaction->message }}</td>
-                                    <td>Package purchase approved by admin</td>
+                                    <td>Package purchase request rejected by admin</td>
                                     <td>{{ $transaction->created_at->format('d-m-Y H:i') }}</td>
                                     <td>{{ $transaction->updated_at->format('d-m-Y H:i') }}</td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="9" class="text-center text-white">No approved fund requests found.</td>
+                                    <td colspan="9" class="text-center text-white">No failed/rejected fund requests found.</td>
                                 </tr>
                             @endforelse
                         </tbody>

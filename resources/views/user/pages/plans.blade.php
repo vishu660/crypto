@@ -69,7 +69,7 @@
                             <span class="d2c_icon">
                                 <i class="fas fa-coins"></i>
                             </span>
-                            <span> Investment </span>
+                            <span> Plans </span>
                         </a>
                     </li>
                     <!-- End:Menu Item -->

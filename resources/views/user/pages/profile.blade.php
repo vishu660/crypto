@@ -65,11 +65,11 @@
 
                     <!-- Menu Item -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('user.pages.investment') }}">
+                        <a class="nav-link" href="{{ route('user.pages.plans') }}">
                             <span class="d2c_icon">
                                 <i class="fas fa-coins"></i>
                             </span>
-                            <span> Investment </span>
+                            <span> Plans </span>
                         </a>
                     </li>
                     <!-- End:Menu Item -->
@@ -541,26 +541,28 @@
                 </div>
             </div>
             <!-- End:Title -->
+       
 
             <div class="row">
                 <div class="col-xxl-3 mb-4 mb-xxl-0 d2c_profile_details">
+                @foreach($users as $userData)
                     <div class="card bg-success bg-opacity-10 d2c_profile_info">
                         <img src="{{ asset('assets/images/profile_info_bg.jpg') }}" class="img-fluid rounded-top" alt="profile info bg" style="height: 150px; object-fit: cover;">
                         <div class="card-body">
                             <img src="{{ asset('assets/images/profile/profile-2.jpg') }}" class="img-fluid rounded-circle" style="width: 68px;height: 68px; object-fit: cover;margin-top: -60px;" alt="profile image">
                             <h5 class="fw-semibold mt-3">Mitchell C. Shay</h5>
-                            <h6 class="fw-semibold text-muted">ID: #0165466584</h6>
+                            <h6 class="fw-semibold text-muted">ID: {{ $userData->referral_id }}</h6>
                             <h6 class="mt-4 fw-semibold">Bio</h6>
                             <p>Amet minim mollit non deserun ullamco & sit aliqua dolor do amet sint. Velit officia consequat duis.</p>
                             <!-- contact details -->
                             <div>
                                 <p class="mb-2 text-secondary d-flex align-items-baseline">
                                     <i class="fas fa-headphones-alt me-2"></i>
-                                    <a href="tel:(684)555-0102">(684) 555-0102</a>
+                                    <a href="tel:(684)555-0102">{{ $userData->mobile_no }}</a>
                                 </p>
                                 <p class="mb-2 text-secondary d-flex align-items-baseline text-break">
                                     <i class="fas fa-envelope-open-text me-2"></i>
-                                    <a href="mailto:mitchellcshay@d2c.com">mitchellcshay@d2c.com</a>
+                                    <a href="mailto:mitchellcshay@d2c.com">{{ $userData->email }}</a>
                                 </p>
                                 <p class="text-secondary d-flex align-items-baseline">
                                     <i class="fas fa-map-marker-alt me-2"></i>
@@ -590,6 +592,7 @@
                         </div>
                     </div>
                 </div>
+                @endforeach
                 <div class="col-xxl-9 d2c_profile_right">
                     <div class="row">
                         <!-- card item -->
@@ -888,125 +891,9 @@
                     </div>
 
                     <div class="row">
-                        <!-- connection list -->
-                        <div class="col-xxl-6 mb-4 mb-xxl-0">
-                            <div class="card bg-warning bg-opacity-10">
-                                <div class="card-body">
-                                    <h5 class="text-capitalize fw-semibold mb-4">Connections</h5>
-                                    <!-- connection list item -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div>
-                                            <img src="{{ asset('assets/images/profile/profile-1.jpg') }}" class="rounded me-3" alt="profile image" style="height: 46px; width: 46px; object-fit: cover;">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Alexandro Queque</h6>
-                                            <p class="text-muted mb-0 text-break">estherhlane@mailadd.com</p>
-                                        </div>
-                                    </div>
-                                    <!-- connection list item -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div>
-                                            <img src="{{ asset('assets/images/profile/profile-2.jpg') }}" class="rounded me-3" alt="profile image" style="height: 46px; width: 46px; object-fit: cover;">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Brooklyn Simmons</h6>
-                                            <p class="text-muted mb-0 text-break">brooklyn@d2c.com</p>
-                                        </div>
-                                    </div>
-                                    <!-- connection list item -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div>
-                                            <img src="{{ asset('assets/images/profile/profile-6.jpg') }}" class="rounded me-3" alt="profile image" style="height: 46px; width: 46px; object-fit: cover;">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Leslie Alexander</h6>
-                                            <p class="text-muted mb-0 text-break">alexander@d2c.com</p>
-                                        </div>
-                                    </div>
-                                    <!-- connection list item -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div>
-                                            <img src="{{ asset('assets/images/profile/profile-7.jpg') }}" class="rounded me-3" alt="profile image" style="height: 46px; width: 46px; object-fit: cover;">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Alexandro Queque</h6>
-                                            <p class="text-muted mb-0 text-break">estherhlane@mailadd.com</p>
-                                        </div>
-                                    </div>
-                                    <!-- connection list item -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div>
-                                            <img src="{{ asset('assets/images/profile/profile-8.jpg') }}" class="rounded me-3" alt="profile image" style="height: 46px; width: 46px; object-fit: cover;">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Alexandro Queque</h6>
-                                            <p class="text-muted mb-0 text-break">alexandro@d2c.com</p>
-                                        </div>
-                                    </div>
-                                    <!-- connection list item -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div>
-                                            <img src="{{ asset('assets/images/profile/profile-9.jpg') }}" class="rounded me-3" alt="profile image" style="height: 46px; width: 46px; object-fit: cover;">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Bessie Cooper</h6>
-                                            <p class="text-muted mb-0 text-break">besiecopr@d2c.com</p>
-                                        </div>
-                                    </div>
-                                    <!-- connection list item -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div>
-                                            <img src="{{ asset('assets/images/profile/profile-4.jpg') }}" class="rounded me-3" alt="profile image" style="height: 46px; width: 46px; object-fit: cover;">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Darrell Steward</h6>
-                                            <p class="text-muted mb-0 text-break">dteward@d2c.com</p>
-                                        </div>
-                                    </div>
-                                    <!-- connection list item -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div>
-                                            <img src="{{ asset('assets/images/profile/profile-10.jpg') }}" class="rounded me-3" alt="profile image" style="height: 46px; width: 46px; object-fit: cover;">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Marvin McKinney</h6>
-                                            <p class="text-muted mb-0 text-break">marvin@d2c.com</p>
-                                        </div>
-                                    </div>
-                                    <!-- connection list item -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div>
-                                            <img src="{{ asset('assets/images/profile/profile-7.jpg') }}" class="rounded me-3" alt="profile image" style="height: 46px; width: 46px; object-fit: cover;">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Bessie Cooper</h6>
-                                            <p class="text-muted mb-0 text-break">besiecopr@d2c.com</p>
-                                        </div>
-                                    </div>
-                                    <!-- connection list item -->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div>
-                                            <img src="{{ asset('assets/images/profile/profile-1.jpg') }}" class="rounded me-3" alt="profile image" style="height: 46px; width: 46px; object-fit: cover;">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Darrell Steward</h6>
-                                            <p class="text-muted mb-0 text-break">dteward@d2c.com</p>
-                                        </div>
-                                    </div>
-                                    <!-- connection list item -->
-                                    <div class="d-flex align-items-center">
-                                        <div>
-                                            <img src="{{ asset('assets/images/profile/profile-2.jpg') }}" class="rounded me-3" alt="profile image" style="height: 46px; width: 46px; object-fit: cover;">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">Marvin McKinney</h6>
-                                            <p class="text-muted mb-0 text-break">marvin@d2c.com</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-6">
+                        <!-- User Data Display Section -->
+                 
+                        <div class="col-xxl-12">
                             <!-- liquidity chart -->
                             <div class="card mb-4 bg-success bg-opacity-10">
                                 <div class="card-body">

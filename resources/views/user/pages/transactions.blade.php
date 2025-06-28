@@ -67,11 +67,11 @@
 
                     <!-- Menu Item -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('user.pages.investment') }}">
+                        <a class="nav-link" href="{{ route('user.pages.plans') }}">
                             <span class="d2c_icon">
                                 <i class="fas fa-coins"></i>
                             </span>
-                            <span> Investment </span>
+                            <span> Plans </span>
                         </a>
                     </li>
                     <!-- End:Menu Item -->
@@ -189,7 +189,7 @@
                         <!-- Child Sub Menu -->
                         <!-- <ul class="sub-menu collapse" id="form_dropdown">
                             <!-- Child Menu Item -->
-                            <!--<li class="nav-item">
+                           <!-- <li class="nav-item">
                                 <a class="nav-link" href="{{ route('user.pages.components.basicForm') }}">
                                     <span> Basic Form </span>
                                 </a>
@@ -511,7 +511,7 @@
                     <!-- End:Menu Item -->
                     <!-- Menu Item -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <span class="d2c_icon">
                                 <i class="fas fa-sign-out-alt"></i>
                             </span>
@@ -573,122 +573,39 @@
                                         <tr>
                                             <th style="min-width: 120px;">Transaction ID</th>
                                             <th style="min-width: 120px;">Type</th>
-                                            <th style="min-width: 120px;">Coins</th>
-                                            <th style="min-width: 120px;">To</th>
-                                            <th style="min-width: 120px;">Date</th>
+                                            <th style="min-width: 120px;">Purpose</th>
                                             <th style="min-width: 120px;">Amount</th>
+                                            <th style="min-width: 120px;">Currency</th>
+                                            <th style="min-width: 120px;">Date</th>
                                             <th style="min-width: 120px;">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>TRX001</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Bitcoin</td>
-                                            <td>John Doe</td>
-                                            <td>2022-03-01</td>
-                                            <td>$10,000</td>
-                                            <td class="text-success">Complete</td>
+                                        @forelse($transactions as $transaction)
+                                            <tr>
+                                                <td>TRX{{ str_pad($transaction->id, 6, '0', STR_PAD_LEFT) }}</td>
+                                                <td class="{{ $transaction->type === 'credit' ? 'text-success' : 'text-danger' }}">
+                                                    {{ ucfirst($transaction->type) }}
+                                                </td>
+                                                <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>
+                                                <td>₹{{ number_format($transaction->amount, 2) }}</td>
+                                                <td>{{ $transaction->currency }}</td>
+                                                <td>{{ $transaction->created_at->format('d-m-Y') }}</td>
+                                                <td>
+                                                    @if($transaction->status === 'pending')
+                                                        <span class="text-warning">Pending</span>
+                                                    @elseif($transaction->status === 'success')
+                                                        <span class="text-success">Complete</span>
+                                                    @else
+                                                        <span class="text-danger">Failed</span>
+                                                    @endif
+                                                </td>
                                         </tr>
-                                        <tr>
-                                            <td>ETH002</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>Ethereum</td>
-                                            <td>Jane Smith</td>
-                                            <td>2022-02-28</td>
-                                            <td>$5,500</td>
-                                            <td class="text-success">Complete</td>
+                                        @empty
+                                            <tr>
+                                                <td colspan="7" class="text-center">No transactions found.</td>
                                         </tr>
-                                        <tr>
-                                            <td>BTC003</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Bitcoin</td>
-                                            <td>Michael Johnson</td>
-                                            <td>2022-02-27</td>
-                                            <td>$7,200</td>
-                                            <td class="text-success">Complete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>XRP004</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>Ripple</td>
-                                            <td>Sarah Davis</td>
-                                            <td>2022-02-26</td>
-                                            <td>$2,300</td>
-                                            <td class="text-success">Complete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LTC005</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Litecoin</td>
-                                            <td>Andrew Thompson</td>
-                                            <td>2022-02-25</td>
-                                            <td>$3,800</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>ETH006</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>Ethereum</td>
-                                            <td>Emily Wilson</td>
-                                            <td>2022-02-24</td>
-                                            <td>$6,000</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>BTC007</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Bitcoin</td>
-                                            <td>David Johnson</td>
-                                            <td>2022-02-23</td>
-                                            <td>$4,500</td>
-                                            <td class="text-success">Complete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>XRP008</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>Ripple</td>
-                                            <td>Emma Thompson</td>
-                                            <td>2022-02-22</td>
-                                            <td>$1,800</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LTC009</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Litecoin</td>
-                                            <td>Oliver Smith</td>
-                                            <td>2022-02-21</td>
-                                            <td>$2,200</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>BTC010</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>YEN</td>
-                                            <td>David Malan</td>
-                                            <td>2022-03-21</td>
-                                            <td>$8,500</td>
-                                            <td class="text-success">Complete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>XRP011</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>LIRA</td>
-                                            <td>Emma Alex</td>
-                                            <td>2022-04-12</td>
-                                            <td>$2,600</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LTC012</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>EURO</td>
-                                            <td>Steven Smith</td>
-                                            <td>2022-02-30</td>
-                                            <td>$4,200</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -700,122 +617,39 @@
                                         <tr>
                                             <th style="min-width: 120px;">Transaction ID</th>
                                             <th style="min-width: 120px;">Type</th>
-                                            <th style="min-width: 120px;">Coins</th>
-                                            <th style="min-width: 120px;">To</th>
-                                            <th style="min-width: 120px;">Date</th>
+                                            <th style="min-width: 120px;">Purpose</th>
                                             <th style="min-width: 120px;">Amount</th>
+                                            <th style="min-width: 120px;">Currency</th>
+                                            <th style="min-width: 120px;">Date</th>
                                             <th style="min-width: 120px;">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>TRX001</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Bitcoin</td>
-                                            <td>John Doe</td>
-                                            <td>2022-03-01</td>
-                                            <td>$10,000</td>
-                                            <td class="text-success">Complete</td>
+                                        @forelse($transactions->where('created_at', '>=', now()->startOfMonth()) as $transaction)
+                                            <tr>
+                                                <td>TRX{{ str_pad($transaction->id, 6, '0', STR_PAD_LEFT) }}</td>
+                                                <td class="{{ $transaction->type === 'credit' ? 'text-success' : 'text-danger' }}">
+                                                    {{ ucfirst($transaction->type) }}
+                                                </td>
+                                                <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>
+                                                <td>₹{{ number_format($transaction->amount, 2) }}</td>
+                                                <td>{{ $transaction->currency }}</td>
+                                                <td>{{ $transaction->created_at->format('d-m-Y') }}</td>
+                                                <td>
+                                                    @if($transaction->status === 'pending')
+                                                        <span class="text-warning">Pending</span>
+                                                    @elseif($transaction->status === 'success')
+                                                        <span class="text-success">Complete</span>
+                                                    @else
+                                                        <span class="text-danger">Failed</span>
+                                                    @endif
+                                                </td>
                                         </tr>
-                                        <tr>
-                                            <td>ETH002</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>Ethereum</td>
-                                            <td>Jane Smith</td>
-                                            <td>2022-02-28</td>
-                                            <td>$5,500</td>
-                                            <td class="text-success">Complete</td>
+                                        @empty
+                                            <tr>
+                                                <td colspan="7" class="text-center">No transactions found for this month.</td>
                                         </tr>
-                                        <tr>
-                                            <td>BTC003</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Bitcoin</td>
-                                            <td>Michael Mn</td>
-                                            <td>2022-02-27</td>
-                                            <td>$7,200</td>
-                                            <td class="text-success">Complete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>XRP004</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>Ripple</td>
-                                            <td>Sarah Davis</td>
-                                            <td>2022-02-26</td>
-                                            <td>$2,300</td>
-                                            <td class="text-success">Complete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LTC005</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Litecoin</td>
-                                            <td>Andrew Lio</td>
-                                            <td>2022-02-25</td>
-                                            <td>$3,800</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>ETH006</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>Ethereum</td>
-                                            <td>Emily Wilson</td>
-                                            <td>2022-02-24</td>
-                                            <td>$6,000</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>BTC007</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Bitcoin</td>
-                                            <td>David Johnson</td>
-                                            <td>2022-02-23</td>
-                                            <td>$4,500</td>
-                                            <td class="text-success">Complete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>XRP008</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>Ripple</td>
-                                            <td>Emma Thompson</td>
-                                            <td>2022-02-22</td>
-                                            <td>$1,800</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LTC009</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Litecoin</td>
-                                            <td>Oliver Smith</td>
-                                            <td>2022-02-21</td>
-                                            <td>$2,200</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>BTC010</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>YEN</td>
-                                            <td>David Malan</td>
-                                            <td>2022-03-21</td>
-                                            <td>$8,500</td>
-                                            <td class="text-success">Complete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>XRP011</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>LIRA</td>
-                                            <td>Emma Alex</td>
-                                            <td>2022-04-12</td>
-                                            <td>$2,600</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LTC012</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>EURO</td>
-                                            <td>Steven Smith</td>
-                                            <td>2022-02-30</td>
-                                            <td>$4,200</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -827,122 +661,39 @@
                                         <tr>
                                             <th style="min-width: 120px;">Transaction ID</th>
                                             <th style="min-width: 120px;">Type</th>
-                                            <th style="min-width: 120px;">Coins</th>
-                                            <th style="min-width: 120px;">To</th>
-                                            <th style="min-width: 120px;">Date</th>
+                                            <th style="min-width: 120px;">Purpose</th>
                                             <th style="min-width: 120px;">Amount</th>
+                                            <th style="min-width: 120px;">Currency</th>
+                                            <th style="min-width: 120px;">Date</th>
                                             <th style="min-width: 120px;">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>TRX001</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Bitcoin</td>
-                                            <td>John Doe</td>
-                                            <td>2022-03-01</td>
-                                            <td>$10,000</td>
-                                            <td class="text-success">Complete</td>
+                                        @forelse($transactions->where('created_at', '>=', now()->startOfWeek()) as $transaction)
+                                            <tr>
+                                                <td>TRX{{ str_pad($transaction->id, 6, '0', STR_PAD_LEFT) }}</td>
+                                                <td class="{{ $transaction->type === 'credit' ? 'text-success' : 'text-danger' }}">
+                                                    {{ ucfirst($transaction->type) }}
+                                                </td>
+                                                <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>
+                                                <td>₹{{ number_format($transaction->amount, 2) }}</td>
+                                                <td>{{ $transaction->currency }}</td>
+                                                <td>{{ $transaction->created_at->format('d-m-Y') }}</td>
+                                                <td>
+                                                    @if($transaction->status === 'pending')
+                                                        <span class="text-warning">Pending</span>
+                                                    @elseif($transaction->status === 'success')
+                                                        <span class="text-success">Complete</span>
+                                                    @else
+                                                        <span class="text-danger">Failed</span>
+                                                    @endif
+                                                </td>
                                         </tr>
-                                        <tr>
-                                            <td>ETH002</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>Ethereum</td>
-                                            <td>Jane Smith</td>
-                                            <td>2022-02-28</td>
-                                            <td>$5,500</td>
-                                            <td class="text-success">Complete</td>
+                                        @empty
+                                            <tr>
+                                                <td colspan="7" class="text-center">No transactions found for this week.</td>
                                         </tr>
-                                        <tr>
-                                            <td>BTC003</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Bitcoin</td>
-                                            <td>Michael</td>
-                                            <td>2022-02-27</td>
-                                            <td>$7,200</td>
-                                            <td class="text-success">Complete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>XRP004</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>Ripple</td>
-                                            <td>Sarah Davis</td>
-                                            <td>2022-02-26</td>
-                                            <td>$2,300</td>
-                                            <td class="text-success">Complete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LTC005</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Litecoin</td>
-                                            <td>Andrew lio</td>
-                                            <td>2022-02-25</td>
-                                            <td>$3,800</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>ETH006</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>Ethereum</td>
-                                            <td>Emily Wilson</td>
-                                            <td>2022-02-24</td>
-                                            <td>$6,000</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>BTC007</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Bitcoin</td>
-                                            <td>David Johnson</td>
-                                            <td>2022-02-23</td>
-                                            <td>$4,500</td>
-                                            <td class="text-success">Complete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>XRP008</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>Ripple</td>
-                                            <td>Emma Thompson</td>
-                                            <td>2022-02-22</td>
-                                            <td>$1,800</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LTC009</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>Litecoin</td>
-                                            <td>Oliver Smith</td>
-                                            <td>2022-02-21</td>
-                                            <td>$2,200</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>BTC010</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>YEN</td>
-                                            <td>David Malan</td>
-                                            <td>2022-03-21</td>
-                                            <td>$8,500</td>
-                                            <td class="text-success">Complete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>XRP011</td>
-                                            <td class="text-danger">Sold</td>
-                                            <td>LIRA</td>
-                                            <td>Emma Alex</td>
-                                            <td>2022-04-12</td>
-                                            <td>$2,600</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LTC012</td>
-                                            <td class="text-success">Buy</td>
-                                            <td>EURO</td>
-                                            <td>Steven Smith</td>
-                                            <td>2022-02-30</td>
-                                            <td>$4,200</td>
-                                            <td class="text-danger">Pending</td>
-                                        </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -1029,8 +780,8 @@
                         <div class="row">
                             <div class="col-8 d-flex align-items-center text-end pe-0">
                                 <div class="w-100">
-                                    <p class="mb-0 fw-semibold d2c_profile_name">Wade Warren</p>
-                                    <small>Trader</small>
+                                    <p class="mb-0 fw-semibold d2c_profile_name">{{ auth()->user()->name }}</p>
+                                    <small>User</small>
                                 </div>
                             </div>
                             <div class="col-4">
@@ -1140,6 +891,11 @@
 
     <!-- custom js -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+
+    <!-- Logout Form -->
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+        @csrf
+    </form>
 </body>
 
 </html>

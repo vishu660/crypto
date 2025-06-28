@@ -544,6 +544,7 @@
                         <a class="nav-link" href="{{ route('admin.fund-requests.all') }}">All Requests</a>
                         <a class="nav-link" href="{{ route('admin.fund-requests.pending') }}">Pending</a>
                         <a class="nav-link" href="{{ route('admin.fund-requests.approved') }}">Approved</a>
+                        <a class="nav-link" href="{{ route('admin.fund-requests.failed') }}">Failed/Rejected</a>
                     </div>
                 </li>
                 <!-- Fund Deduction Dropdown -->

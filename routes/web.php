@@ -16,6 +16,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\MailController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\TransactionController;
 
 
 
@@ -76,17 +77,13 @@ Route::get('/admin/level-settings', function () {
     return view('backend.pages.levelsettings', compact('salaries'));
 })->name('admin-level-settings');
 
-Route::get('/admin/all-fund-requests', function () {
-    return view('backend.pages.all_fund_requests');
-})->name('admin.fund-requests.all');
+Route::get('/admin/all-fund-requests', [TransactionController::class, 'index'])->name('admin.fund-requests.all');
 
-Route::get('/admin/approved-fund-requests', function () {
-    return view('backend.pages.approved_fund_requests');
-})->name('admin.fund-requests.approved');
+Route::get('/admin/approved-fund-requests', [FundRequestController::class, 'approvedRequests'])->name('admin.fund-requests.approved');
 
-Route::get('/admin/pending-fund-requests', function () {
-    return view('backend.pages.pending_fund_requests');
-})->name('admin.fund-requests.pending');
+Route::get('/admin/pending-fund-requests', [FundRequestController::class, 'pendingRequests'])->name('admin.fund-requests.pending');
+
+Route::get('/admin/failed-fund-requests', [FundRequestController::class, 'failedRequests'])->name('admin.fund-requests.failed');
 
 Route::get('/admin/deduction-report', function () {
     return view('backend.pages.deductionreport');
@@ -277,14 +274,15 @@ Route::get('/user/pages/blank', function () { return view('user.pages.blank'); }
 Route::get('/user/pages/email', function () { return view('user.pages.email'); })->name('user.pages.email');
 Route::get('/user/pages/exchange', function () { return view('user.pages.exchange'); })->name('user.pages.exchange');
 Route::get('/user/pages/faq', function () { return view('user.pages.faq'); })->name('user.pages.faq');
-Route::get('/user/pages/investment', function () { return view('user.pages.investment'); })->name('user.pages.investment');
+Route::get('/user/pages/plans', function () { return view('user.pages.plans'); })->name('user.pages.plans');
 Route::get('/user/pages/mailDetails', function () { return view('user.pages.mailDetails'); })->name('user.pages.mailDetails');
 Route::get('/user/pages/market', function () { return view('user.pages.market'); })->name('user.pages.market');
 Route::get('/user/pages/notification', function () { return view('user.pages.notification'); })->name('user.pages.notification');
-Route::get('/user/pages/profile', function () { return view('user.pages.profile'); })->name('user.pages.profile');
+Route::get('/user/pages/profile', [UserController::class, 'profile'])->name('user.pages.profile');
+Route::get('/user/pages/profile/{role}', [UserController::class, 'getUsersByRole'])->name('user.pages.profile.by.role');
 Route::get('/user/pages/support', function () { return view('user.pages.support'); })->name('user.pages.support');
 Route::get('/user/pages/terms-condition', function () { return view('user.pages.terms&condition'); })->name('user.pages.terms-condition');
-Route::get('/user/pages/transactions', function () { return view('user.pages.transactions'); })->name('user.pages.transactions');
+Route::get('/user/pages/transactions', [UserController::class, 'userTransactions'])->name('user.pages.transactions');
 Route::get('/user/pages/transfer', function () { return view('user.pages.transfer'); })->name('user.pages.transfer');
 Route::get('/user/pages/wallet', function () { return view('user.pages.wallet'); })->name('user.pages.wallet');
 
@@ -341,9 +339,14 @@ Route::get('/admin/wallet-balance', function () {
 //     return view('user.user_layout');
 // })->name('user');
 
-Route::get('/user', function () {
-    return view('user.user');
-})->name('user');
+Route::get('/user', [UserController::class, 'dashboard'])->middleware('auth')->name('user');
+Route::post('/packages/buy', [UserController::class, 'buy'])->middleware('auth')->name('packages.buy');
+Route::get('/packages/buy', function() {
+    return redirect()->route('user')->with('error', 'Please use the Buy button to purchase packages.');
+})->name('packages.buy.get');
+Route::match(['get', 'post'], '/admin/transactions/{id}/approve', [TransactionController::class, 'approve'])->name('admin.transactions.approve');
+Route::post('/admin/transactions/{id}/reject', [TransactionController::class, 'reject'])->name('admin.transactions.reject');
 
-Route::get('/user', [UserController::class, 'dashboard'])->name('user');
+Route::get('/admin/transactions', [TransactionController::class, 'index'])->name('admin.transactions.index');
+
 
