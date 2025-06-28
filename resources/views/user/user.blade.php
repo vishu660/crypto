@@ -21,41 +21,113 @@
             <!-- End:Title -->
 
             <div class="row">
-                @php
-                    $colors = ['#6271ebe0', '#23cb62e0', '#fc76b7eb'];
-                @endphp
-            
-                @forelse($packages as $index => $package)
-                    @php $color = $colors[$index % count($colors)]; @endphp
-            
-                    <div class="col-md-6 col-xxl-4 d2c_balance_card">
-                        <div class="card d2c_wallet_card mb-4"
-                            style="background: linear-gradient(180deg, {{ $color }} 0%, #6271ebd6 270.67%), url(./assets/images/triangle_bg.png); background-repeat: no-repeat; background-size: cover;">
-                            <div class="card-body">
-                                <div class="mb-4">
-                                    <p class="mb-1 text-white">Package</p>
-                                    <h5 class="fw-semibold text-white">{{ $package->name }}</h5>
-                                </div>
-                                <ul class="list-unstyled text-white">
-                                    <li><strong>Investment:</strong> ${{ number_format($package->investment_amount, 2) }}</li>
-                                    <li><strong>ROI:</strong> {{ $package->roi_percent }}%</li>
-                                    <li><strong>Validity:</strong> {{ $package->validity_days }} days</li>
-                                    <li><strong>Bonus:</strong> {{ $package->direct_bonus_percent }}%</li>
-                                    <li><strong>Referral:</strong> {{ $package->referral_income }}%</li>
-                                    <li><strong>Type:</strong> {{ ucfirst($package->type_of_investment_days) }}</li>
-                                </ul>
-                            </div>
-                        </div>
+    @php
+        $colors = ['#6271ebe0', '#23cb62e0', '#fc76b7eb'];
+    @endphp
+
+    @forelse($packages as $index => $package)
+        @php $color = $colors[$index % count($colors)]; @endphp
+
+        <div class="col-md-6 col-xxl-4">
+            <div class="card position-relative mb-4"
+                style="
+                    background: linear-gradient(180deg, {{ $color }} 0%, #6271ebd6 270.67%),
+                    url(./assets/images/triangle_bg.png);
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    border-radius: 15px;
+                    overflow: hidden;
+                    padding: 30px;
+                    color: #fff;
+                ">
+
+                <!-- Buy Button -->
+                <a href="#"
+                   class="btn btn-success position-absolute"
+                   style="
+                       top: 15px;
+                       right: 15px;
+                       border-radius: 30px;
+                       padding: 6px 16px;
+                       font-weight: 600;
+                       font-size: 14px;
+                   ">
+                    Buy
+                </a>
+
+                <!-- Main Balance -->
+                <p class="mb-1 text-white">Investment</p>
+                <h3 class="fw-bold mb-5 text-white">
+                    ${{ number_format($package->investment_amount, 2) }}
+                </h3>
+
+                <!-- Bottom Details (like Balance card) -->
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="mb-1 text-white">Package</p>
+                        <h6 class="fw-semibold text-white">{{ $package->name }}</h6>
                     </div>
-            
-                @empty
-                    <div class="col-12 text-center">
-                        <div class="alert alert-warning">
-                            No active packages available at the moment.
-                        </div>
+                    <div>
+                        <p class="mb-1 text-white">Valid date</p>
+                        <h6 class="fw-semibold text-white">
+                            {{ now()->addDays($package->validity_days)->format('m/Y') }}
+                        </h6>
                     </div>
-                @endforelse
+                </div>
+
+                <!-- Extra Details Below -->
+                <div class="d-flex justify-content-between">
+                    <div class="mt-4">
+                        <p class="mb-1 text-white"><strong>ROI:</strong></p>
+                        <p class="mb-1 text-white"><strong>Bonus:</strong></p>
+                        <p class="mb-1 text-white"><strong>Referral:</strong></p>
+                        <p class="mb-1 text-white"><strong>Type:</strong></p>
+
+                        @if($package->type_of_investment_days == 'daily')
+                            <p class="mb-1 text-white"><strong>Daily Days:</strong></p>
+                        @elseif($package->type_of_investment_days == 'weekly')
+                            <p class="mb-1 text-white"><strong>Weekly Day:</strong></p>
+                        @elseif($package->type_of_investment_days == 'monthly')
+                            <p class="mb-1 text-white"><strong>Monthly Date:</strong></p>
+                        @endif
+
+                        <p class="mb-1 text-white"><strong>Status:</strong></p>
+                    </div>
+
+                    <div class="mt-4">
+                        <p class="mb-1 text-white">{{ $package->roi_percent }}%</p>
+                        <p class="mb-1 text-white">{{ $package->direct_bonus_percent }}%</p>
+                        <p class="mb-1 text-white">{{ $package->referral_income }}%</p>
+                        <p class="mb-1 text-white">{{ ucfirst($package->type_of_investment_days) }}</p>
+
+                        @if($package->type_of_investment_days == 'daily' && $package->daily_days)
+                            <p class="mb-1 text-white">{{ implode(', ', $package->daily_days) }}</p>
+                        @elseif($package->type_of_investment_days == 'weekly' && $package->weekly_day)
+                            <p class="mb-1 text-white">{{ $package->weekly_day }}</p>
+                        @elseif($package->type_of_investment_days == 'monthly' && $package->monthly_date)
+                            <p class="mb-1 text-white">{{ $package->monthly_date }}</p>
+                        @endif
+
+                        <p class="mb-0 text-white">{{ $package->is_active ? 'Active' : 'Inactive' }}</p>
+                    </div>
+                </div>
+
             </div>
+        </div>
+
+    @empty
+        <div class="col-12 text-center">
+            <div class="alert alert-warning">
+                No active packages available at the moment.
+            </div>
+        </div>
+    @endforelse
+</div>
+
+
+
+
+
             
 
             {{-- <div class="row">
