@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- responsive css -->
     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/DataTables/datatables.min.css') }}">
 </head>
 
 <body>
@@ -938,60 +939,6 @@
                                                                 </div>
                                                             </th>
                                                             <td>
-                                                                <button class="btn">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
                                                                 <button class="btn active">
                                                                     <i class="far fa-star"></i>
                                                                 </button>
@@ -1046,7 +993,34 @@
                                                                 </div>
                                                             </th>
                                                             <td>
-                                                                <button class="btn">
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
                                                                     <i class="far fa-star"></i>
                                                                 </button>
                                                             </td>
@@ -1171,730 +1145,6 @@
                                                                 </button>
                                                             </td>
                                                         </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <!-- Data Table -->
-                                        </div>
-
-                                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
-                                            <!-- Draft Data Table -->
-                                            <div class="d2c_mail_nav row mb-4">
-                                                <div class="col-xl-8 col-sm-6 d-inline-flex align-items-center">
-                                                    <!-- Select All -->
-                                                    <div class="btn bg-success text-success bg-opacity-10 rounded-2 me-2 px-2 py-1 py-md-2 px-md-4">
-                                                        <div class="control-group">
-                                                            <label class="control control-checkbox">
-                                                                <input type="checkbox">
-                                                                <span class="control_indicator"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Select All -->
-
-                                                    <!-- Refresh -->
-                                                    <button class="btn bg-success text-success bg-opacity-10 rounded-2 me-2 px-2 py-1 py-md-2 px-md-4">
-                                                        <i class="fas fa-sync-alt"></i>
-                                                    </button>
-                                                    <!-- Refresh -->
-
-                                                    <!-- Archive -->
-                                                    <button class="btn bg-warning text-warning bg-opacity-10 rounded-2 me-2 px-2 py-1 py-md-2 px-md-4">
-                                                        <i class="fas fa-archive"></i>
-                                                    </button>
-                                                    <!-- Archive -->
-
-                                                    <!-- Delete -->
-                                                    <button class="btn bg-danger text-danger bg-opacity-10 rounded-2 me-2 px-2 py-1 py-md-2 px-md-4">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                    <!-- Delete -->
-
-                                                    <!-- Search -->
-                                                    <form class="d-none d-xxl-block">
-                                                        <div class="input-group">
-                                                            <button class="btn input-group-text border-0 rounded-start" type="submit">
-                                                                <i class="fas fa-search"></i>
-                                                            </button>
-                                                            <input class="form-control border-0" type="search" placeholder="Search Email" aria-label="Search" required>
-                                                        </div>
-                                                    </form>
-                                                    <!-- Search -->
-                                                </div>
-                                                <div class="col-xl-4 col-sm-6 d-inline-flex align-items-center justify-content-md-end mt-3 mt-md-0">
-                                                    <p class="mb-0">1-20 of 155</p>
-                                                    <!-- Arrow -->
-                                                    <div class="d2c_nav_arrow ms-2">
-                                                        <button class="btn btn-light rounded-0 rounded-start p-2">
-                                                            <i class="fas fa-chevron-left"></i>
-                                                        </button>
-                                                        <button class="btn btn-light rounded-0 rounded-end p-2">
-                                                            <i class="fas fa-chevron-right"></i>
-                                                        </button>
-                                                    </div>
-                                                    <!-- Arrow -->
-                                                </div>
-                                            </div>
-
-                                                    <div class="table-responsive">
-                                                        <table class="table table-hover mb-0">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn active">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td>
-                                                                        <a class="text-primary" href="{{ route('user.pages.mailDetails') }}">Draft</a>
-                                                                        <a class="text-primary" href="mailDetails.html">Draft</a>
-                                                                    </td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td>
-                                                                        <a class="text-primary" href="mailDetails.html">Draft</a>
-                                                                    </td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td>
-                                                                        <a class="text-primary" href="mailDetails.html">Draft</a>
-                                                                    </td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td>
-                                                                        <a class="text-primary" href="mailDetails.html">Draft</a>
-                                                                    </td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td>
-                                                                        <a class="text-primary" href="mailDetails.html">Draft</a>
-                                                                    </td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td>
-                                                                        <a class="text-primary" href="mailDetails.html">Draft</a>
-                                                                    </td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td>
-                                                                        <a class="text-primary" href="mailDetails.html">Draft</a>
-                                                                    </td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td>
-                                                                        <a class="text-primary" href="mailDetails.html">Draft</a>
-                                                                    </td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td>
-                                                                        <a class="text-primary" href="mailDetails.html">Draft</a>
-                                                                    </td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td>
-                                                                        <a class="text-primary" href="mailDetails.html">Draft</a>
-                                                                    </td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td>
-                                                                        <a class="text-primary" href="mailDetails.html">Draft</a>
-                                                                    </td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn active">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td style="min-width: 210px">To: Esther Howard</td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td style="min-width: 210px">To: Esther Howard</td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn active">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td style="min-width: 210px">To: Esther Howard</td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn active">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td style="min-width: 210px">To: Esther Howard</td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td style="min-width: 210px">To: Esther Howard</td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td style="min-width: 210px">To: Esther Howard</td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td style="min-width: 210px">To: Esther Howard</td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn active">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td style="min-width: 210px">To: Esther Howard</td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn active">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td style="min-width: 210px">To: Esther Howard</td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>
-                                                                        <div class="control-group">
-                                                                            <label class="control control-checkbox">
-                                                                                <input type="checkbox">
-                                                                                <span class="control_indicator"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </th>
-                                                                    <td>
-                                                                        <button class="btn active">
-                                                                            <i class="far fa-star"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td style="min-width: 210px">To: Esther Howard</td>
-                                                                    <td style="min-width: 350px">
-                                                                        <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <button class="btn d2c_archive">
-                                                                            <i class="fas fa-archive"></i>
-                                                                        </button>
-                                                                        <button class="btn d2c_trash">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <!-- Sent Mail Data Table -->
-                                        </div>
-                                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
-                                            <div class="d2c_mail_nav row mb-4">
-                                                <div class="col-xl-8 col-sm-6 d-inline-flex align-items-center">
-                                                    <!-- Select All -->
-                                                    <div class="btn bg-success text-success bg-opacity-10 rounded-2 me-2 px-2 py-1 py-md-2 px-md-4">
-                                                        <div class="control-group">
-                                                            <label class="control control-checkbox">
-                                                                <input type="checkbox">
-                                                                <span class="control_indicator"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Select All -->
-
-                                                    <!-- Refresh -->
-                                                    <button class="btn bg-success text-success bg-opacity-10 rounded-2 me-2 px-2 py-1 py-md-2 px-md-4">
-                                                        <i class="fas fa-sync-alt"></i>
-                                                    </button>
-                                                    <!-- Refresh -->
-
-                                                    <!-- Archive -->
-                                                    <button class="btn bg-warning text-warning bg-opacity-10 rounded-2 me-2 px-2 py-1 py-md-2 px-md-4">
-                                                        <i class="fas fa-archive"></i>
-                                                    </button>
-                                                    <!-- Archive -->
-
-                                                    <!-- Delete -->
-                                                    <button class="btn bg-danger text-danger bg-opacity-10 rounded-2 me-2 px-2 py-1 py-md-2 px-md-4">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                    <!-- Delete -->
-
-                                                    <!-- Search -->
-                                                    <form class="d-none d-xxl-block">
-                                                        <div class="input-group">
-                                                            <button class="btn input-group-text border-0 rounded-start" type="submit">
-                                                                <i class="fas fa-search"></i>
-                                                            </button>
-                                                            <input class="form-control border-0" type="search" placeholder="Search Email" aria-label="Search" required>
-                                                        </div>
-                                                    </form>
-                                                    <!-- Search -->
-                                                </div>
-                                                <div class="col-xl-4 col-sm-6 d-inline-flex align-items-center justify-content-md-end mt-3 mt-md-0">
-                                                    <p class="mb-0">1-20 of 155</p>
-                                                    <!-- Arrow -->
-                                                    <div class="d2c_nav_arrow ms-2">
-                                                        <button class="btn btn-light rounded-0 rounded-start p-2">
-                                                            <i class="fas fa-chevron-left"></i>
-                                                        </button>
-                                                        <button class="btn btn-light rounded-0 rounded-end p-2">
-                                                            <i class="fas fa-chevron-right"></i>
-                                                        </button>
-                                                    </div>
-                                                    <!-- Arrow -->
-                                                </div>
-                                            </div>
-
-                                            <div class="table-responsive">
-                                                <table class="table table-hover mb-0">
-                                                    <tbody>
                                                         <tr>
                                                             <th>
                                                                 <div class="control-group">
@@ -1909,9 +1159,9 @@
                                                                     <i class="far fa-star"></i>
                                                                 </button>
                                                             </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
                                                             <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
                                                             </td>
                                                             <td>
                                                                 <button class="btn d2c_archive">
@@ -1932,13 +1182,661 @@
                                                                 </div>
                                                             </th>
                                                             <td>
-                                                                <button class="btn">
+                                                                <button class="btn active">
                                                                     <i class="far fa-star"></i>
                                                                 </button>
                                                             </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
                                                             <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn d2c_archive">
+                                                                    <i class="fas fa-archive"></i>
+                                                                </button>
+                                                                <button class="btn d2c_trash">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="control-group">
+                                                                    <label class="control control-checkbox">
+                                                                        <input type="checkbox">
+                                                                        <span class="control_indicator"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <td>
+                                                                <button class="btn active">
+                                                                    <i class="far fa-star"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td style="min-width: 150px"><a href="{{ route('user.pages.mailDetails') }}">Walter Reuter</a></td>
+                                                            <td style="min-width: 350px">
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id in...</a>
                                                             </td>
                                                             <td>
                                                                 <button class="btn d2c_archive">
@@ -1965,504 +1863,7 @@
                                                             </td>
                                                             <td style="min-width: 210px">To: Esther Howard</td>
                                                             <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn active">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn active">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn active">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
-                                            <div class="d2c_mail_nav row mb-4">
-                                                <div class="col-xl-8 col-sm-6 d-inline-flex align-items-center">
-                                                    <!-- Select All -->
-                                                    <div class="btn bg-success text-success bg-opacity-10 rounded-2 me-2 px-2 py-1 py-md-2 px-md-4">
-                                                        <div class="control-group">
-                                                            <label class="control control-checkbox">
-                                                                <input type="checkbox">
-                                                                <span class="control_indicator"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Select All -->
-
-                                                    <!-- Refresh -->
-                                                    <button class="btn bg-success text-success bg-opacity-10 rounded-2 me-2 px-2 py-1 py-md-2 px-md-4">
-                                                        <i class="fas fa-sync-alt"></i>
-                                                    </button>
-                                                    <!-- Refresh -->
-
-                                                    <!-- Archive -->
-                                                    <button class="btn bg-warning text-warning bg-opacity-10 rounded-2 me-2 px-2 py-1 py-md-2 px-md-4">
-                                                        <i class="fas fa-archive"></i>
-                                                    </button>
-                                                    <!-- Archive -->
-
-                                                    <!-- Delete -->
-                                                    <button class="btn bg-danger text-danger bg-opacity-10 rounded-2 me-2 px-2 py-1 py-md-2 px-md-4">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                    <!-- Delete -->
-
-                                                    <!-- Search -->
-                                                    <form class="d-none d-xxl-block">
-                                                        <div class="input-group">
-                                                            <button class="btn input-group-text border-0 rounded-start" type="submit">
-                                                                <i class="fas fa-search"></i>
-                                                            </button>
-                                                            <input class="form-control border-0" type="search" placeholder="Search Email" aria-label="Search" required>
-                                                        </div>
-                                                    </form>
-                                                    <!-- Search -->
-                                                </div>
-                                                <div class="col-xl-4 col-sm-6 d-inline-flex align-items-center justify-content-md-end mt-3 mt-md-0">
-                                                    <p class="mb-0">1-20 of 155</p>
-                                                    <!-- Arrow -->
-                                                    <div class="d2c_nav_arrow ms-2">
-                                                        <button class="btn btn-light rounded-0 rounded-start p-2">
-                                                            <i class="fas fa-chevron-left"></i>
-                                                        </button>
-                                                        <button class="btn btn-light rounded-0 rounded-end p-2">
-                                                            <i class="fas fa-chevron-right"></i>
-                                                        </button>
-                                                    </div>
-                                                    <!-- Arrow -->
-                                                </div>
-                                            </div>
-
-                                            <div class="table-responsive">
-                                                <table class="table table-hover mb-0">
-                                                    <tbody>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn active">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn active">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn active">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn active">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn d2c_archive">
-                                                                    <i class="fas fa-archive"></i>
-                                                                </button>
-                                                                <button class="btn d2c_trash">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>
-                                                                <div class="control-group">
-                                                                    <label class="control control-checkbox">
-                                                                        <input type="checkbox">
-                                                                        <span class="control_indicator"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </th>
-                                                            <td>
-                                                                <button class="btn active">
-                                                                    <i class="far fa-star"></i>
-                                                                </button>
-                                                            </td>
-                                                            <td style="min-width: 210px">To: Esther Howard</td>
-                                                            <td style="min-width: 350px">
-                                                                <a class="d2c_mail_subject" href="mailDetails.html">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
+                                                                <a class="d2c_mail_subject" href="{{ route('user.pages.mailDetails') }}">Statement belting with double - Duis nec ligula sed augue consequat mattis sed egat urna, gravida id orci in...</a>
                                                             </td>
                                                             <td>
                                                                 <button class="btn d2c_archive">
@@ -2514,7 +1915,7 @@
                                 </a>
                                 <div class="dropdown-list dropdown-menu dropdown-menu-right shadow border-0 py-0 mt-3">
                                     <h6 class="dropdown-header text-white bg-primary rounded-top py-3">Notifications</h6>
-                                    <a class="dropdown-item d-flex align-items-center" href="../pages/notification.html">
+                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('user.pages.notification') }}">
                                         <div>
                                             <p class="d2c_notification_first_letter bg-info text-info fw-bold bg-opacity-10 d-flex align-items-center justify-content-center fs-6 fs-md-5 me-2 me-md-3 text-uppercase">w</p>
                                         </div>
@@ -2523,7 +1924,7 @@
                                             <p class="mb-0"><small>With our newest listing, we're welcoming Wrapped Bitcoin (wBTC) to our DeFi Innovation Zone! You can now deposit…</small></p>
                                         </div>
                                     </a>
-                                    <a class="dropdown-item d-flex align-items-center" href="../pages/notification.html">
+                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('user.pages.notification') }}">
                                         <div>
                                             <p class="d2c_notification_first_letter bg-danger text-danger fw-bold bg-opacity-10 d-flex align-items-center justify-content-center fs-6 fs-md-5 me-2 me-md-3 text-uppercase">A</p>
                                         </div>
@@ -2532,7 +1933,7 @@
                                             <p class="mb-0"><small>With our newest listing, we're welcoming Wrapped Bitcoin (wBTC) to our DeFi Innovation Zone! You can now deposit…</small></p>
                                         </div>
                                     </a>
-                                    <a class="dropdown-item d-flex align-items-center" href="../pages/notification.html">
+                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('user.pages.notification') }}">
                                         <div>
                                             <p class="d2c_notification_first_letter bg-success text-success fw-bold bg-opacity-10 d-flex align-items-center justify-content-center fs-6 fs-md-5 me-2 me-md-3 text-uppercase">C</p>
                                         </div>
@@ -2541,7 +1942,7 @@
                                             <p class="mb-0"><small>With our newest listing, we're welcoming Wrapped Bitcoin (wBTC) to our DeFi Innovation Zone! You can now deposit…</small></p>
                                         </div>
                                     </a>
-                                    <a class="dropdown-item d-flex align-items-center" href="../pages/notification.html">
+                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('user.pages.notification') }}">
                                         <div>
                                             <p class="d2c_notification_first_letter bg-primary text-primary fw-bold bg-opacity-10 d-flex align-items-center justify-content-center fs-6 fs-md-5 me-2 me-md-3 text-uppercase">U</p>
                                         </div>
@@ -2551,7 +1952,7 @@
                                         </div>
                                     </a>
                                     <a class=" dropdown-item text-center small text-gray-500 d2c_all_notification_btn"
-                                        href="../pages/notification.html">See All
+                                        href="{{ route('user.pages.notification') }}">See All
                                         Notifications</a>
 
                                      
@@ -2570,7 +1971,7 @@
                                 </div>
                             </div>
                             <div class="col-4">
-                                <a href="../pages/profile.html"><img class="rounded-circle" src="../assets/images/profile/profile-2.jpg" alt="Profile Image" style="height: 40px; width: 40px; object-fit: cover;"></a>
+                                <a href="{{ route('user.pages.profile') }}"><img class="rounded-circle" src="{{ asset('assets/images/profile/profile-2.jpg') }}" alt="Profile Image" style="height: 40px; width: 40px; object-fit: cover;"></a>
                             </div>
                         </div>
                     </div>
@@ -2592,7 +1993,7 @@
                 </div>
 
 
-                <div class="card d2c_wallet_card mb-4" style="background: linear-gradient(180deg, #6271ebe0 0%, #fc76b7 373.31%), url('../assets/images/triangle_bg.png');">
+                <div class="card d2c_wallet_card mb-4" style="background: linear-gradient(180deg, #6271ebe0 0%, #fc76b7 373.31%), url('{{ asset('assets/images/triangle_bg.png') }}');">
                     <div class="card-body">
                         <div class="mb-4">
                             <p class="mb-1 text-white">Balance</p>
@@ -2665,11 +2066,11 @@
     </button>
 
     <!-- Initial  Javascript -->
-    <script src="../lib/jQuery/jquery-3.5.1.min.js"></script>
-    <script src="../lib/bootstrap_5/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('lib/jQuery/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('lib/bootstrap_5/bootstrap.bundle.min.js') }}"></script>
 
     <!-- custom js -->
-    <script src="../assets/js/main.js"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
 </body>
 </html>
 

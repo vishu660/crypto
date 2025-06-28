@@ -1667,7 +1667,8 @@
                                 </div>
                             </div>
                             <div class="col-4">
-                                <a href="{{ url('user/pages/profile') }}"><img class="rounded-circle" src="../assets/images/profile/profile-2.jpg" alt="Profile Image" style="height: 40px; width: 40px; object-fit: cover;"></a>
+                                <a href="{{ url('user/pages/profile') }}"><img class="rounded-circle" src="{{ asset('assets/images/profile/profile-2.jpg') }}"
+                                    alt="Profile Image" style="height: 40px; width: 40px; object-fit: cover;"></a>
                             </div>
                         </div>
                     </div>
@@ -1764,15 +1765,11 @@
     <!-- End:Offcanvas Toggler -->
 
     <!-- Initial  Javascript -->
-    <script src="../lib/jQuery/jquery-3.5.1.min.js"></script>
-    <script src="../lib/bootstrap_5/bootstrap.bundle.min.js"></script>
-
-    <!-- DataTable JS -->
-    <script src="../lib/DataTables/datatables.min.js"></script>
-    <script src="../assets/js/datatable/script.js"></script>
-
-    <!-- custom js -->
-    <script src="../assets/js/main.js"></script>
+    <script src="{{ asset('lib/jQuery/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('lib/bootstrap_5/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('lib/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/script.js') }}"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
 </body>
 
 </html>
