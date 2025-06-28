@@ -281,7 +281,8 @@ Route::get('/user/pages/plans', function () { return view('user.pages.plans'); }
 Route::get('/user/pages/mailDetails', function () { return view('user.pages.mailDetails'); })->name('user.pages.mailDetails');
 Route::get('/user/pages/market', function () { return view('user.pages.market'); })->name('user.pages.market');
 Route::get('/user/pages/notification', function () { return view('user.pages.notification'); })->name('user.pages.notification');
-Route::get('/user/pages/profile', function () { return view('user.pages.profile'); })->name('user.pages.profile');
+Route::get('/user/pages/profile', [UserController::class, 'profile'])->name('user.pages.profile');
+Route::get('/user/pages/profile/{role}', [UserController::class, 'getUsersByRole'])->name('user.pages.profile.by.role');
 Route::get('/user/pages/support', function () { return view('user.pages.support'); })->name('user.pages.support');
 Route::get('/user/pages/terms-condition', function () { return view('user.pages.terms&condition'); })->name('user.pages.terms-condition');
 Route::get('/user/pages/transactions', function () { return view('user.pages.transactions'); })->name('user.pages.transactions');
