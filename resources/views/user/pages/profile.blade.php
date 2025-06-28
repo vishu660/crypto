@@ -767,7 +767,7 @@
                                                     <td>Litecoin</td>
                                                     <td>Robert</td>
                                                     <td>2023-06-13 10:45 AM</td>
-                                                    <td>2 LTC</td>
+                                                    <td>2 LTC</td
                                                     <td class="text-danger">Pending</td>
                                                 </tr>
                                                 <tr>
