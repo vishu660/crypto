@@ -65,7 +65,7 @@
 
                     <!-- Menu Item -->
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('user.pages.investment') }}">
+                        <a class="nav-link" href="{{ route('user.pages.plans') }}">
                             <span class="d2c_icon">
                                 <i class="fas fa-coins"></i>
                             </span>
