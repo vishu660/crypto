@@ -13,7 +13,17 @@ class UserController extends Controller
     public function dashboard()
     {
         $packages = Package::where('is_active', 1)->get();
-        return view('user.user', compact('packages'));
+        
+        // Get all transactions for the authenticated user for statistics
+        $allTransactions = Transaction::where('user_id', auth()->id())->get();
+        
+        // Get recent transactions for the authenticated user
+        $recentTransactions = Transaction::where('user_id', auth()->id())
+            ->latest()
+            ->take(5)
+            ->get();
+        
+        return view('user.user', compact('packages', 'recentTransactions', 'allTransactions'));
     }
 
     public function index()
@@ -111,5 +121,25 @@ class UserController extends Controller
             ]);
             return back()->with('error', 'Failed to create purchase request. Please try again.');
         }
+    }
+
+    public function failedRequests()
+    {
+        $transactions = Transaction::with('user')
+            ->where('status', 'failed')
+            ->where('purpose_of_payment', 'buy_plan_one')
+            ->latest()
+            ->get();
+        return view('backend.pages.failed_fund_requests', compact('transactions'));
+    }
+
+    public function userTransactions()
+    {
+        // Get transactions for the authenticated user
+        $transactions = Transaction::where('user_id', auth()->id())
+            ->latest()
+            ->get();
+        
+        return view('user.pages.transactions', compact('transactions'));
     }
 }

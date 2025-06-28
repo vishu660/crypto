@@ -282,7 +282,7 @@ Route::get('/user/pages/profile', [UserController::class, 'profile'])->name('use
 Route::get('/user/pages/profile/{role}', [UserController::class, 'getUsersByRole'])->name('user.pages.profile.by.role');
 Route::get('/user/pages/support', function () { return view('user.pages.support'); })->name('user.pages.support');
 Route::get('/user/pages/terms-condition', function () { return view('user.pages.terms&condition'); })->name('user.pages.terms-condition');
-Route::get('/user/pages/transactions', function () { return view('user.pages.transactions'); })->name('user.pages.transactions');
+Route::get('/user/pages/transactions', [UserController::class, 'userTransactions'])->name('user.pages.transactions');
 Route::get('/user/pages/transfer', function () { return view('user.pages.transfer'); })->name('user.pages.transfer');
 Route::get('/user/pages/wallet', function () { return view('user.pages.wallet'); })->name('user.pages.wallet');
 

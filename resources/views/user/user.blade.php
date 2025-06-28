@@ -20,6 +20,82 @@
             </div>
             <!-- End:Title -->
 
+            <!-- Transaction Statistics -->
+            <div class="row mb-4">
+                <div class="col-md-6 mb-3">
+                    <div class="card bg-primary bg-opacity-10">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <div class="rounded bg-primary bg-opacity-25 d-flex align-items-center justify-content-center fs-5 text-primary d2c_card_icon_wrapper">
+                                        <i class="fas fa-exchange-alt"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="fw-semibold mb-0">Total Transaction</h6>
+                                    <h4 class="mb-0 fw-bold">{{ $allTransactions->count() }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <div class="card bg-success bg-opacity-10">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <div class="rounded bg-success bg-opacity-25 d-flex align-items-center justify-content-center fs-5 text-success d2c_card_icon_wrapper">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="fw-semibold mb-0">Completed</h6>
+                                    <h4 class="mb-0 fw-bold">{{ $allTransactions->where('status', 'success')->count() }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <div class="card bg-warning bg-opacity-10">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <div class="rounded bg-warning bg-opacity-25 d-flex align-items-center justify-content-center fs-5 text-warning d2c_card_icon_wrapper">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="fw-semibold mb-0">Pending</h6>
+                                    <h4 class="mb-0 fw-bold">{{ $allTransactions->where('status', 'pending')->count() }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <div class="card bg-danger bg-opacity-10">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <div class="rounded bg-danger bg-opacity-25 d-flex align-items-center justify-content-center fs-5 text-danger d2c_card_icon_wrapper">
+                                        <i class="fas fa-times-circle"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="fw-semibold mb-0">Failed</h6>
+                                    <h4 class="mb-0 fw-bold">{{ $allTransactions->where('status', 'failed')->count() }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End:Transaction Statistics -->
+
             <div class="row">
     @php
         $colors = ['#6271ebe0', '#23cb62e0', '#fc76b7eb'];
@@ -565,129 +641,47 @@
 
             <div class="card d2c_trading_activities_wrapper bg-primary bg-opacity-10">
                 <div class="card-body">
-                    <h5 class="text-capitalize fw-semibold mb-4">Recent Trading Activities</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="text-capitalize fw-semibold mb-0">Recent Trading Activities</h5>
+                        <a href="{{ route('user.pages.transactions') }}" class="btn btn-primary btn-sm">View All Transactions</a>
+                    </div>
                     <div class="table-responsive">
                         <table class="table align-middle" id="d2c_trading_activities">
                             <thead>
                                 <tr>
                                     <th style="min-width: 12.5rem;">Transaction ID</th>
                                     <th>Type</th>
-                                    <th>Coins</th>
-                                    <th style="min-width: 12.5rem;">To</th>
+                                    <th>Purpose</th>
+                                    <th style="min-width: 12.5rem;">Amount</th>
                                     <th style="min-width: 150px;">Date</th>
-                                    <th>Amount</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>TRX001</td>
-                                    <td class="text-success">Buy</td>
-                                    <td>Bitcoin</td>
-                                    <td>John Doe</td>
-                                    <td>2022-03-01</td>
-                                    <td>$10,000</td>
-                                    <td class="text-success">Complete</td>
-                                </tr>
-                                <tr>
-                                    <td>ETH002</td>
-                                    <td class="text-danger">Sold</td>
-                                    <td>Ethereum</td>
-                                    <td>Jane Smith</td>
-                                    <td>2022-02-28</td>
-                                    <td>$5,500</td>
-                                    <td class="text-success">Complete</td>
-                                </tr>
-                                <tr>
-                                    <td>BTC003</td>
-                                    <td class="text-success">Buy</td>
-                                    <td>Bitcoin</td>
-                                    <td>Michael Johnson</td>
-                                    <td>2022-02-27</td>
-                                    <td>$7,200</td>
-                                    <td class="text-success">Complete</td>
-                                </tr>
-                                <tr>
-                                    <td>XRP004</td>
-                                    <td class="text-danger">Sold</td>
-                                    <td>Ripple</td>
-                                    <td>Sarah Davis</td>
-                                    <td>2022-02-26</td>
-                                    <td>$2,300</td>
-                                    <td class="text-success">Complete</td>
-                                </tr>
-                                <tr>
-                                    <td>LTC005</td>
-                                    <td class="text-success">Buy</td>
-                                    <td>Litecoin</td>
-                                    <td>Andrew Thompson</td>
-                                    <td>2022-02-25</td>
-                                    <td>$3,800</td>
-                                    <td class="text-danger">Pending</td>
-                                </tr>
-                                <tr>
-                                    <td>ETH006</td>
-                                    <td class="text-danger">Sold</td>
-                                    <td>Ethereum</td>
-                                    <td>Emily Wilson</td>
-                                    <td>2022-02-24</td>
-                                    <td>$6,000</td>
-                                    <td class="text-danger">Pending</td>
-                                </tr>
-                                <tr>
-                                    <td>BTC007</td>
-                                    <td class="text-success">Buy</td>
-                                    <td>Bitcoin</td>
-                                    <td>David Johnson</td>
-                                    <td>2022-02-23</td>
-                                    <td>$4,500</td>
-                                    <td class="text-success">Complete</td>
-                                </tr>
-                                <tr>
-                                    <td>XRP008</td>
-                                    <td class="text-danger">Sold</td>
-                                    <td>Ripple</td>
-                                    <td>Emma Thompson</td>
-                                    <td>2022-02-22</td>
-                                    <td>$1,800</td>
-                                    <td class="text-danger">Pending</td>
-                                </tr>
-                                <tr>
-                                    <td>LTC009</td>
-                                    <td class="text-success">Buy</td>
-                                    <td>Litecoin</td>
-                                    <td>Oliver Smith</td>
-                                    <td>2022-02-21</td>
-                                    <td>$2,200</td>
-                                    <td class="text-danger">Pending</td>
-                                </tr>
-                                <tr>
-                                    <td>BTC010</td>
-                                    <td class="text-success">Buy</td>
-                                    <td>YEN</td>
-                                    <td>David Malan</td>
-                                    <td>2022-03-21</td>
-                                    <td>$8,500</td>
-                                    <td class="text-success">Complete</td>
-                                </tr>
-                                <tr>
-                                    <td>XRP011</td>
-                                    <td class="text-danger">Sold</td>
-                                    <td>LIRA</td>
-                                    <td>Emma Alex</td>
-                                    <td>2022-04-12</td>
-                                    <td>$2,600</td>
-                                    <td class="text-danger">Pending</td>
-                                </tr>
-                                <tr>
-                                    <td>LTC012</td>
-                                    <td class="text-success">Buy</td>
-                                    <td>EURO</td>
-                                    <td>Steven Smith</td>
-                                    <td>2022-02-30</td>
-                                    <td>$4,200</td>
-                                    <td class="text-danger">Pending</td>
-                                </tr>
+                                @forelse($recentTransactions as $transaction)
+                                    <tr>
+                                        <td>TRX{{ str_pad($transaction->id, 6, '0', STR_PAD_LEFT) }}</td>
+                                        <td class="{{ $transaction->type === 'credit' ? 'text-success' : 'text-danger' }}">
+                                            {{ ucfirst($transaction->type) }}
+                                        </td>
+                                        <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>
+                                        <td>₹{{ number_format($transaction->amount, 2) }}</td>
+                                        <td>{{ $transaction->created_at->format('d-m-Y') }}</td>
+                                        <td>
+                                            @if($transaction->status === 'pending')
+                                                <span class="text-warning">Pending</span>
+                                            @elseif($transaction->status === 'success')
+                                                <span class="text-success">Complete</span>
+                                            @else
+                                                <span class="text-danger">Failed</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center">No recent transactions found.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -768,8 +762,8 @@
                         <div class="row">
                             <div class="col-8 d-flex align-items-center text-end pe-0">
                                 <div class="w-100">
-                                    <p class="mb-0 fw-semibold d2c_profile_name">Wade Warren</p>
-                                    <small>Trader</small>
+                                    <p class="mb-0 fw-semibold d2c_profile_name">{{ auth()->user()->name }}</p>
+                                    <small>User</small>
                                 </div>
                             </div>
                             <div class="col-4">
@@ -857,6 +851,13 @@
                         <button type="submit" class="btn w-100 text-success bg-success bg-opacity-25">Transfer</button>
                     </form>
                 </div>
+
+                <!-- Menu Item -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <span class="d2c_icon">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </span>
             </div>
         </div>
         <!-- End:Right Sidebar -->
