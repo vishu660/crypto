@@ -9,9 +9,12 @@ class SalaryController extends Controller
 {
     public function index()
     {
-        $users = User::with(['wallets' => function($q) {
-            $q->where('type', 'credit')->where('source', 'roi');
-        }])->get();
+        
+        $users = User::where('role', 'user')
+            ->with(['wallets' => function($q) {
+                $q->where('type', 'credit')
+                  ->where('source', 'roi');
+            }])->get();
 
         return view('backend.pages.show', compact('users'));
     }
