@@ -557,29 +557,28 @@
        
 
             <div class="row">
-                @foreach($users as $userData)
                 <div class="col-xxl-3 mb-4 mb-xxl-0 d2c_profile_details">
                     <div class="card bg-success bg-opacity-10 d2c_profile_info">
                         <img src="{{ asset('assets/images/profile_info_bg.jpg') }}" class="img-fluid rounded-top" alt="profile info bg" style="height: 150px; object-fit: cover;">
                         <div class="card-body">
                             <img src="{{ asset('assets/images/profile/profile-2.jpg') }}" class="img-fluid rounded-circle" style="width: 68px;height: 68px; object-fit: cover;margin-top: -60px;" alt="profile image">
-                            <h5 class="fw-semibold mt-3">{{ $userData->full_name ?? 'User Name' }}</h5>
-                            <h6 class="fw-semibold text-muted">ID: {{ $userData->referral_id ?? 'N/A' }}</h6>
+                            <h5 class="fw-semibold mt-3">{{ $user->full_name ?? 'User Name' }}</h5>
+                            <h6 class="fw-semibold text-muted">ID: {{ $user->referral_id ?? 'N/A' }}</h6>
                             <h6 class="mt-4 fw-semibold">Bio</h6>
                             <p>Amet minim mollit non deserun ullamco & sit aliqua dolor do amet sint. Velit officia consequat duis.</p>
                             <!-- contact details -->
                             <div>
                                 <p class="mb-2 text-secondary d-flex align-items-baseline">
                                     <i class="fas fa-headphones-alt me-2"></i>
-                                    <a href="tel:{{ $userData->mobile_no ?? '' }}">{{ $userData->mobile_no ?? 'N/A' }}</a>
+                                    <a href="tel:{{ $user->mobile_no ?? '' }}">{{ $user->mobile_no ?? 'N/A' }}</a>
                                 </p>
                                 <p class="mb-2 text-secondary d-flex align-items-baseline text-break">
                                     <i class="fas fa-envelope-open-text me-2"></i>
-                                    <a href="mailto:{{ $userData->email ?? '' }}">{{ $userData->email ?? 'N/A' }}</a>
+                                    <a href="mailto:{{ $user->email ?? '' }}">{{ $user->email ?? 'N/A' }}</a>
                                 </p>
                                 <p class="text-secondary d-flex align-items-baseline">
                                     <i class="fas fa-map-marker-alt me-2"></i>
-                                    {{ $userData->city ?? 'N/A' }}, {{ $userData->state ?? 'N/A' }}, {{ $userData->country ?? 'N/A' }}
+                                    {{ $user->city ?? 'N/A' }}, {{ $user->state ?? 'N/A' }}, {{ $user->country ?? 'N/A' }}
                                 </p>
                             </div>
                             <!-- payment method -->
@@ -601,11 +600,10 @@
                                 <a href="https://www.linkedin.com/company/designtocodes/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
                                 <a href="https://www.youtube.com/channel/UCty3RokJyzzUd2f5hhwDocg" target="_blank"><i class="fab fa-youtube"></i></a>
                             </div>
-                            <p class="mb-0">Member since {{ $userData->created_at ? $userData->created_at->format('M d, Y') : 'N/A' }}</p>
+                            <p class="mb-0">Member since {{ $user->created_at ? $user->created_at->format('M d, Y') : 'N/A' }}</p>
                         </div>
                     </div>
                 </div>
-                @endforeach
                 
                 <div class="col-xxl-9 d2c_profile_right">
                     <div class="row">

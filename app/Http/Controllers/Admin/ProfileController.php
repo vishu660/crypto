@@ -49,4 +49,10 @@ class ProfileController extends Controller
 
         return Redirect::route('admin.profile.edit')->with('status', 'Profile updated!');
     }
+
+    public function profile()
+    {
+        $user = auth()->user(); // ya User::find(Auth::id())
+        return view('user.pages.profile', compact('user'));
+    }
 }
