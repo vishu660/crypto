@@ -19,6 +19,7 @@ class UserPackage extends Model
         'roi_dates',
         'total_roi_given',
         'is_active',
+        'source', // ✅ Add this if using in User Buy
     ];
 
     protected $casts = [
@@ -39,5 +40,4 @@ class UserPackage extends Model
     {
         return $this->belongsTo(Package::class);
     }
-
 }

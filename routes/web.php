@@ -118,6 +118,9 @@ Route::get('/admin/new-transfer', function () {
     return view('backend.pages.transferfund');
 })->name('admin.transfers.new');
 
+// Add the missing store route for fund transfers
+Route::post('/admin/transfers', [FundTransferController::class, 'storeTransfer'])->name('admin.transfers.store');
+
 // Route::middleware('auth')->group(function () {
 //     Route::get('/admin/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //     Route::patch('/admin/profile', [ProfileController::class, 'update'])->name('profile.update');

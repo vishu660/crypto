@@ -29,7 +29,7 @@ class PackageController extends Controller
     public function store(Request $request)
     {
         Log::info('Package Store Request Data:', $request->all());
-
+    
         try {
             $validated = $request->validate([
                 'name' => 'required|string|max:255|unique:packages,name',
@@ -45,21 +45,21 @@ class PackageController extends Controller
                 'weekly_day' => 'nullable|string|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
                 'monthly_date' => 'nullable|integer|min:1|max:31',
             ]);
-
+    
             if ($validated['type_of_investment_days'] === 'daily' && empty($request->daily_days)) {
                 return redirect()->back()->withErrors(['daily_days' => 'Please select at least one day for daily investment.'])->withInput();
             }
-
+    
             if ($validated['type_of_investment_days'] === 'weekly' && empty($request->weekly_day)) {
                 return redirect()->back()->withErrors(['weekly_day' => 'Please select a day for weekly investment.'])->withInput();
             }
-
+    
             if ($validated['type_of_investment_days'] === 'monthly' && empty($request->monthly_date)) {
                 return redirect()->back()->withErrors(['monthly_date' => 'Please select a date for monthly investment.'])->withInput();
             }
-
+    
             DB::beginTransaction();
-
+    
             $packageData = [
                 'name' => $validated['name'],
                 'investment_amount' => $validated['investment_amount'],
@@ -73,7 +73,7 @@ class PackageController extends Controller
                 'weekly_day' => null,
                 'monthly_date' => null,
             ];
-
+    
             switch ($validated['type_of_investment_days']) {
                 case 'daily':
                     $packageData['daily_days'] = $request->daily_days ?? [];
@@ -85,47 +85,13 @@ class PackageController extends Controller
                     $packageData['monthly_date'] = $request->monthly_date;
                     break;
             }
-
-         // Package creation के बाद...
-$package = Package::create($packageData);
-Log::info('Package created successfully:', ['id' => $package->id]);
-
-// ⛔ Exclude Admins
-$users = User::where('role', '!=', 'admin')->get(); // मानते हैं कि 'role' कॉलम है
-
-foreach ($users as $user) {
-    $startDate = Carbon::now();
-    $validityDays = $package->validity_days;
-    $endDate = $startDate->copy()->addDays($validityDays - 1);
-
-    // ROI Dates generate
-    $roiDates = RoiHelper::generateRoiDates(
-        $startDate,
-        $validityDays,
-        $package->type_of_investment_days,
-        [
-            'daily_days' => $package->daily_days,
-            'weekly_day' => $package->weekly_day,
-            'monthly_date' => $package->monthly_date,
-        ]
-    );
-
-    // user_packages में entry करें
-    UserPackage::create([
-        'user_id' => $user->id,
-        'package_id' => $package->id,
-        'start_date' => $startDate->toDateString(),
-        'end_date' => $endDate->toDateString(),
-        'roi_dates' => json_encode($roiDates),
-        'total_roi_given' => 0,
-        'is_active' => true,
-    ]);
-}
-
-
+    
+            $package = Package::create($packageData);
+            Log::info('Package created successfully:', ['id' => $package->id]);
+    
             DB::commit();
-            return redirect()->route('admin-package-details')->with('success', 'Package created and assigned successfully.');
-
+            return redirect()->route('admin-package-details')->with('success', 'Package created successfully.');
+    
         } catch (\Illuminate\Validation\ValidationException $e) {
             DB::rollBack();
             return redirect()->back()->withErrors($e->errors())->withInput();
@@ -134,6 +100,7 @@ foreach ($users as $user) {
             return redirect()->back()->with('error', 'Failed to create package: ' . $e->getMessage())->withInput();
         }
     }
+    
 
     /** Remaining methods: edit, update, destroy, toggleStatus — same as before */
 }
