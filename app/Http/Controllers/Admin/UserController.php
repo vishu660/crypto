@@ -142,4 +142,23 @@ class UserController extends Controller
         
         return view('user.pages.transactions', compact('transactions'));
     }
+
+    public function wallet()
+    {
+        $user = auth()->user();
+
+        $wallets = \App\Models\Wallet::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Current balance (already calculated)
+        $balance = $wallets->sum(function($w) {
+            return $w->type === 'credit' ? $w->amount : -$w->amount;
+        });
+
+        // After balance (last transaction ka balance_after)
+        $afterBalance = $wallets->first()->balance_after ?? 0;
+
+        return view('user.pages.wallet', compact('wallets', 'balance', 'afterBalance', 'user'));
+    }
 }

@@ -543,92 +543,24 @@
             <!-- End:Title -->
 
             <div class="row">
+                <!-- Current Balance Box -->
                 <div class="col-md-6 col-xxl-4 d2c_balance_card">
-                    <!-- card item 1 -->
                     <div class="card d2c_wallet_card mb-4" style="background: linear-gradient(180deg, #6271ebe0 0%, #fc76b7 373.31%), url('../assets/images/triangle_bg.png');background-repeat: no-repeat;background-size: cover;">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="mb-4">
-                                        <p class="mb-1 text-white">Balance</p>
-                                        <h5 class="fw-semibold">$10,208.73</h5>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="bg-white text-primary d-flex align-items-center justify-content-center rounded ms-auto" style="width: 40px;height: 40px;">
-                                        <i class="fab fa-btc"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-5">
-                                <div class="col">
-                                    <small>Card Holder</small>
-                                    <h6>Esther Howard</h6>
-                                </div>
-                                <div class="col-5 col-xxl-4">
-                                    <small>Valid Thru</small>
-                                    <h6>08/2023</h6>
-                                </div>
+                            <div class="mb-4">
+                                <p class="mb-1 text-white">Balance</p>
+                                <h5 class="fw-semibold">₹{{ number_format($balance, 2) }}</h5>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- After Balance Box -->
                 <div class="col-md-6 col-xxl-4 d2c_balance_card">
-                    <!-- card item 2 -->
                     <div class="card d2c_wallet_card mb-4" style="background: linear-gradient(180deg, #23cb62e0 0%, #6271ebd6 270.67%), url(../assets/images/triangle_bg.png);background-repeat: no-repeat;background-size: cover;">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="mb-4">
-                                        <p class="mb-1 text-white">Balance</p>
-                                        <h5 class="fw-semibold">$15,223.21</h5>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="bg-white text-success d-flex align-items-center justify-content-center rounded ms-auto" style="width: 40px;height: 40px;">
-                                        <i class="fab fa-btc"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-5">
-                                <div class="col">
-                                    <small>Card Holder</small>
-                                    <h6>Stuart Alan</h6>
-                                </div>
-                                <div class="col-5 col-xxl-4">
-                                    <small>Valid Thru</small>
-                                    <h6>03/2023</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xxl-4 d2c_balance_card d2c_balance_card_3">
-                    <!-- card item 3 -->
-                    <div class="card d2c_wallet_card mb-4" style="background: linear-gradient(180deg, #fc76b7eb 0%, #6271ebd1 277.28%), url(../assets/images/triangle_bg.png);background-repeat: no-repeat;background-size: cover;">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="mb-4">
-                                        <p class="mb-1 text-white">Balance</p>
-                                        <h5 class="fw-semibold">$22,321.73</h5>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="bg-white text-danger d-flex align-items-center justify-content-center rounded ms-auto" style="width: 40px;height: 40px;">
-                                        <i class="fab fa-btc"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-5">
-                                <div class="col">
-                                    <small>Card Holder</small>
-                                    <h6>Steven Howard</h6>
-                                </div>
-                                <div class="col-4">
-                                    <small>Valid Thru</small>
-                                    <h6>10/2023</h6>
-                                </div>
+                            <div class="mb-4">
+                                <p class="mb-1 text-white">After Balance</p>
+                                <h5 class="fw-semibold">₹{{ number_format($afterBalance, 2) }}</h5>
                             </div>
                         </div>
                     </div>
@@ -722,249 +654,132 @@
                                 <div class="tab-pane fade show active" id="pills-yearly" role="tabpanel" aria-labelledby="pills-yearly-tab">
                                     <div class="table-responsive">
                                         <table class="table align-middle">
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Topup</b>
-                                                    </div>
-                                                </td>
-                                                <td style="min-width: 160px;">June 1, 2023</td>
-                                                <td><b>$5,500.00</b></td>
-                                                <td class="text-success">Completed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                <td>June 5, 2023</td>
-                                                <td><b>$7,343.00</b></td>
-                                                <td class="text-success">Complete</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                </td>
-                                                <td>June 10, 2023</td>
-                                                <td><b>$2,786.00</b></td>
-                                                <td class="text-danger">Pending</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                </td>
-                                                <td>June 27, 2023</td>
-                                                <td><b>$8,786.00</b></td>
-                                                <td class="text-success">Completed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                </td>
-                                                <td>June 30, 2023</td>
-                                                <td><b>$7,222.00</b></td>
-                                                <td class="text-danger">Pending</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                </td>
-                                                <td>June 24, 2023</td>
-                                                <td><b>$9,121.00</b></td>
-                                                <td class="text-success">Completed</td>
-                                            </tr>
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Type</th>
+                                                    <th>Source</th>
+                                                    <th>Amount</th>
+                                                    <th>Balance After</th>
+                                                    <th>Message</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse($wallets as $wallet)
+                                                    <tr>
+                                                        <td>{{ $wallet->created_at->format('d M Y, H:i') }}</td>
+                                                        <td>
+                                                            @if($wallet->type === 'credit')
+                                                                <span class="text-success">Credit</span>
+                                                            @else
+                                                                <span class="text-danger">Debit</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ ucfirst($wallet->source) }}</td>
+                                                        <td>
+                                                            @if($wallet->type === 'credit')
+                                                                <span class="text-success">+{{ number_format($wallet->amount, 2) }}</span>
+                                                            @else
+                                                                <span class="text-danger">-{{ number_format($wallet->amount, 2) }}</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ number_format($wallet->balance_after, 2) }}</td>
+                                                        <td>{{ $wallet->message ?? '-' }}</td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No wallet transactions found.</td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="pills-monthly" role="tabpanel" aria-labelledby="pills-monthly-tab">
                                     <div class="table-responsive">
                                         <table class="table align-middle">
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Topup</b>
-                                                    </div>
-                                                </td>
-                                                <td style="min-width: 160px;">June 1, 2023</td>
-                                                <td><b>$8,112.00</b></td>
-                                                <td class="text-success">Completed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                <td>June 5, 2023</td>
-                                                <td><b>$2,552.00</b></td>
-                                                <td class="text-success">Complete</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                </td>
-                                                <td>June 10, 2023</td>
-                                                <td><b>$6,889.00</b></td>
-                                                <td class="text-danger">Pending</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                </td>
-                                                <td>June 27, 2023</td>
-                                                <td><b>$7,111.00</b></td>
-                                                <td class="text-success">Completed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                </td>
-                                                <td>June 30, 2023</td>
-                                                <td><b>$3,346.00</b></td>
-                                                <td class="text-danger">Pending</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                </td>
-                                                <td>June 24, 2023</td>
-                                                <td><b>$5,718.00</b></td>
-                                                <td class="text-success">Completed</td>
-                                            </tr>
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Type</th>
+                                                    <th>Source</th>
+                                                    <th>Amount</th>
+                                                    <th>Balance After</th>
+                                                    <th>Message</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse($wallets as $wallet)
+                                                    <tr>
+                                                        <td>{{ $wallet->created_at->format('d M Y, H:i') }}</td>
+                                                        <td>
+                                                            @if($wallet->type === 'credit')
+                                                                <span class="text-success">Credit</span>
+                                                            @else
+                                                                <span class="text-danger">Debit</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ ucfirst($wallet->source) }}</td>
+                                                        <td>
+                                                            @if($wallet->type === 'credit')
+                                                                <span class="text-success">+{{ number_format($wallet->amount, 2) }}</span>
+                                                            @else
+                                                                <span class="text-danger">-{{ number_format($wallet->amount, 2) }}</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ number_format($wallet->balance_after, 2) }}</td>
+                                                        <td>{{ $wallet->message ?? '-' }}</td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No wallet transactions found.</td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="pills-weekly" role="tabpanel" aria-labelledby="pills-weekly-tab">
                                     <div class="table-responsive">
                                         <table class="table align-middle">
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Topup</b>
-                                                    </div>
-                                                </td>
-                                                <td style="min-width: 160px;">June 1, 2023</td>
-                                                <td><b>$4,200.00</b></td>
-                                                <td class="text-success">Completed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                <td>June 5, 2023</td>
-                                                <td><b>$2,776.00</b></td>
-                                                <td class="text-success">Complete</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                </td>
-                                                <td>June 10, 2023</td>
-                                                <td><b>$9,876.00</b></td>
-                                                <td class="text-danger">Pending</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                </td>
-                                                <td>June 27, 2023</td>
-                                                <td><b>$8,786.00</b></td>
-                                                <td class="text-success">Completed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                </td>
-                                                <td>June 30, 2023</td>
-                                                <td><b>$7,222.00</b></td>
-                                                <td class="text-danger">Pending</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="px-2 py-1 fs-4 bg-success bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded" style="width: 45px;height: 45px;">
-                                                            <i class="fas fa-long-arrow-alt-up"></i>
-                                                        </div>
-                                                        <b>Withdraw</b>
-                                                    </div>
-                                                </td>
-                                                <td>June 24, 2023</td>
-                                                <td><b>$9,121.00</b></td>
-                                                <td class="text-success">Completed</td>
-                                            </tr>
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Type</th>
+                                                    <th>Source</th>
+                                                    <th>Amount</th>
+                                                    <th>Balance After</th>
+                                                    <th>Message</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse($wallets as $wallet)
+                                                    <tr>
+                                                        <td>{{ $wallet->created_at->format('d M Y, H:i') }}</td>
+                                                        <td>
+                                                            @if($wallet->type === 'credit')
+                                                                <span class="text-success">Credit</span>
+                                                            @else
+                                                                <span class="text-danger">Debit</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ ucfirst($wallet->source) }}</td>
+                                                        <td>
+                                                            @if($wallet->type === 'credit')
+                                                                <span class="text-success">+{{ number_format($wallet->amount, 2) }}</span>
+                                                            @else
+                                                                <span class="text-danger">-{{ number_format($wallet->amount, 2) }}</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ number_format($wallet->balance_after, 2) }}</td>
+                                                        <td>{{ $wallet->message ?? '-' }}</td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No wallet transactions found.</td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -1148,168 +963,6 @@
 
         </div>
         <!-- End:Main Body -->
-
-
-        <!-- Right Sidebar canvas -->
-        <div class="d2c_sidebar d2c_sidebar_right offcanvas-xl offcanvas-end p-3" tabindex="-1" id="d2c_sidebar_right">
-            <div class="d-flex flex-column py-4">
-                <div class="row mb-3 border-bottom pb-2">
-                    <div class="col-4 d-flex align-items-center">
-                        <ul class="list-inline mb-0">
-                            <li class="list-inline-item">
-                                <button class="btn p-1"><i class="fas fa-search"></i></button>
-                            </li>
-                            <!-- Notification -->
-                            <li class="list-inline-item position-relative me-3">
-                                <a class="nav-link p-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-bell fa-fw"></i>
-                                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-warning border border-light rounded-circle"></span>
-                                </a>
-                                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow border-0 py-0 mt-3">
-                                    <h6 class="dropdown-header text-white bg-primary rounded-top py-3">Notifications</h6>
-                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('user.pages.notification') }}">
-                                        <div>
-                                            <p class="d2c_notification_first_letter bg-info text-info fw-bold bg-opacity-10 d-flex align-items-center justify-content-center fs-6 fs-md-5 me-2 me-md-3 text-uppercase">w</p>
-                                        </div>
-                                        <div class="text-truncate d-block">
-                                            <h6 class="mb-0">Hi there! I am wondering if you can help me with a problem I've been having.</h6>
-                                            <p class="mb-0"><small>With our newest listing, we're welcoming Wrapped Bitcoin (wBTC) to our DeFi Innovation Zone! You can now deposit…</small></p>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('user.pages.notification') }}">
-                                        <div>
-                                            <p class="d2c_notification_first_letter bg-danger text-danger fw-bold bg-opacity-10 d-flex align-items-center justify-content-center fs-6 fs-md-5 me-2 me-md-3 text-uppercase">A</p>
-                                        </div>
-                                        <div class="text-truncate d-block">
-                                            <h6 class="mb-0">Airdrop BCHA - 0.25118470 Your airdrop for Nov 15, 2020.</h6>
-                                            <p class="mb-0"><small>With our newest listing, we're welcoming Wrapped Bitcoin (wBTC) to our DeFi Innovation Zone! You can now deposit…</small></p>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('user.pages.notification') }}">
-                                        <div>
-                                            <p class="d2c_notification_first_letter bg-success text-success fw-bold bg-opacity-10 d-flex align-items-center justify-content-center fs-6 fs-md-5 me-2 me-md-3 text-uppercase">C</p>
-                                        </div>
-                                        <div class="text-truncate d-block">
-                                            <h6 class="mb-0">CyberVeinToken is Now Available on Unity Exchange</h6>
-                                            <p class="mb-0"><small>With our newest listing, we're welcoming Wrapped Bitcoin (wBTC) to our DeFi Innovation Zone! You can now deposit…</small></p>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('user.pages.notification') }}">
-                                        <div>
-                                            <p class="d2c_notification_first_letter bg-primary text-primary fw-bold bg-opacity-10 d-flex align-items-center justify-content-center fs-6 fs-md-5 me-2 me-md-3 text-uppercase">U</p>
-                                        </div>
-                                        <div class="text-truncate d-block">
-                                            <h6 class="mb-0">Unification is Now Available on Unity Exchange</h6>
-                                            <p class="mb-0"><small>With our newest listing, we're welcoming Wrapped Bitcoin (wBTC) to our DeFi Innovation Zone! You can now deposit…</small></p>
-                                        </div>
-                                    </a>
-                                    <a class=" dropdown-item text-center small text-gray-500 d2c_all_notification_btn"
-                                        href="{{ route('user.pages.notification') }}">See All
-                                        Notifications</a>
-
-                                     
-                                </div>
-                            </li>
-                            <!-- End:Notification -->
-                        </ul>
-                    </div>
-
-                    <div class="col-8">
-                        <div class="row">
-                            <div class="col-8 d-flex align-items-center text-end pe-0">
-                                <div class="w-100">
-                                    <p class="mb-0 fw-semibold d2c_profile_name">Wade Warren</p>
-                                    <small>Trader</small>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <a href="{{ route('user.pages.profile') }}"><img class="rounded-circle" src="{{ asset('assets/images/profile/profile-2.jpg') }}" alt="Profile Image" style="height: 40px; width: 40px; object-fit: cover;"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d2c_balance mb-2">
-                    <p class="mb-1">My Balance</p>
-                    <div class="row">
-                        <div class="col">
-                            <h5 class="fw-semibold">$10,208.73</h5>
-                        </div>
-                        <div class="col">
-                            <div class="d-flex align-items-center d2c_percentage_rate ">
-                                <span class="d-inline-flex px-2 py-1 fw-semibold text-success bg-success bg-opacity-25 rounded-2">+1.25%</span>
-                                <i class="fas fa-arrow-right text-white bg-success rounded-circle"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="card d2c_wallet_card mb-4" style="background: linear-gradient(180deg, #6271ebe0 0%, #fc76b7 373.31%), url('../assets/images/triangle_bg.png');">
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <p class="mb-1 text-white">Balance</p>
-                            <h5 class="fw-semibold">$10,208.73</h5>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <small>Card Holder</small>
-                                <h6>Esther Howard</h6>
-                            </div>
-                            <div class="col-5">
-                                <small>Valid Thru</small>
-                                <h6>08/2023</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d2c_convert mb-4">
-                    <p class="fw-semibold">Quick Convert</p>
-
-                    <form class="form-validation" novalidate>
-                        <label for="conver_amount">Amount</label>
-                        <div class="input-group border-0 mb-3">
-                            <input type="number" class="form-control border-0" id="conver_amount" placeholder="0.00" required>
-                            <select class="form-select form-control border-0 pe-0" id="inputGroupSelect01">
-                                <option value="1" selected>ETH</option>
-                                <option value="2">USD</option>
-                            </select>
-                        </div>
-                        <label for="convert_coin">Convert Coin</label>
-                        <div class="input-group border-0 mb-3">
-                            <input type="number" class="form-control border-0" id="convert_coin" placeholder="0.00" required>
-                            <select class="form-select form-control border-0 pe-0" id="inputGroupSelect02">
-                                <option value="1">ETH</option>
-                                <option value="2" selected>USD</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn w-100 text-success bg-success bg-opacity-25">Convert</button>
-                    </form>
-                </div>
-
-                <div class="d2c_convert form-validation">
-                    <p class="fw-semibold">Quick Transfer</p>
-
-                    <form class="form-validation" novalidate>
-                        <label for="send_email">To</label>
-                        <div class="input-group border-0 mb-3">
-                            <input type="email" class="form-control border-0" id="send_email" placeholder="Send Email" required>
-                        </div>
-                        <label for="send_amount">Amount</label>
-                        <div class="input-group border-0 mb-3">
-                            <input type="number" class="form-control border-0" id="send_amount" placeholder="0.00" required>
-                            <select class="form-select form-control border-0 pe-0" id="inputGroupSelect03">
-                                <option value="1" selected>ETH</option>
-                                <option value="2">USD</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn w-100 text-success bg-success bg-opacity-25">Transfer</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- End:Right Sidebar -->
     </div>
 
     <button class="d2c_offcanvas_toggle position-fixed top-50 end-0 translate-middle-y d-block d-xl-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#d2c_sidebar_right" aria-controls="d2c_sidebar_right">
