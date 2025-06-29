@@ -17,7 +17,18 @@ return new class extends Migration
             $table->decimal('amount', 12, 2); 
             $table->string('currency', 10)->default('INR');
             $table->enum('type', ['debit', 'credit']); 
-            $table->enum('purpose_of_payment', ['buy_plan_one', 'withdrawal']); 
+            $table->enum('purpose_of_payment', [
+                'buy_plan_one',
+                'withdrawal',
+                'direct_referral',
+                'showing_referral',
+                'turnover_salary_slab_1',
+                'turnover_salary_slab_2',
+                'turnover_salary_slab_3',
+                'turnover_salary_slab_4',
+                'turnover_salary_slab_5',
+                'something_else'
+            ]); 
             $table->enum('status', ['pending', 'success', 'failed']);
             $table->enum('gateway', ['razorpay', 'stripe', 'paypal', 'paytm', 'admin'])->nullable();
             $table->text('message')->nullable();

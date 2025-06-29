@@ -55,12 +55,14 @@ class User extends Authenticatable
    
         public function transactions()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(\App\Models\Transaction::class);
     }
+    
     public function wallets()
         {
             return $this->hasMany(Wallet::class);
         }
+        
    
     public function referralUser()
     {
@@ -80,4 +82,16 @@ class User extends Authenticatable
 
     return $code;
 }
+
+    public function referrals()
+    {
+        return $this->hasMany(Referral::class, 'referrer_id');
+    }
+
+    public function referredBy()
+    {
+        return $this->belongsTo(User::class, 'referral_by');
+    }
+
+    
 }

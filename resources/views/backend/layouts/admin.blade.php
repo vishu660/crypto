@@ -525,10 +525,10 @@
                         <i class="bi bi-code-slash me-2"></i>Package Details
                     </a>
                 </li>
-                <!-- Level Settings with icon -->
+                <!-- Salary Report with icon -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin-level-settings') ? 'active' : '' }}" href="{{ route('admin-level-settings') }}">
-                        <i class="bi bi-bar-chart-steps me-2"></i>Level Settings
+                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.salary.index') ? 'active' : '' }}" href="{{ route('admin.salary.index') }}">
+                        <i class="bi bi-cash-coin me-2"></i>Salary Report
                     </a>
                 </li>
                 <li class="nav-item mt-4 mb-2">
