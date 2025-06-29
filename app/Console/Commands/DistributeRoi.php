@@ -34,8 +34,10 @@ class DistributeRoi extends Command
             ->where('is_active', true)
             ->get();
 
+        $distributedCount = 0;
+
         foreach ($userPackages as $userPackage) {
-            $roiDates = json_decode($userPackage->roi_dates, true);
+            $roiDates = $userPackage->roi_dates; // ✅ Already casted to array
 
             if (in_array($today, $roiDates)) {
                 $roiAmount = ($userPackage->package->investment_amount * $userPackage->package->roi_percent) / 100;
@@ -46,25 +48,27 @@ class DistributeRoi extends Command
                     'amount' => $roiAmount,
                     'type' => 'credit',
                     'currency' => 'INR',
+                    'source' => 'roi', // ✅ Important for tracking
                     'message' => 'ROI credited for package #' . $userPackage->package_id,
                 ]);
 
-                // Remove today from roi_dates and update
+                // Remove today's date from roi_dates
                 $roiDates = array_filter($roiDates, fn($date) => $date !== $today);
-                $userPackage->roi_dates = json_encode(array_values($roiDates));
+                $userPackage->roi_dates = array_values($roiDates); // reindex array
                 $userPackage->total_roi_given += 1;
 
-                // If no more ROI dates left, deactivate the package
+                // Deactivate if no dates left
                 if (empty($roiDates)) {
                     $userPackage->is_active = false;
                 }
 
                 $userPackage->save();
 
+                $distributedCount++;
                 Log::info("ROI ₹{$roiAmount} credited to user #{$userPackage->user_id} for package #{$userPackage->package_id}");
             }
         }
 
-        $this->info('✅ ROI distribution process completed.');
+        $this->info("✅ ROI distribution process completed. Total: {$distributedCount} users credited.");
     }
 }

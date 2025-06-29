@@ -22,7 +22,10 @@ return new class extends Migration
 
             $table->json('roi_dates')->nullable();        
             $table->integer('total_roi_given')->default(0); 
-            $table->boolean('is_active')->default(true);   
+            $table->boolean('is_active')->default(true);
+
+            // ✅ Add this line for source
+            $table->enum('source', ['user', 'admin'])->default('user');
 
             $table->timestamps();
 
