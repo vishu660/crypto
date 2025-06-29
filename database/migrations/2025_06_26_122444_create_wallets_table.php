@@ -6,25 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('amount', 12, 2);
+            $table->decimal('balance_after', 12, 2)->nullable(); // ✅ Optional
             $table->string('currency', 10)->default('INR');
             $table->enum('type', ['debit', 'credit']);
-            $table->text('message')->nullable(); 
+            $table->enum('source', ['roi', 'referral', 'deposit', 'withdrawal', 'admin', 'bonus'])->default('roi');
+            $table->text('message')->nullable();
             $table->timestamps();
+
+            $table->index('user_id'); // ✅ Performance
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('wallets');

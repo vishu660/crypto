@@ -287,7 +287,7 @@ Route::get('/user/pages/support', function () { return view('user.pages.support'
 Route::get('/user/pages/terms-condition', function () { return view('user.pages.terms&condition'); })->name('user.pages.terms-condition');
 Route::get('/user/pages/transactions', [UserController::class, 'userTransactions'])->name('user.pages.transactions');
 Route::get('/user/pages/transfer', function () { return view('user.pages.transfer'); })->name('user.pages.transfer');
-Route::get('/user/pages/wallet', function () { return view('user.pages.wallet'); })->name('user.pages.wallet');
+Route::get('/user/pages/wallet', [UserController::class, 'wallet'])->name('user.pages.wallet')->middleware('auth');
 
 // User Pages Components
 Route::get('/user/pages/components/advancedFrom', function () { return view('user.pages.components.advancedFrom'); })->name('user.pages.components.advancedFrom');
