@@ -117,7 +117,7 @@
                     color: #fff;
                 ">
 
-                <form method="POST" action="{{ route('buy.package') }}">
+                <form method="POST" action="{{ route('packages.buy') }}">
                     @csrf
                     <input type="hidden" name="package_id" value="{{ $package->id }}">
                     <button type="submit"

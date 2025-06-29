@@ -345,14 +345,13 @@ Route::get('/admin/wallet-balance', function () {
 
 Route::get('/user', [UserController::class, 'dashboard'])->middleware('auth')->name('user');
 Route::post('/packages/buy', [UserController::class, 'buy'])->middleware('auth')->name('packages.buy');
-Route::get('/buy-package', function() {
+Route::get('/packages/buy', function() {
     return redirect()->route('user')->with('error', 'Please use the Buy button to purchase packages.');
-})->name('buy.package.get');
+})->name('packages.buy.get');
 Route::match(['get', 'post'], '/admin/transactions/{id}/approve', [TransactionController::class, 'approve'])->name('admin.transactions.approve');
 Route::post('/admin/transactions/{id}/reject', [TransactionController::class, 'reject'])->name('admin.transactions.reject');
 
 Route::get('/admin/transactions', [TransactionController::class, 'index'])->name('admin.transactions.index');
 
-Route::post('/buy-package', [PackageController::class, 'buyPackage'])->name('buy.package');
 
 Route::get('/admin/salary-report', [SalaryController::class, 'index'])->name('admin.salary.index');
