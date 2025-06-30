@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Wallet;
 use App\Models\User;
@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use App\Http\Controllers\Controller;
 
 class WalletController extends Controller
 {
@@ -72,5 +73,15 @@ class WalletController extends Controller
             ->sum(DB::raw("CASE WHEN type = 'credit' THEN amount ELSE -amount END"));
 
         return response()->json(['balance' => $balance], 200);
+    }
+
+    /**
+     * Display a listing of the wallets.
+     */
+    public function index()
+    {
+        // Example: Fetch all wallets (adjust as needed)
+        $wallets = \App\Models\Wallet::all();
+        return view('backend.pages.wallethistory', compact('wallets'));
     }
 }
