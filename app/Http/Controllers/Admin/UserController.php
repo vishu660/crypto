@@ -58,15 +58,10 @@ class UserController extends Controller
         ]);
     
         if (!$request->isMethod('post')) {
-            \Log::warning('Invalid request method for package purchase', [
-                'method' => $request->method(),
-                'expected' => 'POST'
-            ]);
-            return redirect()->route('user')->with('error', 'Invalid request method. Please use the Buy button to purchase packages.');
+            return redirect()->route('user')->with('error', 'Invalid request method. Please use the Buy button.');
         }
     
         if (!auth()->check()) {
-            \Log::warning('Unauthenticated user attempted to purchase package');
             return redirect()->route('login')->with('error', 'Please login to purchase packages.');
         }
     
@@ -74,13 +69,14 @@ class UserController extends Controller
             'package_id' => 'required|exists:packages,id',
         ]);
     
-        $package = Package::findOrFail($request->package_id); // ✅ First fetch the package
+        $package = Package::findOrFail($request->package_id);
+        $user = auth()->user();
     
-        // ✅ Check if already exists for this user (prevent duplicate buy)
-        $alreadyExists = UserPackage::where('user_id', auth()->id())
+        // ✅ Check duplicate
+        $alreadyExists = UserPackage::where('user_id', $user->id)
             ->where('package_id', $package->id)
-            ->whereIn('is_active', [0, 1]) // already active or pending
-            ->where('source', 'user') // only user purchases
+            ->whereIn('is_active', [0, 1])
+            ->where('source', 'user')
             ->exists();
     
         if ($alreadyExists) {
@@ -88,27 +84,13 @@ class UserController extends Controller
         }
     
         if (!$package->is_active) {
-            \Log::info('User attempted to purchase inactive package', [
-                'user_id' => auth()->id(),
-                'package_id' => $package->id
-            ]);
-            return back()->with('error', 'This package is not available for purchase.');
+            return back()->with('error', 'This package is not available.');
         }
     
         try {
-            // ✅ Create transaction
-            $transaction = new Transaction();
-            $transaction->user_id = auth()->id();
-            $transaction->amount = $package->investment_amount;
-            $transaction->currency = 'INR';
-            $transaction->type = 'debit';
-            $transaction->purpose_of_payment = 'buy_plan_one';
-            $transaction->status = 'pending';
-            $transaction->gateway = 'admin';
-            $transaction->message = 'Package purchase request sent for admin approval';
-            $transaction->save();
+            \DB::beginTransaction();
     
-            // ✅ ROI Dates generation
+            // ✅ ROI Date calculation
             $startDate = Carbon::today();
             $endDate = $startDate->copy()->addDays($package->validity_days - 1);
     
@@ -123,35 +105,59 @@ class UserController extends Controller
                 ]
             );
     
-            // ✅ Create user_package entry with source = 'user'
+            // ✅ Wallet debit (user) & credit (admin)
+            \App\Models\Wallet::create([
+                'user_id' => $user->id,
+                'amount' => $package->investment_amount,
+                'type' => 'debit',
+                'currency' => 'INR',
+                'source' => 'package_purchase',
+                'message' => 'Package #' . $package->id . ' purchased',
+            ]);
+    
+            \App\Models\Wallet::create([
+                'user_id' => 1, // Admin
+                'amount' => $package->investment_amount,
+                'type' => 'credit',
+                'currency' => 'INR',
+                'source' => 'package_purchase',
+                'message' => 'User #' . $user->id . ' purchased package #' . $package->id,
+            ]);
+    
+            // ✅ Transaction record
+            Transaction::create([
+                'user_id' => $user->id,
+                'amount' => $package->investment_amount,
+                'currency' => 'INR',
+                'type' => 'debit',
+                'purpose_of_payment' => 'buy_plan_one',
+                'status' => 'pending',
+                'gateway' => 'admin',
+                'message' => 'Package purchase request sent for admin approval',
+            ]);
+    
+            // ✅ Save user package
             UserPackage::create([
-                'user_id' => auth()->id(),
+                'user_id' => $user->id,
                 'package_id' => $package->id,
                 'start_date' => $startDate->toDateString(),
                 'end_date' => $endDate->toDateString(),
                 'roi_dates' => json_encode($roiDates),
                 'total_roi_given' => 0,
                 'is_active' => false,
-                'source' => 'user', // ✅ Important: Set source
+                'source' => 'user',
             ]);
     
-            \Log::info('Package purchase request created successfully', [
-                'user_id' => auth()->id(),
-                'package_id' => $package->id,
-                'transaction_id' => $transaction->id,
-                'amount' => $transaction->amount
-            ]);
+            \DB::commit();
+            return back()->with('success', 'Package purchase successful & under admin approval.');
     
-            return back()->with('success', 'Purchase request sent! Admin will approve within 30 minutes.');
         } catch (\Exception $e) {
-            \Log::error('Failed to create package purchase request', [
-                'user_id' => auth()->id(),
-                'package_id' => $package->id,
-                'error' => $e->getMessage()
-            ]);
-            return back()->with('error', 'Failed to create purchase request. Please try again.');
+            \DB::rollBack();
+            \Log::error('Package purchase error: ' . $e->getMessage());
+            return back()->with('error', 'Purchase failed. Try again.');
         }
     }
+    
     
 
     public function failedRequests()
