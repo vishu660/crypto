@@ -255,9 +255,19 @@
                             <input type="text" class="form-control" name="referral_income" value="{{  old('referral_income') }}">
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label">Referral Show Income</label>
+                            <input type="text" class="form-control" name="referral_show_income" value="{{ old('referral_show_income') }}">
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" name="is_show_active" value="1" {{ old('is_show_active') ? 'checked' : '' }}>
+                            <label class="form-check-label">Show Active</label>
+                        </div>
+
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" name="is_active" value="1" {{ old('is_active') ? 'checked' : '' }}>
-                            <label class="form-check-label">Active</label>
+                            <label class="form-check-label"> Plan Active</label>
                         </div>
 
                         <div class="mb-3">

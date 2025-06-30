@@ -38,8 +38,10 @@ class PackageController extends Controller
                 'validity_days' => 'required|integer|min:1',
                 'direct_bonus_percent' => 'required|numeric|min:0|max:100',
                 'referral_income' => 'required|numeric',
+                'referral_show_income' => 'nullable|numeric', // ✅ added
                 'type_of_investment_days' => 'required|in:daily,weekly,monthly',
                 'is_active' => 'nullable|boolean',
+                'is_show_active' => 'nullable|boolean', // ✅ added
                 'daily_days' => 'nullable|array',
                 'daily_days.*' => 'string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
                 'weekly_day' => 'nullable|string|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
@@ -67,6 +69,8 @@ class PackageController extends Controller
                 'validity_days' => $validated['validity_days'],
                 'direct_bonus_percent' => $validated['direct_bonus_percent'],
                 'referral_income' => $validated['referral_income'],
+                'referral_show_income' => $request->referral_show_income ?? null, // ✅ added
+                'is_show_active' => $request->has('is_show_active') ? 1 : 0, // ✅ added
                 'type_of_investment_days' => $validated['type_of_investment_days'],
                 'is_active' => $request->has('is_active') ? 1 : 0,
                 'daily_days' => null,
@@ -100,6 +104,7 @@ class PackageController extends Controller
             return redirect()->back()->with('error', 'Failed to create package: ' . $e->getMessage())->withInput();
         }
     }
+    
     
 
     /** Remaining methods: edit, update, destroy, toggleStatus — same as before */
