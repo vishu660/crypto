@@ -18,7 +18,7 @@ class WalletController extends Controller
             ->when($request->filled('user_id'), function ($query) use ($request) {
                 $query->where('message', 'like', '%User #' . $request->user_id . '%');
             })
-            ->where('source', 'package_purchase') // Optional: सिर्फ पैकेज से जुड़ी एंट्रीज
+            ->where('source', 'package_purchase') 
             ->latest()
             ->paginate(20);
 
@@ -28,10 +28,4 @@ class WalletController extends Controller
     /**
      * Display a listing of the wallets.
      */
-    public function index()
-    {
-        // Example: Fetch all wallets (adjust as needed)
-        $wallets = \App\Models\Wallet::all();
-        return view('backend.pages.wallethistory', compact('wallets'));
-    }
 }
