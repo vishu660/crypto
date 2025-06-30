@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
-use App\Http\Controllers\Controller;
 use App\Models\Wallet;
 
 class WalletController extends Controller
