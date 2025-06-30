@@ -93,5 +93,21 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'referral_by');
     }
 
-    
+    // App\Models\User.php
+
+public function getSeriesLevelAttribute()
+{
+    $roi = $this->wallets->where('type', 'credit')->where('source', 'roi')->sum('amount');
+
+    $levels = \App\Models\SeriesLevel::orderBy('level')->get();
+
+    foreach ($levels as $level) {
+        if ($roi >= $level->amount) {
+            $currentLevel = $level->level;
+        }
+    }
+
+    return $currentLevel ?? 0;
+}
+
 }

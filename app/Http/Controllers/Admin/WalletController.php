@@ -2,77 +2,28 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Wallet;
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
+use App\Models\Wallet;
 
 class WalletController extends Controller
 {
-    /**
-     * Add a credit or debit transaction to wallet.
-     */
-    public function addTransaction(Request $request)
+    public function index(Request $request)
     {
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'amount' => 'required|numeric|min:0.01',
-            'type' => 'required|in:credit,debit',
-            'source' => 'required|in:roi,referral,deposit,withdrawal,admin,bonus',
-            'message' => 'nullable|string',
-        ]);
+        $wallets = Wallet::with('user')
+            ->where('user_id') 
+            ->when($request->filled('user_id'), function ($query) use ($request) {
+                $query->where('message', 'like', '%User #' . $request->user_id . '%');
+            })
+            ->where('source', 'package_purchase') // Optional: सिर्फ पैकेज से जुड़ी एंट्रीज
+            ->latest()
+            ->paginate(20);
 
-        try {
-            DB::beginTransaction();
-
-            $userId = $validated['user_id'];
-            $amount = $validated['amount'];
-            $type = $validated['type'];
-
-            // Calculate current wallet balance
-            $balance = Wallet::where('user_id', $userId)->sum(DB::raw("CASE WHEN type = 'credit' THEN amount ELSE -amount END"));
-            
-            // Update new balance after transaction
-            $newBalance = $type === 'credit' ? $balance + $amount : $balance - $amount;
-
-            // Optional: Prevent negative balance
-            if ($newBalance < 0 && $type === 'debit') {
-                return response()->json(['error' => 'Insufficient balance.'], 400);
-            }
-
-            // Create transaction
-            $wallet = Wallet::create([
-                'user_id' => $userId,
-                'amount' => $amount,
-                'balance_after' => $newBalance,
-                'currency' => 'INR',
-                'type' => $type,
-                'source' => $validated['source'],
-                'message' => $validated['message'] ?? null,
-            ]);
-
-            DB::commit();
-
-            return response()->json(['success' => true, 'wallet' => $wallet], 200);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Wallet Transaction Error: ' . $e->getMessage());
-            return response()->json(['error' => 'Transaction failed.'], 500);
-        }
-    }
-
-    /**
-     * Get total wallet balance of a user.
-     */
-    public function getBalance($userId)
-    {
-        $balance = Wallet::where('user_id', $userId)
-            ->sum(DB::raw("CASE WHEN type = 'credit' THEN amount ELSE -amount END"));
-
-        return response()->json(['balance' => $balance], 200);
+        return view('backend.pages.wallethistory', compact('wallets'));
     }
 
     /**
