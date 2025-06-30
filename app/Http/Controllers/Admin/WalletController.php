@@ -22,10 +22,7 @@ class WalletController extends Controller
             ->latest()
             ->paginate(20);
 
+            $wallets = \App\Models\Wallet::all();
         return view('backend.pages.wallethistory', compact('wallets'));
     }
-
-    /**
-     * Display a listing of the wallets.
-     */
 }
