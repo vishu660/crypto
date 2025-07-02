@@ -1,35 +1,51 @@
-@extends('user.main')
-@section('content')
-    <!-- Main Body-->
-    <div class="d2c_main p-4">
+<!DOCTYPE html>
+<html lang="en">
 
-<!-- Title -->
-<div class="row align-items-center mb-4">
-    <div class="col-2 d-block d-lg-none">
-        <!-- Offcanvas Toggler -->
-        <button class="btn btn-primary px-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#d2c_sidebar" aria-controls="d2c_sidebar">
-            <i class="fa fa-bars p-0"></i>
-        </button>
-        <!-- End:Offcanvas Toggler -->
-    </div>
-    <div class="col">
-        <p class="mb-0">Welcome Back</p>
-        <h4 class="text-capitalize fw-bold">Transfer</h4>
-    </div>
-</div>
-<!-- End:Title -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./assets/images/logo/logo-sm.png" type="image/gif" sizes="16x16">
+    <title>Dashboard - Fundrows</title>
+    <meta name="og:description" content="Build a user-friendly crypto dashboard with FundRows free crypto dashboard template. Enjoy full responsiveness, and customizable for your crypto projects. With FundRows, developers can create a unique crypto admin dashboard that is visually impressive.">
+    <meta name="robots" content="index, follow">
+    <meta name="og:title" property="og:title" content="FundRows – Free Bootstrap Crypto Dashboard Template">
+    <meta property="og:image" content="https://www.designtocodes.com/wp-content/uploads/2023/10/FundRows-%E2%80%93-Free-Bootstrap-Crypto-Dashboard-Template-Thumbnail.jpg">
+    <!-- bootstrap css link -->
+    <link rel="stylesheet" href="./lib/bootstrap_5/bootstrap.min.css">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="./lib/fontawesome/css/all.min.css">
+    <!-- animation link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- DataTable Css -->
+    <link rel="stylesheet" href="./lib/DataTables/datatables.min.css">
+    <!-- main css -->
+  <link rel="stylesheet" href="{{ asset('assets/css/global.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
+</head>
 
-<<<<<<< HEAD
-<div class="row">
-    <div class="col-md-10 col-xl-10 col-xxl-6 offset-md-1 offset-xl-1 offset-xxl-3 d2c_balance_transfer_wrapper">
-        <div class="card bg-success bg-opacity-10">
-            <div class="card-body p-4 p-lg-5 p-xxl-4">
-                <div class="p-3 mb-4 p-xxl-4 bg-primary bg-opacity-70 d2c_balance_transfer">
-=======
+<body>
+    <!-- Preloader Start -->
+    <div class="preloader">
+<img src="{{ asset('assets/images/logo/logo.png') }}" alt="DesignToCodes">
+    </div>
+    <!-- Preloader End -->
+    <div class="d2c_wrapper">
+        
+        <!-- Main sidebar -->
+        <div class="d2c_sidebar offcanvas-lg offcanvas-start px-2 py-4" tabindex="-1" id="d2c_sidebar">
+            <div class="d-flex flex-column">
+                <!-- Logo -->
+                <a href="{{ route('user') }}" class="brand-icon">
+<img class="navbar-brand" src="{{ asset('assets/images/logo/logo.png') }}" alt="logo">
+                </a>
+                <!-- End:Logo -->
+
                 <!-- Menu -->
                 <ul class="navbar-nav flex-grow-1">
                     <!-- Menu Item -->
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="{{ route('user') }}">
                             <span class="d2c_icon">
                                 <i class="fas fa-home"></i>
@@ -56,7 +72,7 @@
                             <span class="d2c_icon">
                                 <i class="fas fa-coins"></i>
                             </span>
-                            <span> Plans </span>
+                            <span> Plans</span>
                         </a>
                     </li>
                     <!-- End:Menu Item -->
@@ -85,7 +101,7 @@
 
                     <!-- Menu Item -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('user.pages.profile') }}">
+                        <a class="nav-link" href="{{ route('admin.profile') }}">
                             <span class="d2c_icon">
                                 <i class="far fa-user"></i>
                             </span>
@@ -105,7 +121,6 @@
                     </li>
                     <!-- End:Menu Item -->
 
-                    
                     <!-- Menu Item -->
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('user.pages.transactions') }}">
@@ -118,7 +133,7 @@
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('user.pages.transfer') }}">
                             <span class="d2c_icon">
                                 <i class="fas fa-random"></i>
@@ -192,7 +207,7 @@
                             <!-- Child Menu Item -->
                             <!-- <li class="nav-item">
                                 <a class="nav-link" href="{{ route('user.pages.components.editor') }}">
-                                    <span> Editor </span>
+                                    <span> editor </span>
                                 </a>
                             </li> -->
                             <!-- End:Child Menu Item -->
@@ -292,9 +307,9 @@
                             <span class="fas fa-chevron-right ms-auto text-end"></span>
                         </a> -->
                         <!-- Child Sub Menu -->
-                        <!-- <ul class="sub-menu collapse" id="authentication">
+                        <!-- <ul class="sub-menu collapse" id="authentication"> -->
                             <!-- Child Menu Item -->
-                            <!--<li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="{{ route('user.pages.authentication.signUp') }}">
                                     <span> Sing up </span>
                                 </a>
@@ -383,7 +398,7 @@
 
                             <!-- Child Menu Item -->
                             <!-- <li class="nav-item">
-                                <a class="nav-link active" href="{{ route('user.pages.components.timeline') }}">
+                                <a class="nav-link" href="{{ route('user.pages.components.timeline') }}">
                                     <span> Timeline </span>
                                 </a>
                             </li> -->
@@ -485,23 +500,28 @@
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
-                    <!-- <li class="nav-item">
+                   <li class="nav-item">
                         <a class="nav-link" href="{{ route('user.pages.blank') }}">
                             <span class="d2c_icon">
                                 <i class="far fa-file"></i>
                             </span>
-                            <span> Blank </span>
+                            <span> Bank </span>
                         </a>
-                    </li> -->
+                    </li> 
                     <!-- End:Menu Item -->
+
                     <!-- Menu Item -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span class="d2c_icon">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </span>
-                            <span> Logout </span>
-                        </a>
+                        <form action="{{ route('logout') }}" method="POST" class="d-flex justify-content-end">
+                            @csrf
+                            <button type="submit"
+                                class="nav-link d-flex align-items-center"
+                                style="background: none; border: none;  color: inherit; cursor: pointer;">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                <span>Logout</span>
+                            </button>
+                        </form>
+                        
                     </li>
                     <!-- End:Menu Item -->
                 </ul>
@@ -510,322 +530,455 @@
         </div>
         <!-- End:Sidebar -->
 
-        <!-- Main Body-->
-        <div class="d2c_main p-4">
+        @yield('content')
 
-            <!-- Title -->
-            <div class="row align-items-center mb-4">
-                <div class="col-2 d-block d-lg-none">
-                    <!-- Offcanvas Toggler -->
-                    <button class="btn btn-primary px-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#d2c_sidebar" aria-controls="d2c_sidebar">
-                        <i class="fa fa-bars p-0"></i>
-                    </button>
-                    <!-- End:Offcanvas Toggler -->
-                </div>
-                <div class="col">
-                    <p class="mb-0">Welcome Back</p>
-                    <h4 class="text-capitalize fw-bold">Transfer</h4>
-                </div>
-            </div>
-            <!-- End:Title -->
 
-            <div class="row">
-                <div class="col-md-10 col-xl-10 col-xxl-6 offset-md-1 offset-xl-1 offset-xxl-3 d2c_balance_transfer_wrapper">
-                    <div class="card bg-success bg-opacity-10">
-                        <div class="card-body p-4 p-lg-5 p-xxl-4">
-                            <div class="p-3 mb-4 p-xxl-4 bg-primary bg-opacity-70 d2c_balance_transfer">
-                                <div class="row">
-                                    <div class="col-md">
-                                        <h5 class="text-white">Available balance</h5>
-                                    </div>
-                                    <div class="col-md text-md-end">
-                                        <h5 class="text-white" id="converted_inr">
-                                            @if(!empty($convertedInr))
-                                                ₹{{ number_format($convertedInr, 2) }}
-                                            @else
-                                                not found
-                                            @endif
-                                        </h5>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            <form action="#" class="needs-validation" novalidate>
-                                <div class="mb-3">
-                                    <label class="form-label">Account Holder Name</label>
-                                    <input type="text" class="form-control" name="account_holder" placeholder="Enter account holder name" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Bank Name</label>
-                                    <input type="text" class="form-control" name="bank_name" placeholder="Enter bank name" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Account Number</label>
-                                    <input type="text" class="form-control" name="account_number" placeholder="Enter account number" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">IFSC Code</label>
-                                    <input type="text" class="form-control" name="ifsc_code" placeholder="Enter IFSC code" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Remarks (Optional)</label>
-                                    <input type="text" class="form-control" name="remarks" placeholder="Remarks (optional)">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Form</label>
-                                    <select class="form-select form-control" aria-label="Default select example">
-                                        <option selected>Margin</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">To</label>
-                                    <select class="form-select form-control" aria-label="Default select example">
-                                        <option selected>Fiat and Spot</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Coin</label>
-                                    <select class="form-select form-control" aria-label="Default select example">
-                                        <option selected>ETH Ethereum</option>
-                                        <option value="1">BTC</option>
-                                        <option value="2">EURO</option>
-                                        <option value="3">YEN</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Amount to Transfer</label>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control border-0" required placeholder="Enter amount">
-                                        <button class="btn ps-0 border-0" type="button" id="button-addon2"><i class="far fa-eye-slash"></i></button>
-                                    </div>
-                                </div>
-                                <p>2,5653 ETH available</p>
-                                <div class="row">
-                                    <div class="col-md">
-                                        <button type="submit" class="btn bg-success bg-opacity-25 text-success w-100 text-uppercase">Cancel</button>
-                                    </div>
-                                    <div class="col-md">
-                                        <button type="submit" class="btn btn-primary w-100 text-uppercase">Transfer</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- copyright -->
-            <div class="d2c_copyright bg-success bg-opacity-10 p-3 text-center mt-4">
-                <p class="mb-0 fw-semibold">© 2023 <a href="https://www.designtocodes.com/" target="_blank" class="fw-bold">DesignToCodes</a>, All rights Reserved</p>
-            </div>
-
-        </div>
-        <!-- End:Main Body -->
-
-        <!-- Right Sidebar canvas -->
-        {{-- <div class="d2c_sidebar d2c_sidebar_right offcanvas-xl offcanvas-end p-3" tabindex="-1" id="d2c_sidebar_right">
-            <div class="d-flex flex-column py-4">
-                <div class="row mb-3 border-bottom pb-2">
-                    <div class="col-4 d-flex align-items-center">
-                        <ul class="list-inline mb-0">
-                            <li class="list-inline-item">
-                                <button class="btn p-1"><i class="fas fa-search"></i></button>
-                            </li>
-                            <!-- Notification -->
-                            <li class="list-inline-item position-relative me-3">
-                                <a class="nav-link p-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-bell fa-fw"></i>
-                                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-warning border border-light rounded-circle"></span>
-                                </a>
-                                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow border-0 py-0 mt-3">
-                                    <h6 class="dropdown-header text-white bg-primary rounded-top py-3">Notifications</h6>
-                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('user.pages.notification') }}">
-                                        <div>
-                                            <p class="d2c_notification_first_letter bg-info text-info fw-bold bg-opacity-10 d-flex align-items-center justify-content-center fs-6 fs-md-5 me-2 me-md-3 text-uppercase">w</p>
-                                        </div>
-                                        <div class="text-truncate d-block">
-                                            <h6 class="mb-0">Hi there! I am wondering if you can help me with a problem I've been having.</h6>
-                                            <p class="mb-0"><small>With our newest listing, we're welcoming Wrapped Bitcoin (wBTC) to our DeFi Innovation Zone! You can now deposit…</small></p>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('user.pages.notification') }}">
-                                        <div>
-                                            <p class="d2c_notification_first_letter bg-danger text-danger fw-bold bg-opacity-10 d-flex align-items-center justify-content-center fs-6 fs-md-5 me-2 me-md-3 text-uppercase">A</p>
-                                        </div>
-                                        <div class="text-truncate d-block">
-                                            <h6 class="mb-0">Airdrop BCHA - 0.25118470 Your airdrop for Nov 15, 2020.</h6>
-                                            <p class="mb-0"><small>With our newest listing, we're welcoming Wrapped Bitcoin (wBTC) to our DeFi Innovation Zone! You can now deposit…</small></p>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('user.pages.notification') }}">
-                                        <div>
-                                            <p class="d2c_notification_first_letter bg-success text-success fw-bold bg-opacity-10 d-flex align-items-center justify-content-center fs-6 fs-md-5 me-2 me-md-3 text-uppercase">C</p>
-                                        </div>
-                                        <div class="text-truncate d-block">
-                                            <h6 class="mb-0">CyberVeinToken is Now Available on Unity Exchange</h6>
-                                            <p class="mb-0"><small>With our newest listing, we're welcoming Wrapped Bitcoin (wBTC) to our DeFi Innovation Zone! You can now deposit…</small></p>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('user.pages.notification') }}">
-                                        <div>
-                                            <p class="d2c_notification_first_letter bg-primary text-primary fw-bold bg-opacity-10 d-flex align-items-center justify-content-center fs-6 fs-md-5 me-2 me-md-3 text-uppercase">U</p>
-                                        </div>
-                                        <div class="text-truncate d-block">
-                                            <h6 class="mb-0">Unification is Now Available on Unity Exchange</h6>
-                                            <p class="mb-0"><small>With our newest listing, we're welcoming Wrapped Bitcoin (wBTC) to our DeFi Innovation Zone! You can now deposit…</small></p>
-                                        </div>
-                                    </a>
-                                    <a class=" dropdown-item text-center small text-gray-500 d2c_all_notification_btn"
-                                        href="{{ route('user.pages.notification') }}">See All
-                                        Notifications</a>
-
-                                     
-                                </div>
-                            </li>
-                            <!-- End:Notification -->
-                        </ul>
-                    </div>
-
-                    <div class="col-8">
-                        <div class="row">
-                            <div class="col-8 d-flex align-items-center text-end pe-0">
-                                <div class="w-100">
-                                    <p class="mb-0 fw-semibold d2c_profile_name">Wade Warren</p>
-                                    <small>Trader</small>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <a href="{{ route('user.pages.profile') }}"><img class="rounded-circle" src="{{ asset('assets/images/profile/profile-2.jpg') }}" alt="Profile Image" style="height: 40px; width: 40px; object-fit: cover;"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d2c_balance mb-2">
-                    <p class="mb-1">My Balance</p>
->>>>>>> 239f81393e778cafff8f29082385907c11a1652a
-                    <div class="row">
-                        <div class="col-md">
-                            <h5 class="text-white">Available balance</h5>
-                        </div>
-                        <div class="col-md text-md-end">
-                            <h5 class="text-white">2.56213968 ETH</h5>
-                            <p class="mb-0 text-white">$10,095.35</p>
-                        </div>
-                    </div>
-                </div>
-                <form action="#" class="needs-validation" novalidate>
-                    <div class="mb-3">
-                        <label class="form-label">Form</label>
-                        <select class="form-select form-control" aria-label="Default select example">
-                            <option selected>Margin</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">To</label>
-                        <select class="form-select form-control" aria-label="Default select example">
-                            <option selected>Fiat and Spot</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Coin</label>
-                        <select class="form-select form-control" aria-label="Default select example">
-                            <option selected>ETH Ethereum</option>
-                            <option value="1">BTC</option>
-                            <option value="2">EURO</option>
-                            <option value="3">YEN</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Amount to Transfer</label>
-                        <div class="input-group">
-                            <input type="number" class="form-control border-0" required placeholder="Enter amount">
-                            <button class="btn ps-0 border-0" type="button" id="button-addon2"><i class="far fa-eye-slash"></i></button>
-                        </div>
-                    </div>
-<<<<<<< HEAD
-                    <p>2,5653 ETH available</p>
-                    <div class="row">
-                        <div class="col-md">
-                            <button type="submit" class="btn bg-success bg-opacity-25 text-success w-100 text-uppercase">Cancel</button>
-=======
-                </div>
-
-                <div class="d2c_convert mb-4">
-                    <p class="fw-semibold">Quick Convert</p>
-
-                    <form class="form-validation" novalidate onsubmit="redirectToTransfer(); return false;">
-                        <label for="conver_amount">Amount</label>
-                        <div class="input-group border-0 mb-3">
-                            <input type="number" class="form-control border-0" id="conver_amount" placeholder="0.00" required>
-                            <select class="form-select form-control border-0 pe-0" id="inputGroupSelect01">
-                                <option value="1" selected>ETH</option>
-                                <option value="2">USD</option>
-                            </select>
->>>>>>> 239f81393e778cafff8f29082385907c11a1652a
-                        </div>
-                        <div class="col-md">
-                            <button type="submit" class="btn btn-primary w-100 text-uppercase">Transfer</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-<<<<<<< HEAD
-        </div>
-=======
-        </div> --}}
+          <!-- Right Sidebar canvas -->
+       
         <!-- End:Right Sidebar -->
         
->>>>>>> 239f81393e778cafff8f29082385907c11a1652a
     </div>
-</div>
 
-<!-- copyright -->
-<div class="d2c_copyright bg-success bg-opacity-10 p-3 text-center mt-4">
-    <p class="mb-0 fw-semibold">© 2023 <a href="https://www.designtocodes.com/" target="_blank" class="fw-bold">DesignToCodes</a>, All rights Reserved</p>
-</div>
+    <button class="d2c_offcanvas_toggle position-fixed top-50 end-0 translate-middle-y d-block d-xl-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#d2c_sidebar_right" aria-controls="d2c_sidebar_right">
+        <i class="fas fa-chevron-left"></i>
+    </button>
 
-<<<<<<< HEAD
-</div>
-<!-- End:Main Body -->
-@endsection
-=======
     <!-- Initial  Javascript -->
-    <script src="{{ asset('lib/jQuery/jquery-3.5.1.min.js') }}"></script>
-    <script src="{{ asset('lib/bootstrap_5/bootstrap.bundle.min.js') }}"></script>
+  <!-- jQuery -->
+<script src="{{ asset('lib/jQuery/jquery-3.5.1.min.js') }}"></script>
 
-    <!-- custom js -->
-    <script src="{{ asset('assets/js/main.js') }}"></script>
+<!-- Bootstrap -->
+<script src="{{ asset('lib/bootstrap_5/bootstrap.bundle.min.js') }}"></script>
+
+<!-- DataTables -->
+<script src="{{ asset('lib/DataTables/datatables.min.js') }}"></script>
+<script src="{{ asset('assets/js/datatable/script.js') }}"></script>
+
+<!-- ApexCharts CDN -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<!-- Custom JS -->
+<script src="{{ asset('assets/js/main.js') }}"></script>
+
+
     <script>
-        function redirectToTransfer() {
-            const inrInput = document.getElementById('inr_amount');
-            const inrValue = inrInput.value || 0;
-            window.location.href = "{{ route('user.pages.transfer') }}" + "?amount_inr=" + encodeURIComponent(inrValue);
-        }
+        // Dashboard overview Line Chart
+        (() => {
+            'use strict';
+            const Chart = document.querySelector('#d2c_overview_chart') ?? '';
+            if (Chart == '') {
+                return false;
+            } else {
+                var options = {
+                    series: [
+                        {
+                            name: 'Desktop',
+                            data: [
+                                ['2023-02-01', 25000],
+                                ['2023-02-02', 28000],
+                                ['2023-02-03', 31000],
+                                ['2023-02-04', 24000],
+                                ['2023-02-05', 28000],
+                                ['2023-02-06', 25000],
+                                ['2023-02-07', 25000],
+                                ['2023-02-08', 31000],
+                                ['2023-02-09', 27000],
+                                ['2023-02-10', 20000],
+                                ['2023-02-11', 25000],
+                                ['2023-02-12', 30000],
+                                ['2023-02-13', 25000],
+                                ['2023-02-14', 24000],
+                                ['2023-02-15', 33400],
+                                ['2023-02-16', 40000],
+                                ['2023-02-17', 50000],
+                                ['2023-02-18', 30000],
+                                ['2023-02-19', 25000],
+                                ['2023-02-20', 50000],
+                                ['2023-02-21', 30000],
+                                ['2023-02-22', 35000],
+                                ['2023-02-23', 30000],
+                                ['2023-02-24', 25000],
+                                ['2023-02-25', 50000],
+                                ['2023-02-26', 60000],
+                                ['2023-02-27', 70000],
+                                ['2023-02-28', 30000],
+                                ['2023-02-29', 40000],
+                                ['2023-02-30', 60000],
+                                ['2023-02-31', 40000],
+                                ['2023-03-01', 70000],
+                                ['2023-03-02', 60000],
+                                ['2023-03-03', 45000],
+                                ['2023-03-04', 45000],
+                                ['2023-03-05', 40000],
+                                ['2023-03-06', 35000],
+                                ['2023-03-07', 30000],
+                                ['2023-03-08', 25000],
+                                ['2023-03-09', 30000],
+                                ['2023-03-10', 25000],
+                                ['2023-03-11', 25000],
+                                ['2023-03-12', 20000],
+                                ['2023-03-13', 30000],
+                                ['2023-03-14', 40000],
+                                ['2023-03-15', 50000],
+                                ['2023-03-16', 45000],
+                                ['2023-03-17', 30000],
+                                ['2023-03-18', 40000],
+                                ['2023-03-19', 30000],
+                                ['2023-03-20', 20000],
+                                ['2023-03-21', 50000],
+                                ['2023-03-22', 60000],
+                                ['2023-03-23', 20000],
+                                ['2023-03-24', 40000],
+                                ['2023-03-25', 30000],
+                                ['2023-03-26', 40000],
+                                ['2023-03-27', 25000],
+                                ['2023-03-28', 60000],
+                                ['2023-03-29', 70000],
+                                ['2023-03-30', 65000],
+                                ['2023-04-01', 55000],
+                                ['2023-04-02', 44000],
+                                ['2023-04-03', 33000],
+                                ['2023-04-04', 39000],
+                                ['2023-04-05', 25000],
+                                ['2023-04-06', 31000],
+                                ['2023-04-07', 44000],
+                                ['2023-04-08', 25000],
+                                ['2023-04-09', 28000],
+                                ['2023-04-10', 34000],
+                                ['2023-04-11', 36000],
+                                ['2023-04-12', 45000],
+                                ['2023-04-13', 58000],
+                                ['2023-04-14', 40000],
+                                ['2023-04-15', 50000],
+                                ['2023-04-16', 60000],
+                                ['2023-04-17', 66000],
+                                ['2023-04-18', 68000],
+                                ['2023-04-19', 52000],
+                                ['2023-04-20', 45000],
+                                ['2023-04-21', 50000],
+                                ['2023-04-22', 60000],
+                                ['2023-04-23', 70000],
+                                ['2023-04-24', 25000],
+                                ['2023-04-25', 35000],
+                                ['2023-04-26', 40000],
+                                ['2023-04-27', 50000],
+                                ['2023-04-28', 52000],
+                                ['2023-04-29', 55000],
+                                ['2023-04-30', 66000],
+                            ],
+                        },
+                    ],
+                    chart: {
+                        type: 'area',
+                        foreColor: '#373D3F',
+                        stacked: false,
+                        zoom: {
+                            type: 'x',
+                            enabled: true,
+                            autoScaleYaxis: true,
+                        },
+                        toolbar: {
+                            show: false,
+                        },
+                    },
+                    colors: ['#6271eb'],
+                    dataLabels: {
+                        enabled: false,
+                    },
+                    markers: {
+                        size: 0,
+                    },
+                    grid:{
+                        borderColor: '#00000014',  
+                        padding: {
+                            top: 0,
+                            right: 0,
+                            bottom: 0,
+                            left: 0
+                        }, 
+                    },
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            inverseColors: false,
+                            opacityFrom: 0.5,
+                            opacityTo: 0.5,
+                            stops: [0, 90, 100],
+                        },
+                    },
+                    xaxis: {
+                        type: 'datetime',
+                        axisBorder: {
+                            show: false,
+                        },
+                    },
+                    yaxis: {
+                        labels: {
+                            formatter: function (y) {
+                                return y.toFixed(0) + ' $';
+                            },
+                        },
+                    },
+                };
+
+                var chart = new ApexCharts(Chart, options);
+                chart.render();
+            }
+        })();
+
+        // dashboard small chart 1
+        (() => {
+            'use strict';
+            const Chart = document.querySelector('#d2c_dashboard_small_chart_1') ?? '';
+            if (Chart == '') {
+                return false;
+            } else {
+                var options = {
+                    series: [
+                        {
+                            name: 'Desktop',
+                            data: [90, 85, 105, 130, 92, 80, 120, 102, 98, 145, 92, 82,90, 85, 105, 130, 92, 110, 120, 102, 98, 145, 92, 82,80, 85, 105, 130, 92, 80, 120, 102, 98, 145, 92, 82,80, 85, 105, 130, 92, 80, 120, 102, 98, 145, 92, 82],
+                        },
+                    ],
+                    chart: {
+                        type: 'area',
+                        foreColor: '#373D3F',
+                        stacked: false,
+                        zoom: {
+                            type: 'x',
+                            enabled: true,
+                            autoScaleYaxis: true,
+                        },
+                        toolbar: {
+                            show: false,
+                        },
+                    },
+                    colors: ['#23CB62'],
+                    dataLabels: {
+                        enabled: false,
+                    },
+                    markers: {
+                        size: 0,
+                    },
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            inverseColors: false,
+                            opacityFrom: 0,
+                            opacityTo: 0,
+                            stops: [0, 90, 100],
+                        },
+                    },
+                    grid: {
+                        show: false,
+                        padding: {
+                            top: 0,
+                            right: 0,
+                            bottom: 0,
+                            left: 0
+                        },
+                    },
+                    xaxis: {
+                        show: false,
+                        labels: {
+                            show: false,
+                        },
+                        axisTicks: {
+                            show: false,
+                        },
+                        axisBorder: {
+                            show: false,
+                        },
+                    },
+                    yaxis: {
+                        labels: {
+                            show: false,
+                        },
+                        axisTicks: {
+                            show: false,
+                        }
+                    },
+                };
+
+                var chart = new ApexCharts(Chart, options);
+                chart.render();
+            }
+        })();
+
+        // d2c_dashboard_small_chart_2
+        (() => {
+            'use strict';
+            const Chart = document.querySelector('#d2c_dashboard_small_chart_2') ?? '';
+            if (Chart == '') {
+                return false;
+            } else {
+                var options = {
+                    series: [
+                        {
+                            name: 'Desktop',
+                            data: [90, 85, 105, 130, 92, 80, 120, 102, 98, 145, 92, 82,90, 85, 105, 130, 92, 110, 120, 102, 98, 145, 92, 82,80, 85, 105, 130, 92, 80, 120, 102, 98, 145, 92, 82,80, 85, 105, 130, 92, 80, 120, 102, 98, 145, 92, 82],
+                        },
+                    ],
+                    chart: {
+                        type: 'area',
+                        foreColor: '#373D3F',
+                        stacked: false,
+                        zoom: {
+                            type: 'x',
+                            enabled: true,
+                            autoScaleYaxis: true,
+                        },
+                        toolbar: {
+                            show: false,
+                        },
+                    },
+                    colors: ['#FC76B7'],
+                    dataLabels: {
+                        enabled: false,
+                    },
+                    markers: {
+                        size: 0,
+                    },
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            inverseColors: false,
+                            opacityFrom: 0,
+                            opacityTo: 0,
+                            stops: [0, 90, 100],
+                        },
+                    },
+                    grid: {
+                        show: false,
+                        padding: {
+                            top: 0,
+                            right: 0,
+                            bottom: 0,
+                            left: 0
+                        },
+                    },
+                    xaxis: {
+                        show: false,
+                        labels: {
+                            show: false,
+                        },
+                        axisTicks: {
+                            show: false,
+                        },
+                        axisBorder: {
+                            show: false,
+                        },
+                    },
+                    yaxis: {
+                        labels: {
+                            show: false,
+                        },
+                        axisTicks: {
+                            show: false,
+                        }
+                    },
+                };
+
+                var chart = new ApexCharts(Chart, options);
+                chart.render();
+            }
+        })();
+
+        // d2c_dashboard_small_chart_3
+        (() => {
+            'use strict';
+            const Chart = document.querySelector('#d2c_dashboard_small_chart_3') ?? '';
+            if (Chart == '') {
+                return false;
+            } else {
+                var options = {
+                    series: [
+                        {
+                            name: 'Desktop',
+                            data: [90, 85, 105, 130, 92, 80, 120, 102, 98, 145, 92, 82,90, 85, 105, 130, 92, 110, 120, 102, 98, 145, 92, 82,80, 85, 105, 130, 92, 80, 120, 102, 98, 145, 92, 82,80, 85, 105, 130, 92, 80, 120, 102, 98, 145, 92, 82],
+                        },
+                    ],
+                    chart: {
+                        type: 'area',
+                        foreColor: '#373D3F',
+                        stacked: false,
+                        zoom: {
+                            type: 'x',
+                            enabled: true,
+                            autoScaleYaxis: true,
+                        },
+                        toolbar: {
+                            show: false,
+                        },
+                    },
+                    colors: ['#23CB62'],
+                    dataLabels: {
+                        enabled: false,
+                    },
+                    markers: {
+                        size: 0,
+                    },
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            inverseColors: false,
+                            opacityFrom: 0,
+                            opacityTo: 0,
+                            stops: [0, 90, 100],
+                        },
+                    },
+                    grid: {
+                        show: false,
+                        padding: {
+                            top: 0,
+                            right: 0,
+                            bottom: 0,
+                            left: 0
+                        },
+                    },
+                    xaxis: {
+                        show: false,
+                        labels: {
+                            show: false,
+                        },
+                        axisTicks: {
+                            show: false,
+                        },
+                        axisBorder: {
+                            show: false,
+                        },
+                    },
+                    yaxis: {
+                        labels: {
+                            show: false,
+                        },
+                        axisTicks: {
+                            show: false,
+                        }
+                    },
+                };
+
+                var chart = new ApexCharts(Chart, options);
+                chart.render();
+            }
+        })();
+
     </script>
+    
 </body>
 
 </html>
 
 
-<!-- 
-    Template Name: FundRows - Free Bootstrap Crypto Dashboard Template
+<!--
+    Template Name: FundRows – Free Bootstrap Crypto Dashboard Template
     Template URL: https://www.designtocodes.com/product/fundrows-free-crypto-dashboard-template/
     Description: Build a user-friendly crypto dashboard with FundRows free crypto dashboard template. Enjoy full responsiveness, and customizable for your crypto projects. With FundRows, developers can create a unique crypto admin dashboard that is visually impressive.
     Author: DesignToCodes
     Author URL: https://www.designtocodes.com
     Text Domain: FundRows
- -->
->>>>>>> 239f81393e778cafff8f29082385907c11a1652a
+-->

@@ -23,7 +23,7 @@ class TransactionController extends Controller
 
     public function create()
     {
-        return view(''); // Adjust if you have a create view
+        return view(''); // Optional
     }
 
     public function store(Request $request)
@@ -57,10 +57,8 @@ class TransactionController extends Controller
         $transaction->status = 'success';
         $transaction->save();
 
-        // Find latest matching inactive user_package
         $userPackage = UserPackage::where('user_id', $transaction->user_id)
             ->where('is_active', 0)
-            // ->where('source', 'user')
             ->latest()
             ->first();
 
@@ -86,5 +84,34 @@ class TransactionController extends Controller
         $transaction->save();
 
         return back()->with('success', 'Transaction rejected successfully.');
+    }
+
+    // 🔽🔽 E-PIN FEATURES ADDED BELOW 🔽🔽
+
+    public function epinTransfer()
+    {
+        $users = User::all();
+        $epins = []; // Replace with Epin::where('status', 'active')->get(); if Epin model exists
+        return view('backend.epin.transfer', compact('users', 'epins'));
+    }
+
+    public function epinPurchase()
+    {
+        $users = User::all();
+        return view('backend.epin.purchase', compact('users'));
+    }
+
+    public function epinTransferSubmit(Request $request)
+    {
+        // Handle form validation & DB logic
+        // Placeholder only
+        return back()->with('success', 'E-pin transferred successfully.');
+    }
+
+    public function epinPurchaseSubmit(Request $request)
+    {
+        // Handle form validation & DB logic
+        // Placeholder only
+        return back()->with('success', 'E-pin purchased successfully.');
     }
 }

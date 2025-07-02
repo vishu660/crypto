@@ -23,6 +23,8 @@ class Kernel extends ConsoleKernel
 
         // 🔧 Optional for testing:
          $schedule->command('app:distribute-roi')->everyMinute();
+         $schedule->command('app:distribute-series-salary')->dailyAt('01:00');
+
     }
 
 

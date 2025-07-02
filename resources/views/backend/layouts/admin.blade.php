@@ -527,8 +527,13 @@
                 </li>
                 <!-- Salary Report with icon -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.salary.index') ? 'active' : '' }}" href="{{ route('admin.salary.index') }}">
+                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.series.salary.index') ? 'active' : '' }}" href="{{ route('admin.series.salary.index') }}">
                         <i class="bi bi-cash-coin me-2"></i>Salary Report
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.e_pin') ? 'active' : '' }}" href="{{ route('admin.e_pin') }}">
+                        <i class="bi bi-ticket me-2"></i>E-Pin
                     </a>
                 </li>
                 <li class="nav-item mt-4 mb-2">

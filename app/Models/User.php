@@ -109,5 +109,16 @@ public function getSeriesLevelAttribute()
 
     return $currentLevel ?? 0;
 }
+public function directReferrals()
+{
+    return $this->hasMany(User::class, 'referral_by');
+}
+
+public function isReferralQualified()
+{
+    $required = \App\Models\ReferralSetting::first()->required_referrals ?? 2;
+    return $this->directReferrals()->count() >= $required;
+}
+
 
 }

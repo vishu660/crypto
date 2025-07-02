@@ -4,20 +4,30 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Carbon\Carbon;
 use App\Models\Wallet;
+use App\Models\User;
 
 class WalletController extends Controller
 {
     public function index(Request $request)
     {
         $wallets = Wallet::with('user')
-            ->where('user_id') 
             ->when($request->filled('user_id'), function ($query) use ($request) {
-                $query->where('message', 'like', '%User #' . $request->user_id . '%');
+                $query->where('user_id', $request->user_id); 
             })
+
+            ->latest()
+            ->paginate(20);
+
+       
+        $users = User::all(); 
+
+        return view('backend.pages.wallethistory', compact('wallets', 'users'));
+    }
+
+    public function packagePurchase(Request $request)
+    {
+        $wallets = Wallet::with('user')
             ->where('source', 'package_purchase') 
             ->latest()
             ->paginate(20);
@@ -26,3 +36,4 @@ class WalletController extends Controller
         return view('backend.pages.wallethistory', compact('wallets'));
     }
 }
+
