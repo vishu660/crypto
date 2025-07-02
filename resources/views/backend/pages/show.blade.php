@@ -142,6 +142,7 @@
                                 <th>Qualified</th>
                                 <th>Series Level</th>
                                 <th>Salary Paid?</th>
+                                <th>Level Duration</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -174,6 +175,14 @@
                                             <span class="badge bg-warning text-dark">Pending</span>
                                         @endif
                                     </td>
+                                    <td>
+                                         @php
+                                            $levelData = $series_levels->where('level', $user->series_level)->first();
+                                        @endphp
+                                        @if($levelData)
+                                            <br><small style="color: #000;">Time: {{ $levelData->period_months }} Months</small>
+                                        @endif
+                                    </td>
                                     
                                     <td>
                                         <button class="btn btn-sm btn-info" onclick="showEditLevel({{ $user->id }}, {{ $user->series_level }})">Edit</button>
@@ -181,18 +190,31 @@
                                 </tr>
                                 <tr id="edit-row-{{ $user->id }}" style="display:none;">
                                     <td colspan="10">
-                                        <form method="POST" action="{{ route('admin.series.update', $user->id) }}" class="d-flex align-items-center" style="gap: 10px;">
+                                       <form method="POST" action="{{ route('admin.series.update', $user->id) }}" class="d-flex align-items-center flex-wrap" style="gap: 10px;">
                                             @csrf
                                             @method('PUT')
-                                            <label class="me-2 mb-0">Level:</label>
-                                            <select name="series_level" class="form-select w-auto me-2" required>
+
+                                            <label class="me-2 mb-0 text-white">Level:</label>
+
+                                            <select name="series_level" class="form-select w-auto me-2" required onchange="updateTimeDisplay(this, {{ $user->id }})">
                                                 @for($i = 0; $i <= 10; $i++)
                                                     <option value="{{ $i }}" {{ intval($user->series_level) === $i ? 'selected' : '' }}>Level {{ $i }}</option>
                                                 @endfor
                                             </select>
+
+                                            {{-- Time Info --}}
+                                            @php
+                                                $currentLevelData = $series_levels->where('level', $user->series_level)->first();
+                                            @endphp
+                                            <small id="time-display-{{ $user->id }}" class="ms-2" style="color: black;">
+                                                    Time: {{ $series_levels->where('level', $user->series_level)->first()->period_months ?? 0 }} Months
+                                                </small>
+
+
                                             <button type="submit" class="btn btn-success btn-sm me-2">Save</button>
                                             <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEditLevel({{ $user->id }})">Cancel</button>
                                         </form>
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -207,14 +229,24 @@
 
 @push('scripts')
 <script>
-    function showEditLevel(userId, currentLevel) {
-        document.getElementById('user-row-' + userId).style.display = 'none';
-        document.getElementById('edit-row-' + userId).style.display = '';
+    const seriesLevelData = @json($series_levels->pluck('period_months', 'level'));
+
+    function updateTime(selectElement, userId) {
+        const selectedLevel = selectElement.value;
+        const time = seriesLevelData[selectedLevel] ?? 0;
+        document.getElementById('time-display-' + userId).innerText = 'Time: ' + time + ' Months';
     }
+
+    function showEditLevel(userId) {
+        document.getElementById('user-row-' + userId).style.display = 'none';
+        document.getElementById('edit-row-' + userId).style.display = 'table-row';
+    }
+
     function cancelEditLevel(userId) {
         document.getElementById('edit-row-' + userId).style.display = 'none';
-        document.getElementById('user-row-' + userId).style.display = '';
+        document.getElementById('user-row-' + userId).style.display = 'table-row';
     }
+
     $(document).ready(function () {
         $('#salaryTable').DataTable({
             searching: true,
@@ -227,3 +259,4 @@
     });
 </script>
 @endpush
+
