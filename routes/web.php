@@ -385,3 +385,6 @@ Route::post('/user/buy/request', [UserController::class, 'buyWithRequest'])->nam
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
 Route::post('admin/referral-setting', [SalaryController::class, 'updateReferralSetting'])->name('admin.referral.setting.update');
 Route::get('/admin/profile', [UserController::class, 'profile'])->name('admin.profile');
+// For E-Pin
+Route::get('/admin/epin/transfer', [TransactionController::class, 'epinTransfer'])->name('epin.transfer');
+Route::get('/admin/epin/purchase', [TransactionController::class, 'epinPurchase'])->name('epin.purchase');
