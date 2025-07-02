@@ -1,0 +1,6 @@
+@include('user.layouts.html')
+@include('user.layouts.head')
+@include('user.layouts.leftside')
+@yield('content')
+@include('user.layouts.script')
+@include('user.layouts.end_html')

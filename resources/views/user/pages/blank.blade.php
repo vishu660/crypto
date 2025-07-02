@@ -1,32 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('user.main')
+@section('content')
+<!-- Main Body-->
+<div class="d2c_main p-4">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('assets/images/logo/logo-sm.png') }}" type="image/gif" sizes="16x16">
-    <title>Blank</title>
-    <meta name="og:description" content="Build a user-friendly crypto dashboard with FundRows free crypto dashboard template. Enjoy full responsiveness, and customizable for your crypto projects. With FundRows, developers can create a unique crypto admin dashboard that is visually impressive.">
-    <meta name="robots" content="index, follow">
-    <meta name="og:title" property="og:title" content="FundRows - Free Bootstrap Crypto Dashboard Template">
-    <meta property="og:image" content="https://www.designtocodes.com/wp-content/uploads/2023/10/FundRows-%E2%80%93-Free-Bootstrap-Crypto-Dashboard-Template-Thumbnail.jpg">
-    <!-- bootstrap css link -->
-    <link rel="stylesheet" href="{{ asset('lib/bootstrap_5/bootstrap.min.css') }}">
-    <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="{{ asset('lib/fontawesome/css/all.min.css') }}">
-    <!-- main css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/global.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <!-- responsive css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
-</head>
-
-<body>
-    <!-- Preloader Start -->
-    <div class="preloader">
-        <img src="{{ asset('assets/images/logo/logo.png') }}" alt="DesignToCodes">
+<!-- Title -->
+<div class="row align-items-center mb-4">
+    <div class="col-2 d-block d-lg-none">
+        <!-- Offcanvas Toggler -->
+        <button class="btn btn-primary px-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#d2c_sidebar" aria-controls="d2c_sidebar">
+            <i class="fa fa-bars p-0"></i>
+        </button>
+        <!-- End:Offcanvas Toggler -->
     </div>
+<<<<<<< HEAD
+    <div class="col">
+        <p class="mb-0">Welcome Back</p>
+        <h4 class="text-capitalize">Blank</h4>
+=======
     <!-- Preloader End -->
     <div class="d2c_wrapper">
         <!-- Main sidebar -->
@@ -709,12 +699,21 @@
             </div>
         </div>
         <!-- End:Right Sidebar -->
+>>>>>>> 239f81393e778cafff8f29082385907c11a1652a
     </div>
+</div>
+<!-- End:Title -->
 
-    <button class="d2c_offcanvas_toggle position-fixed top-50 end-0 translate-middle-y d-block d-xl-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#d2c_sidebar_right" aria-controls="d2c_sidebar_right">
-        <i class="fas fa-chevron-left"></i>
-    </button>
+<!-- copyright -->
+<div class="d2c_copyright bg-success bg-opacity-10 p-3 text-center mt-4">
+    <p class="mb-0 fw-semibold">© 2023 <a href="https://www.designtocodes.com/" target="_blank" class="fw-bold">DesignToCodes</a>, All rights Reserved</p>
+</div>
 
+<<<<<<< HEAD
+</div>
+<!-- End:Main Body -->
+@endsection
+=======
     <!-- Initial  Javascript -->
     <script src="{{ asset('lib/jQuery/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('lib/bootstrap_5/bootstrap.bundle.min.js') }}"></script>
@@ -773,3 +772,4 @@ function redirectToTransfer() {
     Author URL: https://www.designtocodes.com
     Text Domain: FundRows
  -->
+>>>>>>> 239f81393e778cafff8f29082385907c11a1652a

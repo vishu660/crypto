@@ -1,44 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('user.main')
+@section('content')
+    <!-- Main Body-->
+    <div class="d2c_main p-4">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('assets/images/logo/logo-sm.png') }}" type="image/gif" sizes="16x16">
-    <title>Balance Transfer</title>
-    <meta name="og:description" content="Build a user-friendly crypto dashboard with FundRows free crypto dashboard template. Enjoy full responsiveness, and customizable for your crypto projects. With FundRows, developers can create a unique crypto admin dashboard that is visually impressive.">
-    <meta name="robots" content="index, follow">
-    <meta name="og:title" property="og:title" content="FundRows - Free Bootstrap Crypto Dashboard Template">
-    <meta property="og:image" content="https://www.designtocodes.com/wp-content/uploads/2023/10/FundRows-Free-Bootstrap-Crypto-Dashboard-Template-Thumbnail.jpg">
-    <!-- bootstrap css link -->
-    <link rel="stylesheet" href="{{ asset('lib/bootstrap_5/bootstrap.min.css') }}">
-    <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="{{ asset('lib/fontawesome/css/all.min.css') }}">
-    <!-- main css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/global.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <!-- responsive css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
-</head>
-
-<body>
-    <!-- Preloader Start -->
-    <div class="preloader">
-        <img src="{{ asset('assets/images/logo/logo.png') }}" alt="DesignToCodes">
+<!-- Title -->
+<div class="row align-items-center mb-4">
+    <div class="col-2 d-block d-lg-none">
+        <!-- Offcanvas Toggler -->
+        <button class="btn btn-primary px-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#d2c_sidebar" aria-controls="d2c_sidebar">
+            <i class="fa fa-bars p-0"></i>
+        </button>
+        <!-- End:Offcanvas Toggler -->
     </div>
-    <!-- Preloader End -->
-    <div class="d2c_wrapper">
-        
-        <!-- Main sidebar -->
-        <div class="d2c_sidebar offcanvas-lg offcanvas-start px-2 py-4" tabindex="-1" id="d2c_sidebar">
-            <div class="d-flex flex-column">
-                <!-- Logo -->
-                <a href="{{ route('user') }}" class="brand-icon">
-                    <img class="navbar-brand" src="{{ asset('assets/images/logo/logo.png') }}" alt="logo">
-                </a>
-                <!-- End:Logo -->
+    <div class="col">
+        <p class="mb-0">Welcome Back</p>
+        <h4 class="text-capitalize fw-bold">Transfer</h4>
+    </div>
+</div>
+<!-- End:Title -->
 
+<<<<<<< HEAD
+<div class="row">
+    <div class="col-md-10 col-xl-10 col-xxl-6 offset-md-1 offset-xl-1 offset-xxl-3 d2c_balance_transfer_wrapper">
+        <div class="card bg-success bg-opacity-10">
+            <div class="card-body p-4 p-lg-5 p-xxl-4">
+                <div class="p-3 mb-4 p-xxl-4 bg-primary bg-opacity-70 d2c_balance_transfer">
+=======
                 <!-- Menu -->
                 <ul class="navbar-nav flex-grow-1">
                     <!-- Menu Item -->
@@ -722,37 +709,58 @@
 
                 <div class="d2c_balance mb-2">
                     <p class="mb-1">My Balance</p>
+>>>>>>> 239f81393e778cafff8f29082385907c11a1652a
                     <div class="row">
-                        <div class="col">
-                            <h5 class="fw-semibold">$10,208.73</h5>
+                        <div class="col-md">
+                            <h5 class="text-white">Available balance</h5>
                         </div>
-                        <div class="col">
-                            <div class="d-flex align-items-center d2c_percentage_rate ">
-                                <span class="d-inline-flex px-2 py-1 fw-semibold text-success bg-success bg-opacity-25 rounded-2">+1.25%</span>
-                                <i class="fas fa-arrow-right text-white bg-success rounded-circle"></i>
-                            </div>
+                        <div class="col-md text-md-end">
+                            <h5 class="text-white">2.56213968 ETH</h5>
+                            <p class="mb-0 text-white">$10,095.35</p>
                         </div>
                     </div>
                 </div>
-
-
-                <div class="card d2c_wallet_card mb-4" style="background: linear-gradient(180deg, #6271ebe0 0%, #fc76b7 373.31%), url('{{ asset('assets/images/triangle_bg.png') }}');">
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <p class="mb-1 text-white">Balance</p>
-                            <h5 class="fw-semibold">$10,208.73</h5>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <small>Card Holder</small>
-                                <h6>Esther Howard</h6>
-                            </div>
-                            <div class="col-5">
-                                <small>Valid Thru</small>
-                                <h6>08/2023</h6>
-                            </div>
+                <form action="#" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label class="form-label">Form</label>
+                        <select class="form-select form-control" aria-label="Default select example">
+                            <option selected>Margin</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">To</label>
+                        <select class="form-select form-control" aria-label="Default select example">
+                            <option selected>Fiat and Spot</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Coin</label>
+                        <select class="form-select form-control" aria-label="Default select example">
+                            <option selected>ETH Ethereum</option>
+                            <option value="1">BTC</option>
+                            <option value="2">EURO</option>
+                            <option value="3">YEN</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Amount to Transfer</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control border-0" required placeholder="Enter amount">
+                            <button class="btn ps-0 border-0" type="button" id="button-addon2"><i class="far fa-eye-slash"></i></button>
                         </div>
                     </div>
+<<<<<<< HEAD
+                    <p>2,5653 ETH available</p>
+                    <div class="row">
+                        <div class="col-md">
+                            <button type="submit" class="btn bg-success bg-opacity-25 text-success w-100 text-uppercase">Cancel</button>
+=======
                 </div>
 
                 <div class="d2c_convert mb-4">
@@ -766,50 +774,34 @@
                                 <option value="1" selected>ETH</option>
                                 <option value="2">USD</option>
                             </select>
+>>>>>>> 239f81393e778cafff8f29082385907c11a1652a
                         </div>
-                        <label for="convert_coin">Convert Coin</label>
-                        <div class="input-group border-0 mb-3">
-                            <input type="number" class="form-control border-0" id="convert_coin" placeholder="0.00" required>
-                            <select class="form-select form-control border-0 pe-0" id="inputGroupSelect02">
-                                <option value="1">ETH</option>
-                                <option value="2" selected>USD</option>
-                            </select>
+                        <div class="col-md">
+                            <button type="submit" class="btn btn-primary w-100 text-uppercase">Transfer</button>
                         </div>
-                        <button type="submit" class="btn w-100 text-success bg-success bg-opacity-25">Convert</button>
-                    </form>
-                </div>
-
-                <div class="d2c_convert form-validation">
-                    <p class="fw-semibold">Quick Transfer</p>
-
-                    <form class="form-validation" novalidate>
-                        <label for="send_email">To</label>
-                        <div class="input-group border-0 mb-3">
-                            <input type="email" class="form-control border-0" id="send_email" placeholder="Send Email" required>
-                        </div>
-                        <label for="send_amount">Amount</label>
-                        <div class="input-group border-0 mb-3">
-                            <input type="number" class="form-control border-0" id="send_amount" placeholder="0.00" required>
-                            <select class="form-select form-control border-0 pe-0" id="inputGroupSelect03">
-                                <option value="1" selected>ETH</option>
-                                <option value="2">USD</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn w-100 text-success bg-success bg-opacity-25">Transfer</button>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
+<<<<<<< HEAD
+        </div>
+=======
         </div> --}}
         <!-- End:Right Sidebar -->
         
+>>>>>>> 239f81393e778cafff8f29082385907c11a1652a
     </div>
+</div>
 
-    <!-- Offcanvas Toggler -->
-    <button class="d2c_offcanvas_toggle position-fixed top-50 end-0 translate-middle-y d-block d-xl-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#d2c_sidebar_right" aria-controls="d2c_sidebar_right">
-        <i class="fas fa-chevron-left"></i>
-    </button>
-    <!-- End:Offcanvas Toggler -->
+<!-- copyright -->
+<div class="d2c_copyright bg-success bg-opacity-10 p-3 text-center mt-4">
+    <p class="mb-0 fw-semibold">© 2023 <a href="https://www.designtocodes.com/" target="_blank" class="fw-bold">DesignToCodes</a>, All rights Reserved</p>
+</div>
 
+<<<<<<< HEAD
+</div>
+<!-- End:Main Body -->
+@endsection
+=======
     <!-- Initial  Javascript -->
     <script src="{{ asset('lib/jQuery/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('lib/bootstrap_5/bootstrap.bundle.min.js') }}"></script>
@@ -836,3 +828,4 @@
     Author URL: https://www.designtocodes.com
     Text Domain: FundRows
  -->
+>>>>>>> 239f81393e778cafff8f29082385907c11a1652a
