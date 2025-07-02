@@ -15,7 +15,8 @@ class WalletController extends Controller
             ->when($request->filled('user_id'), function ($query) use ($request) {
                 $query->where('user_id', $request->user_id); 
             })
-            ->latest()
+
+           ->latest()
             ->paginate(20);
 
        
@@ -24,3 +25,13 @@ class WalletController extends Controller
         return view('backend.pages.wallethistory', compact('wallets', 'users'));
     }
 }
+
+            ->where('source', 'package_purchase') 
+            ->latest()
+            ->paginate(20);
+
+            $wallets = \App\Models\Wallet::all();
+        return view('backend.pages.wallethistory', compact('wallets'));
+    }
+}
+
