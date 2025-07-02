@@ -29,7 +29,7 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                {{ isset($slot) ? $slot : '' }}
             </main>
         </div>
     </body>

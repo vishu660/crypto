@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\SalaryController;
 
 
 
+
 // // Public Routes
 // Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 // Route::post('/admin/login', [AuthController::class, 'login'])->name('admin-login.submit');
@@ -218,7 +219,9 @@ Route::get('/admin/payoutcontrols', function () {
 Route::get('/admin/news', function () {
     return view('backend.pages.news');
 })->name('admin.news');
-
+Route::get('/admin/e-pin', function () {
+    return view('backend.pages.e_pin');
+})->name('admin.e_pin');
 Route::get('/admin/promotionalfiles', function () {
     return view('backend.pages.promotionalfiles');
 })->name('admin.promotionalfiles');
@@ -274,7 +277,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
 // User Pages
 Route::get('/user/pages/activity', function () { return view('user.pages.activity'); })->name('user.pages.activity');
-Route::get('/user/pages/blank', function () { return view('user.pages.blank'); })->name('user.pages.blank');
+Route::get('/user/pages/blank', [UserController::class, 'blank'])->name('user.pages.blank');
 Route::get('/user/pages/email', function () { return view('user.pages.email'); })->name('user.pages.email');
 Route::get('/user/pages/exchange', function () { return view('user.pages.exchange'); })->name('user.pages.exchange');
 Route::get('/user/pages/faq', function () { return view('user.pages.faq'); })->name('user.pages.faq');
@@ -287,7 +290,7 @@ Route::get('/user/pages/profile/{role}', [UserController::class, 'getUsersByRole
 Route::get('/user/pages/support', function () { return view('user.pages.support'); })->name('user.pages.support');
 Route::get('/user/pages/terms-condition', function () { return view('user.pages.terms&condition'); })->name('user.pages.terms-condition');
 Route::get('/user/pages/transactions', [UserController::class, 'userTransactions'])->name('user.pages.transactions');
-Route::get('/user/pages/transfer', function () { return view('user.pages.transfer'); })->name('user.pages.transfer');
+Route::get('/user/pages/transfer', [UserController::class, 'transfer'])->name('user.pages.transfer');
 Route::get('/user/pages/wallet', [UserController::class, 'wallet'])->name('user.pages.wallet')->middleware('auth');
 
 // User Pages Components
@@ -354,6 +357,31 @@ Route::post('/admin/transactions/{id}/reject', [TransactionController::class, 'r
 Route::get('/admin/transactions', [TransactionController::class, 'index'])->name('admin.transactions.index');
 
 
-Route::get('/admin/salary-report', [SalaryController::class, 'index'])->name('admin.salary.index');
+// Route::get('/admin/salary-report', [SalaryController::class, 'index'])->name('admin.salary.index');
+// Route::put('/admin/series-salary-update', [SalaryController::class, 'update'])->name('admin.series.salary.update');
+// Route::put('/admin/series-update/{user}', [SalaryController::class, 'updateLevel'])->name('admin.series.update');
+// Route::get('/admin/series-salary/create', [SalaryController::class, 'create'])->name('admin.series.salary.create');
+// Route::post('/admin/series-salary/store', [SalaryController::class, 'store'])->name('admin.series.salary.store');
+
+
+
+Route::get('/admin/salary-report', [SalaryController::class, 'index'])->name('admin.series.salary.index');
+// ✅ Correct
 Route::put('/admin/series-salary-update', [SalaryController::class, 'update'])->name('admin.series.salary.update');
 Route::put('/admin/series-update/{user}', [SalaryController::class, 'updateLevel'])->name('admin.series.update');
+Route::get('/admin/series-salary/create', [SalaryController::class, 'create'])->name('admin.series.salary.create');
+Route::post('/admin/series-salary/store', [SalaryController::class, 'store'])->name('admin.series.salary.store');
+
+
+// Show Buy Page
+Route::get('/user/buy/{id}', [UserController::class, 'showBuyPage'])->name('user.buy');
+
+// Buy with Admin Code
+Route::post('/user/buy/code', [UserController::class, 'buyWithCode'])->name('packages.buy.with-code');
+
+// Buy with Admin Request
+Route::post('/user/buy/request', [UserController::class, 'buyWithRequest'])->name('packages.buy.with-request');
+
+Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+Route::post('admin/referral-setting', [SalaryController::class, 'updateReferralSetting'])->name('admin.referral.setting.update');
+Route::get('/admin/profile', [UserController::class, 'profile'])->name('admin.profile');

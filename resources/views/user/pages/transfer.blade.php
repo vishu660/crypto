@@ -552,12 +552,38 @@
                                         <h5 class="text-white">Available balance</h5>
                                     </div>
                                     <div class="col-md text-md-end">
-                                        <h5 class="text-white">2.56213968 ETH</h5>
-                                        <p class="mb-0 text-white">$10,095.35</p>
+                                        <h5 class="text-white" id="converted_inr">
+                                            @if(!empty($convertedInr))
+                                                ₹{{ number_format($convertedInr, 2) }}
+                                            @else
+                                                not found
+                                            @endif
+                                        </h5>
                                     </div>
+                                    
                                 </div>
                             </div>
                             <form action="#" class="needs-validation" novalidate>
+                                <div class="mb-3">
+                                    <label class="form-label">Account Holder Name</label>
+                                    <input type="text" class="form-control" name="account_holder" placeholder="Enter account holder name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Bank Name</label>
+                                    <input type="text" class="form-control" name="bank_name" placeholder="Enter bank name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Account Number</label>
+                                    <input type="text" class="form-control" name="account_number" placeholder="Enter account number" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">IFSC Code</label>
+                                    <input type="text" class="form-control" name="ifsc_code" placeholder="Enter IFSC code" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Remarks (Optional)</label>
+                                    <input type="text" class="form-control" name="remarks" placeholder="Remarks (optional)">
+                                </div>
                                 <div class="mb-3">
                                     <label class="form-label">Form</label>
                                     <select class="form-select form-control" aria-label="Default select example">
@@ -616,7 +642,7 @@
         <!-- End:Main Body -->
 
         <!-- Right Sidebar canvas -->
-        <div class="d2c_sidebar d2c_sidebar_right offcanvas-xl offcanvas-end p-3" tabindex="-1" id="d2c_sidebar_right">
+        {{-- <div class="d2c_sidebar d2c_sidebar_right offcanvas-xl offcanvas-end p-3" tabindex="-1" id="d2c_sidebar_right">
             <div class="d-flex flex-column py-4">
                 <div class="row mb-3 border-bottom pb-2">
                     <div class="col-4 d-flex align-items-center">
@@ -732,7 +758,7 @@
                 <div class="d2c_convert mb-4">
                     <p class="fw-semibold">Quick Convert</p>
 
-                    <form class="form-validation" novalidate>
+                    <form class="form-validation" novalidate onsubmit="redirectToTransfer(); return false;">
                         <label for="conver_amount">Amount</label>
                         <div class="input-group border-0 mb-3">
                             <input type="number" class="form-control border-0" id="conver_amount" placeholder="0.00" required>
@@ -773,7 +799,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- End:Right Sidebar -->
         
     </div>
@@ -790,6 +816,13 @@
 
     <!-- custom js -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script>
+        function redirectToTransfer() {
+            const inrInput = document.getElementById('inr_amount');
+            const inrValue = inrInput.value || 0;
+            window.location.href = "{{ route('user.pages.transfer') }}" + "?amount_inr=" + encodeURIComponent(inrValue);
+        }
+    </script>
 </body>
 
 </html>

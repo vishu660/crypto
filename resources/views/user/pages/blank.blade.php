@@ -537,10 +537,32 @@
                 </div>
                 <div class="col">
                     <p class="mb-0">Welcome Back</p>
-                    <h4 class="text-capitalize">Blank</h4>
+                    <h4 class="text-capitalize">Convert Coin</h4>
                 </div>
             </div>
             <!-- End:Title -->
+
+            <!-- Quick Convert Section -->
+            <div class="row">
+                <div class="col-md-8 col-lg-6 mx-auto">
+                    <div class="d2c_convert mb-4">
+                        <p class="fw-semibold" style="font-size: 1.3rem; color: #444;">Quick Convert</p>
+                        <form class="form-validation" novalidate onsubmit="redirectToTransfer(); return false;">
+                            <label for="usdt_amount" style="font-weight: 500;">Amount (USDT)</label>
+                            <div class="input-group border-0 mb-3">
+                                <input type="number" class="form-control border-0" id="usdt_amount" placeholder="0.00" style="background: #eaffef;" required step="any">
+                                <span class="input-group-text" style="background: #eaffef; border: none;">USDT</span>
+                            </div>
+                            <label for="inr_amount" style="font-weight: 500;">Convert Coin (INR)</label>
+                            <div class="input-group border-0 mb-3">
+                                <input type="number" class="form-control border-0" id="inr_amount" placeholder="0.00" style="background: #eaffef;" readonly>
+                                <span class="input-group-text" style="background: #eaffef; border: none;">INR</span>
+                            </div>
+                            <button type="submit" class="btn w-100" style="background: #b6f7d6; color: #22c55e; font-size: 1.3rem; font-weight: 500;">Convert</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
             <!-- copyright -->
             <div class="d2c_copyright bg-success bg-opacity-10 p-3 text-center mt-4">
@@ -634,7 +656,7 @@
                     <p class="mb-1">My Balance</p>
                     <div class="row">
                         <div class="col">
-                            <h5 class="fw-semibold">$10,208.73</h5>
+                        <h5 class="fw-semibold">{{ number_format($balance, 2) }}</h5>
                         </div>
                         <div class="col">
                             <div class="d-flex align-items-center d2c_percentage_rate ">
@@ -650,7 +672,7 @@
                     <div class="card-body">
                         <div class="mb-4">
                             <p class="mb-1 text-white">Balance</p>
-                            <h5 class="fw-semibold">$10,208.73</h5>
+                            <h5 class="fw-semibold">{{ number_format($balance, 2) }}</h5>
                         </div>
                         <div class="row">
                             <div class="col">
@@ -663,30 +685,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="d2c_convert mb-4">
-                    <p class="fw-semibold">Quick Convert</p>
-
-                    <form class="form-validation" novalidate>
-                        <label for="conver_amount">Amount</label>
-                        <div class="input-group border-0 mb-3">
-                            <input type="number" class="form-control border-0" id="conver_amount" placeholder="0.00" required>
-                            <select class="form-select form-control border-0 pe-0" id="inputGroupSelect01">
-                                <option value="1" selected>ETH</option>
-                                <option value="2">USD</option>
-                            </select>
-                        </div>
-                        <label for="convert_coin">Convert Coin</label>
-                        <div class="input-group border-0 mb-3">
-                            <input type="number" class="form-control border-0" id="convert_coin" placeholder="0.00" required>
-                            <select class="form-select form-control border-0 pe-0" id="inputGroupSelect02">
-                                <option value="1">ETH</option>
-                                <option value="2" selected>USD</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn w-100 text-success bg-success bg-opacity-25">Convert</button>
-                    </form>
                 </div>
 
                 <div class="d2c_convert form-validation">
@@ -723,6 +721,45 @@
 
     <!-- custom js -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+    const usdtInput = document.getElementById('usdt_amount');
+    const inrInput = document.getElementById('inr_amount');
+    const availableInr = document.getElementById('available_inr'); // ऊपर वाला कार्ड
+    const convertedInrText = document.getElementById('converted_inr'); // यह आपका Blade output वाला
+
+    const rate = 85.52;
+
+    usdtInput.addEventListener('input', function () {
+        const usdt = parseFloat(usdtInput.value) || 0;
+        const convertedInr = usdt * rate;
+
+        if (usdt > 0) {
+            const inrFormatted = convertedInr.toFixed(2);
+            inrInput.value = inrFormatted;
+
+            // update both display areas
+            availableInr.textContent = `₹ ${inrFormatted}`;
+            convertedInrText.textContent = `₹ ${inrFormatted}`;
+        } else {
+            inrInput.value = '';
+            availableInr.textContent = 'not found';
+            convertedInrText.textContent = 'not found';
+        }
+    });
+});
+
+function redirectToTransfer() {
+    const inr = document.getElementById('inr_amount').value;
+    if (inr && parseFloat(inr) > 0) {
+        window.location.href = "{{ route('user.pages.transfer') }}" + "?amount_inr=" + encodeURIComponent(inr);
+    } else {
+        alert('Please enter a valid amount to convert.');
+    }
+}
+
+    </script>
+    
 </body>
 
 </html>

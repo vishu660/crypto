@@ -101,7 +101,7 @@
 
                     <!-- Menu Item -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('user.pages.profile') }}">
+                        <a class="nav-link" href="{{ route('admin.profile') }}">
                             <span class="d2c_icon">
                                 <i class="far fa-user"></i>
                             </span>
