@@ -31,6 +31,12 @@ class CreateUsersTable extends Migration
             $table->timestamp('otp_expires_at')->nullable();
             $table->enum('status', ['pending', 'active', 'inactive', 'banned'])->default('pending');
             $table->boolean('terms_accepted')->default(false);
+            $table->string('aadhaar_front')->nullable();
+            $table->string('aadhaar_back')->nullable();
+            $table->string('pan_card')->nullable();
+            $table->string('driving_front')->nullable();
+            $table->string('driving_back')->nullable();
+            $table->enum('kyc_status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }

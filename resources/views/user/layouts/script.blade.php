@@ -421,8 +421,47 @@
             }
         })();
 
+        document.addEventListener('DOMContentLoaded', function() {
+        function showField(type) {
+            document.getElementById('aadhaarField').classList.add('d-none');
+            document.getElementById('panField').classList.add('d-none');
+            document.getElementById('dlField').classList.add('d-none');
+            if(type === 'aadhaar') document.getElementById('aadhaarField').classList.remove('d-none');
+            if(type === 'pan') document.getElementById('panField').classList.remove('d-none');
+            if(type === 'dl') document.getElementById('dlField').classList.remove('d-none');
+        }
+        document.querySelectorAll('input[name="kyc_type"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                showField(this.value);
+            });
+        });
+        showField(document.querySelector('input[name="kyc_type"]:checked').value);
+    });
+    document.getElementById('kycForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const token = '{{ auth()->user()->currentAccessToken()->plainTextToken ?? '' }}'; // Or get from JS variable
+
+    try {
+        const res = await fetch('{{ url("/api/kyc-submit") }}', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Accept': 'application/json'
+            },
+            body: formData
+        });
+
+        const data = await res.json();
+        alert(data.message);
+        location.reload();
+    } catch (err) {
+        console.error(err);
+        alert('Something went wrong.');
+    }
+});
     </script>
-    
 </body>
 
 </html>
