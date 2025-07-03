@@ -21,4 +21,17 @@ class AdminController extends Controller
 
         return view('backend.pages.dashboard', compact('totalUsers', 'activeUsers', 'inactiveUsers'));
     }
+    public function userSearch(Request $request)
+    {
+        $query = $request->q;
+
+        $users = User::where('email', 'like', "$query%")
+            ->select('id', 'full_name', 'email', 'referral_id')
+            ->limit(10)
+            ->get();
+
+        return response()->json($users);
+    }
+    
+
 } 

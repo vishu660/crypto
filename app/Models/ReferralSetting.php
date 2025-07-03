@@ -9,5 +9,6 @@ class ReferralSetting extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['required_referrals'];
+    protected $fillable = ['required_referrals', 'qualification_time_hours'];
+
 }

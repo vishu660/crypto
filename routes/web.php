@@ -219,9 +219,7 @@ Route::get('/admin/payoutcontrols', function () {
 Route::get('/admin/news', function () {
     return view('backend.pages.news');
 })->name('admin.news');
-Route::get('/admin/e-pin', function () {
-    return view('backend.pages.e_pin');
-})->name('admin.e_pin');
+Route::get('/admin/e-pin', [App\Http\Controllers\Admin\TransactionController::class, 'epinPage'])->name('admin.e_pin');
 Route::get('/admin/promotionalfiles', function () {
     return view('backend.pages.promotionalfiles');
 })->name('admin.promotionalfiles');
@@ -388,3 +386,8 @@ Route::get('/admin/profile', [UserController::class, 'profile'])->name('admin.pr
 // For E-Pin
 Route::get('/admin/epin/transfer', [TransactionController::class, 'epinTransfer'])->name('epin.transfer');
 Route::get('/admin/epin/purchase', [TransactionController::class, 'epinPurchase'])->name('epin.purchase');
+Route::get('/epin', [TransactionController::class, 'epinIndex'])->name('epin.index');
+Route::post('/epin/purchase', [TransactionController::class, 'epinPurchaseSubmit'])->name('epin.purchase.submit');
+Route::post('/admin/epin/transfer', [App\Http\Controllers\Admin\TransactionController::class, 'epinTransferSubmit'])->name('admin.epin.transfer.submit');
+Route::post('/admin/epin/purchase', [App\Http\Controllers\Admin\TransactionController::class, 'epinPurchaseSubmit'])->name('admin.epin.purchase.submit');
+Route::get('/admin/user-search', [AdminController::class, 'userSearch'])->name('admin.user.search');
