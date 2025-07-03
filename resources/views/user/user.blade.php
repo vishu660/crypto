@@ -121,8 +121,9 @@
                     color: #fff;
                 ">
 
-                <form method="POST" action="{{ route('packages.buy') }}">
+<form method="POST" action="{{ route('user.buy', $package->id) }}">
                     @csrf
+                    @method('PUT')
                     <input type="hidden" name="package_id" value="{{ $package->id }}">
                     <button type="submit" class="btn btn-success position-absolute" style="
                             top: 15px;
@@ -760,15 +761,15 @@
                 </div>
             </div>
             <div class="mt-4">
-    <h6>Quick Convert</h6>
-    <label>Amount (USDT)</label>
-    <input type="number" id="usdt-amount" class="form-control mb-2" placeholder="0.00" min="0">
+                <h6>Quick Convert</h6>
+                <label>Amount (USDT)</label>
+                <input type="number" id="usdt-amount" class="form-control mb-2" placeholder="0.00" min="0">
 
-    <label>Convert Coin (INR)</label>
-    <input type="text" id="inr-amount" class="form-control mb-2" placeholder="0.00" readonly>
+                <label>Convert Coin (INR)</label>
+                <input type="text" id="inr-amount" class="form-control mb-2" placeholder="0.00" readonly>
 
-    <button class="btn btn-success w-100" id="convert-btn">Convert</button>
-</div>
+                <button class="btn btn-success w-100" id="convert-btn">Convert</button>
+            </div>
 
             
         </div>
