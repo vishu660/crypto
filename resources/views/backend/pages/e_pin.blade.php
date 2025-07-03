@@ -79,6 +79,18 @@
         </div>
     </div>
 
+    <div class="d-flex justify-content-end mb-4">
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="addEpinDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-plus-lg"></i> Add E-pin
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="addEpinDropdown">
+                <li><a class="dropdown-item" href="#" data-bs-toggle="offcanvas" data-bs-target="#epinTransferModal">E-pin Transfer</a></li>
+                <li><a class="dropdown-item" href="#" data-bs-toggle="offcanvas" data-bs-target="#epinPurchaseModal">E-pin Purchase</a></li>
+            </ul>
+        </div>
+    </div>
+
     <ul class="nav nav-tabs mb-3" id="epinTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="epin-list-tab" data-bs-toggle="tab" data-bs-target="#epin-list" type="button" role="tab">E-pin List</button>
