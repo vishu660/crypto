@@ -1,4 +1,13 @@
-
+body, html {
+    overflow-x: hidden !important;
+}
+.container, .container-fluid {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+.card {
+    box-sizing: border-box;
+}
 
 /* ---------------------------------------------------
     error page
@@ -994,7 +1003,7 @@ form input[type="file"]:hover::-webkit-file-upload-button{
 
 .tab-content .d2c_compose_mail .removal-button {
     display: inline-block;
-    float: right;
+    /* float: right; */
 }
 
 .tab-content .d2c_compose_mail .file-list li:after,

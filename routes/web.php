@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\SalaryController;
+use App\Http\Controllers\Api\KycApiController;
 
 
 
@@ -292,6 +293,7 @@ Route::get('/user/pages/terms-condition', function () { return view('user.pages.
 Route::get('/user/pages/transactions', [UserController::class, 'userTransactions'])->name('user.pages.transactions');
 Route::get('/user/pages/transfer', [UserController::class, 'transfer'])->name('user.pages.transfer');
 Route::get('/user/pages/wallet', [UserController::class, 'wallet'])->name('user.pages.wallet')->middleware('auth');
+Route::get('/user/pages/activation', [UserController::class, 'activation'])->name('user.pages.activation');
 
 // User Pages Components
 Route::get('/user/pages/components/advancedFrom', function () { return view('user.pages.components.advancedFrom'); })->name('user.pages.components.advancedFrom');
@@ -382,9 +384,11 @@ Route::post('/user/buy/code', [UserController::class, 'buyWithCode'])->name('pac
 // Buy with Admin Request
 Route::post('/user/buy/request', [UserController::class, 'buyWithRequest'])->name('packages.buy.with-request');
 
-Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
-Route::post('admin/referral-setting', [SalaryController::class, 'updateReferralSetting'])->name('admin.referral.setting.update');
-Route::get('/admin/profile', [UserController::class, 'profile'])->name('admin.profile');
-// For E-Pin
-Route::get('/admin/epin/transfer', [TransactionController::class, 'epinTransfer'])->name('epin.transfer');
-Route::get('/admin/epin/purchase', [TransactionController::class, 'epinPurchase'])->name('epin.purchase');
+Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
+Route::post('/user/profile/bank', [UserController::class, 'updateBank'])->name('user.profile.bank.update');
+Route::post('/user/profile/contact', [UserController::class, 'updateContact'])->name('user.profile.contact.update');
+Route::post('/user/profile/kyc', [UserController::class, 'updateKyc'])->name('user.profile.kyc.update');
+
+Route::get('/user/kyc', [UserController::class, 'kycForm'])->name('user.kyc.form');
+Route::post('/user/kyc', [UserController::class, 'kycSubmit'])->name('user.kyc.submit');
+Route::middleware('auth:sanctum')->post('/kyc-submit', [KycApiController::class, 'submit']);

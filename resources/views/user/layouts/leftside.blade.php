@@ -152,6 +152,14 @@
 
                     <!-- Menu Item -->
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('user.kyc.form') }}">
+                            <i class="fas fa-id-card"></i> KYC Portal
+                        </a>
+                    </li>
+                    <!-- End:Menu Item -->
+
+                    <!-- Menu Item -->
+                    <li class="nav-item">
                     <form action="{{ route('logout') }}" method="POST" class="d-flex justify-content-end">
                             @csrf
                             <button type="submit"
