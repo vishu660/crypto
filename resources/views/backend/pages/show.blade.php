@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    {{-- Series Salary Edit Box --}}
+    {{-- Series Salary Edit --}}
     <div class="row mt-4">
         <div class="col-12">
             <div class="series-edit-box">
@@ -75,7 +75,6 @@
                 <form action="{{ route('admin.series.salary.update') }}" method="POST" class="row g-3">
                     @csrf
                     @method('PUT')
-
                     @foreach($series_levels->sortBy('level') as $level)
                         <div class="col-md-6 mb-3">
                             <label>Level {{ $level->level }} Amount (₹)</label>
@@ -86,7 +85,6 @@
                             <input type="number" name="period_months[{{ $level->level }}]" step="1" value="{{ $level->period_months }}" class="form-control" required>
                         </div>
                     @endforeach
-
                     <div class="col-md-12 mt-3">
                         <button class="btn btn-success">Update Series Salary</button>
                         <a href="{{ route('admin.series.salary.create') }}" class="btn btn-info ms-2">+ Add New Level</a>
@@ -115,6 +113,10 @@
             <div class="col-md-6">
                 <label class="text-white">Required Direct Referrals to Qualify</label>
                 <input type="number" name="required_referrals" value="{{ $referral_setting->required_referrals ?? 2 }}" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label class="text-white">Referral Time Limit (in Hours)</label>
+                <input type="number" name="qualification_time_hours" value="{{ $referral_setting->qualification_time_hours ?? 24 }}" class="form-control" required>
             </div>
             <div class="col-md-12 mt-3">
                 <button class="btn btn-success">Update Qualification</button>
@@ -150,16 +152,27 @@
                             @foreach($users as $user)
                                 @php
                                     $salary = $user->wallets->sum('amount');
-                                    $directReferrals = $user->directReferrals->count();
-                                    $qualified = $directReferrals >= ($referral_setting->required_referrals ?? 2);
+                                    $referrals = $user->directReferrals;
+                                    $required = $referral_setting->required_referrals ?? 2;
+                                    $timeLimit = $referral_setting->qualification_time_hours ?? 24;
+                                    $qualified = false;
+
+                                    if ($referrals->count() >= $required) {
+                                        $firstRefs = $referrals->sortBy('created_at')->take($required);
+                                        $first = $firstRefs->first()?->created_at;
+                                        $last = $firstRefs->last()?->created_at;
+                                        if ($first && $last && $last->diffInHours($first) <= $timeLimit) {
+                                            $qualified = true;
+                                        }
+                                    }
                                 @endphp
                                 <tr id="user-row-{{ $user->id }}">
                                     <td>{{ $user->id }}</td>
                                     <td>{{ $user->full_name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->created_at ? $user->created_at->format('d-m-Y') : '' }}</td>
+                                    <td>{{ optional($user->created_at)->format('d-m-Y') }}</td>
                                     <td>₹{{ number_format($salary, 2) }}</td>
-                                    <td>{{ $directReferrals }}</td>
+                                    <td>{{ $referrals->count() }}</td>
                                     <td>
                                         @if($qualified)
                                             <span class="badge bg-success">Qualified</span>
@@ -176,45 +189,32 @@
                                         @endif
                                     </td>
                                     <td>
-                                         @php
-                                            $levelData = $series_levels->where('level', $user->series_level)->first();
-                                        @endphp
+                                        @php $levelData = $series_levels->where('level', $user->series_level)->first(); @endphp
                                         @if($levelData)
                                             <br><small style="color: #000;">Time: {{ $levelData->period_months }} Months</small>
                                         @endif
                                     </td>
-                                    
                                     <td>
-                                        <button class="btn btn-sm btn-info" onclick="showEditLevel({{ $user->id }}, {{ $user->series_level }})">Edit</button>
+                                        <button class="btn btn-sm btn-info" onclick="showEditLevel({{ $user->id }})">Edit</button>
                                     </td>
                                 </tr>
                                 <tr id="edit-row-{{ $user->id }}" style="display:none;">
                                     <td colspan="10">
-                                       <form method="POST" action="{{ route('admin.series.update', $user->id) }}" class="d-flex align-items-center flex-wrap" style="gap: 10px;">
+                                        <form method="POST" action="{{ route('admin.series.update', $user->id) }}" class="d-flex align-items-center flex-wrap" style="gap: 10px;">
                                             @csrf
                                             @method('PUT')
-
                                             <label class="me-2 mb-0 text-white">Level:</label>
-
-                                            <select name="series_level" class="form-select w-auto me-2" required onchange="updateTimeDisplay(this, {{ $user->id }})">
+                                            <select name="series_level" class="form-select w-auto me-2" required onchange="updateTime(this, {{ $user->id }})">
                                                 @for($i = 0; $i <= 10; $i++)
                                                     <option value="{{ $i }}" {{ intval($user->series_level) === $i ? 'selected' : '' }}>Level {{ $i }}</option>
                                                 @endfor
                                             </select>
-
-                                            {{-- Time Info --}}
-                                            @php
-                                                $currentLevelData = $series_levels->where('level', $user->series_level)->first();
-                                            @endphp
                                             <small id="time-display-{{ $user->id }}" class="ms-2" style="color: black;">
-                                                    Time: {{ $series_levels->where('level', $user->series_level)->first()->period_months ?? 0 }} Months
-                                                </small>
-
-
+                                                Time: {{ $series_levels->where('level', $user->series_level)->first()->period_months ?? 0 }} Months
+                                            </small>
                                             <button type="submit" class="btn btn-success btn-sm me-2">Save</button>
                                             <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEditLevel({{ $user->id }})">Cancel</button>
                                         </form>
-
                                     </td>
                                 </tr>
                             @endforeach
@@ -259,4 +259,3 @@
     });
 </script>
 @endpush
-

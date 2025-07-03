@@ -220,9 +220,7 @@ Route::get('/admin/payoutcontrols', function () {
 Route::get('/admin/news', function () {
     return view('backend.pages.news');
 })->name('admin.news');
-Route::get('/admin/e-pin', function () {
-    return view('backend.pages.e_pin');
-})->name('admin.e_pin');
+Route::get('/admin/e-pin', [App\Http\Controllers\Admin\TransactionController::class, 'epinPage'])->name('admin.e_pin');
 Route::get('/admin/promotionalfiles', function () {
     return view('backend.pages.promotionalfiles');
 })->name('admin.promotionalfiles');
@@ -392,3 +390,14 @@ Route::post('/user/profile/kyc', [UserController::class, 'updateKyc'])->name('us
 Route::get('/user/kyc', [UserController::class, 'kycForm'])->name('user.kyc.form');
 Route::post('/user/kyc', [UserController::class, 'kycSubmit'])->name('user.kyc.submit');
 Route::middleware('auth:sanctum')->post('/kyc-submit', [KycApiController::class, 'submit']);
+Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+Route::post('admin/referral-setting', [SalaryController::class, 'updateReferralSetting'])->name('admin.referral.setting.update');
+Route::get('/admin/profile', [UserController::class, 'profile'])->name('admin.profile');
+// For E-Pin
+Route::get('/admin/epin/transfer', [TransactionController::class, 'epinTransfer'])->name('epin.transfer');
+Route::get('/admin/epin/purchase', [TransactionController::class, 'epinPurchase'])->name('epin.purchase');
+Route::get('/epin', [TransactionController::class, 'epinIndex'])->name('epin.index');
+Route::post('/epin/purchase', [TransactionController::class, 'epinPurchaseSubmit'])->name('epin.purchase.submit');
+Route::post('/admin/epin/transfer', [App\Http\Controllers\Admin\TransactionController::class, 'epinTransferSubmit'])->name('admin.epin.transfer.submit');
+Route::post('/admin/epin/purchase', [App\Http\Controllers\Admin\TransactionController::class, 'epinPurchaseSubmit'])->name('admin.epin.purchase.submit');
+Route::get('/admin/user-search', [AdminController::class, 'userSearch'])->name('admin.user.search');

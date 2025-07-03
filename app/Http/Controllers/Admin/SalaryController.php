@@ -20,7 +20,7 @@ class SalaryController extends Controller
                 'wallets' => function ($q) {
                     $q->where('type', 'credit')->where('source', 'roi');
                 },
-                'directReferrals' // To show referral count
+                'directReferrals' // To show referral count and time
             ])
             ->get();
 
@@ -89,19 +89,26 @@ class SalaryController extends Controller
     }
 
     /**
-     * Update Referral Qualification Setting (admin defined count like 2/3/4/5).
+     * Update Referral Qualification Setting (admin defined count & time).
      */
     public function updateReferralSetting(Request $request)
     {
         $request->validate([
-            'required_referrals' => 'required|integer|min:1'
+            'required_referrals' => 'required|integer|min:1',
+            'qualification_time_hours' => 'required|integer|min:1'
         ]);
 
         $setting = ReferralSetting::first();
         if ($setting) {
-            $setting->update(['required_referrals' => $request->required_referrals]);
+            $setting->update([
+                'required_referrals' => $request->required_referrals,
+                'qualification_time_hours' => $request->qualification_time_hours
+            ]);
         } else {
-            ReferralSetting::create(['required_referrals' => $request->required_referrals]);
+            ReferralSetting::create([
+                'required_referrals' => $request->required_referrals,
+                'qualification_time_hours' => $request->qualification_time_hours
+            ]);
         }
 
         return redirect()->back()->with('success', 'Referral Qualification Setting Updated!');

@@ -190,29 +190,33 @@ class UserController extends Controller
     public function updateProfile(Request $request)
     {
         $user = Auth::user();
+
         $request->validate([
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'mobile_no' => 'required|string|max:20',
-            'referral_id' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'state' => 'nullable|string|max:255',
-            'country' => 'nullable|string|max:255',
+            'full_name'   => 'required|string|max:255',
+            'email'       => 'required|email|max:255|unique:users,email,' . $user->id,
+            'mobile_no'   => 'nullable|string|max:20',
+            'city'        => 'nullable|string|max:100',
+            'state'       => 'nullable|string|max:100',
+            'country'     => 'nullable|string|max:100',
             'profile_image' => 'nullable|image|max:2048',
         ]);
+
         $user->full_name = $request->full_name;
-        $user->email = $request->email;
+        $user->email     = $request->email;
         $user->mobile_no = $request->mobile_no;
-        $user->referral_id = $request->referral_id;
-        $user->city = $request->city;
-        $user->state = $request->state;
-        $user->country = $request->country;
+        $user->city      = $request->city;
+        $user->state     = $request->state;
+        $user->country   = $request->country;
+
+        // Profile image upload
         if ($request->hasFile('profile_image')) {
-            $path = $request->file('profile_image')->store('profile_images', 'public');
-            $user->profile_image = $path;
+            $image = $request->file('profile_image')->store('profile_images', 'public');
+            $user->profile_image = $image;
         }
+
         $user->save();
-        return back()->with('success', 'Profile updated!');
+
+        return back()->with('success', 'Profile updated successfully!');
     }
 
     public function updateBank(Request $request)

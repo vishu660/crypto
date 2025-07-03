@@ -7,10 +7,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str; 
+use Laravel\Sanctum\HasApiTokens;
+
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+    use HasApiTokens, Notifiable;
 
     protected $fillable = [
         'full_name',
@@ -119,6 +122,8 @@ public function isReferralQualified()
     $required = \App\Models\ReferralSetting::first()->required_referrals ?? 2;
     return $this->directReferrals()->count() >= $required;
 }
+
+
 
 
 }

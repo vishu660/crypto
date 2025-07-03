@@ -461,6 +461,18 @@
         alert('Something went wrong.');
     }
 });
+const form = new FormData();
+form.append('kyc_type', 'aadhaar');
+form.append('aadhaar_number', '123456789012');
+form.append('front_image', fileFront);
+form.append('back_image', fileBack);
+form.append('selfie', selfieFile);
+
+axios.post('/api/kyc-submit', form, {
+  headers: {
+    Authorization: `Bearer ${user_token}`
+  }
+});
     </script>
 </body>
 

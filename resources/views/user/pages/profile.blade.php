@@ -17,18 +17,26 @@
                     <h5 class="mb-0">Profile</h5>
                 </div>
                 <div class="card-body">
-                    <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('assets/images/profile/profile-2.jpg') }}"
-                        alt="Profile Image"
-                        class="rounded-circle mb-3"
-                        style="width: 100px; height: 100px; object-fit: cover;">
-                    <h4 class="fw-bold">{{ Auth::user()->full_name }}</h4>
-                    <div class="mb-2"><strong>Email:</strong> {{ Auth::user()->email }}</div>
-                    <div class="mb-2"><strong>Mobile No:</strong> {{ Auth::user()->mobile_no }}</div>
-                    <div class="mb-2"><strong>Referral ID:</strong> {{ Auth::user()->referral_id ?? '-' }}</div>
-                    <div class="mb-2"><strong>City:</strong> {{ Auth::user()->city ?? '-' }}</div>
-                    <div class="mb-2"><strong>State:</strong> {{ Auth::user()->state ?? '-' }}</div>
-                    <div class="mb-2"><strong>Country:</strong> {{ Auth::user()->country ?? '-' }}</div>
-                    <a href="#profile-update-form" class="btn btn-outline-primary mt-2">Update Profile</a>
+                    @php
+                        $user = Auth::user();
+                    @endphp
+
+                    @if($user)
+                        <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('assets/images/profile/profile-2.jpg') }}"
+                            alt="Profile Image"
+                            class="rounded-circle mb-3"
+                            style="width: 100px; height: 100px; object-fit: cover;">
+                        <h4 class="fw-bold">{{ $user->full_name }}</h4>
+                        <div class="mb-2"><strong>Email:</strong> {{ $user->email }}</div>
+                        <div class="mb-2"><strong>Mobile No:</strong> {{ $user->mobile_no }}</div>
+                        <div class="mb-2"><strong>Referral ID:</strong> {{ $user->referral_id ?? '-' }}</div>
+                        <div class="mb-2"><strong>City:</strong> {{ $user->city ?? '-' }}</div>
+                        <div class="mb-2"><strong>State:</strong> {{ $user->state ?? '-' }}</div>
+                        <div class="mb-2"><strong>Country:</strong> {{ $user->country ?? '-' }}</div>
+                        <a href="#profile-update-form" class="btn btn-outline-primary mt-2">Update Profile</a>
+                    @else
+                        <div class="alert alert-warning">User not logged in.</div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -158,31 +166,27 @@
                                 </div>
                                 <div class="mb-3">
                                     <label>Full Name</label>
-                                    <input type="text" name="full_name" class="form-control" value="{{ Auth::user()->full_name }}">
+                                    <input type="text" name="full_name" class="form-control" value="{{ old('full_name', $user->full_name) }}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label>Email</label>
-                                    <input type="email" name="email" class="form-control" value="{{ Auth::user()->email }}">
+                                    <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label>Mobile No</label>
-                                    <input type="text" name="mobile_no" class="form-control" value="{{ Auth::user()->mobile_no }}">
-                                </div>
-                                <div class="mb-3">
-                                    <label>Referral ID</label>
-                                    <input type="text" name="referral_id" class="form-control" value="{{ Auth::user()->referral_id }}">
+                                    <input type="text" name="mobile_no" class="form-control" value="{{ old('mobile_no', $user->mobile_no) }}">
                                 </div>
                                 <div class="mb-3">
                                     <label>City</label>
-                                    <input type="text" name="city" class="form-control" value="{{ Auth::user()->city }}">
+                                    <input type="text" name="city" class="form-control" value="{{ old('city', $user->city) }}">
                                 </div>
                                 <div class="mb-3">
                                     <label>State</label>
-                                    <input type="text" name="state" class="form-control" value="{{ Auth::user()->state }}">
+                                    <input type="text" name="state" class="form-control" value="{{ old('state', $user->state) }}">
                                 </div>
                                 <div class="mb-3">
                                     <label>Country</label>
-                                    <input type="text" name="country" class="form-control" value="{{ Auth::user()->country }}">
+                                    <input type="text" name="country" class="form-control" value="{{ old('country', $user->country) }}">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </form>
