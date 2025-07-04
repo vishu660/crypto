@@ -395,3 +395,11 @@ Route::get('/admin/user-search', [AdminController::class, 'userSearch'])->name('
 // User DigiLocker redirect
 Route::get('/digilocker-auth-complete', [KycController::class, 'digilockerCallback'])->name('digilocker.auth.complete');
 
+
+// saveBankDetails
+Route::post('/user/bank/save', [UserController::class, 'saveBankDetails'])->name('user.bank.save');
+
+Route::post('/admin/bank/approve/{id}', [UserController::class, 'approveBank'])->name('admin.bank_approve');
+Route::get('admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank_requests');
+Route::get('/admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank');
+

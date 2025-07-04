@@ -95,6 +95,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User::class, 'referral_by');
     }
+    public function bankDetail()
+{
+    return $this->hasOne(UserBankDetail::class);
+}
 
     // App\Models\User.php
 
