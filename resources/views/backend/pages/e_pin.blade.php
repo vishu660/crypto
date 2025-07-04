@@ -251,6 +251,31 @@
     </form>
   </div>
 </div>
+
+<div class="card">
+    <div class="card-body">
+        <h5>My Balance</h5>
+        <h2>${{ number_format($walletBalance, 2) }}</h2>
+        <div class="mt-3 p-3" style="background: #8e7cf0; border-radius: 12px;">
+            <div style="color: #fff;">
+                <div>Balance</div>
+                <div style="font-size: 1.5rem;">${{ number_format($walletBalance, 2) }}</div>
+                <div class="d-flex justify-content-between mt-2">
+                    <span>Card Holder<br><b>{{ Auth::user()->full_name }}</b></span>
+                    <span>Valid Thru<br><b>08/2023</b></span>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4">
+            <h6>Quick Convert</h6>
+            <label>Amount</label>
+            <input type="number" id="eth-amount" class="form-control mb-2" placeholder="0.00" min="0">
+            <label>Convert Coin</label>
+            <input type="text" id="usd-amount" class="form-control mb-2" placeholder="0.00" readonly>
+            <button class="btn btn-success w-100" id="convert-btn">Convert</button>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
@@ -327,6 +352,20 @@ window.addEventListener('error', function(event) {
     if (event.message && event.message.includes('parentElement')) {
         event.preventDefault();
     }
+});
+
+const ETH_TO_USDT = 3000; // Example: 1 ETH = 3000 USDT (update as needed)
+const USDT_TO_INR = 85.45; // 1 USDT = 85.45 INR
+
+$('#eth-amount').on('input', function() {
+    let eth = parseFloat($(this).val()) || 0;
+    let usdt = eth * ETH_TO_USDT;
+    let inr = usdt * USDT_TO_INR;
+    $('#usd-amount').val(inr.toFixed(2) + ' INR');
+});
+$('#convert-btn').on('click', function(e) {
+    e.preventDefault();
+    alert('Converted: ' + $('#usd-amount').val());
 });
 </script>
 @endpush
