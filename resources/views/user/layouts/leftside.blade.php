@@ -62,16 +62,22 @@
                     </li>
                     <!-- End:Menu Item -->
 
-                    <!-- Menu Item -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('user.pages.profile') }}">
-                            <span class="d2c_icon">
-                                <i class="far fa-user"></i>
+                    <!-- Profile Collapsible Menu -->
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#profileMenu" role="button" aria-expanded="false" aria-controls="profileMenu">
+                            <span>
+                                <i class="far fa-user me-2"></i>Profile
                             </span>
-                            <span> Profile </span>
+                            <i class="bi bi-chevron-down"></i>
                         </a>
+                        <div class="collapse submenu" id="profileMenu">
+                            <a class="nav-link" href="{{ route('user.pages.bank') }}">Bank Details</a>
+                            <a class="nav-link" href="{{ route('user.pages.profile') }}">Personal Details</a>
+                            <a class="nav-link" href="#">Other Information</a>
+                            <a class="nav-link" href="{{ route('user.kyc.form') }}">KYC Portal</a>
+                        </div>
                     </li>
-                    <!-- End:Menu Item -->
+                    <!-- End:Profile Collapsible Menu -->
 
                     <!-- Menu Item -->
                     <li class="nav-item">
@@ -146,14 +152,6 @@
                                 <i class="far fa-file"></i>
                             </span>
                             <span> Blank </span>
-                        </a>
-                    </li>
-                    <!-- End:Menu Item -->
-
-                    <!-- Menu Item -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('user.kyc.form') }}">
-                            <i class="fas fa-id-card"></i> KYC Portal
                         </a>
                     </li>
                     <!-- End:Menu Item -->

@@ -291,6 +291,9 @@ Route::get('/user/pages/transactions', [UserController::class, 'userTransactions
 Route::get('/user/pages/transfer', [UserController::class, 'transfer'])->name('user.pages.transfer');
 Route::get('/user/pages/wallet', [UserController::class, 'wallet'])->name('user.pages.wallet')->middleware('auth');
 Route::get('/user/pages/activation', [UserController::class, 'activation'])->name('user.pages.activation');
+Route::get('/user/pages/bank', function () {
+    return view('user.pages.bank');
+})->name('user.pages.bank');
 
 
 
