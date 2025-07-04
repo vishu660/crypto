@@ -775,27 +775,6 @@
         </div>
     </div>
 </div>
-@push('scripts')
-<!-- ✅ Load jQuery first if not already loaded -->
-<script>
-    const USDT_TO_INR = 85.45;
-
-    $(document).ready(function () {
-        // 🔄 Convert on input
-        $('#usdt-amount').on('input', function () {
-            let usdt = parseFloat($(this).val()) || 0;
-            let inr = usdt * USDT_TO_INR;
-            $('#inr-amount').val(inr.toFixed(2) + ' INR');
-        });
-
-        // 🟢 Convert button click (for confirmation)
-        $('#convert-btn').on('click', function (e) {
-            e.preventDefault();
-            alert('Converted: ' + $('#inr-amount').val());
-        });
-    });
-</script>
-@endpush
 
 
 @endsection

@@ -1,6 +1,7 @@
 <!-- Initial  Javascript -->
     <!-- jQuery -->
     <script src="{{ asset('lib/jQuery/jquery-3.5.1.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
     <!-- Bootstrap -->
     <script src="{{ asset('lib/bootstrap_5/bootstrap.bundle.min.js') }}"></script>
@@ -474,6 +475,17 @@ axios.post('/api/kyc-submit', form, {
   }
 });
     </script>
+    
+<script>
+    const USDT_TO_INR = 85.45;
+    $(function () {
+        $('#usdt-amount').on('input', function () {
+            let usdt = parseFloat($(this).val()) || 0;
+            let inr = usdt * USDT_TO_INR;
+            $('#inr-amount').val(inr.toFixed(2) + ' INR');
+        });
+    });
+</script>
 </body>
 
 </html>
