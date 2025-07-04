@@ -73,8 +73,8 @@
                         <div class="collapse submenu" id="profileMenu">
                             <a class="nav-link" href="{{ route('user.pages.bank') }}">Bank Details</a>
                             <a class="nav-link" href="{{ route('user.pages.profile') }}">Personal Details</a>
+                            <a class="nav-link" href="{{ route('user.pages.verification_to_kyc') }}">Identification</a>
                             <a class="nav-link" href="#">Other Information</a>
-                            <a class="nav-link" href="{{ route('user.kyc.form') }}">KYC Portal</a>
                         </div>
                     </li>
                     <!-- End:Profile Collapsible Menu -->

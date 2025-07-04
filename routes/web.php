@@ -18,8 +18,7 @@ use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\SalaryController;
-use App\Http\Controllers\Api\KycApiController;
-use App\Http\Controllers\Admin\KycRequestsController;
+use App\Http\Controllers\KycController;
 
 
 
@@ -297,6 +296,19 @@ Route::get('/user/pages/activation', [UserController::class, 'activation'])->nam
 Route::get('/user/pages/bank', function () {
     return view('user.pages.bank');
 })->name('user.pages.bank');
+Route::match(['get', 'post'], '/user/pages/kyc-step1-new', function () {
+    // ...handle POST data if needed...
+    return view('user.pages.kyc_step1_new');
+})->name('user.pages.kyc_step1_new');
+Route::get('/user/pages/document-verification', function () {
+    return view('user.pages.document_verification');
+})->name('user.pages.document_verification');
+Route::get('/user/pages/share-pan', function () {
+    return view('user.pages.share_pan');
+})->name('user.pages.share_pan');
+Route::get('/user/pages/verification-to-kyc', function () {
+    return view('user.pages.verification_to_kyc');
+})->name('user.pages.verification_to_kyc');
 
 
 
@@ -367,11 +379,7 @@ Route::post('/user/buy/request', [UserController::class, 'buyWithRequest'])->nam
 Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
 Route::post('/user/profile/bank', [UserController::class, 'updateBank'])->name('user.profile.bank.update');
 Route::post('/user/profile/contact', [UserController::class, 'updateContact'])->name('user.profile.contact.update');
-Route::post('/user/profile/kyc', [UserController::class, 'updateKyc'])->name('user.profile.kyc.update');
 
-Route::get('/user/kyc', [UserController::class, 'kycForm'])->name('user.kyc.form');
-Route::post('/user/kyc', [UserController::class, 'kycSubmit'])->name('user.kyc.submit');
-Route::middleware('auth:sanctum')->post('/kyc-submit', [KycApiController::class, 'submit']);
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
 Route::post('admin/referral-setting', [SalaryController::class, 'updateReferralSetting'])->name('admin.referral.setting.update');
 Route::get('/admin/profile', [UserController::class, 'profile'])->name('admin.profile');
@@ -384,8 +392,6 @@ Route::post('/admin/epin/transfer', [App\Http\Controllers\Admin\TransactionContr
 Route::post('/admin/epin/purchase', [App\Http\Controllers\Admin\TransactionController::class, 'epinPurchaseSubmit'])->name('admin.epin.purchase.submit');
 Route::get('/admin/user-search', [AdminController::class, 'userSearch'])->name('admin.user.search');
 
-// Admin KYC Requests
-Route::get('/admin/kyc-requests', [\App\Http\Controllers\Admin\KycRequestsController::class, 'index'])->name('admin.kyc.requests');
-Route::post('/admin/kyc-approve/{user}', [\App\Http\Controllers\Admin\KycRequestsController::class, 'approve'])->name('admin.kyc.approve');
-Route::post('/admin/kyc-reject/{user}', [\App\Http\Controllers\Admin\KycRequestsController::class, 'reject'])->name('admin.kyc.reject');
+// User DigiLocker redirect
+Route::get('/digilocker-auth-complete', [KycController::class, 'digilockerCallback'])->name('digilocker.auth.complete');
 

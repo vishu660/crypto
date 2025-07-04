@@ -36,7 +36,8 @@ class CreateUsersTable extends Migration
             $table->string('pan_card')->nullable();
             $table->string('driving_front')->nullable();
             $table->string('driving_back')->nullable();
-            $table->enum('kyc_status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->json('kyc_data')->nullable();
+            $table->string('kyc_status')->default('pending');
             $table->timestamps();
         });
     }
