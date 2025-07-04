@@ -121,8 +121,9 @@
                     color: #fff;
                 ">
 
-                <form method="POST" action="{{ route('packages.buy') }}">
+<form method="POST" action="{{ route('user.buy', $package->id) }}">
                     @csrf
+                    @method('PUT')
                     <input type="hidden" name="package_id" value="{{ $package->id }}">
                     <button type="submit" class="btn btn-success position-absolute" style="
                             top: 15px;
@@ -760,41 +761,20 @@
                 </div>
             </div>
             <div class="mt-4">
-    <h6>Quick Convert</h6>
-    <label>Amount (USDT)</label>
-    <input type="number" id="usdt-amount" class="form-control mb-2" placeholder="0.00" min="0">
+                <h6>Quick Convert</h6>
+                <label>Amount (USDT)</label>
+                <input type="number" id="usdt-amount" class="form-control mb-2" placeholder="0.00" min="0">
 
-    <label>Convert Coin (INR)</label>
-    <input type="text" id="inr-amount" class="form-control mb-2" placeholder="0.00" readonly>
+                <label>Convert Coin (INR)</label>
+                <input type="text" id="inr-amount" class="form-control mb-2" placeholder="0.00" readonly>
 
-    <button class="btn btn-success w-100" id="convert-btn">Convert</button>
-</div>
+                <button class="btn btn-success w-100" id="convert-btn">Convert</button>
+            </div>
 
             
         </div>
     </div>
 </div>
-@push('scripts')
-<!-- ✅ Load jQuery first if not already loaded -->
-<script>
-    const USDT_TO_INR = 85.45;
-
-    $(document).ready(function () {
-        // 🔄 Convert on input
-        $('#usdt-amount').on('input', function () {
-            let usdt = parseFloat($(this).val()) || 0;
-            let inr = usdt * USDT_TO_INR;
-            $('#inr-amount').val(inr.toFixed(2) + ' INR');
-        });
-
-        // 🟢 Convert button click (for confirmation)
-        $('#convert-btn').on('click', function (e) {
-            e.preventDefault();
-            alert('Converted: ' + $('#inr-amount').val());
-        });
-    });
-</script>
-@endpush
 
 
 @endsection

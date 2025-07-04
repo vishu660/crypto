@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\SalaryController;
 use App\Http\Controllers\Api\KycApiController;
+use App\Http\Controllers\Admin\KycRequestsController;
 
 
 
@@ -376,3 +377,9 @@ Route::post('/epin/purchase', [TransactionController::class, 'epinPurchaseSubmit
 Route::post('/admin/epin/transfer', [App\Http\Controllers\Admin\TransactionController::class, 'epinTransferSubmit'])->name('admin.epin.transfer.submit');
 Route::post('/admin/epin/purchase', [App\Http\Controllers\Admin\TransactionController::class, 'epinPurchaseSubmit'])->name('admin.epin.purchase.submit');
 Route::get('/admin/user-search', [AdminController::class, 'userSearch'])->name('admin.user.search');
+
+// Admin KYC Requests
+Route::get('/admin/kyc-requests', [\App\Http\Controllers\Admin\KycRequestsController::class, 'index'])->name('admin.kyc.requests');
+Route::post('/admin/kyc-approve/{user}', [\App\Http\Controllers\Admin\KycRequestsController::class, 'approve'])->name('admin.kyc.approve');
+Route::post('/admin/kyc-reject/{user}', [\App\Http\Controllers\Admin\KycRequestsController::class, 'reject'])->name('admin.kyc.reject');
+

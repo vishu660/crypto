@@ -22,6 +22,11 @@ class AdminMiddleware
             return $next($request);
         }
 
+        if (Auth::check() && Auth::user()->is_admin) {
+            return $next($request);
+        }
+        abort(403, 'Unauthorized');
+
         
         return redirect()->route('user')->with('error', 'You do not have permission to access admin area.');
     }
