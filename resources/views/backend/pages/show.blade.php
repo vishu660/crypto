@@ -55,6 +55,12 @@
         font-size: 13px;
         padding: 5px 8px;
     }
+
+    .btn-check:checked + .btn-outline-info {
+        background-color: #0dcaf0;
+        color: #000;
+        border-color: #0dcaf0;
+    }
 </style>
 @endpush
 
@@ -110,6 +116,18 @@
         <h5 class="text-white mb-3">Referral Qualification Setting</h5>
         <form action="{{ route('admin.referral.setting.update') }}" method="POST" class="row g-3">
             @csrf
+
+            {{-- Row 1 --}}
+            <div class="col-md-6">
+                <label class="text-white">How Many Plans to Show</label>
+                <input type="number" name="plans_to_show" value="{{ $referral_setting->plans_to_show ?? 1 }}" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label class="text-white">Referral Income Time Limit (in Hours)</label>
+                <input type="number" name="referral_income_time_hours" value="{{ $referral_setting->referral_income_time_hours ?? 24 }}" class="form-control" required>
+            </div>
+
+            {{-- Row 2 --}}
             <div class="col-md-6">
                 <label class="text-white">Required Direct Referrals to Qualify</label>
                 <input type="number" name="required_referrals" value="{{ $referral_setting->required_referrals ?? 2 }}" class="form-control" required>
@@ -118,6 +136,25 @@
                 <label class="text-white">Referral Time Limit (in Hours)</label>
                 <input type="number" name="qualification_time_hours" value="{{ $referral_setting->qualification_time_hours ?? 24 }}" class="form-control" required>
             </div>
+
+            {{-- Row 3 --}}
+            <div class="col-md-12">
+                <label class="text-white">Referral Income Type</label>
+                <div class="btn-group w-100" role="group">
+                    <input type="radio" class="btn-check" name="referral_income_type" id="plan" value="plan"
+                        {{ ($referral_setting->referral_income_type ?? 'both') == 'plan' ? 'checked' : '' }}>
+                    <label class="btn btn-outline-info" for="plan">Plan Show Referral</label>
+
+                    <input type="radio" class="btn-check" name="referral_income_type" id="referral" value="referral"
+                        {{ ($referral_setting->referral_income_type ?? 'both') == 'referral' ? 'checked' : '' }}>
+                    <label class="btn btn-outline-info" for="referral">Direct Referral</label>
+
+                    <input type="radio" class="btn-check" name="referral_income_type" id="both" value="both"
+                        {{ ($referral_setting->referral_income_type ?? 'both') == 'both' ? 'checked' : '' }}>
+                    <label class="btn btn-outline-info" for="both">Both</label>
+                </div>
+            </div>
+
             <div class="col-md-12 mt-3">
                 <button class="btn btn-success">Update Qualification</button>
             </div>

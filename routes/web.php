@@ -389,3 +389,11 @@ Route::get('/admin/kyc-requests', [\App\Http\Controllers\Admin\KycRequestsContro
 Route::post('/admin/kyc-approve/{user}', [\App\Http\Controllers\Admin\KycRequestsController::class, 'approve'])->name('admin.kyc.approve');
 Route::post('/admin/kyc-reject/{user}', [\App\Http\Controllers\Admin\KycRequestsController::class, 'reject'])->name('admin.kyc.reject');
 
+
+// saveBankDetails
+Route::post('/user/bank/save', [UserController::class, 'saveBankDetails'])->name('user.bank.save');
+
+Route::post('/admin/bank/approve/{id}', [UserController::class, 'approveBank'])->name('admin.bank_approve');
+Route::get('admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank_requests');
+Route::get('/admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank');
+

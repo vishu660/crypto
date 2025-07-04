@@ -32,6 +32,23 @@ class AdminController extends Controller
 
         return response()->json($users);
     }
+
+//     public function viewBankDetails()
+// {
+//     $banks = \App\Models\UserBankDetail::with('user')->latest()->get();
+//     return view('backend.pages.bankdetail', compact('banks'));
+// }
+
+public function approveBank($id)
+{
+    $bank = \App\Models\UserBankDetail::findOrFail($id);
+    $bank->is_approved = true;
+    $bank->approved_at = now();
+    $bank->save();
+
+    return back()->with('success', 'Bank details approved successfully.');
+}
+
     
 
 } 

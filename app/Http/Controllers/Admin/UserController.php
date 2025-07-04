@@ -9,15 +9,17 @@ use App\Models\User;
 use App\Models\Transaction;
 use App\Models\UserPackage;
 use App\Models\AdminCode;
+use App\Models\Epin;
+use App\Models\UserBankDetail;
 use Carbon\Carbon;
 use App\Helpers\RoiHelper;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
-    /**
-     * Show user dashboard with active packages and recent transactions.
-     */
     public function dashboard()
     {
         $packages = Package::where('is_active', 1)->get();
@@ -25,24 +27,18 @@ class UserController extends Controller
         $recentTransactions = Transaction::where('user_id', auth()->id())
             ->latest()->take(5)->get();
         $user = auth()->user();
-        $balance = $user->wallets->sum(function($wallet) {
+        $balance = $user->wallets->sum(function ($wallet) {
             return $wallet->type === 'credit' ? $wallet->amount : -$wallet->amount;
         });
         return view('user.user', compact('packages', 'recentTransactions', 'allTransactions', 'balance'));
     }
 
-    /**
-     * Show buy package page with selected package.
-     */
     public function showBuyPage($id)
     {
         $package = Package::findOrFail($id);
         return view('user.pages.buy_package', compact('package'));
     }
-    
-    /**
-     * Buy a package using E-pin code.
-     */
+
     public function buyWithCode(Request $request)
     {
         $request->validate([
@@ -50,9 +46,9 @@ class UserController extends Controller
             'secret_code' => 'required|string|min:6|max:20',
         ]);
 
-        $epin = \App\Models\Epin::where('code', $request->secret_code)
+        $epin = Epin::where('code', $request->secret_code)
             ->where('status', 'active')
-            ->where(function($query) {
+            ->where(function ($query) {
                 $query->whereNull('expiry_date')->orWhere('expiry_date', '>=', now());
             })
             ->first();
@@ -62,20 +58,19 @@ class UserController extends Controller
         }
 
         $user = auth()->user();
-        $package = \App\Models\Package::findOrFail($request->package_id);
+        $package = Package::findOrFail($request->package_id);
 
-        // Prevent duplicate package purchase
-        if (\App\Models\UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
+        if (UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
             return back()->with('error', 'Package already purchased or requested.');
         }
 
         try {
-            \DB::beginTransaction();
+            DB::beginTransaction();
 
-            $startDate = \Carbon\Carbon::today();
+            $startDate = Carbon::today();
             $endDate = $startDate->copy()->addDays($package->validity_days - 1);
 
-            $roiDates = \App\Helpers\RoiHelper::generateRoiDates(
+            $roiDates = RoiHelper::generateRoiDates(
                 $startDate,
                 $package->validity_days,
                 $package->type_of_investment_days,
@@ -86,8 +81,7 @@ class UserController extends Controller
                 ]
             );
 
-            // Save purchased package
-            \App\Models\UserPackage::create([
+            UserPackage::create([
                 'user_id' => $user->id,
                 'package_id' => $package->id,
                 'start_date' => $startDate->toDateString(),
@@ -98,25 +92,20 @@ class UserController extends Controller
                 'source' => 'epin',
             ]);
 
-            // Mark the E-pin as used and assign to user
             $epin->status = 'used';
             $epin->user_id = $user->id;
             $epin->used_at = now();
             $epin->save();
 
-            \DB::commit();
+            DB::commit();
             return redirect()->route('user')->with('success', 'Package bought successfully using E-pin.');
-
         } catch (\Exception $e) {
-            \DB::rollBack();
-            \Log::error('BuyWithCode error: ' . $e->getMessage());
+            DB::rollBack();
+            Log::error('BuyWithCode error: ' . $e->getMessage());
             return back()->with('error', 'Something went wrong. Please try again later.');
         }
     }
 
-    /**
-     * Send a buy request to admin for approval.
-     */
     public function buyWithRequest(Request $request)
     {
         $request->validate([
@@ -126,7 +115,6 @@ class UserController extends Controller
         $user = auth()->user();
         $package = Package::findOrFail($request->package_id);
 
-        // Prevent duplicate request
         if (UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
             return back()->with('error', 'Package already purchased or requested.');
         }
@@ -147,10 +135,10 @@ class UserController extends Controller
     {
         $user = auth()->user();
         $wallets = $user->wallets()->latest()->get();
-        $balance = $wallets->sum(function($wallet) {
+        $balance = $wallets->sum(function ($wallet) {
             return $wallet->type === 'credit' ? $wallet->amount : -$wallet->amount;
         });
-        $afterBalance = $balance; // You can adjust this logic as needed
+        $afterBalance = $balance;
 
         return view('user.pages.wallet', compact('wallets', 'balance', 'afterBalance'));
     }
@@ -158,7 +146,7 @@ class UserController extends Controller
     public function blank()
     {
         $user = auth()->user();
-        $balance = $user->wallets->sum(function($wallet) {
+        $balance = $user->wallets->sum(function ($wallet) {
             return $wallet->type === 'credit' ? $wallet->amount : -$wallet->amount;
         });
         return view('user.pages.blank', compact('balance'));
@@ -178,15 +166,13 @@ class UserController extends Controller
     public function showProfile()
     {
         $user = auth()->user();
-        $transactions = $user->transactions; // adjust as per your relation
-
+        $transactions = $user->transactions;
         return view('user.pages.profile', compact('user', 'transactions'));
     }
 
     public function profile()
     {
         $user = Auth::user();
-        // Agar aapko transactions bhi chahiye toh:
         $transactions = $user->transactions ?? [];
         return view('user.pages.profile', compact('user', 'transactions'));
     }
@@ -212,7 +198,6 @@ class UserController extends Controller
         $user->state     = $request->state;
         $user->country   = $request->country;
 
-        // Profile image upload
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image')->store('profile_images', 'public');
             $user->profile_image = $image;
@@ -229,11 +214,9 @@ class UserController extends Controller
         $request->validate([
             'bank_name'      => 'required|string|max:255',
             'account_number' => 'required|string|max:255',
-            // Add more validation as needed
         ]);
         $user->bank_name      = $request->bank_name;
         $user->account_number = $request->account_number;
-        // Add more fields as needed
         $user->save();
 
         return back()->with('success', 'Bank details updated!');
@@ -245,11 +228,9 @@ class UserController extends Controller
         $request->validate([
             'phone'   => 'required|string|max:20',
             'address' => 'required|string|max:255',
-            // Add more validation as needed
         ]);
         $user->phone   = $request->phone;
         $user->address = $request->address;
-        // Add more fields as needed
         $user->save();
 
         return back()->with('success', 'Contact details updated!');
@@ -283,13 +264,14 @@ class UserController extends Controller
             $user->driving_back = $request->file('driving_back')->store('kyc_documents', 'public');
         }
 
-        $user->kyc_status = 'pending'; // new upload => pending
+        $user->kyc_status = 'pending';
         $user->save();
 
         return back()->with('success', 'KYC documents uploaded! Status: Pending');
     }
 
-    public function kycForm() {
+    public function kycForm()
+    {
         $user = Auth::user();
         return view('user.pages.kyc', compact('user'));
     }
@@ -299,11 +281,9 @@ class UserController extends Controller
         $request->validate([
             'kyc_type' => 'required|in:aadhaar,pan,dl',
             'selfie' => 'required|image|max:2048',
-
             'aadhaar_number' => 'required_if:kyc_type,aadhaar|nullable|digits:12',
             'pan_number' => 'required_if:kyc_type,pan|nullable|string|max:10',
             'dl_number' => 'required_if:kyc_type,dl|nullable|string|max:20',
-
             'front_image' => 'required|image|max:4096',
             'back_image' => 'required|image|max:4096',
         ]);
@@ -333,4 +313,63 @@ class UserController extends Controller
 
         return back()->with('success', 'KYC submitted! Status: Pending');
     }
+
+    public function saveBankDetails(Request $request)
+    {
+        $request->validate([
+            'account_holder' => 'required|string|max:255',
+            'bank_name' => 'required|string|max:255',
+            'account_number' => 'required|digits_between:9,18',
+            'ifsc_code' => 'required|regex:/^[A-Z]{4}0[A-Z0-9]{6}$/',
+        ]);
+
+        $user = Auth::user();
+
+        Log::info("User ID {$user->id} submitted bank details", ['ip' => $request->ip()]);
+
+        UserBankDetail::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'account_holder' => $request->account_holder,
+                'bank_name' => $request->bank_name,
+                'account_number' => $request->account_number,
+                'ifsc_code' => $request->ifsc_code,
+                'is_approved' => false,
+                'approved_at' => null,
+            ]
+        );
+
+        return back()->with('success', 'Bank details submitted for admin approval.');
+    }
+    // Route: GET admin/bank-requests
+public function bankRequests(Request $request)
+{
+    $query = UserBankDetail::with('user');
+
+    if ($request->status === 'pending') {
+        $query->where('is_approved', false);
+    } elseif ($request->status === 'approved') {
+        $query->where('is_approved', true);
+    }
+
+    if ($search = $request->search) {
+        $query->whereHas('user', function ($q) use ($search) {
+            $q->where('full_name', 'like', "%$search%")
+              ->orWhere('email', 'like', "%$search%");
+        });
+    }
+
+    $banks = $query->orderBy('created_at', 'desc')->paginate(10);
+
+    return view('backend.pages.bankdetail', compact('banks'));
+}
+public function approveBank($id)
+{
+    $bank = UserBankDetail::findOrFail($id);
+    $bank->is_approved = true;
+    $bank->approved_at = now();
+    $bank->save();
+
+    return redirect()->back()->with('success', 'Bank detail approved successfully.');
+}
 }
