@@ -39,9 +39,9 @@ class UserController extends Controller
         $package = Package::findOrFail($id);
         return view('user.pages.buy_package', compact('package'));
     }
-
+    
     /**
-     * Buy a package using secret admin code.
+     * Buy a package using E-pin code.
      */
     public function buyWithCode(Request $request)
     {
@@ -50,29 +50,32 @@ class UserController extends Controller
             'secret_code' => 'required|string|min:6|max:20',
         ]);
 
-        $code = AdminCode::where('code', $request->secret_code)
-                         ->where('is_used', false)
-                         ->first();
+        $epin = \App\Models\Epin::where('code', $request->secret_code)
+            ->where('status', 'active')
+            ->where(function($query) {
+                $query->whereNull('expiry_date')->orWhere('expiry_date', '>=', now());
+            })
+            ->first();
 
-        if (!$code) {
-            return back()->with('error', 'Invalid or already used code.');
+        if (!$epin) {
+            return back()->with('error', 'Invalid, expired, or already used E-pin.');
         }
 
         $user = auth()->user();
-        $package = Package::findOrFail($request->package_id);
+        $package = \App\Models\Package::findOrFail($request->package_id);
 
         // Prevent duplicate package purchase
-        if (UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
+        if (\App\Models\UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
             return back()->with('error', 'Package already purchased or requested.');
         }
 
         try {
             \DB::beginTransaction();
 
-            $startDate = Carbon::today();
+            $startDate = \Carbon\Carbon::today();
             $endDate = $startDate->copy()->addDays($package->validity_days - 1);
 
-            $roiDates = RoiHelper::generateRoiDates(
+            $roiDates = \App\Helpers\RoiHelper::generateRoiDates(
                 $startDate,
                 $package->validity_days,
                 $package->type_of_investment_days,
@@ -84,7 +87,7 @@ class UserController extends Controller
             );
 
             // Save purchased package
-            UserPackage::create([
+            \App\Models\UserPackage::create([
                 'user_id' => $user->id,
                 'package_id' => $package->id,
                 'start_date' => $startDate->toDateString(),
@@ -92,16 +95,17 @@ class UserController extends Controller
                 'roi_dates' => json_encode($roiDates),
                 'total_roi_given' => 0,
                 'is_active' => true,
-                'source' => 'admin_code',
+                'source' => 'epin',
             ]);
 
-            // Mark the code as used
-            $code->is_used = true;
-            $code->used_by = $user->id;
-            $code->save();
+            // Mark the E-pin as used and assign to user
+            $epin->status = 'used';
+            $epin->user_id = $user->id;
+            $epin->used_at = now();
+            $epin->save();
 
             \DB::commit();
-            return redirect()->route('user')->with('success', 'Package bought successfully using admin code.');
+            return redirect()->route('user')->with('success', 'Package bought successfully using E-pin.');
 
         } catch (\Exception $e) {
             \DB::rollBack();

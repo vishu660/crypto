@@ -125,22 +125,21 @@
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="package_id" value="{{ $package->id }}">
-                    <button type="submit" class="btn btn-success position-absolute" style="
-                            top: 15px;
-                            right: 15px;
-                            border-radius: 30px;
-                            padding: 6px 16px;
-                            font-weight: 600;
-                            font-size: 14px;
-                        ">
-                        Buy
-                    </button>
+                    @if(Auth::user()->packages->contains($package->id))
+                        <button type="button" class="btn btn-secondary position-absolute" style="top: 15px; right: 15px; border-radius: 30px; padding: 6px 16px; font-weight: 600; font-size: 14px;" disabled>
+                            Active
+                        </button>
+                    @else
+                        <button type="submit" class="btn btn-success position-absolute" style="top: 15px; right: 15px; border-radius: 30px; padding: 6px 16px; font-weight: 600; font-size: 14px;">
+                            Buy
+                        </button>
+                    @endif
                 </form>
 
                 <!-- Main Balance -->
                 <p class="mb-1 text-white">Investment</p>
                 <h3 class="fw-bold mb-5 text-white">
-                    ${{ number_format($package->investment_amount, 2) }}
+                    USDT {{ number_format($package->investment_amount, 2) }}
                 </h3>
 
                 <!-- Bottom Details (like Balance card) -->
@@ -485,7 +484,7 @@
                                 <div class="col-8 d-flex align-items-center">
                                     <div>
                                         <h6 class="mb-1">Wallet Balance</h6>
-                                        <h3 class="fw-semibold mb-0">$994.78</h3>
+                                        <h3 class="fw-semibold mb-0">USDT {{ number_format($balance, 2) }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -710,7 +709,7 @@
                                 {{ ucfirst($transaction->type) }}
                             </td>
                             <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>
-                            <td>₹{{ number_format($transaction->amount, 2) }}</td>
+                            <td>USDT {{ number_format($transaction->amount, 2) }}</td>
                             <td>{{ $transaction->created_at->format('d-m-Y') }}</td>
                             <td>
                                 @if($transaction->status === 'pending')
@@ -749,11 +748,11 @@
     <div class="card mb-3">
         <div class="card-body">
             <h5>My Balance</h5>
-            <h2>${{ number_format($walletBalance, 2) }}</h2>
+            <h2>USDT {{ number_format($balance, 2) }}</h2>
             <div class="mt-3 p-3" style="background: #8e7cf0; border-radius: 12px;">
                 <div style="color: #fff;">
                     <div>Balance</div>
-                    <div style="font-size: 1.5rem;">${{ number_format($walletBalance, 2) }}</div>
+                    <div style="font-size: 1.5rem;">USDT {{ number_format($balance, 2) }}</div>
                     <div class="d-flex justify-content-between mt-2">
                         <span>Card Holder<br><b>{{ Auth::user()->full_name }}</b></span>
                         <span>Valid Thru<br><b>08/2023</b></span>

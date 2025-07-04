@@ -280,7 +280,10 @@ Route::get('/user/pages/activity', function () { return view('user.pages.activit
 Route::get('/user/pages/blank', [UserController::class, 'blank'])->name('user.pages.blank');
 Route::get('/user/pages/email', function () { return view('user.pages.email'); })->name('user.pages.email');
 Route::get('/user/pages/exchange', function () { return view('user.pages.exchange'); })->name('user.pages.exchange');
-Route::get('/user/pages/plans', function () { return view('user.pages.plans'); })->name('user.pages.plans');
+Route::get('/user/pages/plans', function () {
+    $packages = \App\Models\Package::all();
+    return view('user.pages.plans', compact('packages'));
+})->name('user.pages.plans');
 Route::get('/user/pages/mailDetails', function () { return view('user.pages.mailDetails'); })->name('user.pages.mailDetails');
 Route::get('/user/pages/market', function () { return view('user.pages.market'); })->name('user.pages.market');
 Route::get('/user/pages/notification', function () { return view('user.pages.notification'); })->name('user.pages.notification');

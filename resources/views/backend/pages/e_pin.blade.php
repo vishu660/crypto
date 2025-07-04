@@ -129,8 +129,6 @@
                                     <th><input type="checkbox" disabled></th>
                                     <th>Allocated Member</th>
                                     <th>E-pin</th>
-                                    <th>Amount</th>
-                                    <th>Balance Amount</th>
                                     <th>Status</th>
                                     <th>Expiry Date</th>
                                 </tr>
@@ -141,8 +139,6 @@
                                         <td><input type="checkbox" disabled></td>
                                         <td>{{ $epin->user->full_name ?? 'N/A' }}</td>
                                         <td>{{ $epin->code }}</td>
-                                        <td>₹{{ number_format($epin->amount, 2) }}</td>
-                                        <td>₹{{ number_format($epin->amount, 2) }}</td>
                                         <td>
                                             @if($epin->status == 'active')
                                                 <span class="badge bg-success">Active</span>
@@ -188,18 +184,6 @@
     <form method="POST" action="{{ route('epin.purchase.submit') }}">
         @csrf
 
-        <div class="mb-3" style="position:relative;">
-            <label class="form-label">Search User</label>
-            <input type="text" id="user-search" class="form-control" placeholder="Search by name or username" autocomplete="off" required>
-            <input type="hidden" name="user_id" id="selected-user-id">
-            <div id="user-search-result" class="list-group mt-1" style="position:absolute; width:100%; z-index:1000;"></div>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Amount</label>
-            <input type="number" name="amount" class="form-control" required>
-        </div>
-
         <div class="mb-3">
             <label class="form-label">Plan</label>
             <select name="plan" class="form-select" required>
@@ -217,7 +201,15 @@
 
         <div class="mb-3">
             <label class="form-label">Expiry Date</label>
-            <input type="date" name="expiry_date" class="form-control" required>
+            <div class="d-flex align-items-center">
+                <input type="date" name="expiry_date" id="expiry-date-input" class="form-control me-2" required>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="1" id="enable-expiry-date" checked>
+                    <label class="form-check-label" for="enable-expiry-date">
+                        Enable Date
+                    </label>
+                </div>
+            </div>
         </div>
 
         <button type="submit" class="btn btn-primary">Generate E-pins</button>
@@ -250,31 +242,6 @@
         <button type="submit" class="btn btn-primary">Transfer</button>
     </form>
   </div>
-</div>
-
-<div class="card">
-    <div class="card-body">
-        <h5>My Balance</h5>
-        <h2>${{ number_format($walletBalance, 2) }}</h2>
-        <div class="mt-3 p-3" style="background: #8e7cf0; border-radius: 12px;">
-            <div style="color: #fff;">
-                <div>Balance</div>
-                <div style="font-size: 1.5rem;">${{ number_format($walletBalance, 2) }}</div>
-                <div class="d-flex justify-content-between mt-2">
-                    <span>Card Holder<br><b>{{ Auth::user()->full_name }}</b></span>
-                    <span>Valid Thru<br><b>08/2023</b></span>
-                </div>
-            </div>
-        </div>
-        <div class="mt-4">
-            <h6>Quick Convert</h6>
-            <label>Amount</label>
-            <input type="number" id="eth-amount" class="form-control mb-2" placeholder="0.00" min="0">
-            <label>Convert Coin</label>
-            <input type="text" id="usd-amount" class="form-control mb-2" placeholder="0.00" readonly>
-            <button class="btn btn-success w-100" id="convert-btn">Convert</button>
-        </div>
-    </div>
 </div>
 @endsection
 
@@ -345,6 +312,15 @@ $(document).ready(function () {
         $('#email-search').val($(this).text());
         $('#selected-email').val($(this).data('email'));
         $('#email-search-result').empty();
+    });
+
+    // Expiry date enable/disable logic
+    $('#enable-expiry-date').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('#expiry-date-input').prop('disabled', false);
+        } else {
+            $('#expiry-date-input').val('').prop('disabled', true);
+        }
     });
 });
 // Global error handler to suppress parentElement errors

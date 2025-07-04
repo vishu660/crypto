@@ -169,7 +169,7 @@
             <!-- End:Title -->
             <div class="container mt-5">
                 <h2>Buy Package: {{ $package->name }}</h2>
-                <p>Amount: ₹{{ $package->amount }}</p>
+                <p>Amount: USDT {{ $package->amount }}</p>
         
                 <div class="row">
                     <div class="col-md-6">

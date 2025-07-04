@@ -110,8 +110,11 @@ class TransactionController extends Controller
         $users = User::all();
         $packages = Package::all();
         $epins = Epin::with('user')->latest()->get();
-    
-        return view('backend.pages.e_pin', compact('users', 'packages', 'epins'));
+        $user = auth()->user();
+        $walletBalance = $user->wallets->sum(function($wallet) {
+            return $wallet->type === 'credit' ? $wallet->amount : -$wallet->amount;
+        });
+        return view('backend.pages.e_pin', compact('users', 'packages', 'epins', 'walletBalance'));
     }
     
     public function epinPurchaseSubmit(Request $request)
