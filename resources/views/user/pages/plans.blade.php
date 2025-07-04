@@ -14,233 +14,71 @@
     </div>
     <div class="col">
         <p class="mb-0">Welcome Back</p>
-        <h4 class="text-capitalize fw-bold">Investment</h4>
+        <h4 class="text-capitalize fw-bold">plans</h4>
     </div>
 </div>
 <!-- End:Title -->
 
+@php
+$colors = ['#6271ebe0', '#23cb62e0', '#fc76b7eb', '#fcb676eb', '#76b7fceb', '#eb76fc', '#76fcb7'];
+@endphp
 <div class="row">
-    <!-- small card item -->
-    <div class="col-xxl-4 mb-4 d2c_investment_card">
-        <div class="card bg-success bg-opacity-10">
-            <div class="card-body pb-1">
-                <div class="mb-4">
-                    <div class="row">
-                        <div class="col">
-                            <div class="d-flex align-items-center">
-                                <div class="me-3">
-                                    <div class="rounded bg-success bg-opacity-25 d-flex align-items-center justify-content-center fs-5 text-secondary d2c_card_icon_wrapper">
-                                        <i class="fab fa-btc"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h6 class="text-capitalize fw-semibold mb-0">Total Investments</h6>
-                                    <small class="mb-0 text-muted">Bitcoin USD</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4 text-end">
-                            <div class="dropdown">
-                                <button class="btn btn-outline-success dropdown-toggle px-3 py-1" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    BTC
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="#">ETH</a></li>
-                                    <li><a class="dropdown-item" href="#">BNB</a></li>
-                                </ul>
-                            </div>
-                        </div>
+    @forelse($packages as $index => $package)
+        @php $color = $colors[$index % count($colors)]; @endphp
+        <div class="col-md-6 col-xxl-4 mb-4">
+            <div class="card position-relative" style="border-radius: 20px; overflow: hidden; padding: 36px 32px 32px 32px; color: #fff; background: {{ $color }}; min-height: 520px;">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span style="font-size: 1.2rem; font-weight: 700;">Investment</span>
+                    @if(Auth::user()->packages->contains($package->id))
+                        <span class="badge bg-dark" style="font-size: 1rem; padding: 8px 18px; border-radius: 20px; font-weight: 700;">Active</span>
+                    @endif
+                </div>
+                <div style="font-size: 2.1rem; font-weight: 800; margin-bottom: 1.2rem; letter-spacing: 1px;">USDT {{ number_format($package->investment_amount, 2) }}</div>
+                <div class="d-flex justify-content-between mb-2">
+                    <div>
+                        <div style="font-size: 1rem;">Package</div>
+                        <div class="fw-bold" style="font-size: 1.1rem;">{{ $package->name }}</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 1rem;">Valid date</div>
+                        <div class="fw-bold" style="font-size: 1.1rem;">{{ now()->addDays($package->validity_days)->format('m/Y') }}</div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 d-flex align-items-center">
-                        <div class="w-100">
-                            <p class="mb-0 text-secondary">Investment Ratio</p>
-                            <h4 class="mb-0 fw-semibold mt-1">$12,208.73</h4>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <!-- investment ratio chart -->
-                        <div id="d2c_investment_ratio"></div>
-                    </div>
+                <div class="mt-3">
+                    <div><b>ROI:</b> <span style="font-weight:600;">{{ number_format($package->roi_percent, 2) }}%</span></div>
+                    <div><b>Bonus:</b> <span style="font-weight:600;">{{ number_format($package->direct_bonus_percent, 2) }}%</span></div>
+                    <div><b>Referral:</b><span style="font-weight:600;">{{ number_format($package->referral_income, 2) }}%</span></div>
+                    <div><b>Type:</b> <span style="font-weight:600;">{{ ucfirst($package->type_of_investment_days) }}</span></div>
+                    @if($package->type_of_investment_days == 'daily' && !empty($package->daily_days))
+                        <div><b>Daily</b> <span style="font-weight:600;">{{ is_array($package->daily_days) ? implode(', ', $package->daily_days) : $package->daily_days }}</span></div>
+                    @elseif($package->type_of_investment_days == 'weekly' && $package->weekly_day)
+                        <div><b>Days:</b> <span style="font-weight:600;">{{ $package->weekly_day }}</span></div>
+                    @elseif($package->type_of_investment_days == 'monthly' && $package->monthly_date)
+                        <div><b>Days:</b> <span style="font-weight:600;">{{ $package->monthly_date }}</span></div>
+                    @endif
+                    @if(!empty($package->days))
+                        <div><b>Days:</b> <span style="font-weight:600;">{{ is_array($package->days) ? implode(', ', $package->days) : $package->days }}</span></div>
+                    @endif
+                    @if(!empty($package->status_days))
+                        <div><b>Status:</b> <span style="font-weight:600;">{{ is_array($package->status_days) ? implode(', ', $package->status_days) : $package->status_days }}</span></div>
+                    @endif
+                    <div><b>Status:</b> <span style="font-weight:600;">{{ $package->is_active ? 'Active' : 'Inactive' }}</span></div>
                 </div>
-
+                @if(!Auth::user()->packages->contains($package->id))
+                    <form method="POST" action="{{ route('user.buy', $package->id) }}">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="package_id" value="{{ $package->id }}">
+                        <button type="submit" class="btn btn-light text-dark w-100" style="border-radius: 22px; font-weight: 800; font-size: 1.15rem; margin-top: 2.2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.10); padding: 16px 0;">Buy</button>
+                    </form>
+                @endif
             </div>
         </div>
-    </div>
-
-    <!-- small card item (2) -->
-    <div class="col-xxl-4 mb-4 d2c_investment_card">
-        <div class="card bg-success bg-opacity-10">
-            <div class="card-body pb-1">
-                <div class="mb-4">
-                    <div class="row">
-                        <div class="col">
-                            <div class="d-flex align-items-center">
-                                <div class="me-3">
-                                    <div class="rounded bg-success bg-opacity-25 d-flex align-items-center justify-content-center fs-5 text-secondary d2c_card_icon_wrapper">
-                                        <i class="fab fa-btc"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h6 class="text-capitalize fw-semibold mb-0">Investment Number</h6>
-                                    <small class="mb-0 text-muted">Bitcoin USD</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4 text-end">
-                            <div class="dropdown">
-                                <button class="btn btn-outline-success dropdown-toggle px-3 py-1" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                                    BTC
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                    <li><a class="dropdown-item" href="#">ETH</a></li>
-                                    <li><a class="dropdown-item" href="#">BNB</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 d-flex align-items-center">
-                        <div class="w-100">
-                            <p class="mb-0 text-secondary">Investments</p>
-                            <h4 class="mb-0 fw-semibold mt-1">$34,212.73</h4>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <!-- investment chart -->
-                        <div id="d2c_investment_chart"></div>
-                    </div>
-                </div>
-                
-            </div>
+    @empty
+        <div class="col-12 text-center">
+            <div class="alert alert-warning">No plans available at the moment.</div>
         </div>
-    </div>
-    <!-- small card item (3) -->
-    <div class="col-xxl-4 mb-4 d2c_investment_card d2c_investment_card_3">
-        <div class="card bg-success bg-opacity-10">
-            <div class="card-body pb-1">
-                <div class="mb-4">
-                    <div class="row">
-                        <div class="col">
-                            <div class="d-flex align-items-center">
-                                <div class="me-3">
-                                    <div class="rounded bg-success bg-opacity-25 d-flex align-items-center justify-content-center fs-5 text-secondary d2c_card_icon_wrapper">
-                                        <i class="fab fa-btc"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h6 class="text-capitalize fw-semibold mb-0">Rate of Return</h6>
-                                    <small class="mb-0 text-muted">Bitcoin USD</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4 text-end">
-                            <div class="dropdown">
-                                <button class="btn btn-outline-success dropdown-toggle px-3 py-1" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
-                                    BTC
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                                    <li><a class="dropdown-item" href="#">ETH</a></li>
-                                    <li><a class="dropdown-item" href="#">BNB</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 d-flex align-items-center">
-                        <div class="w-100">
-                            <p class="mb-0 text-secondary">Rate of Return</p>
-                            <h4 class="mb-0 fw-semibold mt-1">$22,143.71</h4>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <!-- return chart -->
-                        <div id="d2c_return_chart"></div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <!-- investment trading chart -->
-    <div class="col-12 mb-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="text-capitalize fw-semibold mb-4">Investment Trading</h5>
-                <div id="d2c_investment_trading_chart"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- investment progress -->
-    <div class="col-xxl-6 mb-4 mb-xxl-0">
-        <div class="card bg-success bg-opacity-10">
-            <div class="card-body">
-                <h5 class="text-capitalize fw-semibold mb-4">Investment Progress</h5>
-                <div id="d2c_investment_progress_chart"></div>
-                <p class="mt-3">Better your investment process, get more advantage in trading</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- crypto investment -->
-    <div class="col-xxl-6">
-        <div class="card bg-primary bg-opacity-10">
-            <div class="card-body">
-                <h5 class="text-capitalize fw-semibold mb-4">Crypto investment</h5>
-                <div class="table-responsive">
-                    <table class="table align-middle">
-                        <thead>
-                            <tr>
-                                <th style="min-width: 100px;">Coins</th>
-                                <th style="min-width: 170px;">Invest Amount</th>
-                                <th style="min-width: 170px;">Return Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>BTC</td>
-                                <td>$22,00.00</td>
-                                <td class="text-success">+15% <i class="fas fa-upload"></i></td>
-                            </tr>
-                            <tr>
-                                <td>BNB</td>
-                                <td>$66,00.00</td>
-                                <td class="text-success">+18% <i class="fas fa-upload"></i></td>
-                            </tr>
-                            <tr>
-                                <td>ETH</td>
-                                <td>$54,00.00</td>
-                                <td class="text-danger">-10% <i class="fas fa-download"></i></td>
-                            </tr>
-                            <tr>
-                                <td>XRP</td>
-                                <td>$12,00.00</td>
-                                <td class="text-success">+20% <i class="fas fa-upload"></i></td>
-                            </tr>
-                            <tr>
-                                <td>DAI</td>
-                                <td>$27,00.00</td>
-                                <td class="text-success">+25% <i class="fas fa-upload"></i></td>
-                            </tr>
-                            <tr>
-                                <td>TRON</td>
-                                <td>$83,00.00</td>
-                                <td class="text-danger">-23% <i class="fas fa-download"></i></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    @endforelse
 </div>
 
 <!-- copyright -->

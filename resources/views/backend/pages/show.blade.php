@@ -77,7 +77,7 @@
                     @method('PUT')
                     @foreach($series_levels->sortBy('level') as $level)
                         <div class="col-md-6 mb-3">
-                            <label>Level {{ $level->level }} Amount (₹)</label>
+                            <label>Level {{ $level->level }} Amount (USDT)</label>
                             <input type="number" name="amounts[{{ $level->level }}]" step="0.01" value="{{ $level->amount }}" class="form-control" required>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -97,7 +97,7 @@
                 <ul class="p-0" style="list-style: none;">
                     @foreach($series_levels->sortBy('level') as $level)
                         <li style="background: #101820; color: #fff; border: 2px dashed #00fff7; border-radius: 10px; margin-bottom: 14px; padding: 12px 18px;">
-                            Level {{ $level->level }}: ₹{{ number_format($level->amount, 2) }} for {{ $level->period_months }} months
+                            Level {{ $level->level }}: USDT {{ number_format($level->amount, 2) }} for {{ $level->period_months }} months
                         </li>
                     @endforeach
                 </ul>
@@ -171,7 +171,7 @@
                                     <td>{{ $user->full_name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ optional($user->created_at)->format('d-m-Y') }}</td>
-                                    <td>₹{{ number_format($salary, 2) }}</td>
+                                    <td>USDT {{ number_format($salary, 2) }}</td>
                                     <td>{{ $referrals->count() }}</td>
                                     <td>
                                         @if($qualified)

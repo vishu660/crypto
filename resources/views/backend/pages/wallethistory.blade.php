@@ -128,7 +128,7 @@
                             <tr>
                                 <td>{{ $wallet->user->id }}</td>
                                 <td>{{ $wallet->user->full_name }}</td>
-                                <td>₹{{ number_format($wallet->amount, 2) }}</td>
+                                <td>USDT {{ number_format($wallet->amount, 2) }}</td>
                                 <td>
                                     <span class="badge bg-{{ $wallet->type === 'credit' ? 'success' : 'danger' }}">
                                         {{ ucfirst($wallet->type) }}

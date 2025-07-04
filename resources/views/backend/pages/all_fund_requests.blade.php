@@ -67,7 +67,7 @@
                                     <td>{{ $transaction->id }}</td>
                                     <td>{{ $transaction->user_id }}</td>
                                     <td>{{ $transaction->user->full_name ?? 'N/A' }}</td>
-                                    <td>₹{{ number_format($transaction->amount, 2) }}</td>
+                                    <td>USDT {{ number_format($transaction->amount, 2) }}</td>
                                     <td>{{ $transaction->currency }}</td>
                                     <td>{{ ucfirst($transaction->type) }}</td>
                                     <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>

@@ -344,7 +344,7 @@
                         @foreach($packages as $package)
                             <tr>
                                 <td>{{ $package->name }}</td>
-                                <td>₹{{ $package->investment_amount }}</td>
+                                <td>USDT {{ $package->investment_amount }}</td>
                                 <td>{{ $package->roi_percent }} %</td>
                                 <td>{{ $package->validity_days }}</td>
                                 <td>{{ $package->direct_bonus_percent }} %</td>
