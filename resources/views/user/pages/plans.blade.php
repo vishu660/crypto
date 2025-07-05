@@ -35,11 +35,11 @@ $colors = ['#6271ebe0', '#23cb62e0', '#fc76b7eb', '#fcb676eb', '#76b7fceb', '#eb
                 </div>
                 <div style="font-size: 2.1rem; font-weight: 800; margin-bottom: 1.2rem; letter-spacing: 1px;">USDT {{ number_format($package->investment_amount, 2) }}</div>
                 <div class="d-flex justify-content-between mb-2">
-                    <div>
+                                <div>
                         <div style="font-size: 1rem;">Package</div>
                         <div class="fw-bold" style="font-size: 1.1rem;">{{ $package->name }}</div>
-                    </div>
-                    <div>
+                                </div>
+                                <div>
                         <div style="font-size: 1rem;">Valid date</div>
                         <div class="fw-bold" style="font-size: 1.1rem;">{{ now()->addDays($package->validity_days)->format('m/Y') }}</div>
                     </div>

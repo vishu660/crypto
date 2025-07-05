@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class KycController extends Controller
 {
@@ -56,4 +57,30 @@ class KycController extends Controller
 
         return redirect()->route('user.pages.kyc_step1_new')->with('success', 'KYC submitted! Awaiting admin approval.');
     }
+
+    public function kycRequests()
+    {
+        $users = User::all();
+        return view('backend.kyc_requests', compact('users'));
+    }
+
+    public function approve($id)
+    {
+        
+        // $request = KycRequest::findOrFail($id);
+        // $request->status = 'approved';
+        // $request->save();
+
+        // return redirect()->route('admin.kyc.requests')->with('success', 'KYC approved!');
+    }
+    public function reject($id)
+{
+    // Yahan aap KYC request reject karne ka logic likhein
+    // Example:
+    // $request = KycRequest::findOrFail($id);
+    // $request->status = 'rejected';
+    // $request->save();
+
+    // return redirect()->route('admin.kyc.requests')->with('success', 'KYC rejected!');
+}
 }

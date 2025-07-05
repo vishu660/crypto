@@ -18,7 +18,7 @@ use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\SalaryController;
-use App\Http\Controllers\KycController;
+use App\Http\Controllers\Admin\KycController;
 
 
 
@@ -403,3 +403,9 @@ Route::post('/admin/bank/approve/{id}', [UserController::class, 'approveBank'])-
 Route::get('admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank_requests');
 Route::get('/admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank');
 
+Route::get('/admin/kyc-requests', [KycController::class, 'kycRequests'])->name('admin.kyc.requests');
+
+// Approve KYC request
+Route::post('/admin/kyc-approve/{id}', [KycController::class, 'approve'])->name('admin.kyc.approve');
+// Reject KYC request
+Route::post('/admin/kyc-reject/{id}', [KycController::class, 'reject'])->name('admin.kyc.reject');

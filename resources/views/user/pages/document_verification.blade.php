@@ -33,7 +33,7 @@
             <div class="kyc-card p-5">
                 <div class="divider"></div>
                 <h2 class="fw-bold mb-4" style="font-size:2.2rem;">Document Verification</h2>
-                <form action="#" method="POST">
+                <form action="{{ route('user.pages.share_pan') }}" method="GET">
                     <div class="mb-4">
                         <label class="form-label">Document Issuing Country/Region</label>
                         <div class="input-group">
