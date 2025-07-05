@@ -62,6 +62,21 @@
                     </li>
                     <!-- End:Menu Item -->
 
+                    <!-- Menu Item -->
+                    <li class="nav-item">
+                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#payoutMenu" role="button" aria-expanded="false" aria-controls="payoutMenu">
+                            <span>
+                                <i class="fas fa-money-bill-wave me-2" style="color:#1de9b6;"></i>Payout Details
+                            </span>
+                            <i class="bi bi-chevron-down"></i>
+                        </a>
+                        <div class="collapse submenu" id="payoutMenu">
+                            <a class="nav-link ps-5 fw-bold" href="{{ route('withdraw.create') }}">Withdraw Now</a>
+                            <a class="nav-link ps-5" href="{{ route('user.payouts') }}">My Payouts</a>
+                        </div>
+                    </li>
+                    <!-- End:Payout Details -->
+
                     <!-- Profile Collapsible Menu -->
                     <li class="nav-item mb-2">
                         <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#profileMenu" role="button" aria-expanded="false" aria-controls="profileMenu">

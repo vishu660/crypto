@@ -403,6 +403,17 @@ Route::post('/admin/bank/approve/{id}', [UserController::class, 'approveBank'])-
 Route::get('admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank_requests');
 Route::get('/admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank');
 
+Route::get('/admin/user/{user}/transactions', [UserController::class, 'userTransactions'])->name('admin.user.transactions');
+
+Route::get('/user/withdrawal', function () {
+    $user = auth()->user();
+    return view('user.pages.withdrawal', compact('user'));
+})->middleware('auth')->name('withdraw.create');
+
+Route::get('/user/payouts', function () {
+    return view('user.pages.payouts');
+})->name('user.payouts');
+
 Route::get('/admin/kyc-requests', [KycController::class, 'kycRequests'])->name('admin.kyc.requests');
 
 // Approve KYC request
