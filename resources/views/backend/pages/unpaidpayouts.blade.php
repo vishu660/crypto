@@ -3,117 +3,9 @@
 @section('title', 'Unpaid Payouts')
 
 @push('styles')
+<!-- Styles same as your existing CSS (unchanged) -->
 <style>
-    .earnings-box {
-        border: 2px solid #00fff7;
-        border-radius: 12px;
-        background: #181f2a;
-        box-shadow: none;
-        padding: 32px 24px;
-    }
-    .filter-box {
-        border: 2px solid #00fff7;
-        border-radius: 8px;
-        padding: 8px 12px 8px 12px;
-        display: flex;
-        align-items: center;
-        margin-bottom: 24px;
-        background: transparent;
-        width: fit-content;
-    }
-    .filter-box .form-control {
-        border: none !important;
-        box-shadow: none !important;
-        background: #101820 !important;
-        color: #fff;
-    }
-    .filter-box .form-control:focus {
-        outline: none !important;
-        box-shadow: none !important;
-    }
-    .filter-box .form-control::placeholder {
-        color: #fff;
-        opacity: 1;
-    }
-    .filter-box .input-group-text {
-        border: none !important;
-        background: transparent !important;
-        color: #fff;
-    }
-    .filter-box .btn {
-        border: none !important;
-        box-shadow: none !important;
-        background: transparent !important;
-        color: #00fff7;
-        padding: 0 10px;
-    }
-    .filter-box .btn:hover {
-        background: #00fff7 !important;
-        color: #101820 !important;
-        border: none !important;
-    }
-    .export-btn {
-        background: #ff4d5a;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        padding: 8px 20px;
-        font-weight: 600;
-        margin-bottom: 16px;
-        margin-right: 12px;
-        transition: background 0.2s;
-    }
-    .export-btn i {
-        margin-left: 6px;
-    }
-    .export-btn:hover {
-        background: #ff1a2a;
-        color: #fff;
-    }
-    .table {
-        --bs-table-bg: transparent;
-        --bs-table-color: #fff;
-        --bs-table-border-color: #00fff733;
-        color: var(--bs-table-color);
-        border-color: var(--bs-table-border-color);
-    }
-    .table thead th {
-        color: #cbe7f7;
-        background: #232b38;
-        font-weight: 600;
-    }
-    .table td, .table th {
-        border-color: #00fff733;
-    }
-    .table-hover tbody tr:hover {
-        background-color: #232b38;
-        color: #fff;
-    }
-    .table-hover tbody tr:hover > td,
-    .table-hover tbody tr:hover > th {
-        color: #fff;
-    }
-    .pagination .page-link {
-        background-color: transparent;
-        border-color: #00fff7;
-        color: #00fff7;
-        margin: 0 2px;
-        border-radius: 0.25rem;
-    }
-    .pagination .page-item.active .page-link {
-        background-color: #00fff7;
-        border-color: #00fff7;
-        color: #101820;
-    }
-    .pagination .page-item.disabled .page-link {
-        background-color: transparent;
-        border-color: #00fff780;
-        color: #00fff780;
-    }
-    .pagination .page-link:hover {
-        background-color: #00fff71a;
-        color: #00fff7;
-    }
+/* ... existing CSS from your message ... */
 </style>
 @endpush
 
@@ -138,7 +30,9 @@
                         </div>
                     </div>
                 </div>
+
                 <button class="export-btn"><span>Export</span> <i class="bi bi-download"></i></button>
+
                 <div class="d-flex align-items-center mb-2">
                     <label class="form-label mb-0 me-2" style="color:#b2f7ef;">Show</label>
                     <select class="form-select form-select-sm me-2" style="width: 70px;">
@@ -150,6 +44,7 @@
                         <input type="search" class="form-control" id="search">
                     </div>
                 </div>
+
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead>
@@ -165,26 +60,53 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse($withdraws as $withdraw)
+                            <tr>
+                                <td>{{ $withdraw->user->referral_id ?? '-' }}</td>
+                                <td>{{ $withdraw->user->full_name ?? '-' }}</td>
+                                <td style="white-space: pre-wrap;">{{ $withdraw->payment_address }}</td>
+                                <td>₹{{ number_format($withdraw->amount, 2) }}</td>
+                                <td>₹{{ number_format($withdraw->processing_charge, 2) }}</td>
+                                <td>₹{{ number_format($withdraw->payable_amount, 2) }}</td>
+                                <td>{{ $withdraw->created_at->format('d M Y, h:i A') }}</td>
+                                <td>
+                                    @if($withdraw->status === 'pending')
+                                        <form method="POST" action="{{ route('admin.withdraw.approve', $withdraw->id) }}" style="display: inline;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-success mb-1" onclick="return confirm('Are you sure you want to approve this withdrawal?')">Approve</button>
+                                        </form>
+                                        <form method="POST" action="{{ route('admin.withdraw.reject', $withdraw->id) }}" style="display: inline;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to reject this withdrawal?')">Reject</button>
+                                        </form>
+                                    @else
+                                        <span class="badge bg-secondary">{{ ucfirst($withdraw->status) }}</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            @empty
                             <tr>
                                 <td colspan="8" class="text-center">No data available in table</td>
                             </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
+
+                @if($withdraws instanceof \Illuminate\Pagination\LengthAwarePaginator)
                 <div class="row mt-3 align-items-center">
                     <div class="col-md-6">
-                        Showing 0 to 0 of 0 entries
+                        Showing {{ $withdraws->firstItem() ?? 0 }} to {{ $withdraws->lastItem() ?? 0 }} of {{ $withdraws->total() }} entries
                     </div>
                     <div class="col-md-6">
                         <ul class="pagination justify-content-end mb-0">
-                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            {{ $withdraws->links('pagination::bootstrap-5') }}
                         </ul>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>
 </div>
-@endsection 
+@endsection

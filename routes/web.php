@@ -15,12 +15,10 @@ use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\MailController;
 use App\Http\Controllers\Admin\WalletController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\SalaryController;
 use App\Http\Controllers\Admin\KycController;
-use App\Http\Controllers\Admin\UserController;
-
 
 
 
@@ -277,15 +275,19 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 // user deshbord 
 
 // User Pages
-Route::get('/user/pages/activity', [UserController::class, 'activity'])->name('user.pages.activity');
+Route::get('/user/pages/activity', function () { 
+    $user = auth()->user();
+    $withdraws = \App\Models\Withdraw::where('user_id', $user->id)->latest()->get();
+    return view('user.pages.activity', compact('withdraws')); 
+})->middleware('auth')->name('user.pages.activity');
 Route::get('/user/pages/blank', [UserController::class, 'blank'])->name('user.pages.blank');
-Route::get('/user/pages/email', [UserController::class, 'inbox'])->name('user.pages.email');
+Route::get('/user/pages/email', function () { return view('user.pages.email'); })->name('user.pages.email');
 Route::get('/user/pages/exchange', function () { return view('user.pages.exchange'); })->name('user.pages.exchange');
 Route::get('/user/pages/plans', function () {
     $packages = \App\Models\Package::all();
     return view('user.pages.plans', compact('packages'));
 })->name('user.pages.plans');
-Route::get('/user/pages/mailDetails', [UserController::class, 'inbox'])->name('user.pages.mailDetails');
+Route::get('/user/pages/mailDetails', function () { return view('user.pages.mailDetails'); })->name('user.pages.mailDetails');
 Route::get('/user/pages/market', function () { return view('user.pages.market'); })->name('user.pages.market');
 Route::get('/user/pages/notification', function () { return view('user.pages.notification'); })->name('user.pages.notification');
 Route::get('/user/pages/profile', [UserController::class, 'profile'])->name('user.pages.profile');
@@ -379,8 +381,7 @@ Route::post('/user/buy/code', [UserController::class, 'buyWithCode'])->name('pac
 Route::post('/user/buy/request', [UserController::class, 'buyWithRequest'])->name('packages.buy.with-request');
 
 Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
-Route::post('/user/profile/bank', [UserController::class, 'updateBank'])->name('user.profile.bank.update');
-Route::post('/user/profile/contact', [UserController::class, 'updateContact'])->name('user.profile.contact.update');
+
 
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
 Route::post('admin/referral-setting', [SalaryController::class, 'updateReferralSetting'])->name('admin.referral.setting.update');
@@ -401,11 +402,10 @@ Route::get('/digilocker-auth-complete', [KycController::class, 'digilockerCallba
 // saveBankDetails
 Route::post('/user/bank/save', [UserController::class, 'saveBankDetails'])->name('user.bank.save');
 
-Route::post('/admin/bank/approve/{id}', [UserController::class, 'approveBank'])->name('admin.bank_approve');
-Route::get('admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank_requests');
-Route::get('/admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank');
-
-// Route::get('/admin/user/{user}/transactions', [UserController::class, 'userTransactions'])->name('admin.user.transactions');
+// Route::post('/admin/bank/approve/{id}', [UserController::class, 'approveBank'])->name('admin.bank_approve');
+// // Route::get('admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank_requests');
+// Route::get('/admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank');
+Route::get('/user/withdrawal', [UserController::class, 'showWithdrawalForm'])->name('user.withdrawal');Route::get('/admin/user/{user}/transactions', [UserController::class, 'userTransactions'])->name('admin.user.transactions');
 
 Route::get('/user/withdrawal', function () {
     $user = auth()->user();
@@ -413,8 +413,13 @@ Route::get('/user/withdrawal', function () {
 })->middleware('auth')->name('withdraw.create');
 
 Route::get('/user/payouts', function () {
-    return view('user.pages.payouts');
-})->name('user.payouts');
+    $user = auth()->user();
+    $withdraws = \App\Models\Withdraw::where('user_id', $user->id)
+                ->where('status', 'approved')
+                ->latest()
+                ->paginate(10);
+    return view('user.pages.payouts', compact('withdraws'));
+})->middleware('auth')->name('user.payouts');
 
 Route::get('/admin/kyc-requests', [KycController::class, 'kycRequests'])->name('admin.kyc.requests');
 
@@ -423,9 +428,7 @@ Route::post('/admin/kyc-approve/{id}', [KycController::class, 'approve'])->name(
 // Reject KYC request
 Route::post('/admin/kyc-reject/{id}', [KycController::class, 'reject'])->name('admin.kyc.reject');
 
-Route::get('/admin/user/{user}/transactions', [UserController::class, 'userTransactions'])->name('admin.user.transactions');
-
-Route::get('/admin/user/{user}/transfer-report', [UserController::class, 'transferReport'])->name('admin.user.transferreport');
+// user withdrawSubmit
 
 Route::post('/user/withdraw-submit', [UserController::class, 'withdrawSubmit'])->name('user.withdraw.submit');
 
