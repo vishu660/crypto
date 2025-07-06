@@ -119,48 +119,33 @@ class TransactionController extends Controller
     
     public function epinPurchaseSubmit(Request $request)
     {
-        \Log::info('Epin Purchase Request - RAW', $request->all());
-
-        try {
-            $validated = $request->validate([
-                'user_id' => 'required|exists:users,id',
-                'amount' => 'required|numeric|min:1',
-                'plan' => 'required|string',
-                'expiry_date' => 'required|date',
-                'count' => 'required|integer|min:1',
+        // Validate input
+        $validated = $request->validate([
+            'plan' => 'required|string',
+            'count' => 'required|integer|min:1',
+            'expiry_date' => 'required|date',
+            'prefix' => 'required|string|size:2', // validate 2 char prefix
+        ]);
+    
+        $prefix = strtoupper($validated['prefix']);
+    
+        for ($i = 0; $i < $validated['count']; $i++) {
+            // Ensure uniqueness
+            do {
+                $random = strtoupper(Str::random(10)); // now 10 instead of 12
+                $code = $prefix . $random;
+            } while (Epin::where('code', $code)->exists());
+    
+            Epin::create([
+                'code' => $code,
+                'plan' => $validated['plan'],
+                'amount' => 0,
+                'expiry_date' => $validated['expiry_date'],
+                'status' => 'active',
             ]);
-            \Log::info('Epin Purchase Request - VALIDATED', $validated);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            \Log::error('Epin Purchase Validation Error: ' . $e->getMessage(), $e->errors());
-            return back()->withErrors($e->errors())->withInput();
         }
-
-        try {
-            for ($i = 0; $i < $request->count; $i++) {
-                \Log::info('Epin Create Attempt', [
-                    'user_id' => $request->user_id,
-                    'code' => 'will be generated',
-                    'plan' => $request->plan,
-                    'amount' => $request->amount,
-                    'expiry_date' => $request->expiry_date,
-                    'status' => 'active',
-                ]);
-                $epin = Epin::create([
-                    'user_id' => $request->user_id,
-                    'code' => strtoupper(Str::random(12)),
-                    'plan' => $request->plan,
-                    'amount' => $request->amount,
-                    'expiry_date' => $request->expiry_date,
-                    'status' => 'active',
-                ]);
-                \Log::info('Epin Created', $epin->toArray());
-            }
-        } catch (\Exception $e) {
-            \Log::error('Epin Create Error: ' . $e->getMessage());
-            return back()->with('error', 'E-pin create failed: ' . $e->getMessage());
-        }
-
-        return back()->with('success', 'E-pin(s) generated successfully.');
+    
+        return back()->with('success', 'E-Pin(s) generated successfully with prefix: ' . $prefix);
     }
 
     public function epinTransferSubmit(Request $request)

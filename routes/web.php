@@ -388,7 +388,7 @@ Route::post('admin/referral-setting', [SalaryController::class, 'updateReferralS
 Route::get('/admin/profile', [UserController::class, 'profile'])->name('admin.profile');
 // For E-Pin
 Route::get('/admin/epin/transfer', [TransactionController::class, 'epinTransfer'])->name('epin.transfer');
-Route::get('/admin/epin/purchase', [TransactionController::class, 'epinPurchase'])->name('epin.purchase');
+Route::post('/epin/purchase', [TransactionController::class, 'epinPurchaseSubmit'])->name('epin.purchase.submit');
 Route::get('/epin', [TransactionController::class, 'epinIndex'])->name('epin.index');
 Route::post('/epin/purchase', [TransactionController::class, 'epinPurchaseSubmit'])->name('epin.purchase.submit');
 Route::post('/admin/epin/transfer', [App\Http\Controllers\Admin\TransactionController::class, 'epinTransferSubmit'])->name('admin.epin.transfer.submit');
