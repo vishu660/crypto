@@ -6,15 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Epin extends Model
 {
-    protected $fillable = [
-        'code',
-        'plan',
-        'amount',
-        'expiry_date',
-        'status',
-        'user_id',        // (अगर किसी यूज़र को assign करना हो)
-        'used_at'         // (कब यूज़ हुआ)
-    ];
+    protected $fillable = ['code', 'plan', 'amount', 'expiry_date', 'status'];
 
     protected $dates = [
         'expiry_date',

@@ -69,6 +69,25 @@
                             <h4 class="mb-0 fw-semibold">{{ $user->right_carry ?? 0 }}</h4>
                         </div>
                     </div>
+<div class="container-fluid py-4">
+    <div class="row justify-content-start">
+        <div class="col-lg-9 col-md-10">
+            @if(Auth::check())
+    @php $user = Auth::user(); @endphp
+@else
+    <div class="alert alert-danger">You are not logged in.</div>
+@endif
+            <!-- Page Heading and Dropdown -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-bold">User Profile</h3>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Change Password
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginPasswordModal">Change Login Password</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#transactionPasswordModal">Change Transaction Password</a></li>
+                    </ul>
                 </div>
             </div>
 

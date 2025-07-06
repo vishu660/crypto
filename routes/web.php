@@ -387,7 +387,7 @@ Route::post('admin/referral-setting', [SalaryController::class, 'updateReferralS
 Route::get('/admin/profile', [UserController::class, 'profile'])->name('admin.profile');
 // For E-Pin
 Route::get('/admin/epin/transfer', [TransactionController::class, 'epinTransfer'])->name('epin.transfer');
-Route::get('/admin/epin/purchase', [TransactionController::class, 'epinPurchase'])->name('epin.purchase');
+Route::post('/epin/purchase', [TransactionController::class, 'epinPurchaseSubmit'])->name('epin.purchase.submit');
 Route::get('/epin', [TransactionController::class, 'epinIndex'])->name('epin.index');
 Route::post('/epin/purchase', [TransactionController::class, 'epinPurchaseSubmit'])->name('epin.purchase.submit');
 Route::post('/admin/epin/transfer', [App\Http\Controllers\Admin\TransactionController::class, 'epinTransferSubmit'])->name('admin.epin.transfer.submit');
@@ -426,3 +426,29 @@ Route::post('/admin/kyc-reject/{id}', [KycController::class, 'reject'])->name('a
 Route::get('/admin/user/{user}/transactions', [UserController::class, 'userTransactions'])->name('admin.user.transactions');
 
 Route::get('/admin/user/{user}/transfer-report', [UserController::class, 'transferReport'])->name('admin.user.transferreport');
+
+Route::post('/user/withdraw-submit', [UserController::class, 'withdrawSubmit'])->name('user.withdraw.submit');
+
+// Show all withdrawal requests (admin panel)
+Route::get('/admin/withdraw-requests', [AdminController::class, 'withdrawRequests'])->name('admin.withdraw.requests');
+
+// Approve specific withdrawal
+Route::post('/admin/withdraw-approve/{id}', [AdminController::class, 'approveWithdraw'])->name('admin.withdraw.approve');
+
+// Reject specific withdrawal
+Route::post('/admin/withdraw-reject/{id}', [AdminController::class, 'rejectWithdraw'])->name('admin.withdraw.reject');
+
+Route::post('user/change-password', [UserController::class, 'changePassword'])->name('user.change.password');
+Route::post('user/change-transaction-password', [UserController::class, 'changeTransactionPassword'])->name('user.change.txnpassword');
+
+Route::get('/my-withdraws', [UserController::class, 'myWithdraws'])->name('user.withdraws');
+
+// Admin withdrawal routes
+Route::get('/admin/withdraw-requests', [AdminController::class, 'withdrawRequests'])->name('admin.withdraw.requests');
+Route::get('/admin/unpaid-payouts', [AdminController::class, 'withdrawList'])->name('admin.unpaidpayouts');
+Route::get('/admin/paid-payouts', [AdminController::class, 'paidPayouts'])->name('admin.paidpayouts');
+Route::get('/admin/rejected-payouts', [AdminController::class, 'rejectedPayouts'])->name('admin.rejectedpayouts');
+Route::post('/admin/withdraw-approve/{id}', [AdminController::class, 'approveWithdraw'])->name('admin.withdraw.approve');
+Route::post('/admin/withdraw-reject/{id}', [AdminController::class, 'rejectWithdraw'])->name('admin.withdraw.reject');
+
+Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
