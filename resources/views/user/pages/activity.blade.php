@@ -360,38 +360,28 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="d2c_coin_icon_wrapper px-2 py-1 bg-danger text-danger bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded">
-                                                        <i class="fab fa-btc"></i>
-                                                    </div>
-                                                    Bitcoin
-                                                </div>
-                                            </td>
-                                            <td><span class="text-danger">Sold</span></td>
-                                            <td><span class="text-danger">-0.000242 BTC</span></td>
-                                            <td>124153465125</td>
-                                            <td>2-4-2023 06:24am</td>
-                                            <td>112.30 BTC</td>
-                                            <td>0.02%</td>
-                                        </tr>
+                                        @forelse($withdraws as $withdraw)
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="d2c_coin_icon_wrapper px-2 py-1 bg-primary text-primary bg-opacity-10 me-2 d-flex align-items-center justify-content-center rounded">
-                                                        <i class="fab fa-ethereum"></i>
+                                                        <i class="fas fa-money-bill-wave"></i>
                                                     </div>
-                                                    Ethereum
+                                                    {{ $withdraw->payment_method == 'bank' ? 'Bank Transfer' : 'USDT' }}
                                                 </div>
                                             </td>
-                                            <td><span class="text-success">Buy</span></td>
-                                            <td><span class="text-success">0.009231 ETH</span></td>
-                                            <td>124153465126</td>
-                                            <td>2-4-2023 06:22am</td>
-                                            <td>923.81 ETH</td>
-                                            <td>0.4%</td>
+                                            <td><span class="text-danger">Withdraw</span></td>
+                                            <td><span class="text-danger">-₹{{ number_format($withdraw->amount, 2) }}</span></td>
+                                            <td>{{ $withdraw->id }}</td>
+                                            <td>{{ $withdraw->created_at->format('d-m-Y h:i A') }}</td>
+                                            <td>₹{{ number_format($withdraw->payable_amount, 2) }}</td>
+                                            <td>₹{{ number_format($withdraw->processing_charge, 2) }}</td>
                                         </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="7" class="text-center">No withdrawal activity found</td>
+                                        </tr>
+                                        @endforelse
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">

@@ -37,54 +37,42 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse($withdraws as $withdraw)
                     <tr>
-                        <td>CS00001</td>
-                        <td>CS DEMO</td>
-                        <td>Payable Wallet Address: Wallet1234567</td>
-                        <td>45</td>
-                        <td>0</td>
-                        <td>45</td>
-                        <td>04-07-2025 11:37:pm</td>
-                        <td><span class="badge bg-secondary">Unpaid</span></td>
+                        <td>{{ $withdraw->user->referral_id ?? '-' }}</td>
+                        <td>{{ $withdraw->user->full_name ?? '-' }}</td>
+                        <td style="white-space: pre-wrap;">{{ $withdraw->payment_address }}</td>
+                        <td>₹{{ number_format($withdraw->amount, 2) }}</td>
+                        <td>₹{{ number_format($withdraw->processing_charge, 2) }}</td>
+                        <td>₹{{ number_format($withdraw->payable_amount, 2) }}</td>
+                        <td>{{ $withdraw->created_at->format('d-m-Y h:i A') }}</td>
+                        <td>
+                            @if($withdraw->status === 'pending')
+                                <span class="badge bg-secondary">Pending</span>
+                            @elseif($withdraw->status === 'approved')
+                                <span class="badge bg-success">Approved</span>
+                            @elseif($withdraw->status === 'rejected')
+                                <span class="badge bg-danger">Rejected</span>
+                            @else
+                                <span class="badge bg-secondary">{{ ucfirst($withdraw->status) }}</span>
+                            @endif
+                        </td>
                     </tr>
+                    @empty
                     <tr>
-                        <td>CS00001</td>
-                        <td>CS DEMO</td>
-                        <td>Payable Wallet Address: Wallet1234567</td>
-                        <td>100</td>
-                        <td>0</td>
-                        <td>100</td>
-                        <td>04-07-2025 10:37:pm</td>
-                        <td><span class="badge bg-secondary">Unpaid</span></td>
+                        <td colspan="8" class="text-center">No withdrawal requests found</td>
                     </tr>
-                    <tr>
-                        <td>CS00001</td>
-                        <td>CS DEMO</td>
-                        <td>Payable Wallet Address: Wallet1234567</td>
-                        <td>499</td>
-                        <td>0</td>
-                        <td>499</td>
-                        <td>02-02-2025 10:45:am</td>
-                        <td><span class="badge bg-success">Paid</span></td>
-                    </tr>
+                    @endforelse
                 </tbody>
             </table>
+            @if($withdraws->hasPages())
             <div class="d-flex justify-content-between align-items-center mt-2 text-secondary" style="font-size:0.98rem;">
-                <span>Showing 1 to 3 of 3 entries</span>
+                <span>Showing {{ $withdraws->firstItem() ?? 0 }} to {{ $withdraws->lastItem() ?? 0 }} of {{ $withdraws->total() }} entries</span>
                 <nav>
-                    <ul class="pagination pagination-sm mb-0">
-                        <li class="page-item disabled">
-                            <span class="page-link bg-white border-0 text-secondary">Previous</span>
-                        </li>
-                        <li class="page-item active">
-                            <span class="page-link bg-info border-0 text-white">1</span>
-                        </li>
-                        <li class="page-item disabled">
-                            <span class="page-link bg-white border-0 text-secondary">Next</span>
-                        </li>
-                    </ul>
+                    {{ $withdraws->links('pagination::bootstrap-5') }}
                 </nav>
             </div>
+            @endif
         </div>
     </div>
 </div>

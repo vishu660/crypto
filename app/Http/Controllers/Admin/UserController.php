@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\User;
+use App\Models\Withdraw;
 use App\Models\Transaction;
 use App\Models\UserPackage;
 use App\Models\AdminCode;
@@ -15,8 +16,10 @@ use Carbon\Carbon;
 use App\Helpers\RoiHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -177,36 +180,36 @@ class UserController extends Controller
         return view('user.pages.profile', compact('user', 'transactions'));
     }
 
-    public function updateProfile(Request $request)
-    {
-        $user = Auth::user();
+    // public function updateProfile(Request $request)
+    // {
+    //     $user = Auth::user();
 
-        $request->validate([
-            'full_name'   => 'required|string|max:255',
-            'email'       => 'required|email|max:255|unique:users,email,' . $user->id,
-            'mobile_no'   => 'nullable|string|max:20',
-            'city'        => 'nullable|string|max:100',
-            'state'       => 'nullable|string|max:100',
-            'country'     => 'nullable|string|max:100',
-            'profile_image' => 'nullable|image|max:2048',
-        ]);
+    //     $request->validate([
+    //         'full_name'   => 'required|string|max:255',
+    //         'email'       => 'required|email|max:255|unique:users,email,' . $user->id,
+    //         'mobile_no'   => 'nullable|string|max:20',
+    //         'city'        => 'nullable|string|max:100',
+    //         'state'       => 'nullable|string|max:100',
+    //         'country'     => 'nullable|string|max:100',
+    //         'profile_image' => 'nullable|image|max:2048',
+    //     ]);
 
-        $user->full_name = $request->full_name;
-        $user->email     = $request->email;
-        $user->mobile_no = $request->mobile_no;
-        $user->city      = $request->city;
-        $user->state     = $request->state;
-        $user->country   = $request->country;
+    //     $user->full_name = $request->full_name;
+    //     $user->email     = $request->email;
+    //     $user->mobile_no = $request->mobile_no;
+    //     $user->city      = $request->city;
+    //     $user->state     = $request->state;
+    //     $user->country   = $request->country;
 
-        if ($request->hasFile('profile_image')) {
-            $image = $request->file('profile_image')->store('profile_images', 'public');
-            $user->profile_image = $image;
-        }
+    //     if ($request->hasFile('profile_image')) {
+    //         $image = $request->file('profile_image')->store('profile_images', 'public');
+    //         $user->profile_image = $image;
+    //     }
 
-        $user->save();
+    //     $user->save();
 
-        return back()->with('success', 'Profile updated successfully!');
-    }
+    //     return back()->with('success', 'Profile updated successfully!');
+    // }
 
     public function updateBank(Request $request)
     {
@@ -372,4 +375,99 @@ public function approveBank($id)
 
     return redirect()->back()->with('success', 'Bank detail approved successfully.');
 }
+
+public function withdrawSubmit(Request $request)
+{
+    try {
+        $request->validate([
+            'amount' => 'required|numeric|min:10',
+            'wallet' => 'required|string',
+            'payment_method' => 'required|in:bank,usdt',
+            'transaction_password' => 'required|string',
+            'remark' => 'nullable|string|max:255',
+        ]);
+
+        if (!Auth::user()->transaction_password) {
+            return back()->with('error', 'Transaction password not set. Please set your transaction password first.');
+        }
+
+        if (!Hash::check($request->transaction_password, Auth::user()->transaction_password)) {
+            return back()->with('error', 'Invalid Transaction Password');
+        }
+
+        $paymentAddress = '';
+
+        if ($request->payment_method === 'bank') {
+            $request->validate([
+                'account_holder' => 'required|string|max:100',
+                'bank_account' => 'required|string|max:50',
+                'ifsc_code' => 'required|string|max:20',
+                'bank_name' => 'required|string|max:100',
+            ]);
+
+            $paymentAddress = "Holder: {$request->account_holder}\n"
+                            . "Account No: {$request->bank_account}\n"
+                            . "IFSC: {$request->ifsc_code}\n"
+                            . "Bank: {$request->bank_name}";
+        } elseif ($request->payment_method === 'usdt') {
+            $request->validate([
+                'usdt_address' => 'required|string',
+                'usdt_network' => 'required|in:TRC20,ERC20',
+            ]);
+
+            $paymentAddress = "USDT Address: {$request->usdt_address}\n"
+                            . "Network: {$request->usdt_network}";
+        }
+
+        $amount = $request->amount;
+        $charge = 5; // Flat ₹5 charge
+        $payable = $amount - $charge;
+
+        if ($payable <= 0) {
+            return back()->with('error', 'Payable amount must be greater than 0 after charges.');
+        }
+
+        $withdraw = Withdraw::create([
+            'user_id'           => Auth::id(),
+            'amount'            => $amount,
+            'processing_charge' => $charge,
+            'payable_amount'    => $payable,
+            'wallet_type'       => $request->wallet,
+            'payment_method'    => $request->payment_method,
+            'payment_address'   => $paymentAddress,
+            'remark'            => $request->remark,
+            'status'            => 'pending',
+        ]);
+
+        Log::info('Withdrawal request created', [
+            'user_id' => Auth::id(),
+            'withdraw_id' => $withdraw->id,
+            'amount' => $amount,
+            'payment_method' => $request->payment_method
+        ]);
+
+        return back()->with('success', 'Withdraw request submitted successfully!');
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return back()->withErrors($e->validator)->withInput();
+    } catch (\Exception $e) {
+        Log::error('Withdrawal submission error: ' . $e->getMessage(), [
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => $e->getTraceAsString()
+        ]);
+        return back()->with('error', 'Something went wrong. Please try again. Error: ' . $e->getMessage());
+    }
+}
+
+
+public function myWithdraws()
+{
+    $withdraws = Withdraw::where('user_id', Auth::id())
+                        ->latest()
+                        ->paginate(10);
+
+    return view('user.pages.payouts', compact('withdraws'));
+}
+
 }

@@ -1,235 +1,133 @@
 @extends('user.main')
 
 @section('content')
-<div class="container-fluid py-4 w-auto">
+<div class="container-fluid py-4">
+    <div class="row justify-content-start">
+        <div class="col-lg-9 col-md-10">
 
-    <!-- Page Heading -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="mb-0 fw-bold">User Profile</h4>
-        <a href="{{ route('user') }}" class="btn btn-primary">Dashboard</a>
-    </div>
-
-    <div class="row">
-        <!-- Sidebar Profile Info -->
-        <div class="col-md-4 mb-4">
-            <div class="card text-center">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Profile</h5>
-                </div>
-                <div class="card-body">
-                    @php
-                        $user = Auth::user();
-                    @endphp
-
-                    @if($user)
-                        <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('assets/images/profile/profile-2.jpg') }}"
-                            alt="Profile Image"
-                            class="rounded-circle mb-3"
-                            style="width: 100px; height: 100px; object-fit: cover;">
-                        <h4 class="fw-bold">{{ $user->full_name }}</h4>
-                        <div class="mb-2"><strong>Email:</strong> {{ $user->email }}</div>
-                        <div class="mb-2"><strong>Mobile No:</strong> {{ $user->mobile_no }}</div>
-                        <div class="mb-2"><strong>Referral ID:</strong> {{ $user->referral_id ?? '-' }}</div>
-                        <div class="mb-2"><strong>City:</strong> {{ $user->city ?? '-' }}</div>
-                        <div class="mb-2"><strong>State:</strong> {{ $user->state ?? '-' }}</div>
-                        <div class="mb-2"><strong>Country:</strong> {{ $user->country ?? '-' }}</div>
-                        <a href="#profile-update-form" class="btn btn-outline-primary mt-2">Update Profile</a>
-                    @else
-                        <div class="alert alert-warning">User not logged in.</div>
-                    @endif
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Panel Content -->
-        <div class="col-md-8">
-
-            <!-- PV Cards -->
-            <div class="row mb-4">
-                <div class="col-md-4 mb-3">
-                    <div class="card text-center bg-info bg-opacity-10">
-                        <div class="card-body">
-                            <h6 class="fw-bold">Personal PV</h6>
-                            <h4 class="mb-0 fw-semibold">{{ $user->personal_pv ?? 0 }}</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-center bg-success bg-opacity-10">
-                        <div class="card-body">
-                            <h6 class="fw-bold">Group PV</h6>
-                            <h4 class="mb-0 fw-semibold">{{ $user->group_pv ?? 0 }}</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-center bg-warning bg-opacity-10">
-                        <div class="card-body">
-                            <h6 class="fw-bold">Right Carry</h6>
-                            <h4 class="mb-0 fw-semibold">{{ $user->right_carry ?? 0 }}</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h6 class="mb-0">KYC Portal</h6>
-                </div>
-                <div class="card-body">
-                    @if(session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
-                    @endif
-
-                    <p><strong>KYC Status:</strong>
-                        @if(Auth::user()->kyc_status == 'approved')
-                            <span class="badge bg-success">Approved</span>
-                        @elseif(Auth::user()->kyc_status == 'rejected')
-                            <span class="badge bg-danger">Rejected</span>
-                        @else
-                            <span class="badge bg-warning text-dark">Pending</span>
-                        @endif
-                    </p>
-
-                    <form action="{{ route('user.profile.kyc.update') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-
-                        <!-- KYC Type Selection -->
-                        <div class="mb-3">
-                            <label class="form-label">Select KYC Type</label><br>
-                            <label><input type="radio" name="kyc_type" value="aadhaar" checked> Aadhaar Card</label><br>
-                            <label><input type="radio" name="kyc_type" value="pan"> PAN Card</label><br>
-                            <label><input type="radio" name="kyc_type" value="driving"> Driving Licence</label>
-                        </div>
-
-                        <!-- Aadhaar Uploads -->
-                        <div id="aadhaar_fields">
-                            <div class="mb-3">
-                                <label>Aadhaar Front</label>
-                                <input type="file" name="aadhaar_front" class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <label>Aadhaar Back</label>
-                                <input type="file" name="aadhaar_back" class="form-control">
-                            </div>
-                        </div>
-
-                        <!-- PAN Upload -->
-                        <div id="pan_fields" style="display: none;">
-                            <div class="mb-3">
-                                <label>PAN Card</label>
-                                <input type="file" name="pan_card" class="form-control">
-                            </div>
-                        </div>
-
-                        <!-- Driving Licence Uploads -->
-                        <div id="driving_fields" style="display: none;">
-                            <div class="mb-3">
-                                <label>Driving Licence Front</label>
-                                <input type="file" name="driving_front" class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <label>Driving Licence Back</label>
-                                <input type="file" name="driving_back" class="form-control">
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Upload/Update KYC</button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Profile Tabs -->
-            <div class="card">
-                <div class="card-body">
-                    <!-- Nav Tabs -->
-                    <ul class="nav nav-tabs mb-3" id="profileTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab">Personal Details</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="bank-tab" data-bs-toggle="tab" data-bs-target="#bank" type="button" role="tab">Bank Details</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab">Contact Details</button>
-                        </li>
+            <!-- Page Heading and Dropdown -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-bold">User Profile</h3>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Change Password
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginPasswordModal">Change Login Password</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#transactionPasswordModal">Change Transaction Password</a></li>
                     </ul>
-
-                    <div class="tab-content" id="profileTabsContent">
-                        <!-- Personal Details -->
-                        <div class="tab-pane fade show active" id="personal" role="tabpanel">
-                            <form id="profile-update-form" action="{{ route('user.profile.update') }}" method="POST" enctype="multipart/form-data" class="mt-4">
-                                @csrf
-                                <div class="mb-3">
-                                    <label>Profile Image</label>
-                                    <input type="file" name="profile_image" class="form-control">
-                                </div>
-                                <div class="mb-3">
-                                    <label>Full Name</label>
-                                    <input type="text" name="full_name" class="form-control" value="{{ old('full_name', $user->full_name) }}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label>Email</label>
-                                    <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label>Mobile No</label>
-                                    <input type="text" name="mobile_no" class="form-control" value="{{ old('mobile_no', $user->mobile_no) }}">
-                                </div>
-                                <div class="mb-3">
-                                    <label>City</label>
-                                    <input type="text" name="city" class="form-control" value="{{ old('city', $user->city) }}">
-                                </div>
-                                <div class="mb-3">
-                                    <label>State</label>
-                                    <input type="text" name="state" class="form-control" value="{{ old('state', $user->state) }}">
-                                </div>
-                                <div class="mb-3">
-                                    <label>Country</label>
-                                    <input type="text" name="country" class="form-control" value="{{ old('country', $user->country) }}">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Update</button>
-                            </form>
-                        </div>
-
-                        <!-- Bank Details -->
-                        <div class="tab-pane fade" id="bank" role="tabpanel">
-                            <form action="{{ route('user.profile.bank.update') }}" method="POST">
-                                @csrf
-                                <div class="mb-3">
-                                    <label>Bank Name</label>
-                                    <input type="text" name="bank_name" class="form-control" value="{{ $user->bank_name ?? '' }}">
-                                </div>
-                                <div class="mb-3">
-                                    <label>Account Number</label>
-                                    <input type="text" name="account_number" class="form-control" value="{{ $user->account_number ?? '' }}">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Update</button>
-                            </form>
-                        </div>
-
-                        <!-- Contact Details -->
-                        <div class="tab-pane fade" id="contact" role="tabpanel">
-                            <form action="{{ route('user.profile.contact.update') }}" method="POST">
-                                @csrf
-                                <div class="mb-3">
-                                    <label>Phone</label>
-                                    <input type="text" name="phone" class="form-control" value="{{ $user->phone ?? '' }}">
-                                </div>
-                                <div class="mb-3">
-                                    <label>Address</label>
-                                    <input type="text" name="address" class="form-control" value="{{ $user->address ?? '' }}">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Update</button>
-                            </form>
-                        </div>
-
-                    </div>
                 </div>
             </div>
 
+            <!-- Profile Card -->
+            <div class="card shadow border-0 mb-4" style="border-radius: 20px; background-color: #ffffff;">
+                <div class="card-body p-4">
+                    <form action="{{ route('user.profile.update') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="card-body p-4">
+                            @php $user = Auth::user(); @endphp
+                            <div class="row align-items-center g-4">
+                                <div class="col-md-3 text-center">
+                                    <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('assets/images/profile/profile-2.jpg') }}"
+                                         alt="Profile Image"
+                                         class="rounded-circle shadow"
+                                         style="width: 120px; height: 120px; object-fit: cover;">
+                                    <div class="mt-2">
+                                        <input type="file" name="profile_image" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <h4 class="fw-bold mb-3">{{ $user->full_name }}</h4>
+                    
+                                    <div class="row text-md-start text-center">
+                                        <div class="col-sm-6 mb-2">
+                                            <label class="form-label fw-semibold">Full Name</label>
+                                            <input type="text" name="full_name" value="{{ $user->full_name }}" class="form-control">
+                                        </div>
+                                        <div class="col-sm-6 mb-2">
+                                            <label class="form-label fw-semibold">Email</label>
+                                            <input type="email" name="email" value="{{ $user->email }}" class="form-control">
+                                        </div>
+                                        <div class="col-sm-6 mb-2">
+                                            <label class="form-label fw-semibold">Mobile No</label>
+                                            <input type="text" name="mobile_no" value="{{ $user->mobile_no }}" class="form-control">
+                                        </div>
+                                        <div class="col-sm-6 mb-2">
+                                            <label class="form-label fw-semibold">City</label>
+                                            <input type="text" name="city" value="{{ $user->city }}" class="form-control">
+                                        </div>
+                                        <div class="col-sm-6 mb-2">
+                                            <label class="form-label fw-semibold">State</label>
+                                            <input type="text" name="state" value="{{ $user->state }}" class="form-control">
+                                        </div>
+                                        <div class="col-sm-6 mb-2">
+                                            <label class="form-label fw-semibold">Country</label>
+                                            <input type="text" name="country" value="{{ $user->country }}" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                            <!-- Update Button -->
+                            <div class="text-end mt-4">
+                                <button type="submit" class="btn btn-success">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                    
         </div>
     </div>
+</div>
 
+<!-- Login Password Modal -->
+<div class="modal fade" id="loginPasswordModal" tabindex="-1" aria-labelledby="loginPasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form action="{{ route('user.change.password') }}" method="POST" class="modal-content">
+      @csrf
+      <div class="modal-header">
+        <h5 class="modal-title">Change Login Password</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+          <div class="mb-3">
+              <label>New Password</label>
+              <input type="password" name="password" class="form-control" required>
+          </div>
+          <div class="mb-3">
+              <label>Confirm Password</label>
+              <input type="password" name="password_confirmation" class="form-control" required>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Transaction Password Modal -->
+<div class="modal fade" id="transactionPasswordModal" tabindex="-1" aria-labelledby="transactionPasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form action="{{ route('user.change.txnpassword') }}" method="POST" class="modal-content">
+      @csrf
+      <div class="modal-header">
+        <h5 class="modal-title">Change Transaction Password</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+          <div class="mb-3">
+              <label>New Transaction Password</label>
+              <input type="password" name="transaction_password" class="form-control" required>
+          </div>
+          <div class="mb-3">
+              <label>Confirm Transaction Password</label>
+              <input type="password" name="transaction_password_confirmation" class="form-control" required>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-warning">Update</button>
+      </div>
+    </form>
+  </div>
 </div>
 @endsection

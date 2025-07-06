@@ -275,7 +275,11 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 // user deshbord 
 
 // User Pages
-Route::get('/user/pages/activity', function () { return view('user.pages.activity'); })->name('user.pages.activity');
+Route::get('/user/pages/activity', function () { 
+    $user = auth()->user();
+    $withdraws = \App\Models\Withdraw::where('user_id', $user->id)->latest()->get();
+    return view('user.pages.activity', compact('withdraws')); 
+})->middleware('auth')->name('user.pages.activity');
 Route::get('/user/pages/blank', [UserController::class, 'blank'])->name('user.pages.blank');
 Route::get('/user/pages/email', function () { return view('user.pages.email'); })->name('user.pages.email');
 Route::get('/user/pages/exchange', function () { return view('user.pages.exchange'); })->name('user.pages.exchange');
@@ -377,8 +381,7 @@ Route::post('/user/buy/code', [UserController::class, 'buyWithCode'])->name('pac
 Route::post('/user/buy/request', [UserController::class, 'buyWithRequest'])->name('packages.buy.with-request');
 
 Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
-Route::post('/user/profile/bank', [UserController::class, 'updateBank'])->name('user.profile.bank.update');
-Route::post('/user/profile/contact', [UserController::class, 'updateContact'])->name('user.profile.contact.update');
+
 
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
 Route::post('admin/referral-setting', [SalaryController::class, 'updateReferralSetting'])->name('admin.referral.setting.update');
@@ -411,8 +414,12 @@ Route::get('/user/withdrawal', function () {
 })->middleware('auth')->name('withdraw.create');
 
 Route::get('/user/payouts', function () {
-    return view('user.pages.payouts');
-})->name('user.payouts');
+    $user = auth()->user();
+    $withdraws = \App\Models\Withdraw::where('user_id', $user->id)
+                ->latest()
+                ->paginate(10);
+    return view('user.pages.payouts', compact('withdraws'));
+})->middleware('auth')->name('user.payouts');
 
 Route::get('/admin/kyc-requests', [KycController::class, 'kycRequests'])->name('admin.kyc.requests');
 
@@ -420,3 +427,29 @@ Route::get('/admin/kyc-requests', [KycController::class, 'kycRequests'])->name('
 Route::post('/admin/kyc-approve/{id}', [KycController::class, 'approve'])->name('admin.kyc.approve');
 // Reject KYC request
 Route::post('/admin/kyc-reject/{id}', [KycController::class, 'reject'])->name('admin.kyc.reject');
+
+// user withdrawSubmit
+
+Route::post('/user/withdraw-submit', [UserController::class, 'withdrawSubmit'])->name('user.withdraw.submit');
+
+// Show all withdrawal requests (admin panel)
+Route::get('/admin/withdraw-requests', [AdminController::class, 'withdrawRequests'])->name('admin.withdraw.requests');
+
+// Approve specific withdrawal
+Route::post('/admin/withdraw-approve/{id}', [AdminController::class, 'approveWithdraw'])->name('admin.withdraw.approve');
+
+// Reject specific withdrawal
+Route::post('/admin/withdraw-reject/{id}', [AdminController::class, 'rejectWithdraw'])->name('admin.withdraw.reject');
+
+Route::post('user/change-password', [UserController::class, 'changePassword'])->name('user.change.password');
+Route::post('user/change-transaction-password', [UserController::class, 'changeTransactionPassword'])->name('user.change.txnpassword');
+
+Route::get('/my-withdraws', [UserController::class, 'myWithdraws'])->name('user.withdraws');
+
+// Admin withdrawal routes
+Route::get('/admin/withdraw-requests', [AdminController::class, 'withdrawRequests'])->name('admin.withdraw.requests');
+Route::get('/admin/unpaid-payouts', [AdminController::class, 'withdrawList'])->name('admin.unpaidpayouts');
+Route::get('/admin/paid-payouts', [AdminController::class, 'paidPayouts'])->name('admin.paidpayouts');
+Route::get('/admin/rejected-payouts', [AdminController::class, 'rejectedPayouts'])->name('admin.rejectedpayouts');
+Route::post('/admin/withdraw-approve/{id}', [AdminController::class, 'approveWithdraw'])->name('admin.withdraw.approve');
+Route::post('/admin/withdraw-reject/{id}', [AdminController::class, 'rejectWithdraw'])->name('admin.withdraw.reject');

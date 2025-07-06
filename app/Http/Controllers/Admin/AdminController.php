@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Withdraw;
 
 class AdminController extends Controller
 {
@@ -21,6 +22,7 @@ class AdminController extends Controller
 
         return view('backend.pages.dashboard', compact('totalUsers', 'activeUsers', 'inactiveUsers'));
     }
+
     public function userSearch(Request $request)
     {
         $query = $request->q;
@@ -33,22 +35,79 @@ class AdminController extends Controller
         return response()->json($users);
     }
 
-//     public function viewBankDetails()
-// {
-//     $banks = \App\Models\UserBankDetail::with('user')->latest()->get();
-//     return view('backend.pages.bankdetail', compact('banks'));
-// }
+    // ✅ Withdraw List
+    public function withdrawRequests()
+    {
+        $withdraws = Withdraw::with('user')
+                    ->latest()
+                    ->paginate(10);
 
-public function approveBank($id)
-{
-    $bank = \App\Models\UserBankDetail::findOrFail($id);
-    $bank->is_approved = true;
-    $bank->approved_at = now();
-    $bank->save();
+        return view('backend.pages.unpaidpayouts', compact('withdraws'));
+    }
 
-    return back()->with('success', 'Bank details approved successfully.');
+    // ✅ Withdraw List (Alternative method)
+    public function withdrawList()
+    {
+        $withdraws = Withdraw::with('user')
+                    ->latest()
+                    ->paginate(10);
+
+        return view('backend.pages.unpaidpayouts', compact('withdraws'));
+    }
+
+    // ✅ Paid Payouts
+    public function paidPayouts()
+    {
+        $withdraws = Withdraw::with('user')
+                    ->where('status', 'approved')
+                    ->latest()
+                    ->paginate(10);
+
+        return view('backend.pages.unpaidpayouts', compact('withdraws'));
+    }
+
+    // ✅ Rejected Payouts
+    public function rejectedPayouts()
+    {
+        $withdraws = Withdraw::with('user')
+                    ->where('status', 'rejected')
+                    ->latest()
+                    ->paginate(10);
+
+        return view('backend.pages.unpaidpayouts', compact('withdraws'));
+    }
+
+    // ✅ Approve Withdraw
+    public function approveWithdraw(Request $request, $id)
+    {
+        $withdraw = Withdraw::findOrFail($id);
+        $withdraw->status = 'approved';
+        $withdraw->approved_at = now();
+        $withdraw->save();
+
+        return back()->with('success', 'Withdraw approved successfully.');
+    }
+
+    // ✅ Reject Withdraw
+    public function rejectWithdraw(Request $request, $id)
+    {
+        $withdraw = Withdraw::findOrFail($id);
+        $withdraw->status = 'rejected';
+        $withdraw->admin_remark = $request->admin_remark ?? 'Rejected by admin';
+        $withdraw->save();
+
+        return back()->with('error', 'Withdraw rejected.');
+    }
+
+    // ✅ Bank Approve
+    public function approveBank($id)
+    {
+        $bank = \App\Models\UserBankDetail::findOrFail($id);
+        $bank->is_approved = true;
+        $bank->approved_at = now();
+        $bank->save();
+
+        return back()->with('success', 'Bank details approved successfully.');
+    }
 }
-
-    
-
-} 
+ 
