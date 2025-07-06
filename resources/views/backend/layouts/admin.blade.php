@@ -536,11 +536,11 @@
                         <i class="bi bi-ticket me-2"></i>E-Pin
                     </a>
                 </li>
-                <li class="nav-item mb-2">
+                {{-- <li class="nav-item mb-2">
                     <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.bank') ? 'active' : '' }}" href="{{ route('admin.bank') }}">
                         <i class="bi bi-ticket me-2"></i>Bank Requests
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item mb-2">
                     <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.kyc.requests') ? 'active' : '' }}" href="{{ route('admin.kyc.requests') }}">
                         <i class="bi bi-person-badge me-2"></i>KYC Requests

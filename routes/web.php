@@ -402,11 +402,10 @@ Route::get('/digilocker-auth-complete', [KycController::class, 'digilockerCallba
 // saveBankDetails
 Route::post('/user/bank/save', [UserController::class, 'saveBankDetails'])->name('user.bank.save');
 
-Route::post('/admin/bank/approve/{id}', [UserController::class, 'approveBank'])->name('admin.bank_approve');
-Route::get('admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank_requests');
-Route::get('/admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank');
-
-Route::get('/admin/user/{user}/transactions', [UserController::class, 'userTransactions'])->name('admin.user.transactions');
+// Route::post('/admin/bank/approve/{id}', [UserController::class, 'approveBank'])->name('admin.bank_approve');
+// // Route::get('admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank_requests');
+// Route::get('/admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank');
+Route::get('/user/withdrawal', [UserController::class, 'showWithdrawalForm'])->name('user.withdrawal');Route::get('/admin/user/{user}/transactions', [UserController::class, 'userTransactions'])->name('admin.user.transactions');
 
 Route::get('/user/withdrawal', function () {
     $user = auth()->user();
@@ -416,6 +415,7 @@ Route::get('/user/withdrawal', function () {
 Route::get('/user/payouts', function () {
     $user = auth()->user();
     $withdraws = \App\Models\Withdraw::where('user_id', $user->id)
+                ->where('status', 'approved')
                 ->latest()
                 ->paginate(10);
     return view('user.pages.payouts', compact('withdraws'));

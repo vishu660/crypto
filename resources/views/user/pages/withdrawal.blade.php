@@ -40,6 +40,10 @@
                 </div>
             @endif
 
+            @php
+                $bankDetail = \App\Models\UserBankDetail::where('user_id', $user->id)->first();
+            @endphp
+
             <form action="{{ route('user.withdraw.submit') }}" method="POST" autocomplete="off">
                 @csrf
 
@@ -66,19 +70,27 @@
                 <div id="bank-fields" style="display: none;">
                     <div class="form-group mb-3">
                         <label class="fw-bold">Account Holder Name</label>
-                        <input type="text" name="account_holder" class="form-control" placeholder="Enter Account Holder Name" value="{{ old('account_holder') }}">
+                        <input type="text" name="account_holder" class="form-control"
+                            value="{{ old('account_holder', $bankDetail->account_holder ?? '') }}"
+                            {{ $bankDetail ? 'readonly' : '' }}>
                     </div>
                     <div class="form-group mb-3">
                         <label class="fw-bold">Account Number</label>
-                        <input type="text" name="bank_account" class="form-control" placeholder="Enter Bank Account" value="{{ old('bank_account') }}">
+                        <input type="text" name="bank_account" class="form-control"
+                            value="{{ old('bank_account', $bankDetail->account_number ?? '') }}"
+                            {{ $bankDetail ? 'readonly' : '' }}>
                     </div>
                     <div class="form-group mb-3">
                         <label class="fw-bold">IFSC Code</label>
-                        <input type="text" name="ifsc_code" class="form-control" placeholder="Enter IFSC Code" value="{{ old('ifsc_code') }}">
+                        <input type="text" name="ifsc_code" class="form-control"
+                            value="{{ old('ifsc_code', $bankDetail->ifsc_code ?? '') }}"
+                            {{ $bankDetail ? 'readonly' : '' }}>
                     </div>
                     <div class="form-group mb-3">
                         <label class="fw-bold">Bank Name</label>
-                        <input type="text" name="bank_name" class="form-control" placeholder="Enter Bank Name" value="{{ old('bank_name') }}">
+                        <input type="text" name="bank_name" class="form-control"
+                            value="{{ old('bank_name', $bankDetail->bank_name ?? '') }}"
+                            {{ $bankDetail ? 'readonly' : '' }}>
                     </div>
                 </div>
 

@@ -345,26 +345,32 @@ class UserController extends Controller
         return back()->with('success', 'Bank details submitted for admin approval.');
     }
     // Route: GET admin/bank-requests
-public function bankRequests(Request $request)
+// public function bankRequests(Request $request)
+// {
+//     $query = UserBankDetail::with('user');
+
+//     if ($request->status === 'pending') {
+//         $query->where('is_approved', false);
+//     } elseif ($request->status === 'approved') {
+//         $query->where('is_approved', true);
+//     }
+
+//     if ($search = $request->search) {
+//         $query->whereHas('user', function ($q) use ($search) {
+//             $q->where('full_name', 'like', "%$search%")
+//               ->orWhere('email', 'like', "%$search%");
+//         });
+//     }
+
+//     $banks = $query->orderBy('created_at', 'desc')->paginate(10);
+
+//     return view('backend.pages.bankdetail', compact('banks'));
+// }
+public function showWithdrawalForm()
 {
-    $query = UserBankDetail::with('user');
-
-    if ($request->status === 'pending') {
-        $query->where('is_approved', false);
-    } elseif ($request->status === 'approved') {
-        $query->where('is_approved', true);
-    }
-
-    if ($search = $request->search) {
-        $query->whereHas('user', function ($q) use ($search) {
-            $q->where('full_name', 'like', "%$search%")
-              ->orWhere('email', 'like', "%$search%");
-        });
-    }
-
-    $banks = $query->orderBy('created_at', 'desc')->paginate(10);
-
-    return view('backend.pages.bankdetail', compact('banks'));
+    $user = Auth::user();
+    $bankDetail = \App\Models\UserBankDetail::where('user_id', $user->id)->first();
+    return view('user.pages.withdrawal', compact('bankDetail'));
 }
 public function approveBank($id)
 {
