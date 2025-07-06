@@ -453,3 +453,5 @@ Route::get('/admin/paid-payouts', [AdminController::class, 'paidPayouts'])->name
 Route::get('/admin/rejected-payouts', [AdminController::class, 'rejectedPayouts'])->name('admin.rejectedpayouts');
 Route::post('/admin/withdraw-approve/{id}', [AdminController::class, 'approveWithdraw'])->name('admin.withdraw.approve');
 Route::post('/admin/withdraw-reject/{id}', [AdminController::class, 'rejectWithdraw'])->name('admin.withdraw.reject');
+
+Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');

@@ -180,6 +180,48 @@ class UserController extends Controller
         return view('user.pages.profile', compact('user', 'transactions'));
     }
 
+    
+public function updateProfile(Request $request)
+{
+    $user = Auth::user();
+
+    // Validation
+    $request->validate([
+        'full_name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $user->id,
+        'mobile_no' => 'nullable|string|max:20',
+        'city' => 'nullable|string|max:100',
+        'state' => 'nullable|string|max:100',
+        'country' => 'nullable|string|max:100',
+        'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
+
+    // Update profile image
+    if ($request->hasFile('profile_image')) {
+        $image = $request->file('profile_image');
+        $path = $image->store('profile_images', 'public');
+
+        
+        if ($user->profile_image) {
+            Storage::disk('public')->delete($user->profile_image);
+        }
+
+        $user->profile_image = $path;
+    }
+
+    
+    $user->full_name = $request->full_name;
+    $user->email = $request->email;
+    $user->mobile_no = $request->mobile_no;
+    $user->city = $request->city;
+    $user->state = $request->state;
+    $user->country = $request->country;
+
+    $user->save();
+
+    return back()->with('success', 'Profile updated successfully!');
+}
+
     // public function updateProfile(Request $request)
     // {
     //     $user = Auth::user();
