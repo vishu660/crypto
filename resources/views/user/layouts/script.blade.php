@@ -442,7 +442,7 @@
     e.preventDefault();
 
     const formData = new FormData(this);
-    const token = '{{ auth()->user()->currentAccessToken()->plainTextToken ?? '' }}'; // Or get from JS variable
+    const token = '@php $user = auth()->user(); echo $user && method_exists($user, "currentAccessToken") && $user->currentAccessToken() ? $user->currentAccessToken()->plainTextToken : ""; @endphp';
 
     try {
         const res = await fetch('{{ url("/api/kyc-submit") }}', {

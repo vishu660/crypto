@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Message;
 
 class UserController extends Controller
 {
@@ -285,7 +286,7 @@ class UserController extends Controller
             'pan_number' => 'required_if:kyc_type,pan|nullable|string|max:10',
             'dl_number' => 'required_if:kyc_type,dl|nullable|string|max:20',
             'front_image' => 'required|image|max:4096',
-            'back_image' => 'required|image|max:4096',
+            'back_image' => 'required|image|max:4096', 
         ]);
 
         $user = Auth::user();
@@ -342,34 +343,122 @@ class UserController extends Controller
         return back()->with('success', 'Bank details submitted for admin approval.');
     }
     // Route: GET admin/bank-requests
-public function bankRequests(Request $request)
-{
-    $query = UserBankDetail::with('user');
+    public function bankRequests(Request $request)
+    {
+        $query = UserBankDetail::with('user');
 
-    if ($request->status === 'pending') {
-        $query->where('is_approved', false);
-    } elseif ($request->status === 'approved') {
-        $query->where('is_approved', true);
+        if ($request->status === 'pending') {
+            $query->where('is_approved', false);
+        } elseif ($request->status === 'approved') {
+            $query->where('is_approved', true);
+        }
+
+        if ($search = $request->search) {
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('full_name', 'like', "%$search%")
+                  ->orWhere('email', 'like', "%$search%");
+            });
+        }
+
+        $banks = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('backend.pages.bankdetail', compact('banks'));
+    }
+    public function approveBank($id)
+    {
+        $bank = UserBankDetail::findOrFail($id);
+        $bank->is_approved = true;
+        $bank->approved_at = now();
+        $bank->save();
+
+        return redirect()->back()->with('success', 'Bank detail approved successfully.');
     }
 
-    if ($search = $request->search) {
-        $query->whereHas('user', function ($q) use ($search) {
-            $q->where('full_name', 'like', "%$search%")
-              ->orWhere('email', 'like', "%$search%");
-        });
+    public function transferReport(User $user)
+    {
+        $transactions = $user->transactions()->latest()->get();
+        return view('backend.pages.transferreport', compact('user', 'transactions'));
     }
 
-    $banks = $query->orderBy('created_at', 'desc')->paginate(10);
+    public function userTransactions(User $user)
+    {
+        $transactions = $user->transactions()->latest()->get();
+        return view('user.pages.transactions', compact('user', 'transactions'));
+    }
 
-    return view('backend.pages.bankdetail', compact('banks'));
-}
-public function approveBank($id)
-{
-    $bank = UserBankDetail::findOrFail($id);
-    $bank->is_approved = true;
-    $bank->approved_at = now();
-    $bank->save();
+    public function transferToAdmin(Request $request)
+    {
+        $admin = auth()->user(); // assuming admin is logged in
+        $user = User::find($request->user_id);
+        $amount = $request->amount;
 
-    return redirect()->back()->with('success', 'Bank detail approved successfully.');
-}
+        // Admin transaction (debit)
+        Transaction::create([
+            'user_id' => $admin->id,
+            'amount' => $amount,
+            'type' => 'debit',
+            'purpose_of_payment' => 'transfer_to_user',
+            'status' => 'success',
+            'currency' => 'INR',
+        ]);
+
+        // User transaction (credit)
+        Transaction::create([
+            'user_id' => $user->id,
+            'amount' => $amount,
+            'type' => 'credit',
+            'purpose_of_payment' => 'received_from_admin',
+            'status' => 'success',
+            'currency' => 'INR',
+        ]);
+
+        return back()->with('success', 'Transfer to admin successful!');
+    }
+
+    public function activity()
+    {
+        $user = auth()->user();
+
+        // Transactions (buy, sell, deposit, withdraw, transfer, etc.)
+        $transactions = $user->transactions()->get();
+
+        // If you add ROI or profit models in future, add their logic here
+        // $rois = $user->rois()->get();
+        // $profits = $user->profits()->get();
+
+        // Merge all activities into one collection
+        $activities = collect();
+
+        foreach ($transactions as $t) {
+            $activities->push([
+                'type' => ucfirst($t->purpose_of_payment), // e.g. Buy, Sold, Deposit, Withdraw, Transfer
+                'amount' => $t->amount,
+                'asset' => $t->currency,
+                'transaction_id' => $t->id,
+                'date' => $t->created_at,
+                'status' => $t->status,
+                'fee' => $t->fee ?? 0,
+            ]);
+        }
+
+        // Sort by date desc
+        $activities = $activities->sortByDesc('date');
+
+        return view('user.pages.activity', compact('activities'));
+    }
+    public function inbox()
+    {
+        $userId = Auth::id();
+
+        $inboxCount = Message::where('receiver_id', $userId)->count();
+        $sentCount = Message::where('sender_id', $userId)->count();
+
+        // ✅ Ye wala sahi hai:
+        $messages = Message::with('sender')
+            ->where('receiver_id', $userId)
+            ->latest()
+            ->paginate(10);
+
+        return view('user.pages.email', compact('messages', 'inboxCount', 'sentCount'));
+    }
 }

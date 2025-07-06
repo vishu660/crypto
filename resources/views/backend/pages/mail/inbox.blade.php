@@ -24,7 +24,19 @@
 
                 @forelse($messages as $msg)
                     <div class="p-4 mb-4 rounded shadow-sm" style="background-color: #101820; border: 1px solid #00fff7;">
-                        <p class="mb-1"><strong style="color:#00fff7;">From:</strong> {{ $msg->sender->full_name ?? 'Unknown' }}</p>
+                        <p class="mb-1"><strong style="color:#00fff7;">From:</strong>
+                            <span class="fw-semibold">
+                                @if(
+                                    (isset($msg->sender) && isset($msg->sender->role) && $msg->sender->role == 'admin')
+                                    || $msg->sender_id == 1
+                                )
+                                    Admin
+                                    <span class="badge bg-primary ms-2">From Admin</span>
+                                @else
+                                    {{ $msg->sender->full_name ?? 'Unknown User' }}
+                                @endif
+                            </span>
+                        </p>
                         <p class="mb-1"><strong style="color:#00fff7;">Subject:</strong> {{ $msg->subject }}</p>
                         <p class="mb-2"><strong style="color:#00fff7;">Message:</strong> {{ $msg->message }}</p>
                         <p class="small mb-0" style="color: #ffffff;">🕒 {{ $msg->created_at->format('d M Y h:i A') }}</p>

@@ -43,16 +43,16 @@
         <div class="tab-content d2c_transaction_table_content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-yearly" role="tabpanel" aria-labelledby="pills-yearly-tab">
                 <div class="table-responsive">
-                    <table class="table align-middle" id="d2c_yearly_transaction_table">
-                        <thead>
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="table-light">
                             <tr>
-                                <th style="min-width: 120px;">Transaction ID</th>
-                                <th style="min-width: 120px;">Type</th>
-                                <th style="min-width: 120px;">Purpose</th>
-                                <th style="min-width: 120px;">Amount</th>
-                                <th style="min-width: 120px;">Currency</th>
-                                <th style="min-width: 120px;">Date</th>
-                                <th style="min-width: 120px;">Status</th>
+                                <th>Transaction ID</th>
+                                <th>Type</th>
+                                <th>Purpose</th>
+                                <th>Amount</th>
+                                <th>Currency</th>
+                                <th>Date</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,7 +63,7 @@
                                         {{ ucfirst($transaction->type) }}
                                     </td>
                                     <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>
-                                    <td>USDT {{ number_format($transaction->amount, 2) }}</td>
+                                    <td>{{ $transaction->amount }}</td>
                                     <td>{{ $transaction->currency }}</td>
                                     <td>{{ $transaction->created_at->format('d-m-Y') }}</td>
                                     <td>
@@ -75,11 +75,11 @@
                                             <span class="text-danger">Failed</span>
                                         @endif
                                     </td>
-                            </tr>
+                                </tr>
                             @empty
                                 <tr>
                                     <td colspan="7" class="text-center">No transactions found.</td>
-                            </tr>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -87,16 +87,16 @@
             </div>
             <div class="tab-pane fade" id="pills-monthly" role="tabpanel" aria-labelledby="pills-monthly-tab">
                 <div class="table-responsive">
-                    <table class="table align-middle" id="d2c_monthly_transaction_table">
-                        <thead>
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="table-light">
                             <tr>
-                                <th style="min-width: 120px;">Transaction ID</th>
-                                <th style="min-width: 120px;">Type</th>
-                                <th style="min-width: 120px;">Purpose</th>
-                                <th style="min-width: 120px;">Amount</th>
-                                <th style="min-width: 120px;">Currency</th>
-                                <th style="min-width: 120px;">Date</th>
-                                <th style="min-width: 120px;">Status</th>
+                                <th>Transaction ID</th>
+                                <th>Type</th>
+                                <th>Purpose</th>
+                                <th>Amount</th>
+                                <th>Currency</th>
+                                <th>Date</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,7 +107,7 @@
                                         {{ ucfirst($transaction->type) }}
                                     </td>
                                     <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>
-                                    <td>USDT {{ number_format($transaction->amount, 2) }}</td>
+                                    <td>{{ $transaction->amount }}</td>
                                     <td>{{ $transaction->currency }}</td>
                                     <td>{{ $transaction->created_at->format('d-m-Y') }}</td>
                                     <td>
@@ -119,11 +119,11 @@
                                             <span class="text-danger">Failed</span>
                                         @endif
                                     </td>
-                            </tr>
+                                </tr>
                             @empty
                                 <tr>
                                     <td colspan="7" class="text-center">No transactions found for this month.</td>
-                            </tr>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -131,16 +131,16 @@
             </div>
             <div class="tab-pane fade" id="pills-weekly" role="tabpanel" aria-labelledby="pills-weekly-tab">
                 <div class="table-responsive">
-                    <table class="table align-middle" id="d2c_weekly_transaction_table">
-                        <thead>
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="table-light">
                             <tr>
-                                <th style="min-width: 120px;">Transaction ID</th>
-                                <th style="min-width: 120px;">Type</th>
-                                <th style="min-width: 120px;">Purpose</th>
-                                <th style="min-width: 120px;">Amount</th>
-                                <th style="min-width: 120px;">Currency</th>
-                                <th style="min-width: 120px;">Date</th>
-                                <th style="min-width: 120px;">Status</th>
+                                <th>Transaction ID</th>
+                                <th>Type</th>
+                                <th>Purpose</th>
+                                <th>Amount</th>
+                                <th>Currency</th>
+                                <th>Date</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -151,7 +151,7 @@
                                         {{ ucfirst($transaction->type) }}
                                     </td>
                                     <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>
-                                    <td>USDT {{ number_format($transaction->amount, 2) }}</td>
+                                    <td>{{ $transaction->amount }}</td>
                                     <td>{{ $transaction->currency }}</td>
                                     <td>{{ $transaction->created_at->format('d-m-Y') }}</td>
                                     <td>
@@ -163,11 +163,11 @@
                                             <span class="text-danger">Failed</span>
                                         @endif
                                     </td>
-                            </tr>
+                                </tr>
                             @empty
                                 <tr>
                                     <td colspan="7" class="text-center">No transactions found for this week.</td>
-                            </tr>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>

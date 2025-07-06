@@ -81,74 +81,54 @@
 @endpush
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <p class="text-white"><a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a> / Transfer Fund / Transfer Report</p>
-            <h4 class="mt-2" style="color:#fff;">Transfer Report</h4>
-        </div>
-    </div>
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="report-card">
-                <div>
-                    <div class="row mb-3">
-                        <div class="col-md-5 d-flex align-items-center">
-                            <input type="text" class="form-control" placeholder="start date">
-                            <span class="mx-2">to</span>
-                            <input type="text" class="form-control" placeholder="end date">
-                            <button class="btn btn-outline-info ms-2"><i class="bi bi-search"></i></button>
-                        </div>
-                        <div class="col-md-3 d-flex align-items-center text-white">
-                            Show <select class="form-select form-select-sm mx-2" style="width: 70px;"><option>50</option></select> entries
-                        </div>
-                        <div class="col-md-4 d-flex align-items-center">
-                             <label for="search" class="form-label me-2 mb-0">Search:</label>
-                             <input type="search" class="form-control" id="search">
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
+<div class="container mt-4">
+    <h3>Transfer Report</h3>
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Type</th>
+                            <th>Purpose</th>
+                            <th>Amount</th>
+                            <th>Currency</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(isset($transactions) && count($transactions))
+                            @foreach($transactions as $transaction)
                                 <tr>
-                                    <th>Member ID</th>
-                                    <th>Name</th>
-                                    <th>Amount</th>
-                                    <th>Wallet</th>
-                                    <th>Remark</th>
-                                    <th>Date</th>
+                                    <td>TRX{{ str_pad($transaction->id, 6, '0', STR_PAD_LEFT) }}</td>
+                                    <td class="{{ $transaction->type === 'credit' ? 'text-success' : 'text-danger' }}">
+                                        {{ ucfirst($transaction->type) }}
+                                    </td>
+                                    <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>
+                                    <td>{{ $transaction->amount }}</td>
+                                    <td>{{ $transaction->currency }}</td>
+                                    <td>{{ $transaction->created_at->format('d-m-Y') }}</td>
+                                    <td>
+                                        @if($transaction->status === 'pending')
+                                            <span class="text-warning">Pending</span>
+                                        @elseif($transaction->status === 'success')
+                                            <span class="text-success">Complete</span>
+                                        @else
+                                            <span class="text-danger">Failed</span>
+                                        @endif
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td colspan="6" class="text-center">No data available in table</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row mt-3 align-items-center">
-                        <div class="col-md-6">
-                            Showing 0 to 0 of 0 entries
-                        </div>
-                        <div class="col-md-6">
-                            <ul class="pagination justify-content-end mb-0">
-                                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="progress mt-3" style="height: 4px;">
-                      <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </div>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="7" class="text-center">No transactions found for this user.</td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <footer class="page-footer">
-                © 2025 DEMO. All Right Reserved.
-            </footer>
         </div>
     </div>
 </div>
