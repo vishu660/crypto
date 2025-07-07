@@ -404,7 +404,11 @@
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="settingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-gear" style="font-size:1.5rem; color:#b2f7ef; margin-right:8px;"></i>
-                    <span style="font-size:1.1rem; color:#fff;">SETTINGS</span>
+                    <span style="font-size:1.1rem; color:#fff;">
+                        @if(Auth::check() && Auth::user()->role == 'admin')
+                            {{ Auth::user()->full_name ?? Auth::user()->name }}
+                        @endif
+                    </span>
                 </a>
                 <div class="dropdown-menu fade dropdown-menu-end w-300px text-center p-0 mt-1" aria-labelledby="settingsDropdown" style="background:#232b38; border:none;">
                     <div class="row row-grid gx-0">
@@ -445,7 +449,11 @@
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" style="height:32px; width:32px; border-radius:50%; object-fit:cover; margin-right:8px;">
-                    <span style="font-size:1.1rem; color:#fff;">DEMO</span>
+                    <span style="font-size:1.1rem; color:#fff;">
+                        @if(Auth::check() && Auth::user()->role == 'admin')
+                            {{ Auth::user()->full_name }}
+                        @endif
+                    </span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" style="min-width: 180px;">
                     <li>
@@ -541,11 +549,11 @@
                         <i class="bi bi-ticket me-2"></i>Bank Requests
                     </a>
                 </li> --}}
-                <li class="nav-item mb-2">
+                {{-- <li class="nav-item mb-2">
                     <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.kyc.requests') ? 'active' : '' }}" href="{{ route('admin.kyc.requests') }}">
                         <i class="bi bi-person-badge me-2"></i>KYC Requests
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item mt-4 mb-2">
                     <span class="fw-bold text-success">FUNDS | ACTIVATIONS</span>
                 </li>

@@ -66,7 +66,7 @@
                     <li class="nav-item">
                         <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#payoutMenu" role="button" aria-expanded="false" aria-controls="payoutMenu">
                             <span>
-                                <i class="fas fa-money-bill-wave me-2" style="color:#1de9b6;"></i>Payout Details
+                                <i class="fas fa-money-bill-wave me-2" ></i>Payout Details
                             </span>
                             <i class="bi bi-chevron-down"></i>
                         </a>
@@ -76,6 +76,67 @@
                         </div>
                     </li>
                     <!-- End:Payout Details -->
+
+                    {{-- e-pin  --}}
+                    <li class="nav-item">
+                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#epinMenu" role="button" aria-expanded="false" aria-controls="epinMenu">
+                            <span>
+                                <i class="fas fa-thumbtack me-2" ></i>Epin Details
+                            </span>
+                            <i class="bi bi-chevron-down"></i>
+                        </a>
+                        <div class="collapse submenu" id="epinMenu">
+                            <a class="nav-link ps-5 fw-bold" href="{{ route('available_epins') }}">Available Epins</a>
+                            <a class="nav-link ps-5" href="{{ route('applied_epins') }}">Applied Epins</a>
+                        </div>
+                    </li>
+                    {{-- e-pin end --}}
+                    {{-- Earnings --}}
+                    <li class="nav-item">
+                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#epinMenu2" role="button" aria-expanded="false" aria-controls="epinMenu2">
+                            <span>
+                                <i class="fas fa-coins me-2"></i>Earnings
+                            </span>
+                            <i class="bi bi-chevron-down"></i>
+                        </a>
+                        <div class="collapse submenu" id="epinMenu2">
+                            <a class="nav-link ps-5 fw-bold" href="{{ route('total_earnings') }}">Total Earnings</a>
+                            <a class="nav-link ps-5" href="{{ route('refer_bonus') }}">Refer Bonus</a>
+                            <a class="nav-link ps-5 fw-bold" href="{{ route('level_bonus') }}">Level Bonus</a>
+                            <a class="nav-link ps-5" href="{{ route('matching_bonus') }}">Matching Bonus</a>
+                        </div>
+                    </li>
+                    {{--  Earnings end  --}}
+
+                    {{-- team li --}}
+                    <li class="nav-item">
+                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#networkMenu" role="button" aria-expanded="false" aria-controls="networkMenu">
+                            <span>
+                                <i class="fas fa-project-diagram me-2"></i>Network
+                            </span>
+                            <i class="bi bi-chevron-down"></i>
+                        </a>
+                        <div class="collapse submenu" id="networkMenu">
+                            <a class="nav-link ps-5 fw-bold" href="{{ route('tree_view') }}">Tree View</a>
+                            <a class="nav-link ps-5" href="{{ route('referral_list') }}">Referral List</a>
+                            <a class="nav-link ps-5 fw-bold" href="{{ route('downline_team') }}">Downline Team</a>
+                        </div>
+                    </li>
+                    {{-- team end  --}}
+                      {{-- fund request --}}
+                      <li class="nav-item">
+                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundRequestMenu" role="button" aria-expanded="false" aria-controls="fundRequestMenu">
+                            <span>
+                                <i class="fas fa-hand-holding-usd me-2"></i>Fund Request
+                            </span>
+                            <i class="bi bi-chevron-down"></i>
+                        </a>
+                        <div class="collapse submenu" id="fundRequestMenu">
+                            <a class="nav-link ps-5 fw-bold" href="{{ route('fund_request.create') }}">Request Now</a>
+                            <a class="nav-link ps-5" href="{{ route('user.fund_requests') }}">Requests Details</a>
+                        </div>
+                    </li>
+                      {{-- fund end  --}}
 
                     <!-- Profile Collapsible Menu -->
                     <li class="nav-item mb-2">

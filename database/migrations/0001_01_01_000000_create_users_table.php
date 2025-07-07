@@ -38,6 +38,7 @@ class CreateUsersTable extends Migration
             $table->string('driving_back')->nullable();
             $table->json('kyc_data')->nullable();
             $table->string('kyc_status')->default('pending');
+            // $table->enum('position', ['left', 'right'])->nullable();
             $table->timestamps();
         });
     }

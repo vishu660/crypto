@@ -7,14 +7,14 @@
     <div class="col-md-3">
         <div class="dashboard-card">
             <h6>Total Users</h6>
-            <h3>13</h3>
-            <small>1 Active, 12 Inactive</small>
+            <h3>0</h3>
+            <small>0 Active, 0 Inactive</small>
         </div>
     </div>
     <div class="col-md-3">
         <div class="dashboard-card">
             <h6>Total Activation</h6>
-            <h3>250</h3>
+            <h3>0</h3>
             <small>Today: 0, Week: 0, Month: 0</small>
         </div>
     </div>
@@ -52,7 +52,7 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Dummy data for charts
+    // Static dummy data for charts
     const ctx = document.getElementById('earningsChart').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
@@ -60,11 +60,11 @@
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             datasets: [{
                 label: 'Activations',
-                data: [0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                data: [0,0,0,0,0,0,0,0,0,0,0,0],
                 backgroundColor: '#7fffd4',
             }, {
                 label: 'Earnings',
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                data: [0,0,0,0,0,0,0,0,0,0,0,0],
                 backgroundColor: '#00bcd4',
             }]
         },

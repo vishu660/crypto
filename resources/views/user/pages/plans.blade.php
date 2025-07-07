@@ -65,10 +65,10 @@ $colors = ['#6271ebe0', '#23cb62e0', '#fc76b7eb', '#fcb676eb', '#76b7fceb', '#eb
                     <div><b>Status:</b> <span style="font-weight:600;">{{ $package->is_active ? 'Active' : 'Inactive' }}</span></div>
                 </div>
                 @if(!Auth::user()->packages->contains($package->id))
-                    <form method="POST" action="{{ route('user.buy', $package->id) }}">
+                    <form method="GET" action="{{ route('user.buy', $package->id) }}">
                         @csrf
-                        @method('PUT')
                         <input type="hidden" name="package_id" value="{{ $package->id }}">
+                        <input type="hidden" name="amount" value="{{ $package->amount ?? $package->investment_amount }}">
                         <button type="submit" class="btn btn-light text-dark w-100" style="border-radius: 22px; font-weight: 800; font-size: 1.15rem; margin-top: 2.2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.10); padding: 16px 0;">Buy</button>
                     </form>
                 @endif

@@ -39,4 +39,9 @@ class Package extends Model
     return $this->belongsToMany(User::class, 'user_packages')->withPivot(['start_date', 'end_date', 'is_active'])->withTimestamps();
 }
 
+public function getAmountAttribute()
+{
+    return $this->investment_amount;
+}
+
 }

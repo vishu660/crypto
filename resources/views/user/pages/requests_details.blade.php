@@ -1,0 +1,61 @@
+@extends('user.main')
+
+@section('content')
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 mt-4">
+            <div class="card shadow-lg p-4" style="border-radius:18px; background:#fff; max-width:800px; width:100%; margin-left:30px;">
+                <h2 class="fw-bold mb-4" style="font-size:1.6rem;">Fund Requests</h2>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover align-middle compact-table" id="fundRequestsTable" style="min-width:600px;">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Member ID</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Transaction Hash Key</th>
+                                <th>Member's Remark</th>
+                                <th>Request Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($fundRequests as $request)
+                            <tr>
+                                <td>{{ $request->member_id }}</td>
+                                <td>{{ $request->user->name ?? '-' }}</td>
+                                <td>{{ $request->amount }}</td>
+                                <td>{{ $request->hash_key }}</td>
+                                <td>{{ $request->remark }}</td>
+                                <td>{{ $request->created_at->format('d-m-Y h:i a') }}</td>
+                                <td>{{ $request->status }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.compact-table th, .compact-table td {
+    padding: 0.18rem 0.28rem !important;
+    font-size: 0.85rem;
+}
+#fundRequestsTable {
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f8fafd;
+}
+.card {
+    max-width: 800px;
+    margin: auto;
+}
+@media (max-width: 900px) {
+    #fundRequestsTable { min-width: 400px; }
+    .card { max-width: 98vw; }
+}
+</style>
+@endsection

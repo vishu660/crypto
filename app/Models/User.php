@@ -36,6 +36,7 @@ class User extends Authenticatable
         'otp_expires_at',
         'status',
         'terms_accepted',
+        'position',
     ];
     
 

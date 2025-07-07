@@ -42,4 +42,8 @@ return new class extends Migration
     {
         Schema::dropIfExists('user_packages');
     }
+    public function package()
+{
+    return $this->belongsTo(\App\Models\Package::class);
+}
 };

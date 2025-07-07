@@ -37,9 +37,11 @@ Route::get('/', function () {
 
 
 
-Route::get('/admin-dashboard', function () {
-    return view('backend.pages.dashboard');
-})->name('admin-dashboard');
+// Route::get('/admin-dashboard', function () {
+//     return view('backend.pages.dashboard');
+// })->name('admin-dashboard');
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
 
 
 Route::get('/admin-dashboard', function () {
@@ -455,3 +457,25 @@ Route::post('/admin/withdraw-approve/{id}', [AdminController::class, 'approveWit
 Route::post('/admin/withdraw-reject/{id}', [AdminController::class, 'rejectWithdraw'])->name('admin.withdraw.reject');
 
 Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
+
+Route::get('/user/available-epins', [App\Http\Controllers\Admin\UserController::class, 'availableEpins'])->middleware('auth')->name('available_epins');
+Route::get('/user/applied-epins', [App\Http\Controllers\Admin\UserController::class, 'appliedEpins'])->middleware('auth')->name('applied_epins');
+
+Route::get('/user/total-earnings', [App\Http\Controllers\Admin\UserController::class, 'totalEarnings'])->middleware('auth')->name('total_earnings');
+Route::get('/user/refer-bonus', [App\Http\Controllers\Admin\UserController::class, 'referBonus'])->middleware('auth')->name('refer_bonus');
+Route::get('/user/level-bonus', [App\Http\Controllers\Admin\UserController::class, 'levelBonus'])->middleware('auth')->name('level_bonus');
+Route::get('/user/matching-bonus', [App\Http\Controllers\Admin\UserController::class, 'matchingBonus'])->middleware('auth')->name('matching_bonus');
+// Route::get('/user/tree-view', [App\Http\Controllers\Admin\UserController::class, 'treeView'])->middleware('auth')->name('tree_view');
+// Route::get('/user/tree-view', [UserController::class, 'treeView'])->name('user.tree_view');
+Route::get('/user/tree-view', [UserController::class, 'treeView'])->name('tree_view');
+
+// Route::get('/tree-view', [UserController::class, 'treeView'])->name('tree_view');
+
+Route::get('/user/referral-list', [App\Http\Controllers\Admin\UserController::class, 'referralList'])->middleware('auth')->name('referral_list');
+Route::get('/user/downline-team', [App\Http\Controllers\Admin\UserController::class, 'downlineTeam'])->middleware('auth')->name('downline_team');
+
+Route::get('/user/fund-request', [App\Http\Controllers\Admin\UserController::class, 'newFundRequest'])->middleware('auth')->name('fund_request.create');
+Route::post('user/fund-request/store', [UserController::class, 'storeFundRequest'])->name('user.fund_request.store');
+
+Route::get('/user/fund-requests', [App\Http\Controllers\Admin\UserController::class, 'fundRequests'])->name('user.fund_requests');
+

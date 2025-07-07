@@ -148,9 +148,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="10" class="text-center">No data available in table</td>
-                            </tr>
+                            @forelse($rejectedPayouts as $payout)
+                                <tr>
+                                    <td>{{ $payout->user_id }}</td>
+                                    <td>{{ $payout->user->full_name ?? '' }}</td>
+                                    <td>{{ $payout->payment_address }}</td>
+                                    <td>{{ $payout->amount }}</td>
+                                    <td>{{ $payout->processing_charge }}</td>
+                                    <td>{{ $payout->payable_amount }}</td>
+                                    <td>{{ $payout->created_at }}</td>
+                                    <td>{{ $payout->transaction_hash_key ?? '' }}</td>
+                                    <td>{{ $payout->remark }}</td>
+                                    <td>{{ $payout->rejected_at ?? '' }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="10" class="text-center">No data available in table</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
