@@ -13,7 +13,7 @@
                                 <th>Member ID</th>
                                 <th>Name</th>
                                 <th>Amount</th>
-                                <th>Transaction Hash Key</th>
+                                <th>Transaction Password</th>
                                 <th>Member's Remark</th>
                                 <th>Request Date</th>
                                 <th>Status</th>
@@ -22,13 +22,21 @@
                         <tbody>
                             @foreach($fundRequests as $request)
                             <tr>
-                                <td>{{ $request->member_id }}</td>
-                                <td>{{ $request->user->name ?? '-' }}</td>
-                                <td>{{ $request->amount }}</td>
+                                <td>{{ $request->user->referral_id ?? 'N/A' }}</td>
+                                <td>{{ $request->user->full_name ?? 'N/A' }}</td>
+                                <td>₹{{ number_format($request->amount, 2) }}</td>
                                 <td>{{ $request->hash_key }}</td>
                                 <td>{{ $request->remark }}</td>
                                 <td>{{ $request->created_at->format('d-m-Y h:i a') }}</td>
-                                <td>{{ $request->status }}</td>
+                                <td>
+                                    @if($request->status == 'pending')
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    @elseif($request->status == 'approved')
+                                        <span class="badge bg-success">Approved</span>
+                                    @else
+                                        <span class="badge bg-danger">Rejected</span>
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

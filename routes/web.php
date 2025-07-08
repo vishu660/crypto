@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\Backend\FundRequestController;
+use App\Http\Controllers\Admin\FundRequestController;
 use App\Http\Controllers\Backend\FundDeductionController;
 use App\Http\Controllers\Backend\FundTransferController;
 use App\Http\Controllers\Backend\MemberController;
@@ -277,11 +277,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 // user deshbord 
 
 // User Pages
-Route::get('/user/pages/activity', function () { 
-    $user = auth()->user();
-    $withdraws = \App\Models\Withdraw::where('user_id', $user->id)->latest()->get();
-    return view('user.pages.activity', compact('withdraws')); 
-})->middleware('auth')->name('user.pages.activity');
+Route::get('/user/pages/activity', [UserController::class, 'userTransactions'])
+    ->middleware('auth')
+    ->name('user.pages.activity');
 Route::get('/user/pages/blank', [UserController::class, 'blank'])->name('user.pages.blank');
 Route::get('/user/pages/email', function () { return view('user.pages.email'); })->name('user.pages.email');
 Route::get('/user/pages/exchange', function () { return view('user.pages.exchange'); })->name('user.pages.exchange');
@@ -407,7 +405,8 @@ Route::post('/user/bank/save', [UserController::class, 'saveBankDetails'])->name
 // Route::post('/admin/bank/approve/{id}', [UserController::class, 'approveBank'])->name('admin.bank_approve');
 // // Route::get('admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank_requests');
 // Route::get('/admin/bank-requests', [UserController::class, 'bankRequests'])->name('admin.bank');
-Route::get('/user/withdrawal', [UserController::class, 'showWithdrawalForm'])->name('user.withdrawal');Route::get('/admin/user/{user}/transactions', [UserController::class, 'userTransactions'])->name('admin.user.transactions');
+Route::get('/user/withdrawal', [UserController::class, 'showWithdrawalForm'])->name('user.withdrawal');
+Route::get('/admin/user/{user}/transactions', [UserController::class, 'userTransactions'])->name('admin.user.transactions');
 
 Route::get('/user/withdrawal', function () {
     $user = auth()->user();
@@ -476,6 +475,9 @@ Route::get('/user/downline-team', [App\Http\Controllers\Admin\UserController::cl
 
 Route::get('/user/fund-request', [App\Http\Controllers\Admin\UserController::class, 'newFundRequest'])->middleware('auth')->name('fund_request.create');
 Route::post('user/fund-request/store', [UserController::class, 'storeFundRequest'])->name('user.fund_request.store');
+Route::get('/user/fund-requests', [UserController::class, 'fundRequests'])->name('user.fund-requests');
 
-Route::get('/user/fund-requests', [App\Http\Controllers\Admin\UserController::class, 'fundRequests'])->name('user.fund_requests');
 
+Route::get('/admin/fund-requests', [FundRequestController::class, 'allFundRequests'])->name('admin.fund-requests.all');
+Route::post('/admin/fund-requests/{id}/approve', [FundRequestController::class, 'approve'])->name('admin.fund-request.approve');
+Route::post('/admin/fund-requests/{id}/reject', [FundRequestController::class, 'reject'])->name('admin.fund-request.reject');

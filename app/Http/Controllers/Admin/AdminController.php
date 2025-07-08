@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Withdraw;
+use App\Models\FundRequest;
 
 class AdminController extends Controller
 {
@@ -149,5 +150,24 @@ class AdminController extends Controller
 
         return back()->with('success', 'Bank details approved successfully.');
     }
+   
+// public function allFundRequests()
+// {
+//     $fundRequests = FundRequest::with('user')->latest()->get();
+//     return view('backend.fund_requests.all', compact('fundRequests'));
+// }
+//     public function approve($id) {
+//         $request = FundRequest::findOrFail($id);
+//         $request->status = 'approved';
+//         $request->save();
+//         return back()->with('success', 'Fund request approved.');
+//     }
+
+//     public function reject($id) {
+//         $request = FundRequest::findOrFail($id);
+//         $request->status = 'rejected';
+//         $request->save();
+//         return back()->with('success', 'Fund request rejected.');
+//     }
 }
  

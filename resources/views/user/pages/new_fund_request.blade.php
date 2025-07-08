@@ -32,8 +32,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Transaction Hash Key*</label>
-                        <input type="text" class="form-control custom-input" name="hash_key" placeholder="Transaction Hash Key" required>
+                        <label class="form-label">Transaction Password*</label>
+                        <input type="text" class="form-control custom-input" name="hash_key" placeholder="Transaction Password" required>
                     </div>
 
                     <div class="mb-3">

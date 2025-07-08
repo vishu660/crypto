@@ -96,7 +96,6 @@
                             <button class="btn ps-0 border-0" type="button" id="button-addon2"><i class="far fa-eye-slash"></i></button>
                         </div>
                     </div>
-                    <p>2,5653 ETH available</p>
                     <div class="row">
                         <div class="col-md">
                             <button type="submit" class="btn bg-success bg-opacity-25 text-success w-100 text-uppercase">Cancel</button>

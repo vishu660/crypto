@@ -4,7 +4,6 @@
 
 @push('styles')
 <style>
-    /* Aapka existing CSS same as it is rahega */
     .dataTables_wrapper .dataTables_length,
     .dataTables_wrapper .dataTables_filter,
     .dataTables_wrapper .dataTables_info,
@@ -51,48 +50,41 @@
                                 <th>Member ID</th>
                                 <th>Name</th>
                                 <th>Amount</th>
-                                <th>Currency</th>
-                                <th>Type</th>
-                                <th>Purpose</th>
+                                <th>Remark</th>
                                 <th>Status</th>
-                                <th>Gateway</th>
-                                <th>Message</th>
-                                <th>Created At</th>
+                                <th>Requested At</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($transactions as $transaction)
+                            @forelse($fundRequests as $request)
                                 <tr>
-                                    <td>{{ $transaction->id }}</td>
-                                    <td>{{ $transaction->user_id }}</td>
-                                    <td>{{ $transaction->user->full_name ?? 'N/A' }}</td>
-                                    <td>USDT {{ number_format($transaction->amount, 2) }}</td>
-                                    <td>{{ $transaction->currency }}</td>
-                                    <td>{{ ucfirst($transaction->type) }}</td>
-                                    <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>
+                                    <td>{{ $request->id }}</td>
+                                    <td>{{ $request->user->referral_id ?? 'N/A' }}</td>
+                                    <td>{{ $request->user->full_name ?? 'N/A' }}</td>
+                                    <td>₹{{ number_format($request->amount, 2) }}</td>
+                                    <td>{{ $request->remark }}</td>
                                     <td>
-                                        @if($transaction->status === 'pending')
+                                        @if($request->status === 'pending')
                                             <span class="badge bg-warning text-dark">Pending</span>
-                                        @elseif($transaction->status === 'success')
+                                        @elseif($request->status === 'approved')
                                             <span class="badge bg-success">Approved</span>
                                         @else
-                                            <span class="badge bg-danger">Failed</span>
+                                            <span class="badge bg-danger">Rejected</span>
                                         @endif
                                     </td>
-                                    <td>{{ $transaction->gateway }}</td>
-                                    <td>{{ $transaction->message }}</td>
-                                    <td>{{ $transaction->created_at->format('d-m-Y H:i') }}</td>
+                                    <td>{{ $request->created_at->format('d-m-Y H:i') }}</td>
                                     <td>
-                                        @if($transaction->status === 'pending')
-                                            <form method="POST" action="{{ route('admin.transactions.approve', $transaction->id) }}" style="display: inline;">
+                                        @if($request->status === 'pending')
+                                            <form method="POST" action="{{ route('admin.fund-request.approve', $request->id) }}" style="display: inline;">
                                                 @csrf
-                                                <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to approve this request?')">
-                                                    <i class="bi bi-check-circle"></i> Approve
+                                                <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Approve this request?')">
+                                                    Approve
                                                 </button>
                                             </form>
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="rejectRequest({{ $transaction->id }})">
-                                                <i class="bi bi-x-circle"></i> Reject
+
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="rejectRequest({{ $request->id }})">
+                                                Reject
                                             </button>
                                         @else
                                             <span class="text-muted">-</span>
@@ -101,7 +93,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="12" class="text-center text-white">No fund requests found.</td>
+                                    <td colspan="8" class="text-center text-white">No fund requests found.</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -126,20 +118,18 @@ $(document).ready(function() {
     });
 });
 
-function rejectRequest(transactionId) {
-    if (confirm('Are you sure you want to reject this request?')) {
-        // Create a form and submit it
+function rejectRequest(fundRequestId) {
+    if (confirm('Reject this request?')) {
         var form = document.createElement('form');
         form.method = 'POST';
-        form.action = '/admin/transactions/' + transactionId + '/reject';
+        form.action = '/admin/fund-requests/' + fundRequestId + '/reject'; // ✅ make sure route matches
         
-        // Add CSRF token
-        var csrfToken = document.createElement('input');
-        csrfToken.type = 'hidden';
-        csrfToken.name = '_token';
-        csrfToken.value = '{{ csrf_token() }}';
-        form.appendChild(csrfToken);
-        
+        var csrf = document.createElement('input');
+        csrf.type = 'hidden';
+        csrf.name = '_token';
+        csrf.value = '{{ csrf_token() }}';
+        form.appendChild(csrf);
+
         document.body.appendChild(form);
         form.submit();
     }

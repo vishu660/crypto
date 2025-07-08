@@ -570,6 +570,19 @@
                         <a class="nav-link" href="{{ route('admin.fund-requests.failed') }}">Failed/Rejected</a>
                     </div>
                 </li>
+                {{-- new fund  --}}
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundRequestsMenu" role="button" aria-expanded="false" aria-controls="fundRequestsMenu">
+                        <span><i class="bi bi-graph-up-arrow me-2"></i>Fund Requests</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <div class="collapse submenu" id="fundRequestsMenu">
+                        <a class="nav-link" href="{{ route('admin.fund-requests.all') }}">All Requests</a>
+                        <a class="nav-link" href="{{ route('admin.fund-requests.pending') }}">Pending</a>
+                        <a class="nav-link" href="{{ route('admin.fund-requests.approved') }}">Approved</a>
+                        <a class="nav-link" href="{{ route('admin.fund-requests.failed') }}">Failed/Rejected</a>
+                    </div>
+                </li>
                 <!-- Fund Deduction Dropdown -->
                 <li class="nav-item mb-2">
                     <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.deductions.*') || request()->routeIs('admin-deduction-report') || request()->routeIs('admin-deduct-fund') ? 'active' : '' }}" data-bs-toggle="collapse" href="#fundDeductionMenu" role="button" aria-expanded="false" aria-controls="fundDeductionMenu">

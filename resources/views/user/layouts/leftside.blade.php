@@ -133,7 +133,7 @@
                         </a>
                         <div class="collapse submenu" id="fundRequestMenu">
                             <a class="nav-link ps-5 fw-bold" href="{{ route('fund_request.create') }}">Request Now</a>
-                            <a class="nav-link ps-5" href="{{ route('user.fund_requests') }}">Requests Details</a>
+                            <a class="nav-link ps-5" href="{{ route('user.fund-requests') }}">Requests Details</a>
                         </div>
                     </li>
                       {{-- fund end  --}}

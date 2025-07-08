@@ -846,13 +846,32 @@ public function storeFundRequest(Request $request)
 public function fundRequests()
 {
     $user = auth()->user();
-    // If admin, show all; if user, show only their requests
-    if ($user->role === 'admin') {
-        $fundRequests = FundRequest::with('user')->latest()->get();
-    } else {
-        $fundRequests = FundRequest::with('user')->where('user_id', $user->id)->latest()->get();
-    }
+
+    $fundRequests = FundRequest::with('user')
+        ->where('user_id', $user->id)
+        ->latest()
+        ->get();
+
     return view('user.pages.requests_details', compact('fundRequests'));
+}
+
+
+public function userTransactions()
+{
+    $user = auth()->user();
+    $transactions = \App\Models\Transaction::where('user_id', $user->id)->latest()->get();
+    $activities = $transactions->map(function($txn) {
+        return [
+            'asset' => $txn->asset ?? 'INR', // Adjust as needed
+            'type' => $txn->type ?? '-',
+            'amount' => $txn->amount ?? 0,
+            'transaction_id' => $txn->id ?? '-',
+            'date' => $txn->created_at,
+            'status' => $txn->status ?? '-',
+            'fee' => $txn->fee ?? 0,
+        ];
+    });
+    return view('user.pages.activity', compact('activities'));
 }
 
 }
