@@ -8,7 +8,7 @@
     <nav class="navbar navbar-expand-lg border-bottom">
         <div class="container">
             <a class="navbar-brand text-dark fw-bold" href="#">
-                <i class="fas fa-coins me-2"></i>Crypto Dashboard
+                <i class="fas fa-coins me-2"></i>DIGITAL LEVEL MARKETING DASHBOARD
             </a>
             <div class="d-flex">
                 <div class="dropdown me-3">

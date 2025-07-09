@@ -10,9 +10,18 @@
         <div class="d2c_sidebar offcanvas-lg offcanvas-start px-2 py-4" tabindex="-1" id="d2c_sidebar">
             <div class="d-flex flex-column">
                 <!-- Logo -->
-                <a href="./index.html" class="brand-icon">
-                    <img src="{{ asset('assets/images/logo/logo.png') }}" alt="DesignToCodes" style="width: 73.5%; padding-bottom: 20px;">
-                </a>
+                <a href="{{ route('user') }}" class="brand-icon mb-2">
+                    <img src="{{ asset('images/logo.3.png') }}" alt="Logo" style="height:32px; margin-right:8px;">
+                    <span style="
+                    font-weight:700;
+                    letter-spacing:1px;
+                    font-size:14px;
+                    background: linear-gradient(45deg, #ff69b4, #00bfff); /* pink + blue */
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                ">
+                    DIGITAL LEVEL MARKETING
+                </span>                </a>
                 <!-- End:Logo -->
 
                 <!-- Menu -->

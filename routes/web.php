@@ -73,6 +73,10 @@ Route::get('/admin/support', function () {
 })->name('admin-support');
 
 Route::get('/admin/package-details', [PackageController::class, 'index'])->name('admin-package-details');
+Route::post('/packages/toggle-status/{id}', [PackageController::class, 'toggleStatus'])->name('package.toggleStatus');
+
+// web.php
+Route::get('/user/breakdown/{id}', [App\Http\Controllers\User\BreakdownController::class, 'show'])->name('user.breakdown.show');
 
 // Route::get('/admin/level-settings', function () {
 //     $users = \App\Models\User::all();
@@ -507,4 +511,4 @@ Route::post('/admin/fund-requests/{id}/reject', [FundRequestController::class, '
         Route::post('/package-requests/reject/{id}', [AdminController::class, 'reject'])->name('reject');
     });
     
-    
+    Route::post('/admin/package', [PackageController::class, 'store'])->name('package.store');

@@ -9,14 +9,18 @@ class Package extends Model
 {
     use HasFactory;
 
+    protected $table = 'packages';
+
     protected $fillable = [
         'name',
         'investment_amount',
         'roi_percent',
         'validity_days',
-        'direct_bonus_percent',
         'referral_income',
+        'referral_show_income',
         'is_active',
+        'is_show_active',
+        'enableBreackDown',
         'type_of_investment_days',
         'daily_days',
         'weekly_day',
@@ -24,24 +28,47 @@ class Package extends Model
     ];
 
     protected $casts = [
-        'daily_days' => 'array', 
+        'daily_days' => 'array',
         'is_active' => 'boolean',
+        'is_show_active' => 'boolean',
+        'enableBreackDown' => 'boolean',
         'investment_amount' => 'decimal:2',
         'roi_percent' => 'decimal:2',
-        'direct_bonus_percent' => 'decimal:2',
         'referral_income' => 'decimal:2',
+        'referral_show_income' => 'decimal:2',
     ];
 
-    // Relationships removed - referral_income is not a foreign key
-    // If you need relationships, create proper foreign key fields
+    /**
+     * Users who bought this package (many-to-many via user_packages)
+     */
     public function users()
-{
-    return $this->belongsToMany(User::class, 'user_packages')->withPivot(['start_date', 'end_date', 'is_active'])->withTimestamps();
-}
+    {
+        return $this->belongsToMany(User::class, 'user_packages')
+                    ->withPivot(['start_date', 'end_date', 'is_active'])
+                    ->withTimestamps();
+    }
 
-public function getAmountAttribute()
-{
-    return $this->investment_amount;
-}
+    /**
+     * Accessor: get investment_amount as `amount`
+     */
+    public function getAmountAttribute()
+    {
+        return $this->investment_amount;
+    }
 
+    /**
+     * Scope: only active packages
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
+     * Scope: only packages with breakdown enabled
+     */
+    public function scopeWithBreakdown($query)
+    {
+        return $query->where('enableBreackDown', true);
+    }
 }

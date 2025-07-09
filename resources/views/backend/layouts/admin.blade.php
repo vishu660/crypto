@@ -386,8 +386,10 @@
             <button class="btn p-0 me-3 d-md-none" id="sidebarToggle" style="background:transparent;border:none;outline:none;">
                 <i class="bi bi-list" style="font-size:2rem;"></i>
             </button>
-            <img src="{{ asset('images/logo.2.png') }}" alt="Logo" style="height:32px; margin-right:8px;">
-            <span style="font-weight:700; letter-spacing:1px; color:#fff; font-size:1.2rem;">DIGITAL LEVEL MARKETING</span>
+            <a href="{{ route('user') }}" class="brand-icon mb-2 text-decoration-none d-flex text-center  align-items-center">
+                <img src="{{ asset('images/logo.2.png') }}" alt="Logo" style="height:32px; margin-right:8px;">
+            <span style="font-weight:700; letter-spacing:1px; color: #fff; font-size:1.2rem;">DIGITAL LEVEL MARKETING</span>
+            </a>
            
         </div>
         <!-- Center: Google Translate -->

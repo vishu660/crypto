@@ -42,4 +42,5 @@ class UserPackage extends Model
     {
         return $this->belongsTo(Package::class);
     }
+
 }

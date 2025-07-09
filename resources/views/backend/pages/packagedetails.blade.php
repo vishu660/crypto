@@ -217,7 +217,21 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title mb-4">Add New Package</h5>
-
+@if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
                     <form method="POST" action="{{ route('package.store') }}">
                         @csrf
 
@@ -245,9 +259,9 @@
                             <input type="number" class="form-control" name="validity_days" value="{{ old('validity_days') }}" placeholder="Enter Validity Days">
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Direct Bonus(%)*</label>
-                            <input type="text" class="form-control" name="direct_bonus_percent" value="{{ old('direct_bonus_percent') }}" placeholder="Enter Direct Bonus(%)">
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" name="enableBreackDown" value="1" {{ old('enableBreackDown', $package->enableBreackDown ?? false) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="enableBreackDown">Enable  Breakdown</label>
                         </div>
 
                         <div class="mb-3">
@@ -332,7 +346,10 @@
                                 <th>ROI (%)</th>
                                 <th>Validity Days</th>
                                 <th>Direct Bonus (%)</th>
-                                <th> referral income</th>
+                                <th>Referral Income</th>
+                                <th>Referral Show Income</th> <!-- ✅ New -->
+                                <th>Show Active</th>          <!-- ✅ New -->
+                                <th>Breakdown</th>            <!-- ✅ New -->
                                 <th>Status</th>
                                 <th>Type of Investment Days</th>
                                 <th>Selected Days/Date</th>
@@ -340,47 +357,57 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
+                        
                         <tbody>
-                        @foreach($packages as $package)
-                            <tr>
-                                <td>{{ $package->name }}</td>
-                                <td>USDT {{ $package->investment_amount }}</td>
-                                <td>{{ $package->roi_percent }} %</td>
-                                <td>{{ $package->validity_days }}</td>
-                                <td>{{ $package->direct_bonus_percent }} %</td>
-                                <td>{{ $package->referral_income}}</td>
-                                <td>
-                                    <span class="badge bg-{{ $package->is_active ? 'success' : 'danger' }}">
-                                        {{ $package->is_active ? 'Active' : 'Inactive' }}
-                                    </span>
-                                </td>
-                                <td>{{ ucfirst($package->type_of_investment_days) }}</td>
-                                <td>
-                                    @if($package->type_of_investment_days == 'daily')
-                                        {{ is_array($package->daily_days ?? null) ? implode(', ', $package->daily_days) : ($package->daily_days ?? '-') }}
-                                    @elseif($package->type_of_investment_days == 'weekly')
-                                        {{ $package->weekly_day ?? '-' }}
-                                    @elseif($package->type_of_investment_days == 'monthly')
-                                        {{ $package->monthly_date ?? '-' }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>{{ \Carbon\Carbon::parse($package->created_at)->format('d-m-Y h:i:a') }}</td>
-                                <td class="d-flex justify-content-between">
-                                    <a href="{{ route('package.edit', $package->id) }}" class="btn btn-sm btn-outline-info me-1">
-                                        <i class="bi bi-pencil-square"></i> 
-                                    </a>
-                                    <form action="{{ route('package.destroy', $package->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this package?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
+                            <tbody>
+                                @foreach($packages as $package)
+                                <tr>
+                                    <td>{{ $package->name }}</td>
+                                    <td>USDT {{ $package->investment_amount }}</td>
+                                    <td>{{ $package->roi_percent }} %</td>
+                                    <td>{{ $package->validity_days }}</td>
+                                    <td>{{ $package->direct_bonus_percent }} %</td>
+                                    <td>{{ $package->referral_income }}</td>
+                                    <td>{{ $package->referral_show_income ?? '-' }}</td> <!-- ✅ Referral Show Income -->
+                                   
+                                    <td>
+                                        <span class="badge bg-{{ $package->enableBreackDown ? 'success' : 'secondary' }}">
+                                            {{ $package->enableBreackDown ? 'Yes' : 'No' }}
+                                        </span>
+                                    </td> <!-- ✅ Breakdown -->
+                                    <td>
+                                        <span class="badge bg-{{ $package->is_active ? 'success' : 'danger' }}">
+                                            {{ $package->is_active ? 'Active' : 'Inactive' }}
+                                        </span>
+                                    </td>
+                                    <td>{{ ucfirst($package->type_of_investment_days) }}</td>
+                                    <td>
+                                        @if($package->type_of_investment_days == 'daily')
+                                            {{ is_array($package->daily_days ?? null) ? implode(', ', $package->daily_days) : ($package->daily_days ?? '-') }}
+                                        @elseif($package->type_of_investment_days == 'weekly')
+                                            {{ $package->weekly_day ?? '-' }}
+                                        @elseif($package->type_of_investment_days == 'monthly')
+                                            {{ $package->monthly_date ?? '-' }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>{{ \Carbon\Carbon::parse($package->created_at)->format('d-m-Y h:i:a') }}</td>
+                                    <td class="d-flex justify-content-between">
+                                        <a href="{{ route('package.edit', $package->id) }}" class="btn btn-sm btn-outline-info me-1">
+                                            <i class="bi bi-pencil-square"></i> 
+                                        </a>
+                                        <form action="{{ route('package.destroy', $package->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this package?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                
                         
                         @if($packages->isEmpty())
                             <tr>

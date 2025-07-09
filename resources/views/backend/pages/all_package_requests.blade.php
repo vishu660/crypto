@@ -48,14 +48,21 @@
                             </td>
 
                             <td>
-                                <strong>{{ $req->package->name }}</strong><br>
-                                <small>{{ $req->package->validity_days }} days</small>
+                                @if($req->package)
+                                    <strong>{{ $req->package->name }}</strong><br>
+                                    <small>{{ $req->package->validity_days }} days</small>
+                                @else
+                                    <span class="text-danger">Package Not Found</span>
+                                @endif
                             </td>
 
                             <td>
-                                ₹{{ number_format($req->amount, 2) }}
-                                <br>
-                                <small class="text-muted">Plan ₹{{ number_format($req->package->investment_amount, 2) }}</small>
+                                ₹{{ number_format($req->amount, 2) }}<br>
+                                @if($req->package)
+                                    <small class="text-muted">Plan ₹{{ number_format($req->package->investment_amount, 2) }}</small>
+                                @else
+                                    <small class="text-danger">Plan Not Found</small>
+                                @endif
                             </td>
 
                             <td>
