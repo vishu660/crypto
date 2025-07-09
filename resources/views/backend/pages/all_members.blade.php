@@ -1,3 +1,6 @@
+@php
+    $members = $members ?? collect();
+@endphp
 @extends('backend.layouts.admin')
 
 @section('content')
@@ -38,7 +41,6 @@
                     <th>Address</th>
                     <th>Mobile</th>
                     <th>Package</th>
-                    <th>Password</th>
                     <th>referral</th>
                     <th>referral Name</th>
                     <th>Join Date</th>
@@ -54,8 +56,7 @@
                         <td>{{ $member->address ?? '-' }}</td>
                         <td>{{ $member->mobile_no ?? '-' }}</td>
                         <td>{{ $member->package ?? ($member->status ?? '-') }}</td>
-                        <td>{{ $member->transaction_password ?? '-' }}</td>
-                        <td>{{ $member->referral ?? '-' }}</td>
+                        <td>{{ $member->referral_id ?? '-' }}</td>
                         <td>{{ $member->referralUser->full_name ?? '-' }}</td>
                         <td>{{ $member->created_at ? $member->created_at->format('d-m-Y h:i a') : '-' }}</td>
                         <td>

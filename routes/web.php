@@ -9,7 +9,6 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\FundRequestController;
 use App\Http\Controllers\Backend\FundDeductionController;
 use App\Http\Controllers\Backend\FundTransferController;
-use App\Http\Controllers\Backend\MemberController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -140,11 +139,16 @@ Route::get('/admin/activation-report', function () {
     return view('backend.pages.activationreport');
 })->name('admin.activation-report');
 
-Route::get('/admin/all-members', [MemberController::class, 'index'])->name('admin.all-members');
-Route::get('/admin/active-members', [MemberController::class, 'activeMembers'])->name('admin.active-members');
-Route::get('/admin/inactive-members', [MemberController::class, 'inactiveMembers'])->name('admin.inactive-members');
-Route::get('/admin/blocked-members', [MemberController::class, 'blockedMembers'])->name('admin.blocked-members');
-Route::get('/admin/password-details', [MemberController::class, 'passwordDetails'])->name('admin.password-details');
+// Route::get('/admin/all-members', [MemberController::class, 'index'])->name('admin.all-members');
+Route::get('/admin/all-members', [\App\Http\Controllers\Admin\AdminController::class, 'allMembers'])->name('admin.all-members');
+// Route::get('/admin/active-members', [MemberController::class, 'activeMembers'])->name('admin.active-members');
+Route::get('/admin/active-members', [\App\Http\Controllers\Admin\AdminController::class, 'activeMembers'])->name('admin.active-members');
+// Route::get('/admin/inactive-members', [MemberController::class, 'inactiveMembers'])->name('admin.inactive-members');
+Route::get('/admin/inactive-members', [\App\Http\Controllers\Admin\AdminController::class, 'inactiveMembers'])->name('admin.inactive-members');
+// Route::get('/admin/blocked-members', [MemberController::class, 'blockedMembers'])->name('admin.blocked-members');
+Route::get('/admin/blocked-members', [\App\Http\Controllers\Admin\AdminController::class, 'blockedMembers'])->name('admin.blocked-members');
+// Route::get('/admin/password-details', [MemberController::class, 'passwordDetails'])->name('admin.password-details');
+Route::get('/admin/password-details', [\App\Http\Controllers\Admin\AdminController::class, 'passwordDetails'])->name('admin.password-details');
 
 
 

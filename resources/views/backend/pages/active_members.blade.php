@@ -1,3 +1,6 @@
+@php
+    $members = $members ?? collect();
+@endphp
 @extends('backend.layouts.admin')
 
 @section('content')

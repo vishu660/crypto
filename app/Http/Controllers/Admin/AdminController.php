@@ -224,6 +224,41 @@ public function rejectedPackageRequests()
 
     return view('backend.pages.rejected_package', compact('requests'));
 }
+
+    // 🆕 All Members
+    public function allMembers()
+    {
+        $users = User::latest()->paginate(50);
+        return view('backend.pages.all_members', ['users' => $users, 'members' => $users]);
+    }
+
+    // 🆕 Active Members
+    public function activeMembers()
+    {
+        $users = User::where('status', 'active')->latest()->paginate(50);
+        return view('backend.pages.active_members', ['users' => $users, 'members' => $users]);
+    }
+
+    // 🆕 Inactive Members
+    public function inactiveMembers()
+    {
+        $users = User::where('status', 'inactive')->latest()->paginate(50);
+        return view('backend.pages.inactive_members', ['users' => $users, 'members' => $users]);
+    }
+
+    // 🆕 Blocked Members
+    public function blockedMembers()
+    {
+        $users = User::where('status', 'blocked')->latest()->paginate(50);
+        return view('backend.pages.blocked_members', ['users' => $users, 'members' => $users]);
+    }
+
+    // 🆕 Password Details
+    public function passwordDetails()
+    {
+        $users = User::latest()->paginate(50);
+        return view('backend.pages.password_details', ['users' => $users, 'members' => $users]);
+    }
 }
 
  
