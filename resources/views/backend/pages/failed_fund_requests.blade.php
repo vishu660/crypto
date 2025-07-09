@@ -1,6 +1,6 @@
 @extends('backend.layouts.admin')
 
-@section('title', 'Failed/Rejected Fund Requests')
+@section('title', 'Rejected Fund Requests')
 
 @push('styles')
 <style>
@@ -22,26 +22,6 @@
         box-shadow: none;
         padding: 32px 24px;
     }
-    .fund-requests-box .input-group,
-    .fund-requests-box .input-group .form-control,
-    .fund-requests-box .input-group .input-group-text {
-        background: #101820;
-        color: #fff;
-        border: 1px solid #00fff7;
-    }
-    .fund-requests-box .input-group .form-control:focus {
-        border-color: #00fff7;
-        box-shadow: none;
-    }
-    .fund-requests-box .input-group .btn {
-        border: 1px solid #00fff7;
-        color: #00fff7;
-        background: transparent;
-    }
-    .fund-requests-box .input-group .btn:hover {
-        background: #00fff7;
-        color: #101820;
-    }
     .fund-requests-box table {
         background: transparent;
         color: #fff;
@@ -54,47 +34,6 @@
     .fund-requests-box td, .fund-requests-box th {
         border-color: #00fff7;
     }
-    .filter-box {
-        border: 2px solid #00fff7;
-        border-radius: 8px;
-        padding: 8px 12px 8px 12px;
-        display: flex;
-        align-items: center;
-        margin-bottom: 24px;
-        background: transparent;
-        width: fit-content;
-    }
-    .filter-box .form-control {
-        border: none !important;
-        box-shadow: none !important;
-        background: #101820 !important;
-        color: #fff;
-    }
-    .filter-box .form-control:focus {
-        outline: none !important;
-        box-shadow: none !important;
-    }
-    .filter-box .form-control::placeholder {
-        color: #fff;
-        opacity: 1;
-    }
-    .filter-box .input-group-text {
-        border: none !important;
-        background: transparent !important;
-        color: #fff;
-    }
-    .filter-box .btn {
-        border: none !important;
-        box-shadow: none !important;
-        background: transparent !important;
-        color: #00fff7;
-        padding: 0 10px;
-    }
-    .filter-box .btn:hover {
-        background: #00fff7 !important;
-        color: #101820 !important;
-        border: none !important;
-    }
 </style>
 @endpush
 
@@ -102,54 +41,43 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <p class="text-white"><a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a> / Fund Requests / Failed/Rejected Fund Requests</p>
-            <h3 class="text-white mt-3">Failed/Rejected Fund Requests</h3>
+            <p class="text-white">
+                <a href="{{ route('admin-dashboard') }}" style="color:#00fff7; text-decoration:underline;">Dashboard</a> / Fund Requests / Rejected Fund Requests
+            </p>
+            <h3 class="text-white mt-3">Rejected Fund Requests</h3>
         </div>
     </div>
+
     <div class="row mt-4">
         <div class="col-12">
             <div class="fund-requests-box">
-                <div class="row mb-3">
-                    <div class="col-md-12">
-                        <div class="filter-box">
-                            <input type="text" class="form-control" placeholder="dd-mm-yyyy">
-                            <span class="input-group-text">to</span>
-                            <input type="text" class="form-control" placeholder="dd-mm-yyyy">
-                            <button class="btn" type="button"><i class="bi bi-search"></i></button>
-                        </div>
-                    </div>
-                </div>
                 <div class="table-responsive">
                     <table id="fundRequestsTable" class="table table-hover">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Member ID</th>
                                 <th>Name</th>
-                                <th>Request Amount</th>
-                                <th>Currency</th>
-                                <th>Package Type</th>
-                                <th>Member's Remark</th>
-                                <th>Rejection Reason</th>
-                                <th>Request Date</th>
-                                <th>Rejected Date</th>
+                                <th>Amount</th>
+                                <th>Remark</th>
+                                <th>Status</th>
+                                <th>Requested At</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($transactions as $transaction)
                                 <tr>
-                                    <td>{{ $transaction->user_id }}</td>
+                                    <td>{{ $transaction->id }}</td>
+                                    <td>{{ $transaction->user->referral_id ?? 'N/A' }}</td>
                                     <td>{{ $transaction->user->full_name ?? 'N/A' }}</td>
                                     <td>USDT {{ number_format($transaction->amount, 2) }}</td>
-                                    <td>{{ $transaction->currency }}</td>
-                                    <td>{{ ucfirst(str_replace('_', ' ', $transaction->purpose_of_payment)) }}</td>
-                                    <td>{{ $transaction->message }}</td>
-                                    <td>Package purchase request rejected by admin</td>
+                                    <td>{{ $transaction->remark ?? '-' }}</td>
+                                    <td><span class="badge bg-danger">Rejected</span></td>
                                     <td>{{ $transaction->created_at->format('d-m-Y H:i') }}</td>
-                                    <td>{{ $transaction->updated_at->format('d-m-Y H:i') }}</td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="9" class="text-center text-white">No failed/rejected fund requests found.</td>
+                                    <td colspan="7" class="text-center ">No rejected fund requests found.</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -185,4 +113,4 @@ $(document).ready(function() {
     });
 });
 </script>
-@endpush 
+@endpush

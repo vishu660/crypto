@@ -93,7 +93,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center text-white">No fund requests found.</td>
+                                    <td colspan="8" class="text-center ">No fund requests found.</td>
                                 </tr>
                             @endforelse
                         </tbody>

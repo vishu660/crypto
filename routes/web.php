@@ -19,6 +19,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\SalaryController;
 use App\Http\Controllers\Admin\KycController;
+use App\Http\Controllers\NowPaymentController;
+
 
 
 
@@ -27,6 +29,9 @@ use App\Http\Controllers\Admin\KycController;
 // Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 // Route::post('/admin/login', [AuthController::class, 'login'])->name('admin-login.submit');
 
+// api route 
+Route::post('/nowpayments/payment', [NowPaymentController::class, 'createPayment'])->name('nowpayment.create');
+Route::post('/nowpayments/callback', [NowPaymentController::class, 'callback'])->name('nowpayment.callback');
 
 // Public Routes
 Route::get('/', function () {
@@ -478,6 +483,28 @@ Route::post('user/fund-request/store', [UserController::class, 'storeFundRequest
 Route::get('/user/fund-requests', [UserController::class, 'fundRequests'])->name('user.fund-requests');
 
 
-Route::get('/admin/fund-requests', [FundRequestController::class, 'allFundRequests'])->name('admin.fund-requests.all');
+Route::get('/admin/fund-requests', [FundRequestController::class, 'approvedRequests'])->name('admin.fund-requests.all');
 Route::post('/admin/fund-requests/{id}/approve', [FundRequestController::class, 'approve'])->name('admin.fund-request.approve');
 Route::post('/admin/fund-requests/{id}/reject', [FundRequestController::class, 'reject'])->name('admin.fund-request.reject');
+
+
+    
+    // // 🆕 Package Requests
+    // Route::get('/admin/package-requests', [AdminController::class, 'allPackageRequests'])->name('package-requests.all');
+    // Route::post('/admin/package-requests/{id}/approve', [AdminController::class, 'approvePackageRequest'])->name('package-requests.approve');
+    // Route::post('/admin/package-requests/{id}/reject', [AdminController::class, 'rejectPackageRequest'])->name('package-requests.reject');
+    // Route::get('/admin/package-requests/pending', [AdminController::class, 'pendingPackageRequests'])->name('package-requests.pending');
+
+    
+    Route::prefix('admin')->name('package-requests.')->group(function () {
+        Route::get('/package-requests', [AdminController::class, 'allPackageRequests'])->name('all');
+        Route::get('/package-requests/pending', [AdminController::class, 'pendingPackageRequests'])->name('pending');
+        Route::get('/package-requests/approved', [AdminController::class, 'approvedPackageRequests'])->name('approved');
+        Route::get('/package-requests/rejected', [AdminController::class, 'rejectedPackageRequests'])->name('rejected');
+    
+        // ✅ Remove extra /admin from below
+        Route::post('/package-requests/approve/{id}', [AdminController::class, 'approve'])->name('approve');
+        Route::post('/package-requests/reject/{id}', [AdminController::class, 'reject'])->name('reject');
+    });
+    
+    

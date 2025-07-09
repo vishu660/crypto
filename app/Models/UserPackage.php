@@ -14,16 +14,18 @@ class UserPackage extends Model
     protected $fillable = [
         'user_id',
         'package_id',
+        'amount',
         'start_date',
         'end_date',
         'roi_dates',
         'total_roi_given',
         'is_active',
-        'source', // ✅ Add this if using in User Buy
+        'source',
+        'status', // ✅ Add this line to avoid mass assignment error
     ];
 
     protected $casts = [
-        'roi_dates' => 'array', // JSON array में convert होगा
+        'roi_dates' => 'array',
         'start_date' => 'date',
         'end_date' => 'date',
         'is_active' => 'boolean',
