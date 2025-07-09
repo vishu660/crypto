@@ -21,7 +21,8 @@ class UserPackage extends Model
         'total_roi_given',
         'is_active',
         'source',
-        'status', // ✅ Add this line to avoid mass assignment error
+        'status',
+        'is_breakdown_done', // ✅ Add this line to avoid mass assignment error
     ];
 
     protected $casts = [

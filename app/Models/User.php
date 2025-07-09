@@ -127,6 +127,10 @@ public function isReferralQualified()
     $required = \App\Models\ReferralSetting::first()->required_referrals ?? 2;
     return $this->directReferrals()->count() >= $required;
 }
+public function userPackages()
+{
+    return $this->hasMany(\App\Models\UserPackage::class);
+}
 
 
 

@@ -76,20 +76,10 @@ Route::get('/admin/package-details', [PackageController::class, 'index'])->name(
 Route::post('/packages/toggle-status/{id}', [PackageController::class, 'toggleStatus'])->name('package.toggleStatus');
 
 // web.php
-Route::get('/user/breakdown/{id}', [App\Http\Controllers\User\BreakdownController::class, 'show'])->name('user.breakdown.show');
+Route::get('user/breakdown/{id}', [PackageController::class, 'show'])->name('user.breakdown.show');
+Route::get('/user/pages/email', [\App\Http\Controllers\Admin\MailController::class, 'emailInbox'])->name('user.pages.email');
 
-// Route::get('/admin/level-settings', function () {
-//     $users = \App\Models\User::all();
-//     $salaries = $users->map(function($user) {
-//         return (object)[
-//             'full_name' => $user->full_name,
-//             'email' => $user->email,
-//             'salary' => property_exists($user, 'salary') ? $user->salary : 0, // 0 if no salary column
-//             'referral_count' => \App\Models\User::where('referral_by', $user->id)->count(),
-//         ];
-//     });
-//     return view('backend.pages.levelsettings', compact('salaries'));
-// })->name('admin-level-settings');
+
 
 Route::get('/admin/all-fund-requests', [TransactionController::class, 'index'])->name('admin.fund-requests.all');
 

@@ -10,12 +10,14 @@ use Illuminate\Support\Facades\Log;
 
 class PackageController extends Controller
 {
+    // Show all packages (for admin backend)
     public function index()
     {
         $packages = Package::latest()->paginate(10);
         return view('backend.pages.packagedetails', compact('packages'));
     }
 
+    // Store new package
     public function store(Request $request)
     {
         try {
@@ -28,7 +30,6 @@ class PackageController extends Controller
                 'referral_show_income' => 'nullable|numeric',
                 'type_of_investment_days' => 'required|in:daily,weekly,monthly',
                 'is_active' => 'nullable|boolean',
-                // 'enableBreackDown' => 'nullable|boolean', // removed this line
                 'daily_days' => 'nullable|array',
                 'daily_days.*' => 'string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
                 'weekly_day' => 'nullable|string|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
@@ -86,12 +87,14 @@ class PackageController extends Controller
         }
     }
 
+    // Edit a package
     public function edit($id)
     {
         $package = Package::findOrFail($id);
         return view('backend.pages.packageedit', compact('package'));
     }
 
+    // Update existing package
     public function update(Request $request, $id)
     {
         $package = Package::findOrFail($id);
@@ -105,7 +108,6 @@ class PackageController extends Controller
             'referral_show_income' => 'nullable|numeric',
             'type_of_investment_days' => 'required|in:daily,weekly,monthly',
             'is_active' => 'nullable|boolean',
-            // 'enableBreackDown' => 'nullable|boolean', // removed this line
             'daily_days' => 'nullable|array',
             'daily_days.*' => 'string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
             'weekly_day' => 'nullable|string|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
@@ -156,6 +158,7 @@ class PackageController extends Controller
         return redirect()->route('admin-package-details')->with('success', 'Package updated successfully.');
     }
 
+    // Delete a package
     public function destroy($id)
     {
         $package = Package::findOrFail($id);
@@ -164,9 +167,39 @@ class PackageController extends Controller
         return redirect()->route('admin-package-details')->with('success', 'Package deleted successfully.');
     }
 
-    public function show($id)
-    {
-        $package = Package::findOrFail($id);
-        return view('user.pages.plans', compact('package'));
+    // Show a single package (for frontend - user view)
+   
+
+    // Optional: All active packages for user listing
+  // App\Http\Controllers\User\BreakdownController.php
+
+ 
+  public function show($id)
+{
+    $package = Package::findOrFail($id);
+    $user = auth()->user();
+
+    // Get the user's package record
+    $userPackage = $user->userPackages()->where('package_id', $id)->first();
+
+    if (!$userPackage) {
+        return back()->with('error', 'You have not purchased this package.');
     }
+
+    // Mark breakdown as done if not already
+    if (!$userPackage->is_breakdown_done) {
+        $userPackage->is_breakdown_done = true;
+        $userPackage->save();
+    }
+
+    // Pass all userPackages to the view for badge logic
+    $userPackages = $user->userPackages->keyBy('package_id');
+
+    // Pass all packages for the plans view
+    $packages = Package::all();
+
+    return view('user.pages.plans', compact('packages', 'userPackages'));
+}
+
+
 }
