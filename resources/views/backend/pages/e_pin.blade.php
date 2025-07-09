@@ -65,6 +65,7 @@
                             <th>Plan</th>
                             <th>Status</th>
                             <th>Expiry Date</th>
+                            <th>Created Date</th> 
                         </tr>
                     </thead>
                     <tbody>
@@ -80,6 +81,8 @@
                                     @endif
                                 </td>
                                 <td>{{ \Carbon\Carbon::parse($epin->expiry_date)->format('d M Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($epin->created_at)->format('d M Y h:i A') }}</td> {{-- ✅ Added Line --}}
+
                             </tr>
                         @empty
                             <tr>

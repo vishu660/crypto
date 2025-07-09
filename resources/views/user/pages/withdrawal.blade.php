@@ -62,7 +62,7 @@
                     <select name="payment_method" class="form-control" id="payment-method" required>
                         <option value="" disabled selected>Select Method</option>
                         <option value="bank" {{ old('payment_method') == 'bank' ? 'selected' : '' }}>INR - Bank</option>
-                        <option value="usdt" {{ old('payment_method') == 'usdt' ? 'selected' : '' }}>USDT (TRC20/ERC20)</option>
+                        <option value="usdt" {{ old('payment_method') == 'usdt' ? 'selected' : '' }}>USDT (TRC20/ERC20/BEP20)</option>
                     </select>
                 </div>
 
@@ -95,19 +95,21 @@
                 </div>
 
                 <!-- USDT Fields -->
-                <div id="usdt-fields" style="display: none;">
-                    <div class="form-group mb-3">
-                        <label class="fw-bold">USDT Address</label>
-                        <input type="text" name="usdt_address" class="form-control" placeholder="Enter USDT Wallet Address" value="{{ old('usdt_address') }}">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label class="fw-bold">Network</label>
-                        <select name="usdt_network" class="form-control">
-                            <option value="TRC20" {{ old('usdt_network') == 'TRC20' ? 'selected' : '' }}>TRC20</option>
-                            <option value="ERC20" {{ old('usdt_network') == 'ERC20' ? 'selected' : '' }}>ERC20</option>
-                        </select>
-                    </div>
+               <!-- USDT Fields -->
+            <div id="usdt-fields" style="display: none;">
+                <div class="form-group mb-3">
+                    <label class="fw-bold">USDT Address</label>
+                    <input type="text" name="usdt_address" class="form-control" placeholder="Enter USDT Wallet Address" value="{{ old('usdt_address') }}">
                 </div>
+                <div class="form-group mb-3">
+                    <label class="fw-bold">Network</label>
+                    <select name="usdt_network" class="form-control">
+                        <option value="TRC20" {{ old('usdt_network') == 'TRC20' ? 'selected' : '' }}>TRC20</option>
+                        <option value="ERC20" {{ old('usdt_network') == 'ERC20' ? 'selected' : '' }}>ERC20</option>
+                        <option value="BEP20" {{ old('usdt_network') == 'BEP20' ? 'selected' : '' }}>BEP20</option>
+                    </select>
+                </div>
+            </div>
 
                 <div class="form-group mb-4">
                     <label class="fw-bold">Remark</label>

@@ -168,27 +168,41 @@ class UserController extends Controller
         $request->validate([
             'package_id' => 'required|exists:packages,id',
         ]);
-
+    
         $user = auth()->user();
         $package = Package::findOrFail($request->package_id);
-
+    
+        // Check if user already has the same package
         if (UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
             return back()->with('error', 'Package already purchased or requested.');
         }
-
+    
+        // Create UserPackage entry with is_active = false (admin approval needed)
+        UserPackage::create([
+            'user_id' => $user->id,
+            'package_id' => $package->id,
+            'amount' => $package->investment_amount,
+            'roi_dates' => [],
+            'total_roi_given' => 0,
+            'is_active' => false, // Pending approval
+            'source' => 'admin',  // Requested via Admin
+        ]);
+    
+        // Create transaction log (optional)
         Transaction::create([
             'user_id' => $user->id,
             'amount' => $package->investment_amount,
-            'type' => 'debit', // user का पैसा गया = debit
+            'type' => 'debit',
             'purpose_of_payment' => 'buy_plan_one',
-            'status' => 'success',
-            'message' => 'Package bought using E-PIN',
+            'status' => 'pending', // Admin hasn't approved yet
+            'message' => 'Buy request sent to admin.',
             'currency' => 'INR',
-            'gateway' => 'epin',
+            'gateway' => 'admin', // Not 'epin'
         ]);
-
+    
         return redirect()->route('user')->with('success', 'Buy request sent to admin.');
     }
+    
 
     public function wallet()
     {
@@ -516,7 +530,7 @@ public function withdrawSubmit(Request $request)
         } elseif ($request->payment_method === 'usdt') {
             $request->validate([
                 'usdt_address' => 'required|string',
-                'usdt_network' => 'required|in:TRC20,ERC20',
+                'usdt_network' => 'required|in:TRC20,ERC20,BEP20',
             ]);
 
             $paymentAddress = "USDT Address: {$request->usdt_address}\n"

@@ -9,12 +9,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::table('user_packages', function (Blueprint $table) {
-            $table->decimal('amount', 10, 2)->nullable()->after('package_id');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending')->after('source');
         });
-        
     }
 
     /**

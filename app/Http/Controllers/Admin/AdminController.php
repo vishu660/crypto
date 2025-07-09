@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Withdraw;
 use App\Models\FundRequest;
+use App\Models\UserPackage;
+use App\Models\Wallet;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -151,23 +154,76 @@ class AdminController extends Controller
         return back()->with('success', 'Bank details approved successfully.');
     }
    
-// public function allFundRequests()
-// {
-//     $fundRequests = FundRequest::with('user')->latest()->get();
-//     return view('backend.fund_requests.all', compact('fundRequests'));
-// }
-//     public function approve($id) {
-//         $request = FundRequest::findOrFail($id);
-//         $request->status = 'approved';
-//         $request->save();
-//         return back()->with('success', 'Fund request approved.');
-//     }
+  // 🆕 Show All Package Requests
+  public function allPackageRequests()
+  {
+      $requests = UserPackage::with('user', 'package')->latest()->get();
+      return view('backend.pages.all_package_requests', compact('requests'));
+  }
 
-//     public function reject($id) {
-//         $request = FundRequest::findOrFail($id);
-//         $request->status = 'rejected';
-//         $request->save();
-//         return back()->with('success', 'Fund request rejected.');
-//     }
+  // 🆕 Approve Package Request
+  public function approve($id)
+  {
+      $request = UserPackage::findOrFail($id);
+
+      if ($request->status !== 'pending') {
+          return back()->with('error', 'Request already processed.');
+      }
+
+      // Update status
+      $request->status = 'approved';
+      $request->is_active = true;
+      $request->start_date = Carbon::now();
+      $request->end_date = Carbon::now()->addDays($request->package->validity_days ?? 30); // fallback 30
+      $request->save();
+
+      // ROI dates create karna ho to yahan logic डालें
+
+      return back()->with('success', 'Package request approved successfully.');
+  }
+
+  public function reject($id)
+  {
+      $request = UserPackage::findOrFail($id);
+
+      if ($request->status !== 'pending') {
+          return back()->with('error', 'Request already processed.');
+      }
+
+      $request->status = 'rejected';
+      $request->is_active = false;
+      $request->save();
+
+      return back()->with('success', 'Package request rejected.');
+  }
+  
+  public function pendingPackageRequests()
+{
+    $requests = \App\Models\UserPackage::with('user', 'package')
+        ->where('status', 'pending')
+        ->latest()
+        ->get();
+
+    return view('backend.pages.pending_package_requests', compact('requests'));
 }
+public function approvedPackageRequests()
+{
+    $requests = \App\Models\UserPackage::with('user', 'package')
+        ->where('status', 'approved')
+        ->latest()
+        ->get();
+
+    return view('backend.pages.approved_package', compact('requests'));
+}
+public function rejectedPackageRequests()
+{
+    $requests = \App\Models\UserPackage::with('user', 'package')
+        ->where('status', 'rejected')
+        ->latest()
+        ->get();
+
+    return view('backend.pages.rejected_package', compact('requests'));
+}
+}
+
  

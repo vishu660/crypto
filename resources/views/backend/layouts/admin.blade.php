@@ -386,9 +386,9 @@
             <button class="btn p-0 me-3 d-md-none" id="sidebarToggle" style="background:transparent;border:none;outline:none;">
                 <i class="bi bi-list" style="font-size:2rem;"></i>
             </button>
-            <img src="https://i.ibb.co/6bQ6Q0P/location-logo.png" alt="Logo" style="height:32px; margin-right:8px;">
-            <span style="font-weight:700; letter-spacing:1px; color:#fff; font-size:1.2rem;">COMPANY</span>
-            <span style="font-size:0.8rem; color:#b2f7ef; margin-left:6px;">Your Logo Here</span>
+            <img src="{{ asset('images/logo.2.png') }}" alt="Logo" style="height:32px; margin-right:8px;">
+            <span style="font-weight:700; letter-spacing:1px; color:#fff; font-size:1.2rem;">DIGITAL LEVEL MARKETING</span>
+           
         </div>
         <!-- Center: Google Translate -->
         <div class="d-flex flex-column align-items-center" style="min-width:220px;">
@@ -404,11 +404,7 @@
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="settingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-gear" style="font-size:1.5rem; color:#b2f7ef; margin-right:8px;"></i>
-                    <span style="font-size:1.1rem; color:#fff;">
-                        @if(Auth::check() && Auth::user()->role == 'admin')
-                            {{ Auth::user()->full_name ?? Auth::user()->name }}
-                        @endif
-                    </span>
+                  
                 </a>
                 <div class="dropdown-menu fade dropdown-menu-end w-300px text-center p-0 mt-1" aria-labelledby="settingsDropdown" style="background:#232b38; border:none;">
                     <div class="row row-grid gx-0">
@@ -508,7 +504,7 @@
     <!-- Sidebar -->
     <nav class="sidebar py-4 @stack('sidebar-class')">
         <div class="position-sticky">
-            <ul class="nav flex-column">
+            <ul id="sidebarAccordion" class="nav flex-column">
                 <!-- Dashboard with icon -->
                 <li class="nav-item mb-2">
                     <a class="nav-link d-flex align-items-center" href="{{ route('admin-dashboard') }}">
@@ -570,19 +566,20 @@
                         <a class="nav-link" href="{{ route('admin.fund-requests.failed') }}">Failed/Rejected</a>
                     </div>
                 </li>
-                {{-- new fund  --}}
+                {{-- package   --}}
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundRequestsMenu" role="button" aria-expanded="false" aria-controls="fundRequestsMenu">
-                        <span><i class="bi bi-graph-up-arrow me-2"></i>Fund Requests</span>
+                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#packageRequestsMenu" role="button" aria-expanded="false" aria-controls="packageRequestsMenu">
+                        <span><i class="bi bi-box-seam me-2"></i>Package Requests</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
-                    <div class="collapse submenu" id="fundRequestsMenu">
-                        <a class="nav-link" href="{{ route('admin.fund-requests.all') }}">All Requests</a>
-                        <a class="nav-link" href="{{ route('admin.fund-requests.pending') }}">Pending</a>
-                        <a class="nav-link" href="{{ route('admin.fund-requests.approved') }}">Approved</a>
-                        <a class="nav-link" href="{{ route('admin.fund-requests.failed') }}">Failed/Rejected</a>
+                    <div class="collapse submenu" id="packageRequestsMenu" data-bs-parent="#sidebarAccordion">
+                        <a class="nav-link" href="{{ route('package-requests.all') }}">All Requests</a>
+                        <a class="nav-link" href="{{ route('package-requests.pending') }}">Pending</a>
+                        <a class="nav-link" href="{{ route('package-requests.approved') }}">Approved</a>
+                        <a class="nav-link" href="{{ route('package-requests.rejected') }}">Failed/Rejected</a>
                     </div>
                 </li>
+                
                 <!-- Fund Deduction Dropdown -->
                 <li class="nav-item mb-2">
                     <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.deductions.*') || request()->routeIs('admin-deduction-report') || request()->routeIs('admin-deduct-fund') ? 'active' : '' }}" data-bs-toggle="collapse" href="#fundDeductionMenu" role="button" aria-expanded="false" aria-controls="fundDeductionMenu">

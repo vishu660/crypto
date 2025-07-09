@@ -16,7 +16,16 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
             $table->decimal('amount', 12, 2); 
             $table->string('currency', 10)->default('INR');
-            $table->enum('type', ['debit', 'credit']); 
+
+            // ✅ Updated type with new enum values
+            $table->enum('type', [
+                'debit',
+                'credit',
+                'package_buy',
+                'buy_request',
+                'other_types_here'
+            ]);
+
             $table->enum('purpose_of_payment', [
                 'buy_plan_one',
                 'withdrawal',
@@ -29,8 +38,12 @@ return new class extends Migration
                 'turnover_salary_slab_5',
                 'something_else'
             ]); 
+
             $table->enum('status', ['pending', 'success', 'failed']);
-            $table->enum('gateway', ['razorpay', 'stripe', 'paypal', 'paytm', 'admin'])->nullable();
+
+            // ✅ Updated gateway enum to include 'epin'
+            $table->enum('gateway', ['razorpay', 'stripe', 'paypal', 'paytm', 'admin', 'epin'])->nullable();
+
             $table->text('message')->nullable();
             $table->timestamps(); 
         });
