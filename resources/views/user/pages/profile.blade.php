@@ -94,6 +94,10 @@
       </div>
       <div class="modal-body">
           <div class="mb-3">
+              <label>Current Password</label>
+              <input type="password" name="current_password" class="form-control" required>
+          </div>
+          <div class="mb-3">
               <label>New Password</label>
               <input type="password" name="password" class="form-control" required>
           </div>

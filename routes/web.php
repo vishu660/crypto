@@ -506,3 +506,4 @@ Route::post('/admin/fund-requests/{id}/reject', [FundRequestController::class, '
     });
     
     Route::post('/admin/package', [PackageController::class, 'store'])->name('package.store');
+    

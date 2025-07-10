@@ -90,31 +90,31 @@ class UserController extends Controller
             'package_id' => 'required|exists:packages,id',
             'secret_code' => 'required|string|min:6|max:20',
         ]);
-    
+
         $epin = Epin::where('code', $request->secret_code)
             ->where('status', 'active')
             ->where(function ($query) {
                 $query->whereNull('expiry_date')->orWhere('expiry_date', '>=', now());
             })
             ->first();
-    
+
         if (!$epin) {
             return back()->with('error', 'Invalid, expired, or already used E-pin.');
         }
-    
+
         $user = auth()->user();
         $package = Package::findOrFail($request->package_id);
-    
+
         if (UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
             return back()->with('error', 'Package already purchased or requested.');
         }
-    
+
         try {
             DB::beginTransaction();
-    
+
             $startDate = Carbon::today();
             $endDate = $startDate->copy()->addDays($package->validity_days - 1);
-    
+
             $roiDates = RoiHelper::generateRoiDates(
                 $startDate,
                 $package->validity_days,
@@ -125,7 +125,7 @@ class UserController extends Controller
                     'monthly_date' => $package->monthly_date,
                 ]
             );
-    
+
             UserPackage::create([
                 'user_id' => $user->id,
                 'package_id' => $package->id,
@@ -152,7 +152,7 @@ class UserController extends Controller
             $epin->user_id = $user->id;
             $epin->used_at = now();
             $epin->save();
-    
+
             DB::commit();
             return redirect()->route('user')->with('success', 'Package bought successfully using E-pin.');
         } catch (\Exception $e) {
@@ -168,15 +168,15 @@ class UserController extends Controller
         $request->validate([
             'package_id' => 'required|exists:packages,id',
         ]);
-    
+
         $user = auth()->user();
         $package = Package::findOrFail($request->package_id);
-    
+
         // Check if user already has the same package
         if (UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
             return back()->with('error', 'Package already purchased or requested.');
         }
-    
+
         // Create UserPackage entry with is_active = false (admin approval needed)
         UserPackage::create([
             'user_id' => $user->id,
@@ -199,7 +199,7 @@ class UserController extends Controller
             'currency' => 'INR',
             'gateway' => 'admin', // Not 'epin'
         ]);
-    
+
         return redirect()->route('user')->with('success', 'Buy request sent to admin.');
     }
     
@@ -250,13 +250,13 @@ class UserController extends Controller
         return view('user.pages.profile', compact('user', 'transactions'));
     }
 
-    
-public function updateProfile(Request $request)
-{
-    $user = Auth::user();
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
 
     // Validation
-    $request->validate([
+        $request->validate([
         'full_name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email,' . $user->id,
         'mobile_no' => 'nullable|string|max:20',
@@ -287,10 +287,10 @@ public function updateProfile(Request $request)
     $user->state = $request->state;
     $user->country = $request->country;
 
-    $user->save();
+        $user->save();
 
-    return back()->with('success', 'Profile updated successfully!');
-}
+        return back()->with('success', 'Profile updated successfully!');
+    }
 
     // public function updateProfile(Request $request)
     // {
@@ -400,7 +400,7 @@ public function updateProfile(Request $request)
             'pan_number' => 'required_if:kyc_type,pan|nullable|string|max:10',
             'dl_number' => 'required_if:kyc_type,dl|nullable|string|max:20',
             'front_image' => 'required|image|max:4096',
-            'back_image' => 'required|image|max:4096',
+            'back_image' => 'required|image|max:4096', 
         ]);
 
         $user = Auth::user();
@@ -483,16 +483,16 @@ public function showWithdrawalForm()
     $user = Auth::user();
     $bankDetail = \App\Models\UserBankDetail::where('user_id', $user->id)->first();
     return view('user.pages.withdrawal', compact('bankDetail'));
-}
-public function approveBank($id)
-{
-    $bank = UserBankDetail::findOrFail($id);
-    $bank->is_approved = true;
-    $bank->approved_at = now();
-    $bank->save();
+    }
+    public function approveBank($id)
+    {
+        $bank = UserBankDetail::findOrFail($id);
+        $bank->is_approved = true;
+        $bank->approved_at = now();
+        $bank->save();
 
-    return redirect()->back()->with('success', 'Bank detail approved successfully.');
-}
+        return redirect()->back()->with('success', 'Bank detail approved successfully.');
+    }
 
 public function withdrawSubmit(Request $request)
 {
@@ -759,8 +759,8 @@ public function matchingBonus()
         
 // }
 public function treeView(Request $request)
-{
-    $user = auth()->user();
+    {
+        $user = auth()->user();
 
     $left_user = User::where('placement_id', $user->id)->where('position', 'left')->first();
     $right_user = User::where('placement_id', $user->id)->where('position', 'right')->first();
@@ -887,5 +887,25 @@ public function userTransactions()
     });
     return view('user.pages.activity', compact('activities'));
 }
+
+public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $user = $request->user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Current password is incorrect']);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return back()->with('success', 'Password updated successfully.');
+    }
+
 
 }
