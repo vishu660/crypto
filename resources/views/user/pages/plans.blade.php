@@ -16,7 +16,6 @@
             <h4 class="text-capitalize fw-bold">Plans</h4>
         </div>
     </div>
-    <!-- End: Title -->
 
     @php
         $colors = ['#6271ebe0', '#23cb62e0', '#fc76b7eb', '#fcb676eb', '#76b7fceb', '#eb76fc', '#76fcb7'];
@@ -61,7 +60,6 @@
 
                     <div class="mt-3">
                         <div><b>ROI:</b> <span style="font-weight:600;">{{ number_format($package->roi_percent, 2) }}%</span></div>
-                        <div><b>Bonus:</b> <span style="font-weight:600;">{{ number_format($package->direct_bonus_percent, 2) }}%</span></div>
                         <div><b>Referral:</b> <span style="font-weight:600;">{{ number_format($package->referral_income, 2) }}%</span></div>
                         <div><b>Type:</b> <span style="font-weight:600;">{{ ucfirst($package->type_of_investment_days) }}</span></div>
 
@@ -96,6 +94,18 @@
                             @endif
                         @endif
                     </div>
+
+                    <!-- 🆕 Buy Now Button -->
+                    @if(!$hasPackage)
+                    <form method="GET" action="{{ route('user.package.buy', $package->id) }}">
+                      
+                                                    @csrf
+                            <button type="submit" class="btn btn-success w-100" style="border-radius: 22px; font-weight: 700;">
+                                Buy Now
+                            </button>
+                        </form>
+                    @endif
+
                 </div>
             </div>
         @empty
@@ -111,5 +121,4 @@
     </div>
 
 </div>
-<!-- End: Main Body -->
 @endsection

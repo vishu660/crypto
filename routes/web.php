@@ -27,7 +27,6 @@ use App\Http\Controllers\NowPaymentController;
 
 
 
-
 // // Public Routes
 // Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 // Route::post('/admin/login', [AuthController::class, 'login'])->name('admin-login.submit');
@@ -83,6 +82,13 @@ Route::get('user/breakdown/{id}', [PackageController::class, 'show'])->name('use
 Route::get('/user/pages/email', [\App\Http\Controllers\Admin\MailController::class, 'emailInbox'])->name('user.pages.email');
 
 
+Route::middleware(['auth'])->group(function () {
+    Route::post('/user/buy/{id}', [PackageController::class, 'buy'])->name('user.package.buy');
+    Route::post('/user/buy/code', [PackageController::class, 'buyWithCode'])->name('user.package.buyWithCode');
+    Route::post('/user/buy/request', [PackageController::class, 'buyWithRequest'])->name('user.package.buyWithRequest');
+});
+
+
 
 Route::get('/admin/all-fund-requests', [TransactionController::class, 'index'])->name('admin.fund-requests.all');
 
@@ -127,11 +133,7 @@ Route::get('/admin/new-transfer', function () {
 // Add the missing store route for fund transfers
 Route::post('/admin/transfers', [FundTransferController::class, 'storeTransfer'])->name('admin.transfers.store');
 
-// Route::middleware('auth')->group(function () {
-//     Route::get('/admin/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/admin/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/admin/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
+
 
 require __DIR__.'/auth.php';
 
@@ -242,16 +244,11 @@ Route::get('/admin/updatepassword', function () {
     return view('backend.pages.updatepassword');
 })->name('admin.updatepassword');
 
-// Route::get('/admin/settings', function () {
-//     return view('backend.pages.settings');
-// })->name('admin.settings');
+
 
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
-    // Route::get('/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
-    // Route::post('package-details', [PackageController::class, 'store'])->name('package.store');
-
 });
 
 // Show package list page
@@ -510,6 +507,12 @@ Route::post('/admin/fund-requests/{id}/reject', [FundRequestController::class, '
     });
     
     Route::post('/admin/package', [PackageController::class, 'store'])->name('package.store');
+
+
+
+    Route::post('/user/convert', [UserController::class, 'convert'])->name('user.convert');
+    // Route::get('/user', [UserController::class, 'getPrices'])->name('user.live.prices');
+
     
     Route::prefix('admin')->group(function () {
         Route::get('/addresses', [AddressController::class, 'index'])->name('admin.addresses.index');

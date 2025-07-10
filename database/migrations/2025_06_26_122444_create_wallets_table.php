@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('amount', 12, 2);
             $table->decimal('balance_after', 12, 2)->nullable(); // ✅ Optional
-            $table->string('currency', 10)->default('INR');
+            $table->enum('currency', ['INR', 'USDT']);
             $table->enum('type', ['debit', 'credit']);
             $table->enum('source', ['roi', 'referral', 'deposit', 'withdrawal', 'admin', 'bonus'])->default('roi');
             $table->text('message')->nullable();
