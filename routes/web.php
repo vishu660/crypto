@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\SalaryController;
 use App\Http\Controllers\Admin\KycController;
+use App\Http\Controllers\Admin\AddressController;
 use App\Http\Controllers\NowPaymentController;
 
 
@@ -507,3 +508,11 @@ Route::post('/admin/fund-requests/{id}/reject', [FundRequestController::class, '
     
     Route::post('/admin/package', [PackageController::class, 'store'])->name('package.store');
     
+    Route::prefix('admin')->group(function () {
+        Route::get('/addresses', [AddressController::class, 'index'])->name('admin.addresses.index');
+        Route::get('/addresses/create', [AddressController::class, 'create'])->name('admin.addresses.create');
+        Route::post('/addresses', [AddressController::class, 'store'])->name('admin.addresses.store');
+        Route::get('/addresses/{address}/edit', [AddressController::class, 'edit'])->name('admin.addresses.edit');
+        Route::put('/addresses/{address}', [AddressController::class, 'update'])->name('admin.addresses.update');
+        Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('admin.addresses.destroy');
+    });
