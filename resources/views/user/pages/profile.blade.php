@@ -86,26 +86,23 @@
 <!-- Login Password Modal -->
 <div class="modal fade" id="loginPasswordModal" tabindex="-1" aria-labelledby="loginPasswordModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <form action="{{ route('user.change.password') }}" method="POST" class="modal-content">
-      @csrf
-      <div class="modal-header">
-        <h5 class="modal-title">Change Login Password</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-          <div class="mb-3">
-              <label>New Password</label>
-              <input type="password" name="password" class="form-control" required>
-          </div>
-          <div class="mb-3">
-              <label>Confirm Password</label>
-              <input type="password" name="password_confirmation" class="form-control" required>
-          </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Update</button>
-      </div>
-    </form>
+  <form action="{{ route('user.change.password') }}" method="POST" class="modal-content">
+  @csrf
+  <div class="modal-body">
+    <div class="mb-3">
+      <label>New Password</label>
+      <input type="password" name="password" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Confirm Password</label>
+      <input type="password" name="password_confirmation" class="form-control" required>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">Update</button>
+  </div>
+</form>
+
   </div>
 </div>
 

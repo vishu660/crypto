@@ -263,6 +263,124 @@ public function convert(Request $request)
     }
 
   
+    public function buyWithCode(Request $request)
+    {
+        $request->validate([
+            'package_id' => 'required|exists:packages,id',
+            'secret_code' => 'required|string|min:6|max:20',
+        ]);
+
+        $epin = Epin::where('code', $request->secret_code)
+            ->where('status', 'active')
+            ->where(function ($query) {
+                $query->whereNull('expiry_date')->orWhere('expiry_date', '>=', now());
+            })
+            ->first();
+
+        if (!$epin) {
+            return back()->with('error', 'Invalid, expired, or already used E-pin.');
+        }
+
+        $user = auth()->user();
+        $package = Package::findOrFail($request->package_id);
+
+        if (UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
+            return back()->with('error', 'Package already purchased or requested.');
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $startDate = Carbon::today();
+            $endDate = $startDate->copy()->addDays($package->validity_days - 1);
+
+            $roiDates = RoiHelper::generateRoiDates(
+                $startDate,
+                $package->validity_days,
+                $package->type_of_investment_days,
+                [
+                    'daily_days' => $package->daily_days,
+                    'weekly_day' => $package->weekly_day,
+                    'monthly_date' => $package->monthly_date,
+                ]
+            );
+
+            UserPackage::create([
+                'user_id' => $user->id,
+                'package_id' => $package->id,
+                'start_date' => $startDate->toDateString(),
+                'end_date' => $endDate->toDateString(),
+                'roi_dates' => json_encode($roiDates),
+                'total_roi_given' => 0,
+                'is_active' => true,
+                'source' => 'epin',
+                'amount' => $package->investment_amount, // ✅ FIXED
+            ]);
+    
+            // Optional Transaction Entry
+            Transaction::create([
+                'user_id' => $user->id,
+                'amount' => $package->investment_amount, // ✅ FIXED
+                'type' => 'package_buy',
+                'status' => 'success',
+                'message' => 'Package bought using E-PIN',
+            ]);
+    
+            // Update EPIN
+            $epin->status = 'used';
+            $epin->user_id = $user->id;
+            $epin->used_at = now();
+            $epin->save();
+
+            DB::commit();
+            return redirect()->route('user')->with('success', 'Package bought successfully using E-pin.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('BuyWithCode error: ' . $e->getMessage());
+            return back()->with('error', 'Something went wrong. Please try again later.');
+        }
+    }
+    
+
+    public function buyWithRequest(Request $request)
+    {
+        $request->validate([
+            'package_id' => 'required|exists:packages,id',
+        ]);
+
+        $user = auth()->user();
+        $package = Package::findOrFail($request->package_id);
+
+        // Check if user already has the same package
+        if (UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
+            return back()->with('error', 'Package already purchased or requested.');
+        }
+
+        // Create UserPackage entry with is_active = false (admin approval needed)
+        UserPackage::create([
+            'user_id' => $user->id,
+            'package_id' => $package->id,
+            'amount' => $package->investment_amount,
+            'roi_dates' => [],
+            'total_roi_given' => 0,
+            'is_active' => false, // Pending approval
+            'source' => 'admin',  // Requested via Admin
+        ]);
+    
+        // Create transaction log (optional)
+        Transaction::create([
+            'user_id' => $user->id,
+            'amount' => $package->investment_amount,
+            'type' => 'debit',
+            'purpose_of_payment' => 'buy_plan_one',
+            'status' => 'pending', // Admin hasn't approved yet
+            'message' => 'Buy request sent to admin.',
+            'currency' => 'INR',
+            'gateway' => 'admin', // Not 'epin'
+        ]);
+
+        return redirect()->route('user')->with('success', 'Buy request sent to admin.');
+    }
     
 
     public function wallet()
@@ -311,13 +429,13 @@ public function convert(Request $request)
         return view('user.pages.profile', compact('user', 'transactions'));
     }
 
-    
-public function updateProfile(Request $request)
-{
-    $user = Auth::user();
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
 
     // Validation
-    $request->validate([
+        $request->validate([
         'full_name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email,' . $user->id,
         'mobile_no' => 'nullable|string|max:20',
@@ -348,10 +466,10 @@ public function updateProfile(Request $request)
     $user->state = $request->state;
     $user->country = $request->country;
 
-    $user->save();
+        $user->save();
 
-    return back()->with('success', 'Profile updated successfully!');
-}
+        return back()->with('success', 'Profile updated successfully!');
+    }
 
     // public function updateProfile(Request $request)
     // {
@@ -461,7 +579,7 @@ public function updateProfile(Request $request)
             'pan_number' => 'required_if:kyc_type,pan|nullable|string|max:10',
             'dl_number' => 'required_if:kyc_type,dl|nullable|string|max:20',
             'front_image' => 'required|image|max:4096',
-            'back_image' => 'required|image|max:4096',
+            'back_image' => 'required|image|max:4096', 
         ]);
 
         $user = Auth::user();
@@ -544,16 +662,16 @@ public function showWithdrawalForm()
     $user = Auth::user();
     $bankDetail = \App\Models\UserBankDetail::where('user_id', $user->id)->first();
     return view('user.pages.withdrawal', compact('bankDetail'));
-}
-public function approveBank($id)
-{
-    $bank = UserBankDetail::findOrFail($id);
-    $bank->is_approved = true;
-    $bank->approved_at = now();
-    $bank->save();
+    }
+    public function approveBank($id)
+    {
+        $bank = UserBankDetail::findOrFail($id);
+        $bank->is_approved = true;
+        $bank->approved_at = now();
+        $bank->save();
 
-    return redirect()->back()->with('success', 'Bank detail approved successfully.');
-}
+        return redirect()->back()->with('success', 'Bank detail approved successfully.');
+    }
 
 public function withdrawSubmit(Request $request)
     {
@@ -818,8 +936,8 @@ public function matchingBonus()
         
 // }
 public function treeView(Request $request)
-{
-    $user = auth()->user();
+    {
+        $user = auth()->user();
 
     $left_user = User::where('placement_id', $user->id)->where('position', 'left')->first();
     $right_user = User::where('placement_id', $user->id)->where('position', 'right')->first();
@@ -946,5 +1064,24 @@ public function userTransactions()
     });
     return view('user.pages.activity', compact('activities'));
 }
+
+public function changePassword(Request $request)
+{
+    $request->validate([
+        'password' => 'required|min:8|confirmed',
+    ]);
+
+    $user = Auth::user(); // better than $request->user()
+
+    if (!$user) {
+        return back()->withErrors(['error' => 'User not authenticated!']);
+    }
+
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    return back()->with('success', 'Password updated successfully.');
+}
+
 
 }
