@@ -542,6 +542,11 @@
                         <i class="bi bi-ticket me-2"></i>E-Pin
                     </a>
                 </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('news.*') ? 'active' : '' }}" href="{{ route('news.index') }}">
+                        <i class="bi bi-newspaper me-2"></i> News
+                    </a>
+                </li>
                 {{-- <li class="nav-item mb-2">
                     <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.bank') ? 'active' : '' }}" href="{{ route('admin.bank') }}">
                         <i class="bi bi-ticket me-2"></i>Bank Requests
