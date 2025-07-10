@@ -42,7 +42,8 @@ return new class extends Migration
             $table->enum('status', ['pending', 'success', 'failed']);
 
             // ✅ Updated gateway enum to include 'epin'
-            $table->enum('gateway', ['razorpay', 'stripe', 'paypal', 'paytm', 'admin', 'epin'])->nullable();
+            $table->enum('gateway', ['razorpay', 'stripe', 'paypal', 'paytm', 'admin', 'epin', 'nowpayments'])->nullable();
+
 
             $table->text('message')->nullable();
             $table->timestamps(); 

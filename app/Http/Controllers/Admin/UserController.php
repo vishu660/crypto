@@ -21,62 +21,240 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
     public function dashboard()
-    {
-        $user = auth()->user();
-        $packages = Package::where('is_active', 1)->get();
-        $allTransactions = Transaction::where('user_id', $user->id)->get();
-        $recentTransactions = Transaction::where('user_id', $user->id)->latest()->take(5)->get();
-        $balance = $user->wallets->sum(function ($wallet) {
-            return $wallet->type === 'credit' ? $wallet->amount : -$wallet->amount;
-        });
-        // Epins
-        $freshEpins = Epin::where('user_id', $user->id)->where('status', 'active')->count();
-        $appliedEpins = Epin::where('user_id', $user->id)->where('status', 'applied')->count();
-        // Referrals
-        $myReferrals = $user->directReferrals()->count();
-        // Team (recursive)
-        $downlines = collect();
-        $this->getDownlinesRecursive($user, $downlines, 1);
-        $myTeamCount = $downlines->count();
-        // Wallets
-        $earningWallet = $user->wallets->where('type', 'credit')->sum('amount');
-        $depositWallet = $user->wallets->where('type', 'deposit')->sum('amount');
-        // Fund Requested
-        $fundRequested = FundRequest::where('user_id', $user->id)->sum('amount');
-        // Matching Bonus (dummy)
-        $matchingBonus = 0;
-        // Left/Right Team (dummy)
-        $leftTeam = 6; $rightTeam = 0;
-        // Earnings Chart (dummy)
-        $earningsChart = [0, 0, 0, 1500, 0, 0, 0, 0, 0, 0, 0, 0];
-        // My Earnings/Payouts (dummy)
-        $myEarnings = 1450.3;
-        $referBonus = 1000.3;
-        $levelBonus = 450;
-        $myPayouts = 644;
-        $pendingPayouts = 145;
-        $approvedPayouts = 499;
-        // ETH Address (dummy)
-        $ethAddress = 'demoa1673C0B47B0cdsss1bd3C445e9';
-        // Notifications (dummy)
-        $notifications = [
-            ['text' => 'Make A One 10k Business To Achieve One Bike', 'date' => '04-04-2025 03:51pm'],
-            ['text' => 'Mjhghghgjkgjkgjgjjh', 'date' => '04-04-2025 02:19pm'],
-            ['text' => 'Global 10000$ Joining To Achive Goa Trip', 'date' => '14-03-2024 09:45pm'],
-        ];
-        return view('user.user', compact(
-            'packages', 'recentTransactions', 'allTransactions', 'balance',
-            'freshEpins', 'appliedEpins', 'myReferrals', 'myTeamCount',
-            'earningWallet', 'depositWallet', 'fundRequested', 'matchingBonus',
-            'leftTeam', 'rightTeam', 'earningsChart', 'myEarnings', 'referBonus',
-            'levelBonus', 'myPayouts', 'pendingPayouts', 'approvedPayouts',
-            'ethAddress', 'notifications', 'user'
-        ));
+{
+    $user = auth()->user();
+
+    if ($user->role !== 'user') {
+        auth()->logout();
+        return redirect()->route('login')->withErrors(['email' => 'Unauthorized access.']);
     }
+
+    $packages = Package::where('is_active', 1)->get();
+    $allTransactions = Transaction::where('user_id', $user->id)->get();
+    $recentTransactions = Transaction::where('user_id', $user->id)->latest()->take(5)->get();
+
+    $inrBalance = $user->wallets->where('currency', 'INR')->sum(fn($w) => $w->type === 'credit' ? $w->amount : -$w->amount);
+    $usdtBalance = $user->wallets->where('currency', 'USDT')->sum(fn($w) => $w->type === 'credit' ? $w->amount : -$w->amount);
+
+    // 🟡 USDT to INR Conversion Rate (from CoinGecko)
+    $usdtRate = 83; // Fallback rate
+    $totalUsdtBalance = $usdtBalance;
+
+    try {
+        $response = Http::timeout(10)->get('https://api.coingecko.com/api/v3/simple/price', [
+            'ids' => 'tether',
+            'vs_currencies' => 'inr',
+        ]);
+
+        if ($response->successful()) {
+            $body = $response->json();
+            if (isset($body['tether']['inr']) && $body['tether']['inr'] > 0) {
+                $usdtRate = $body['tether']['inr'];
+                $totalUsdtBalance = round($usdtBalance + ($inrBalance / $usdtRate), 4);
+            }
+        }
+    } catch (\Exception $e) {
+        \Log::warning('USDT rate fetch failed: ' . $e->getMessage());
+        $totalUsdtBalance = $usdtBalance;
+    }
+
+    // 🟢 CoinGecko Prices with Default Values
+    $prices = [
+        'bitcoin' => ['usdt' => 43000],
+        'ethereum' => ['usdt' => 2500],
+        'binancecoin' => ['usdt' => 300],
+        'monero' => ['usdt' => 150],
+    ];
+
+    try {
+        $cachedPrices = Cache::remember('crypto_prices', now()->addMinutes(5), function () {
+            $response = Http::timeout(10)->get('https://api.coingecko.com/api/v3/simple/price', [
+                'ids' => 'bitcoin,ethereum,monero,binancecoin',
+                'vs_currencies' => 'usdt',
+            ]);
+            
+            if ($response->successful()) {
+                $data = $response->json();
+                // Validate the structure
+                if (is_array($data) && 
+                    isset($data['bitcoin']['usdt']) && 
+                    isset($data['ethereum']['usdt']) && 
+                    isset($data['binancecoin']['usdt']) && 
+                    isset($data['monero']['usdt'])) {
+                    return $data;
+                }
+            }
+            return null;
+        });
+        
+        if ($cachedPrices) {
+            $prices = $cachedPrices;
+        }
+    } catch (\Exception $e) {
+        \Log::warning('CoinGecko prices fetch failed: ' . $e->getMessage());
+    }
+
+    // 🟢 Binance Live Prices with Change% and Default Values
+    $livePrice = [
+        'bitcoin' => ['price' => 43000, 'change' => 0, 'trend' => 'up'],
+        'ethereum' => ['price' => 2500, 'change' => 0, 'trend' => 'up'],
+        'binancecoin' => ['price' => 300, 'change' => 0, 'trend' => 'up'],
+        'monero' => ['price' => 150, 'change' => 0, 'trend' => 'up'],
+    ];
+
+    try {
+        $responses = Http::pool(fn ($pool) => [
+            $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT'),
+            $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=ETHUSDT'),
+            $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=BNBUSDT'),
+            $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=XMRUSDT'),
+        ]);
+
+        if ($responses[0]->successful()) {
+            $btc = $responses[0]->json();
+            $livePrice['bitcoin'] = [
+                'price' => floatval($btc['lastPrice'] ?? 0),
+                'change' => floatval($btc['priceChangePercent'] ?? 0),
+                'trend' => (floatval($btc['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
+            ];
+        }
+
+        if ($responses[1]->successful()) {
+            $eth = $responses[1]->json();
+            $livePrice['ethereum'] = [
+                'price' => floatval($eth['lastPrice'] ?? 0),
+                'change' => floatval($eth['priceChangePercent'] ?? 0),
+                'trend' => (floatval($eth['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
+            ];
+        }
+
+        if ($responses[2]->successful()) {
+            $bnb = $responses[2]->json();
+            $livePrice['binancecoin'] = [
+                'price' => floatval($bnb['lastPrice'] ?? 0),
+                'change' => floatval($bnb['priceChangePercent'] ?? 0),
+                'trend' => (floatval($bnb['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
+            ];
+        }
+
+        if ($responses[3]->successful()) {
+            $xmr = $responses[3]->json();
+            $livePrice['monero'] = [
+                'price' => floatval($xmr['lastPrice'] ?? 0),
+                'change' => floatval($xmr['priceChangePercent'] ?? 0),
+                'trend' => (floatval($xmr['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
+            ];
+        }
+    } catch (\Exception $e) {
+        \Log::warning('Binance prices fetch failed: ' . $e->getMessage());
+    }
+
+    $freshEpins = Epin::where('user_id', $user->id)->where('status', 'active')->count();
+    $appliedEpins = Epin::where('user_id', $user->id)->where('status', 'applied')->count();
+    $myReferrals = $user->directReferrals()->count();
+
+    $downlines = collect();
+    $this->getDownlinesRecursive($user, $downlines, 1);
+    $myTeamCount = $downlines->count();
+
+    $earningWallet = $user->wallets->where('type', 'credit')->sum('amount');
+    $depositWallet = $user->wallets->where('type', 'deposit')->sum('amount');
+    $fundRequested = FundRequest::where('user_id', $user->id)->sum('amount');
+
+    return view('user.user', compact(
+        'packages', 'recentTransactions', 'allTransactions',
+        'inrBalance', 'usdtBalance', 'totalUsdtBalance',
+        'freshEpins', 'appliedEpins', 'myReferrals', 'myTeamCount',
+        'earningWallet', 'depositWallet', 'fundRequested', 'user',
+        'prices',       // CoinGecko Prices
+        'livePrice'     // Binance Live Prices
+    ));
+}
+    
+    
+
+    
+    
+
+public function convert(Request $request)
+{
+    $request->validate([
+        'amount' => 'required|numeric|min:0.01',
+        'from_currency' => 'required|in:USDT,INR',
+        'to_currency' => 'required|in:USDT,INR|different:from_currency',
+    ]);
+
+    $user = auth()->user();
+    $amount = $request->amount;
+    $from = $request->from_currency;
+    $to = $request->to_currency;
+
+    // ✅ Get wallet balances
+    $fromBalance = $user->wallets->where('currency', $from)->sum(function ($w) {
+        return $w->type === 'credit' ? $w->amount : -$w->amount;
+    });
+
+    if ($fromBalance < $amount) {
+        return back()->with('error', 'Insufficient ' . $from . ' balance.');
+    }
+
+    // ✅ Get current exchange rate
+    try {
+        $rateResponse = Http::get('https://api.coingecko.com/api/v3/simple/price', [
+            'ids' => 'tether',
+            'vs_currencies' => 'inr'
+        ]);
+        $rate = $rateResponse['tether']['inr'];
+    } catch (\Exception $e) {
+        $rate = 83; // fallback rate
+    }
+
+    $convertedAmount = $from === 'USDT'
+        ? $amount * $rate
+        : $amount / $rate;
+
+    DB::beginTransaction();
+    try {
+        // ✅ Debit from source wallet
+        $user->wallets()->create([
+            'type' => 'debit',
+            'amount' => $amount,
+            'currency' => $from,
+            'description' => "Converted from $from to $to",
+        ]);
+
+        // ✅ Credit to target wallet
+        $user->wallets()->create([
+            'type' => 'credit',
+            'amount' => $convertedAmount,
+            'currency' => $to,
+            'description' => "Converted to $to from $from",
+        ]);
+
+        DB::commit();
+        return back()->with('success', 'Converted successfully.');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->with('error', 'Conversion failed. Try again.');
+    }
+}
+// public function getPrices()
+// {
+//     $response = Http::get('https://api.coingecko.com/api/v3/simple/price', [
+//         'ids' => 'bitcoin,ethereum,monero,binancecoin',
+//         'vs_currencies' => 'usdt',
+//     ]);
+
+//     $prices = $response->json();
+
+//     return view('user.user', compact('prices'));
+// }
 
     public function showBuyPage($id)
     {
@@ -84,124 +262,7 @@ class UserController extends Controller
         return view('user.pages.buy_package', compact('package'));
     }
 
-    public function buyWithCode(Request $request)
-    {
-        $request->validate([
-            'package_id' => 'required|exists:packages,id',
-            'secret_code' => 'required|string|min:6|max:20',
-        ]);
-    
-        $epin = Epin::where('code', $request->secret_code)
-            ->where('status', 'active')
-            ->where(function ($query) {
-                $query->whereNull('expiry_date')->orWhere('expiry_date', '>=', now());
-            })
-            ->first();
-    
-        if (!$epin) {
-            return back()->with('error', 'Invalid, expired, or already used E-pin.');
-        }
-    
-        $user = auth()->user();
-        $package = Package::findOrFail($request->package_id);
-    
-        if (UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
-            return back()->with('error', 'Package already purchased or requested.');
-        }
-    
-        try {
-            DB::beginTransaction();
-    
-            $startDate = Carbon::today();
-            $endDate = $startDate->copy()->addDays($package->validity_days - 1);
-    
-            $roiDates = RoiHelper::generateRoiDates(
-                $startDate,
-                $package->validity_days,
-                $package->type_of_investment_days,
-                [
-                    'daily_days' => $package->daily_days,
-                    'weekly_day' => $package->weekly_day,
-                    'monthly_date' => $package->monthly_date,
-                ]
-            );
-    
-            UserPackage::create([
-                'user_id' => $user->id,
-                'package_id' => $package->id,
-                'start_date' => $startDate->toDateString(),
-                'end_date' => $endDate->toDateString(),
-                'roi_dates' => json_encode($roiDates),
-                'total_roi_given' => 0,
-                'is_active' => true,
-                'source' => 'epin',
-                'amount' => $package->investment_amount, // ✅ FIXED
-            ]);
-    
-            // Optional Transaction Entry
-            Transaction::create([
-                'user_id' => $user->id,
-                'amount' => $package->investment_amount, // ✅ FIXED
-                'type' => 'package_buy',
-                'status' => 'success',
-                'message' => 'Package bought using E-PIN',
-            ]);
-    
-            // Update EPIN
-            $epin->status = 'used';
-            $epin->user_id = $user->id;
-            $epin->used_at = now();
-            $epin->save();
-    
-            DB::commit();
-            return redirect()->route('user')->with('success', 'Package bought successfully using E-pin.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('BuyWithCode error: ' . $e->getMessage());
-            return back()->with('error', 'Something went wrong. Please try again later.');
-        }
-    }
-    
-
-    public function buyWithRequest(Request $request)
-    {
-        $request->validate([
-            'package_id' => 'required|exists:packages,id',
-        ]);
-    
-        $user = auth()->user();
-        $package = Package::findOrFail($request->package_id);
-    
-        // Check if user already has the same package
-        if (UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
-            return back()->with('error', 'Package already purchased or requested.');
-        }
-    
-        // Create UserPackage entry with is_active = false (admin approval needed)
-        UserPackage::create([
-            'user_id' => $user->id,
-            'package_id' => $package->id,
-            'amount' => $package->investment_amount,
-            'roi_dates' => [],
-            'total_roi_given' => 0,
-            'is_active' => false, // Pending approval
-            'source' => 'admin',  // Requested via Admin
-        ]);
-    
-        // Create transaction log (optional)
-        Transaction::create([
-            'user_id' => $user->id,
-            'amount' => $package->investment_amount,
-            'type' => 'debit',
-            'purpose_of_payment' => 'buy_plan_one',
-            'status' => 'pending', // Admin hasn't approved yet
-            'message' => 'Buy request sent to admin.',
-            'currency' => 'INR',
-            'gateway' => 'admin', // Not 'epin'
-        ]);
-    
-        return redirect()->route('user')->with('success', 'Buy request sent to admin.');
-    }
+  
     
 
     public function wallet()
@@ -495,88 +556,86 @@ public function approveBank($id)
 }
 
 public function withdrawSubmit(Request $request)
-{
-    try {
-        $request->validate([
-            'amount' => 'required|numeric|min:10',
-            'wallet' => 'required|string',
-            'payment_method' => 'required|in:bank,usdt',
-            'transaction_password' => 'required|string',
-            'remark' => 'nullable|string|max:255',
-        ]);
-
-        if (!Auth::user()->transaction_password) {
-            return back()->with('error', 'Transaction password not set. Please set your transaction password first.');
-        }
-
-        if (!Hash::check($request->transaction_password, Auth::user()->transaction_password)) {
-            return back()->with('error', 'Invalid Transaction Password');
-        }
-
-        $paymentAddress = '';
-
-        if ($request->payment_method === 'bank') {
+    {
+        try {
             $request->validate([
-                'account_holder' => 'required|string|max:100',
-                'bank_account' => 'required|string|max:50',
-                'ifsc_code' => 'required|string|max:20',
-                'bank_name' => 'required|string|max:100',
+                'amount' => 'required|numeric|min:10',
+                'wallet' => 'required|string',
+                'payment_method' => 'required|in:bank,usdt',
+                'transaction_password' => 'required|string',
+                'remark' => 'nullable|string|max:255',
             ]);
 
-            $paymentAddress = "Holder: {$request->account_holder}\n"
-                            . "Account No: {$request->bank_account}\n"
-                            . "IFSC: {$request->ifsc_code}\n"
-                            . "Bank: {$request->bank_name}";
-        } elseif ($request->payment_method === 'usdt') {
-            $request->validate([
-                'usdt_address' => 'required|string',
-                'usdt_network' => 'required|in:TRC20,ERC20,BEP20',
+            $user = Auth::user();
+            if (!Hash::check($request->transaction_password, $user->transaction_password)) {
+                return back()->with('error', 'Invalid Transaction Password');
+            }
+
+            $paymentAddress = '';
+            $currency = $request->payment_method === 'usdt' ? 'USDT' : 'INR';
+
+            if ($request->payment_method === 'bank') {
+                $request->validate([
+                    'account_holder' => 'required|string|max:100',
+                    'bank_account' => 'required|string|max:50',
+                    'ifsc_code' => 'required|string|max:20',
+                    'bank_name' => 'required|string|max:100',
+                ]);
+
+                $paymentAddress = "Holder: {$request->account_holder}\n"
+                                . "Account No: {$request->bank_account}\n"
+                                . "IFSC: {$request->ifsc_code}\n"
+                                . "Bank: {$request->bank_name}";
+            } else {
+                $request->validate([
+                    'usdt_address' => 'required|string',
+                    'usdt_network' => 'required|in:TRC20,ERC20,BEP20',
+                ]);
+
+                $paymentAddress = "USDT Address: {$request->usdt_address}\n"
+                                . "Network: {$request->usdt_network}";
+            }
+
+            $charge = $currency === 'USDT' ? 1 : 5;
+            $amount = $request->amount;
+            $payable = $amount - $charge;
+
+            $balance = $user->wallets->where('currency', $currency)->sum(fn($w) => $w->type === 'credit' ? $w->amount : -$w->amount);
+            if ($amount > $balance) {
+                return back()->with('error', 'Insufficient wallet balance.');
+            }
+
+            $withdraw = Withdraw::create([
+                'user_id' => $user->id,
+                'amount' => $amount,
+                'processing_charge' => $charge,
+                'payable_amount' => $payable,
+                'wallet_type' => $request->wallet,
+                'payment_method' => $request->payment_method,
+                'payment_address' => $paymentAddress,
+                'remark' => $request->remark,
+                'status' => 'pending',
             ]);
 
-            $paymentAddress = "USDT Address: {$request->usdt_address}\n"
-                            . "Network: {$request->usdt_network}";
+            Wallet::create([
+                'user_id' => $user->id,
+                'amount' => $amount,
+                'balance_after' => $balance - $amount,
+                'currency' => $currency,
+                'type' => 'debit',
+                'source' => 'withdrawal',
+                'message' => 'Withdrawal requested',
+            ]);
+
+            return back()->with('success', 'Withdraw request submitted successfully!');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->validator)->withInput();
+        } catch (\Exception $e) {
+            Log::error('Withdrawal submission error: ' . $e->getMessage());
+            return back()->with('error', 'Something went wrong. Please try again.');
         }
-
-        $amount = $request->amount;
-        $charge = 5; // Flat ₹5 charge
-        $payable = $amount - $charge;
-
-        if ($payable <= 0) {
-            return back()->with('error', 'Payable amount must be greater than 0 after charges.');
-        }
-
-        $withdraw = Withdraw::create([
-            'user_id'           => Auth::id(),
-            'amount'            => $amount,
-            'processing_charge' => $charge,
-            'payable_amount'    => $payable,
-            'wallet_type'       => $request->wallet,
-            'payment_method'    => $request->payment_method,
-            'payment_address'   => $paymentAddress,
-            'remark'            => $request->remark,
-            'status'            => 'pending',
-        ]);
-
-        Log::info('Withdrawal request created', [
-            'user_id' => Auth::id(),
-            'withdraw_id' => $withdraw->id,
-            'amount' => $amount,
-            'payment_method' => $request->payment_method
-        ]);
-
-        return back()->with('success', 'Withdraw request submitted successfully!');
-
-    } catch (\Illuminate\Validation\ValidationException $e) {
-        return back()->withErrors($e->validator)->withInput();
-    } catch (\Exception $e) {
-        Log::error('Withdrawal submission error: ' . $e->getMessage(), [
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-            'trace' => $e->getTraceAsString()
-        ]);
-        return back()->with('error', 'Something went wrong. Please try again. Error: ' . $e->getMessage());
     }
-}
 
 
 public function myWithdraws()

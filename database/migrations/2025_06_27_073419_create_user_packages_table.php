@@ -14,22 +14,27 @@ return new class extends Migration
         Schema::create('user_packages', function (Blueprint $table) {
             $table->id();
 
+            // Foreign Keys
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('package_id');
 
-            $table->date('start_date')->nullable();        
-            $table->date('end_date')->nullable();          
+            // ✅ Package amount
+            $table->decimal('amount', 10, 2)->nullable();
 
-            $table->json('roi_dates')->nullable();        
-            $table->integer('total_roi_given')->default(0); 
+            // ✅ ROI related fields
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->json('roi_dates')->nullable();
+            $table->integer('total_roi_given')->default(0);
             $table->boolean('is_active')->default(true);
 
-            // ✅ Add this line for source
-            $table->enum('source', ['user', 'admin'])->default('user');
+            // ✅ Source - includes 'epin'
+            $table->enum('source', ['user', 'admin', 'epin'])->default('user');
 
+            // ✅ Timestamps
             $table->timestamps();
 
-            // Foreign Keys
+            // ✅ Foreign Key Constraints
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
         });
@@ -42,8 +47,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('user_packages');
     }
-    public function package()
-{
-    return $this->belongsTo(\App\Models\Package::class);
-}
 };

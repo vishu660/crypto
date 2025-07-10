@@ -345,7 +345,6 @@
                                 <th>Investment Amount</th>
                                 <th>ROI (%)</th>
                                 <th>Validity Days</th>
-                                <th>Direct Bonus (%)</th>
                                 <th>Referral Income</th>
                                 <th>Referral Show Income</th> <!-- ✅ New -->
                                 <th>Show Active</th>          <!-- ✅ New -->
@@ -366,7 +365,7 @@
                                     <td>USDT {{ $package->investment_amount }}</td>
                                     <td>{{ $package->roi_percent }} %</td>
                                     <td>{{ $package->validity_days }}</td>
-                                    <td>{{ $package->direct_bonus_percent }} %</td>
+                                   
                                     <td>{{ $package->referral_income }}</td>
                                     <td>{{ $package->referral_show_income ?? '-' }}</td> <!-- ✅ Referral Show Income -->
                                    
