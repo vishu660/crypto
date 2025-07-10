@@ -6,17 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up(): void {
-        Schema::create('user_addresses', function (Blueprint $table) {
+        Schema::create('usdt_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('user_usdts')->onDelete('cascade');
             $table->foreignId('address_id')->constrained('addresses')->onDelete('cascade');
-            $table->string('usdt_address');
-            $table->string('qr_code')->nullable();
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
 
     public function down(): void {
-        Schema::dropIfExists('user_addresses');
+        Schema::dropIfExists('usdt_requests');
     }
 };

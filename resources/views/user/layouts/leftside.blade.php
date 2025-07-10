@@ -159,6 +159,8 @@
                             <a class="nav-link" href="{{ route('user.pages.bank') }}">Bank Details</a>
                             <a class="nav-link" href="{{ route('user.pages.profile') }}">Personal Details</a>
                             <a class="nav-link" href="{{ route('user.pages.verification_to_kyc') }}">Identification</a>
+                            <a class="nav-link" href="{{ route('user.create.usdt') }}">Add USDT Address</a>
+                            <a class="nav-link" href="{{ route('user.view.usdt') }}">My USDT Addresses</a>
                             <a class="nav-link" href="#">Other Information</a>
                         </div>
                     </li>

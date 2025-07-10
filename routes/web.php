@@ -19,6 +19,8 @@ use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\SalaryController;
 use App\Http\Controllers\Admin\KycController;
 use App\Http\Controllers\Admin\AddressController;
+use App\Http\Controllers\Admin\UserUsdtApprovalController;
+use App\Http\Controllers\User\UserUsdtController;
 use App\Http\Controllers\NowPaymentController;
 
 
@@ -516,3 +518,12 @@ Route::post('/admin/fund-requests/{id}/reject', [FundRequestController::class, '
         Route::put('/addresses/{address}', [AddressController::class, 'update'])->name('admin.addresses.update');
         Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('admin.addresses.destroy');
     });
+    Route::get('/user/pages/create', [UserUsdtController::class, 'createUsdtAddress'])->name('user.create.usdt');
+    Route::post('/user/pages/store', [UserUsdtController::class, 'storeUsdtAddress'])->name('user.store.usdt');
+    Route::get('/user/pages', [UserUsdtController::class, 'viewUsdtAddress'])->name('user.view.usdt');
+
+    Route::get('/admin/user-addresses', [UserUsdtApprovalController::class, 'index'])->name('admin.user-addresses.index');
+    Route::post('/admin/user-addresses/{userAddress}/approve', [UserUsdtApprovalController::class, 'approve'])->name('admin.user-addresses.approve');
+    Route::post('/admin/user-addresses/{userAddress}/reject', [UserUsdtApprovalController::class, 'reject'])->name('admin.user-addresses.reject');
+
+

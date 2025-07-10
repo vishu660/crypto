@@ -561,6 +561,13 @@
                         <i class="bi bi-geo-alt me-2"></i> Addresses
                     </a>
                 </li>
+
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.user-addresses.*') ? 'active' : '' }}" href="{{ route('admin.user-addresses.index') }}">
+                        <i class="bi bi-check-circle me-2"></i>USDT Address Approvals
+                    </a>
+                </li>
+
                 <!-- Fund Requests Dropdown -->
                 <li class="nav-item mb-2">
                     <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundRequestsMenu" role="button" aria-expanded="false" aria-controls="fundRequestsMenu">
