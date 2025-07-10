@@ -889,23 +889,22 @@ public function userTransactions()
 }
 
 public function changePassword(Request $request)
-    {
-        $request->validate([
-            'current_password' => 'required',
-            'password' => 'required|min:8|confirmed',
-        ]);
+{
+    $request->validate([
+        'password' => 'required|min:8|confirmed',
+    ]);
 
-        $user = $request->user();
+    $user = Auth::user(); // better than $request->user()
 
-        if (!Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors(['current_password' => 'Current password is incorrect']);
-        }
-
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        return back()->with('success', 'Password updated successfully.');
+    if (!$user) {
+        return back()->withErrors(['error' => 'User not authenticated!']);
     }
+
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    return back()->with('success', 'Password updated successfully.');
+}
 
 
 }
