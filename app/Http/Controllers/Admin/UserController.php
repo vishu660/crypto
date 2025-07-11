@@ -13,6 +13,7 @@ use App\Models\AdminCode;
 use App\Models\FundRequest;
 use App\Models\Epin;
 use App\Models\UserBankDetail;
+use App\Models\News;
 use Carbon\Carbon;
 use App\Helpers\RoiHelper;
 use Illuminate\Support\Facades\Auth;
@@ -108,52 +109,52 @@ class UserController extends Controller
         'monero' => ['price' => 150, 'change' => 0, 'trend' => 'up'],
     ];
 
-    try {
-        $responses = Http::pool(fn ($pool) => [
-            $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT'),
-            $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=ETHUSDT'),
-            $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=BNBUSDT'),
-            $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=XMRUSDT'),
-        ]);
+    // try {
+    //     $responses = Http::pool(fn ($pool) => [
+    //         $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT'),
+    //         $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=ETHUSDT'),
+    //         $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=BNBUSDT'),
+    //         $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=XMRUSDT'),
+    //     ]);
 
-        if ($responses[0]->successful()) {
-            $btc = $responses[0]->json();
-            $livePrice['bitcoin'] = [
-                'price' => floatval($btc['lastPrice'] ?? 0),
-                'change' => floatval($btc['priceChangePercent'] ?? 0),
-                'trend' => (floatval($btc['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
-            ];
-        }
+    //     if ($responses[0]->successful()) {
+    //         $btc = $responses[0]->json();
+    //         $livePrice['bitcoin'] = [
+    //             'price' => floatval($btc['lastPrice'] ?? 0),
+    //             'change' => floatval($btc['priceChangePercent'] ?? 0),
+    //             'trend' => (floatval($btc['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
+    //         ];
+    //     }
 
-        if ($responses[1]->successful()) {
-            $eth = $responses[1]->json();
-            $livePrice['ethereum'] = [
-                'price' => floatval($eth['lastPrice'] ?? 0),
-                'change' => floatval($eth['priceChangePercent'] ?? 0),
-                'trend' => (floatval($eth['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
-            ];
-        }
+    //     if ($responses[1]->successful()) {
+    //         $eth = $responses[1]->json();
+    //         $livePrice['ethereum'] = [
+    //             'price' => floatval($eth['lastPrice'] ?? 0),
+    //             'change' => floatval($eth['priceChangePercent'] ?? 0),
+    //             'trend' => (floatval($eth['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
+    //         ];
+    //     }
 
-        if ($responses[2]->successful()) {
-            $bnb = $responses[2]->json();
-            $livePrice['binancecoin'] = [
-                'price' => floatval($bnb['lastPrice'] ?? 0),
-                'change' => floatval($bnb['priceChangePercent'] ?? 0),
-                'trend' => (floatval($bnb['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
-            ];
-        }
+    //     if ($responses[2]->successful()) {
+    //         $bnb = $responses[2]->json();
+    //         $livePrice['binancecoin'] = [
+    //             'price' => floatval($bnb['lastPrice'] ?? 0),
+    //             'change' => floatval($bnb['priceChangePercent'] ?? 0),
+    //             'trend' => (floatval($bnb['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
+    //         ];
+    //     }
 
-        if ($responses[3]->successful()) {
-            $xmr = $responses[3]->json();
-            $livePrice['monero'] = [
-                'price' => floatval($xmr['lastPrice'] ?? 0),
-                'change' => floatval($xmr['priceChangePercent'] ?? 0),
-                'trend' => (floatval($xmr['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
-            ];
-        }
-    } catch (\Exception $e) {
-        \Log::warning('Binance prices fetch failed: ' . $e->getMessage());
-    }
+    //     if ($responses[3]->successful()) {
+    //         $xmr = $responses[3]->json();
+    //         $livePrice['monero'] = [
+    //             'price' => floatval($xmr['lastPrice'] ?? 0),
+    //             'change' => floatval($xmr['priceChangePercent'] ?? 0),
+    //             'trend' => (floatval($xmr['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
+    //         ];
+    //     }
+    // } catch (\Exception $e) {
+    //     \Log::warning('Binance prices fetch failed: ' . $e->getMessage());
+    // }
 
     $freshEpins = Epin::where('user_id', $user->id)->where('status', 'active')->count();
     $appliedEpins = Epin::where('user_id', $user->id)->where('status', 'applied')->count();
@@ -167,13 +168,16 @@ class UserController extends Controller
     $depositWallet = $user->wallets->where('type', 'deposit')->sum('amount');
     $fundRequested = FundRequest::where('user_id', $user->id)->sum('amount');
 
+    $news = News::all();
+
     return view('user.user', compact(
         'packages', 'recentTransactions', 'allTransactions',
         'inrBalance', 'usdtBalance', 'totalUsdtBalance',
         'freshEpins', 'appliedEpins', 'myReferrals', 'myTeamCount',
         'earningWallet', 'depositWallet', 'fundRequested', 'user',
         'prices',       // CoinGecko Prices
-        'livePrice'     // Binance Live Prices
+        'livePrice',     // Binance Live Prices
+        'news' // <-- add 'news' here
     ));
 }
     
