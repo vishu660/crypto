@@ -1,3 +1,4 @@
+
 <body>
     <!-- Preloader Start -->
     <div class="preloader">
@@ -25,7 +26,7 @@
                 <!-- End:Logo -->
 
                 <!-- Menu -->
-                <ul class="navbar-nav flex-grow-1">
+                <ul id="sidebarAccordion" class="navbar-nav flex-grow-1">
                     <!-- Menu Item -->
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ route('user') }}">
@@ -73,95 +74,125 @@
 
                     <!-- Menu Item -->
                     <li class="nav-item">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#payoutMenu" role="button" aria-expanded="false" aria-controls="payoutMenu">
+                        <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('withdraw.create') || request()->routeIs('user.payouts') ? 'active' : '' }}"
+                           data-bs-toggle="collapse"
+                           href="#payoutMenu"
+                           role="button"
+                           aria-expanded="{{ request()->routeIs('withdraw.create') || request()->routeIs('user.payouts') ? 'true' : 'false' }}"
+                           aria-controls="payoutMenu">
                             <span>
-                                <i class="fas fa-money-bill-wave me-2" ></i>Payout Details
+                                <i class="fas fa-money-bill-wave me-2"></i>Payout Details
                             </span>
                             <i class="bi bi-chevron-down"></i>
                         </a>
-                        <div class="collapse submenu" id="payoutMenu">
-                            <a class="nav-link ps-5 fw-bold" href="{{ route('withdraw.create') }}">Withdraw Now</a>
-                            <a class="nav-link ps-5" href="{{ route('user.payouts') }}">My Payouts</a>
+                        <div class="collapse submenu {{ request()->routeIs('withdraw.create') || request()->routeIs('user.payouts') ? 'show' : '' }}" id="payoutMenu" data-bs-parent="#sidebarAccordion">
+                            <a class="nav-link ps-5 fw-bold {{ request()->routeIs('withdraw.create') ? 'active' : '' }}" href="{{ route('withdraw.create') }}">Withdraw Now</a>
+                            <a class="nav-link ps-5 {{ request()->routeIs('user.payouts') ? 'active' : '' }}" href="{{ route('user.payouts') }}">My Payouts</a>
                         </div>
                     </li>
                     <!-- End:Payout Details -->
 
                     {{-- e-pin  --}}
                     <li class="nav-item">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#epinMenu" role="button" aria-expanded="false" aria-controls="epinMenu">
+                        <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('available_epins') || request()->routeIs('applied_epins') ? 'active' : '' }}"
+                           data-bs-toggle="collapse"
+                           href="#epinMenu"
+                           role="button"
+                           aria-expanded="{{ request()->routeIs('available_epins') || request()->routeIs('applied_epins') ? 'true' : 'false' }}"
+                           aria-controls="epinMenu">
                             <span>
-                                <i class="fas fa-thumbtack me-2" ></i>Epin Details
+                                <i class="fas fa-thumbtack me-2"></i>Epin Details
                             </span>
                             <i class="bi bi-chevron-down"></i>
                         </a>
-                        <div class="collapse submenu" id="epinMenu">
-                            <a class="nav-link ps-5 fw-bold" href="{{ route('available_epins') }}">Available Epins</a>
-                            <a class="nav-link ps-5" href="{{ route('applied_epins') }}">Applied Epins</a>
+                        <div class="collapse submenu {{ request()->routeIs('available_epins') || request()->routeIs('applied_epins') ? 'show' : '' }}" id="epinMenu" data-bs-parent="#sidebarAccordion">
+                            <a class="nav-link ps-5 fw-bold {{ request()->routeIs('available_epins') ? 'active' : '' }}" href="{{ route('available_epins') }}">Available Epins</a>
+                            <a class="nav-link ps-5 {{ request()->routeIs('applied_epins') ? 'active' : '' }}" href="{{ route('applied_epins') }}">Applied Epins</a>
                         </div>
                     </li>
                     {{-- e-pin end --}}
                     {{-- Earnings --}}
                     <li class="nav-item">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#epinMenu2" role="button" aria-expanded="false" aria-controls="epinMenu2">
+                        <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('total_earnings') || request()->routeIs('refer_bonus') || request()->routeIs('level_bonus') || request()->routeIs('matching_bonus') ? 'active' : '' }}"
+                           data-bs-toggle="collapse"
+                           href="#epinMenu2"
+                           role="button"
+                           aria-expanded="{{ request()->routeIs('total_earnings') || request()->routeIs('refer_bonus') || request()->routeIs('level_bonus') || request()->routeIs('matching_bonus') ? 'true' : 'false' }}"
+                           aria-controls="epinMenu2">
                             <span>
                                 <i class="fas fa-coins me-2"></i>Earnings
                             </span>
                             <i class="bi bi-chevron-down"></i>
                         </a>
-                        <div class="collapse submenu" id="epinMenu2">
-                            <a class="nav-link ps-5 fw-bold" href="{{ route('total_earnings') }}">Total Earnings</a>
-                            <a class="nav-link ps-5" href="{{ route('refer_bonus') }}">Refer Bonus</a>
-                            <a class="nav-link ps-5 fw-bold" href="{{ route('level_bonus') }}">Level Bonus</a>
-                            <a class="nav-link ps-5" href="{{ route('matching_bonus') }}">Matching Bonus</a>
+                        <div class="collapse submenu {{ request()->routeIs('total_earnings') || request()->routeIs('refer_bonus') || request()->routeIs('level_bonus') || request()->routeIs('matching_bonus') ? 'show' : '' }}" id="epinMenu2" data-bs-parent="#sidebarAccordion">
+                            <a class="nav-link ps-5 fw-bold {{ request()->routeIs('total_earnings') ? 'active' : '' }}" href="{{ route('total_earnings') }}">Total Earnings</a>
+                            <a class="nav-link ps-5 {{ request()->routeIs('refer_bonus') ? 'active' : '' }}" href="{{ route('refer_bonus') }}">Refer Bonus</a>
+                            <a class="nav-link ps-5 fw-bold {{ request()->routeIs('level_bonus') ? 'active' : '' }}" href="{{ route('level_bonus') }}">Level Bonus</a>
+                            <a class="nav-link ps-5 {{ request()->routeIs('matching_bonus') ? 'active' : '' }}" href="{{ route('matching_bonus') }}">Matching Bonus</a>
                         </div>
                     </li>
                     {{--  Earnings end  --}}
 
                     {{-- team li --}}
                     <li class="nav-item">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#networkMenu" role="button" aria-expanded="false" aria-controls="networkMenu">
+                        <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('tree_view') || request()->routeIs('referral_list') || request()->routeIs('downline_team') ? 'active' : '' }}"
+                           data-bs-toggle="collapse"
+                           href="#networkMenu"
+                           role="button"
+                           aria-expanded="{{ request()->routeIs('tree_view') || request()->routeIs('referral_list') || request()->routeIs('downline_team') ? 'true' : 'false' }}"
+                           aria-controls="networkMenu">
                             <span>
                                 <i class="fas fa-project-diagram me-2"></i>Network
                             </span>
                             <i class="bi bi-chevron-down"></i>
                         </a>
-                        <div class="collapse submenu" id="networkMenu">
-                            <a class="nav-link ps-5 fw-bold" href="{{ route('tree_view') }}">Tree View</a>
-                            <a class="nav-link ps-5" href="{{ route('referral_list') }}">Referral List</a>
-                            <a class="nav-link ps-5 fw-bold" href="{{ route('downline_team') }}">Downline Team</a>
+                        <div class="collapse submenu {{ request()->routeIs('tree_view') || request()->routeIs('referral_list') || request()->routeIs('downline_team') ? 'show' : '' }}" id="networkMenu" data-bs-parent="#sidebarAccordion">
+                            <a class="nav-link ps-5 fw-bold {{ request()->routeIs('tree_view') ? 'active' : '' }}" href="{{ route('tree_view') }}">Tree View</a>
+                            <a class="nav-link ps-5 {{ request()->routeIs('referral_list') ? 'active' : '' }}" href="{{ route('referral_list') }}">Referral List</a>
+                            <a class="nav-link ps-5 fw-bold {{ request()->routeIs('downline_team') ? 'active' : '' }}" href="{{ route('downline_team') }}">Downline Team</a>
                         </div>
                     </li>
                     {{-- team end  --}}
                       {{-- fund request --}}
                       <li class="nav-item">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundRequestMenu" role="button" aria-expanded="false" aria-controls="fundRequestMenu">
+                        <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('fund_request.create') || request()->routeIs('user.fund-requests') ? 'active' : '' }}"
+                           data-bs-toggle="collapse"
+                           href="#fundRequestMenu"
+                           role="button"
+                           aria-expanded="{{ request()->routeIs('fund_request.create') || request()->routeIs('user.fund-requests') ? 'true' : 'false' }}"
+                           aria-controls="fundRequestMenu">
                             <span>
                                 <i class="fas fa-hand-holding-usd me-2"></i>Fund Request
                             </span>
                             <i class="bi bi-chevron-down"></i>
                         </a>
-                        <div class="collapse submenu" id="fundRequestMenu">
-                            <a class="nav-link ps-5 fw-bold" href="{{ route('fund_request.create') }}">Request Now</a>
-                            <a class="nav-link ps-5" href="{{ route('user.fund-requests') }}">Requests Details</a>
+                        <div class="collapse submenu {{ request()->routeIs('fund_request.create') || request()->routeIs('user.fund-requests') ? 'show' : '' }}" id="fundRequestMenu" data-bs-parent="#sidebarAccordion">
+                            <a class="nav-link ps-5 fw-bold {{ request()->routeIs('fund_request.create') ? 'active' : '' }}" href="{{ route('fund_request.create') }}">Request Now</a>
+                            <a class="nav-link ps-5 {{ request()->routeIs('user.fund-requests') ? 'active' : '' }}" href="{{ route('user.fund-requests') }}">Requests Details</a>
                         </div>
                     </li>
                       {{-- fund end  --}}
 
                     <!-- Profile Collapsible Menu -->
                     <li class="nav-item mb-2">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#profileMenu" role="button" aria-expanded="false" aria-controls="profileMenu">
+                        <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('user.pages.bank') || request()->routeIs('user.pages.profile') || request()->routeIs('user.pages.verification_to_kyc') || request()->routeIs('user.create.usdt') || request()->routeIs('user.view.usdt') || request()->routeIs('user.pages.activity') ? 'active' : '' }}"
+                           data-bs-toggle="collapse"
+                           href="#profileMenu"
+                           role="button"
+                           aria-expanded="{{ request()->routeIs('user.pages.bank') || request()->routeIs('user.pages.profile') || request()->routeIs('user.pages.verification_to_kyc') || request()->routeIs('user.create.usdt') || request()->routeIs('user.view.usdt') || request()->routeIs('user.pages.activity') ? 'true' : 'false' }}"
+                           aria-controls="profileMenu">
                             <span>
                                 <i class="far fa-user me-2"></i>Profile
                             </span>
                             <i class="bi bi-chevron-down"></i>
                         </a>
-                        <div class="collapse submenu" id="profileMenu">
-                            <a class="nav-link" href="{{ route('user.pages.bank') }}">Bank Details</a>
-                            <a class="nav-link" href="{{ route('user.pages.profile') }}">Personal Details</a>
-                            <a class="nav-link" href="{{ route('user.pages.verification_to_kyc') }}">Identification</a>
-                            <a class="nav-link" href="{{ route('user.create.usdt') }}">Add USDT Address</a>
-                            <a class="nav-link" href="{{ route('user.view.usdt') }}">My USDT Addresses</a>
-                            <a class="nav-link" href="#">Other Information</a>
+                        <div class="collapse submenu {{ request()->routeIs('user.pages.bank') || request()->routeIs('user.pages.profile') || request()->routeIs('user.pages.verification_to_kyc') || request()->routeIs('user.create.usdt') || request()->routeIs('user.view.usdt') || request()->routeIs('user.pages.activity') ? 'show' : '' }}" id="profileMenu" data-bs-parent="#sidebarAccordion">
+                            <a class="nav-link {{ request()->routeIs('user.pages.bank') ? 'active' : '' }}" href="{{ route('user.pages.bank') }}">Bank Details</a>
+                            <a class="nav-link {{ request()->routeIs('user.pages.profile') ? 'active' : '' }}" href="{{ route('user.pages.profile') }}">Personal Details</a>
+                            <a class="nav-link {{ request()->routeIs('user.pages.verification_to_kyc') ? 'active' : '' }}" href="{{ route('user.pages.verification_to_kyc') }}">Identification</a>
+                            <a class="nav-link {{ request()->routeIs('user.create.usdt') ? 'active' : '' }}" href="{{ route('user.create.usdt') }}">Add USDT Address</a>
+                            <a class="nav-link {{ request()->routeIs('user.view.usdt') ? 'active' : '' }}" href="{{ route('user.view.usdt') }}">My USDT Addresses</a>
+                            <a class="nav-link {{ request()->routeIs('user.pages.activity') ? 'active' : '' }}" href="{{ route('user.pages.activity') }}">Activity</a>
                         </div>
                     </li>
                     <!-- End:Profile Collapsible Menu -->

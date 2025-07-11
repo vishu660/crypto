@@ -1738,3 +1738,34 @@ form input[type="file"]:hover::-webkit-file-upload-button{
     Author URL: https://www.designtocodes.com
     Text Domain: {{ FundRows }}
   */
+
+/* Sidebar active/hover states */
+.d2c_sidebar .nav-link[aria-expanded] {
+    background: inherit !important;
+    color: inherit !important;
+    transition: none;
+}
+.d2c_sidebar .nav-link[aria-expanded]:hover {
+    background: inherit !important;
+    color: inherit !important;
+    cursor: pointer;
+}
+.d2c_sidebar .collapse .nav-link {
+    background: transparent !important;
+    color: inherit !important;
+}
+.d2c_sidebar .collapse .nav-link:hover,
+.d2c_sidebar > .d-flex > ul > .nav-item > .nav-link:not([aria-expanded]):hover {
+    background: #e7eaff !important;
+    color: #6c7ae0 !important;
+}
+.d2c_sidebar .nav-link.active,
+.d2c_sidebar .collapse .nav-link.active {
+    background: #e7eaff !important;
+    color: #6c7ae0 !important;
+}
+.d2c_sidebar .nav-link.active:hover,
+.d2c_sidebar .collapse .nav-link.active:hover {
+    background: #e7eaff !important;
+    color: #6c7ae0 !important;
+}
