@@ -450,23 +450,38 @@
 
         <div class="d2c_convert form-validation">
             <p class="fw-semibold">Quick Transfer</p>
-
-            <form class="form-validation" novalidate>
-                <label for="send_email">To</label>
-                <div class="input-group border-0 mb-3">
-                    <input type="email" class="form-control border-0" id="send_email" placeholder="fundrows@mail.com" required>
-                </div>
-                <label for="send_amount">Amount</label>
-                <div class="input-group border-0 mb-3">
-                    <input type="number" class="form-control border-0" id="send_amount" placeholder="0.00" required>
-                    <select class="form-select form-control border-0 pe-0" id="inputGroupSelect03">
-                        <option value="1" selected>ETH</option>
-                        <option value="2">USD</option>
+        
+            <form id="transferForm" method="POST" action="{{ route('user.transfer.request') }}">
+                @csrf
+        
+                <!-- 🔽 Transfer Type -->
+                <label for="transfer_type">Select Type</label>
+                <select class="form-select mb-3" id="transfer_type" name="transfer_type" required>
+                    <option value="">-- Select --</option>
+                    <option value="bank">Bank</option>
+                    <option value="usdt">USDT Address</option>
+                </select>
+        
+                <!-- ✉️ Recipient Input -->
+                <label for="recipient_input">To</label>
+                <input type="text" class="form-control mb-1" id="recipient_input" name="recipient" placeholder="Enter bank email or USDT address" required>
+                <div id="recipient_feedback" class="mb-3"></div>
+        
+                <!-- 💸 Amount Input -->
+                <label for="amount">Amount</label>
+                <div class="input-group mb-3">
+                    <input type="number" class="form-control" id="amount" name="amount" placeholder="0.00" step="0.01" required>
+                    <select class="form-select form-control border-0" name="currency">
+                        <option value="ETH">ETH</option>
+                        <option value="INR">INR</option>
+                        <option value="USDT">USDT</option>
                     </select>
                 </div>
+        
                 <button type="submit" class="btn w-100 text-success bg-success bg-opacity-25">Transfer</button>
             </form>
         </div>
+        
     </div>
 </div>
 <!-- End:Right Sidebar -->
@@ -504,3 +519,25 @@
     });
 </script>
 
+<script>
+    document.getElementById('recipient_input').addEventListener('blur', function () {
+        const recipient = this.value;
+        const type = document.getElementById('transfer_type').value;
+        const feedback = document.getElementById('recipient_feedback');
+    
+        if (!recipient || !type) return;
+    
+        fetch(`/check-recipient?value=${encodeURIComponent(recipient)}&type=${type}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    feedback.innerHTML = `<span class="text-success"><i class="bi bi-check-circle-fill"></i> Details verified</span>`;
+                } else {
+                    feedback.innerHTML = `<span class="text-danger"><i class="bi bi-x-circle-fill"></i> No user found for ${type}</span>`;
+                }
+            }).catch(() => {
+                feedback.innerHTML = `<span class="text-danger">Something went wrong!</span>`;
+            });
+    });
+    </script>
+    
