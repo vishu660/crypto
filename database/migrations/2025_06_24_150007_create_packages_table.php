@@ -17,6 +17,10 @@ return new class extends Migration
             $table->decimal('investment_amount', 10, 2);
             $table->decimal('roi_percent', 5, 2);
             $table->integer('validity_days');
+
+            $table->boolean('enableBreakDown')->default(false); // ✅ merged here
+            $table->date('breakdown_last_date')->nullable();    // ✅ merged here
+
             $table->decimal('referral_income', 5, 2);
             $table->boolean('is_active')->default(0);
             $table->string('type_of_investment_days');
@@ -26,7 +30,6 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-    
 
     /**
      * Reverse the migrations.

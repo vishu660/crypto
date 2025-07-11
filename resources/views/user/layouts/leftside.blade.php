@@ -50,14 +50,7 @@
 
 
                     <!-- Menu Item -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('user.pages.market') }}">
-                            <span class="d2c_icon">
-                                <i class="fas fa-chart-line"></i>
-                            </span>
-                            <span> Market </span>
-                        </a>
-                    </li>
+                 
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
@@ -87,18 +80,7 @@
                     <!-- End:Payout Details -->
 
                     {{-- e-pin  --}}
-                    <li class="nav-item">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#epinMenu" role="button" aria-expanded="false" aria-controls="epinMenu">
-                            <span>
-                                <i class="fas fa-thumbtack me-2" ></i>Epin Details
-                            </span>
-                            <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="collapse submenu" id="epinMenu">
-                            <a class="nav-link ps-5 fw-bold" href="{{ route('available_epins') }}">Available Epins</a>
-                            <a class="nav-link ps-5" href="{{ route('applied_epins') }}">Applied Epins</a>
-                        </div>
-                    </li>
+                   
                     {{-- e-pin end --}}
                     {{-- Earnings --}}
                     <li class="nav-item">
@@ -161,7 +143,7 @@
                             <a class="nav-link" href="{{ route('user.pages.verification_to_kyc') }}">Identification</a>
                             <a class="nav-link" href="{{ route('user.create.usdt') }}">Add USDT Address</a>
                             <a class="nav-link" href="{{ route('user.view.usdt') }}">My USDT Addresses</a>
-                            <a class="nav-link" href="#">Other Information</a>
+                           
                         </div>
                     </li>
                     <!-- End:Profile Collapsible Menu -->

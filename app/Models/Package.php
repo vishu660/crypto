@@ -21,6 +21,7 @@ class Package extends Model
         'is_active',
         'is_show_active',
         'enableBreackDown',
+        'breakdown_last_date', // ✅ ADD THIS
         'type_of_investment_days',
         'daily_days',
         'weekly_day',
@@ -32,6 +33,7 @@ class Package extends Model
         'is_active' => 'boolean',
         'is_show_active' => 'boolean',
         'enableBreackDown' => 'boolean',
+        'breakdown_last_date' => 'date', // ✅ ADD THIS
         'investment_amount' => 'decimal:2',
         'roi_percent' => 'decimal:2',
         'referral_income' => 'decimal:2',

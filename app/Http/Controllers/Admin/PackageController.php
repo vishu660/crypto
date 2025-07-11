@@ -14,7 +14,9 @@ class PackageController extends Controller
     public function index()
     {
         $packages = Package::latest()->paginate(10);
-        return view('backend.pages.packagedetails', compact('packages'));
+        // Create an empty package object for the form
+        $emptyPackage = new Package();
+        return view('backend.pages.packagedetails', compact('packages', 'emptyPackage'));
     }
 
     public function store(Request $request)
@@ -29,7 +31,9 @@ class PackageController extends Controller
                 'referral_show_income' => 'nullable|numeric',
                 'type_of_investment_days' => 'required|in:daily,weekly,monthly',
                 'is_active' => 'nullable|boolean',
+                'is_show_active' => 'nullable|boolean',
                 'enableBreakDown' => 'nullable|boolean',
+                'breakdown_last_date' => 'nullable|date',
                 'daily_days' => 'nullable|array',
                 'daily_days.*' => 'string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
                 'weekly_day' => 'nullable|string|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
@@ -59,7 +63,9 @@ class PackageController extends Controller
                 'referral_show_income' => $request->referral_show_income ?? null,
                 'type_of_investment_days' => $validated['type_of_investment_days'],
                 'is_active' => $request->has('is_active') ? 1 : 0,
+                'is_show_active' => $request->has('is_show_active') ? 1 : 0,
                 'enableBreakDown' => $request->has('enableBreakDown') ? 1 : 0,
+                'breakdown_last_date' => $request->breakdown_last_date,
                 'daily_days' => null,
                 'weekly_day' => null,
                 'monthly_date' => null,
@@ -106,7 +112,9 @@ class PackageController extends Controller
             'referral_show_income' => 'nullable|numeric',
             'type_of_investment_days' => 'required|in:daily,weekly,monthly',
             'is_active' => 'nullable|boolean',
+            'is_show_active' => 'nullable|boolean',
             'enableBreakDown' => 'nullable|boolean',
+            'breakdown_last_date' => 'nullable|date',
             'daily_days' => 'nullable|array',
             'daily_days.*' => 'string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
             'weekly_day' => 'nullable|string|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
@@ -134,7 +142,9 @@ class PackageController extends Controller
             'referral_show_income' => $request->referral_show_income ?? null,
             'type_of_investment_days' => $validated['type_of_investment_days'],
             'is_active' => $request->has('is_active') ? 1 : 0,
+            'is_show_active' => $request->has('is_show_active') ? 1 : 0,
             'enableBreakDown' => $request->has('enableBreakDown') ? 1 : 0,
+            'breakdown_last_date' => $request->breakdown_last_date,
             'daily_days' => null,
             'weekly_day' => null,
             'monthly_date' => null,
@@ -164,6 +174,7 @@ class PackageController extends Controller
 
         return redirect()->route('admin-package-details')->with('success', 'Package deleted successfully.');
     }
+
     public function show($id)
     {
         $package = Package::findOrFail($id);
@@ -185,6 +196,7 @@ class PackageController extends Controller
 
         return view('user.pages.plans', compact('packages', 'userPackages'));
     }
+
     public function buy($id)
     {
         $user = Auth::user();
@@ -206,37 +218,38 @@ class PackageController extends Controller
 
         return back()->with('success', 'Package purchased successfully.');
     }
-  public function buyWithCode(Request $request)
+
+    public function buyWithCode(Request $request)
     {
         $request->validate([
             'package_id' => 'required|exists:packages,id',
             'secret_code' => 'required|string|min:6|max:20',
         ]);
-    
+
         $epin = Epin::where('code', $request->secret_code)
             ->where('status', 'active')
             ->where(function ($query) {
                 $query->whereNull('expiry_date')->orWhere('expiry_date', '>=', now());
             })
             ->first();
-    
+
         if (!$epin) {
             return back()->with('error', 'Invalid, expired, or already used E-pin.');
         }
-    
+
         $user = auth()->user();
         $package = Package::findOrFail($request->package_id);
-    
+
         if (UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
             return back()->with('error', 'Package already purchased or requested.');
         }
-    
+
         try {
             DB::beginTransaction();
-    
+
             $startDate = Carbon::today();
             $endDate = $startDate->copy()->addDays($package->validity_days - 1);
-    
+
             $roiDates = RoiHelper::generateRoiDates(
                 $startDate,
                 $package->validity_days,
@@ -247,7 +260,7 @@ class PackageController extends Controller
                     'monthly_date' => $package->monthly_date,
                 ]
             );
-    
+
             UserPackage::create([
                 'user_id' => $user->id,
                 'package_id' => $package->id,
@@ -257,24 +270,22 @@ class PackageController extends Controller
                 'total_roi_given' => 0,
                 'is_active' => true,
                 'source' => 'epin',
-                'amount' => $package->investment_amount, // ✅ FIXED
+                'amount' => $package->investment_amount,
             ]);
-    
-            // Optional Transaction Entry
+
             Transaction::create([
                 'user_id' => $user->id,
-                'amount' => $package->investment_amount, // ✅ FIXED
+                'amount' => $package->investment_amount,
                 'type' => 'package_buy',
                 'status' => 'success',
                 'message' => 'Package bought using E-PIN',
             ]);
-    
-            // Update EPIN
+
             $epin->status = 'used';
             $epin->user_id = $user->id;
             $epin->used_at = now();
             $epin->save();
-    
+
             DB::commit();
             return redirect()->route('user')->with('success', 'Package bought successfully using E-pin.');
         } catch (\Exception $e) {
@@ -283,46 +294,41 @@ class PackageController extends Controller
             return back()->with('error', 'Something went wrong. Please try again later.');
         }
     }
-    
 
     public function buyWithRequest(Request $request)
     {
         $request->validate([
             'package_id' => 'required|exists:packages,id',
         ]);
-    
+
         $user = auth()->user();
         $package = Package::findOrFail($request->package_id);
-    
-        // Check if user already has the same package
+
         if (UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
             return back()->with('error', 'Package already purchased or requested.');
         }
-    
-        // Create UserPackage entry with is_active = false (admin approval needed)
+
         UserPackage::create([
             'user_id' => $user->id,
             'package_id' => $package->id,
             'amount' => $package->investment_amount,
             'roi_dates' => [],
             'total_roi_given' => 0,
-            'is_active' => false, // Pending approval
-            'source' => 'admin',  // Requested via Admin
+            'is_active' => false,
+            'source' => 'admin',
         ]);
-    
-        // Create transaction log (optional)
+
         Transaction::create([
             'user_id' => $user->id,
             'amount' => $package->investment_amount,
             'type' => 'debit',
             'purpose_of_payment' => 'buy_plan_one',
-            'status' => 'pending', // Admin hasn't approved yet
+            'status' => 'pending',
             'message' => 'Buy request sent to admin.',
             'currency' => 'INR',
-            'gateway' => 'admin', // Not 'epin'
+            'gateway' => 'admin',
         ]);
-    
+
         return redirect()->route('user')->with('success', 'Buy request sent to admin.');
     }
 }
-

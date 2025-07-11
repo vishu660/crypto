@@ -2,8 +2,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('assets/images/logo/logo-sm.png') }}" type="image/gif" sizes="16x16">
-    <title>Dashboard - Fundrows</title>
+    <link rel="icon" href="{{ asset('images/logo.3.png') }}" type="image/gif" sizes="16x16">
+    <title>DIGITAL LEVEL MARKETING</title>
     <meta name="og:description" content="Build a user-friendly crypto dashboard with FundRows free crypto dashboard template. Enjoy full responsiveness, and customizable for your crypto projects. With FundRows, developers can create a unique crypto admin dashboard that is visually impressive.">
     <meta name="robots" content="index, follow">
     <meta name="og:title" property="og:title" content="FundRows – Free Bootstrap Crypto Dashboard Template">

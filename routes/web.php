@@ -284,7 +284,6 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 Route::get('/user/pages/activity', [UserController::class, 'userTransactions'])
     ->middleware('auth')
     ->name('user.pages.activity');
-Route::get('/user/pages/blank', [UserController::class, 'blank'])->name('user.pages.blank');
 Route::get('/user/pages/email', function () { return view('user.pages.email'); })->name('user.pages.email');
 Route::get('/user/pages/exchange', function () { return view('user.pages.exchange'); })->name('user.pages.exchange');
 Route::get('/user/pages/plans', function () {
@@ -304,6 +303,9 @@ Route::get('/user/pages/activation', [UserController::class, 'activation'])->nam
 Route::get('/user/pages/bank', function () {
     return view('user.pages.bank');
 })->name('user.pages.bank');
+Route::get('/admin/package/{id}/edit', [PackageController::class, 'edit'])->name('admin.package.edit');
+
+Route::post('/user/bank-details', [App\Http\Controllers\Admin\UserController::class, 'saveBankDetails'])->name('user.saveBankDetails');
 Route::match(['get', 'post'], '/user/pages/kyc-step1-new', function () {
     // ...handle POST data if needed...
     return view('user.pages.kyc_step1_new');
