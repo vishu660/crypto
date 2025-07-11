@@ -60,8 +60,11 @@
                         <td>{{ $member->referralUser->full_name ?? '-' }}</td>
                         <td>{{ $member->created_at ? $member->created_at->format('d-m-Y h:i a') : '-' }}</td>
                         <td>
-                            <button class="btn-details badge">Details</button>
-                            <button class="btn-block badge">Block Now</button>
+                            <a href="{{ route('admin.members.show', $member->id) }}" class="btn-details badge">Details</a>
+                            <form action="{{ route('admin.members.block', $member->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn-block badge" onclick="return confirm('Are you sure you want to block this user?')">Block Now</button>
+                            </form>
                         </td>
                     </tr>
                     @endforeach

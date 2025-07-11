@@ -245,8 +245,6 @@ Route::get('/admin/updatepassword', function () {
 })->name('admin.updatepassword');
 
 
-
-
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
 });
@@ -541,3 +539,7 @@ Route::post('/admin/fund-requests/{id}/reject', [FundRequestController::class, '
   Route::put('/news/{news}', [NewsController::class, 'update'])->name('news.update');
 
   Route::delete('/news/{news}', [NewsController::class, 'destroy'])->name('news.destroy');
+
+  // Members
+Route::get('admin/members/{id}', [AdminController::class, 'showMember'])->name('admin.members.show');
+Route::post('admin/members/{id}/block', [AdminController::class, 'blockMember'])->name('admin.members.block');
