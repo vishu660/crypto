@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('breakdown_last_date')->nullable();    // ✅ merged here
 
             $table->decimal('referral_income', 5, 2);
+            $table->boolean('referral_show_income')->default(0);
             $table->boolean('is_active')->default(0);
             $table->boolean('is_show_active')->default(0);
             $table->string('type_of_investment_days');
