@@ -53,7 +53,7 @@
                     <tr>
                         <td>{{ $member->id ?? '-' }}</td>
                         <td>{{ $member->full_name ?? '-' }}</td>
-                        <td>{{ $member->address ?? '-' }}</td>
+                        <td>{{ $member->address->address_key ?? '-' }}</td>
                         <td>{{ $member->mobile_no ?? '-' }}</td>
                         <td>{{ $member->package ?? ($member->status ?? '-') }}</td>
                         <td>{{ $member->referral_id ?? '-' }}</td>

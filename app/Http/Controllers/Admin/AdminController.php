@@ -264,7 +264,15 @@ public function rejectedPackageRequests()
     public function showMember($id)
     {
         $user = User::with('referralUser')->findOrFail($id);
-        return view('backend.pages.member_details', compact('user'));
+        $addresses = \App\Models\Address::all();
+        return view('backend.pages.member_details', compact('user', 'addresses'));
+    }
+
+    public function editMember($id)
+    {
+        $user = User::with('referralUser')->findOrFail($id);
+        $addresses = \App\Models\Address::all();
+        return view('backend.pages.member_details', compact('user', 'addresses'));
     }
 
     // 🚫 Block Member
@@ -290,32 +298,13 @@ public function rejectedPackageRequests()
             'full_name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'mobile_no' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:255',
+            'address_id' => 'nullable|exists:addresses,id',
         ]);
 
         $user->full_name = $request->full_name;
         $user->email = $request->email;
         $user->mobile_no = $request->mobile_no;
-
-        // ✅ Address relation ko update karo
-        if ($request->filled('address')) {
-            if ($user->address) {
-                $user->address->name = $request->address;
-                $user->address->save();
-            } else {
-                $address = new \App\Models\Address();
-                $address->name = $request->address;
-        
-                // ✅ Naya address_key bhi zaroor de:
-                $address->address_key = 'BEP20'; // Ya $request->address_key
-        
-                $address->save();
-        
-                $user->address_id = $address->id;
-            }
-        }
-        
-
+        $user->address_id = $request->address_id;
         $user->save();
 
         return back()->with('success', 'Member updated successfully!');

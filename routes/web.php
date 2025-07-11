@@ -543,3 +543,7 @@ Route::post('/admin/fund-requests/{id}/reject', [FundRequestController::class, '
   // Members
 Route::get('admin/members/{id}', [AdminController::class, 'showMember'])->name('admin.members.show');
 Route::post('admin/members/{id}/block', [AdminController::class, 'blockMember'])->name('admin.members.block');
+
+// Member update route (PUT)
+Route::get('admin/members/{id}/edit', [AdminController::class, 'editMember'])->name('admin.member.edit');
+Route::put('admin/members/{id}/update', [AdminController::class, 'updateMember'])->name('admin.member.update');

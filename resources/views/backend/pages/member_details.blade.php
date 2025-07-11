@@ -50,7 +50,7 @@
 <div class="modal fade" id="updateMemberModal" tabindex="-1" aria-labelledby="updateMemberModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-    <form action="{{ route('admin.member.update', $member->id) }}" method="POST">
+    <form action="{{ route('admin.member.update', $user->id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="modal-header bg-primary text-white">
@@ -71,8 +71,16 @@
             <input type="text" class="form-control" id="mobile_no" name="mobile_no" value="{{ $user->mobile_no }}">
           </div>
           <div class="mb-3">
-            <label for="address" class="form-label">Address</label>
-            <input type="text" class="form-control" id="address" name="address" value="{{ $user->address }}">
+            <label for="address_id" class="form-label">Address</label>
+            <select class="form-control" id="address_id" name="address_id">
+                @foreach($addresses as $address)
+                    <option value="{{ $address->id }}"
+                        data-image="{{ asset('storage/'.$address->image) }}"
+                        {{ $user->address_id == $address->id ? 'selected' : '' }}>
+                        {{ $address->name }} ({{ $address->address_key }})
+                    </option>
+                @endforeach
+            </select>
           </div>
         </div>
         <div class="modal-footer">
