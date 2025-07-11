@@ -60,8 +60,8 @@
                         <td>{{ $member->referralUser->full_name ?? '-' }}</td>
                         <td>{{ $member->created_at ? $member->created_at->format('d-m-Y h:i a') : '-' }}</td>
                         <td>
-                            <button class="btn-details">Details</button>
-                            <button class="btn-block">Block Now</button>
+                            <button class="btn-details badge">Details</button>
+                            <button class="btn-block badge">Block Now</button>
                         </td>
                     </tr>
                     @endforeach
@@ -115,17 +115,17 @@
     border: 1.5px solid #00e6fb;
 }
 .members-table th, .members-table td {
-    padding: 14px 18px;
+    padding: 8px 6px;
     border-bottom: 1px solid #00e6fb33;
     text-align: left;
-    font-size: 1rem;
+    font-size: 11px;
 }
 .members-table th {
     background: #b8c7ce;
     color: #232b33;
     font-weight: bold;
     border-bottom: 2px solid #b8c7ce;
-    font-size: 1.05rem;
+    font-size: 12px;
 }
 .members-table tr:last-child td {
     border-bottom: none;
