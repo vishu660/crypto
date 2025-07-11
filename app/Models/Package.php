@@ -20,7 +20,7 @@ class Package extends Model
         'referral_show_income',
         'is_active',
         'is_show_active',
-        'enableBreackDown',
+        'enableBreakDown',
         'breakdown_last_date', // ✅ ADD THIS
         'type_of_investment_days',
         'daily_days',

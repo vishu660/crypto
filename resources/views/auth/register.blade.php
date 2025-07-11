@@ -5,6 +5,7 @@
   <title>Sign Up</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
   <style>
     body {
@@ -178,7 +179,8 @@
     <!-- Referral Code (Optional) -->
     <div class="mb-3">
       <label for="referral" class="form-label">Referral Code (optional)</label>
-      <input type="text" class="form-control" id="referral" name="referral_id" ">
+      <input type="text" class="form-control" id="referralInput" name="referral_id" placeholder="Enter Referral Code / Email / Mobile">
+      <div id="referralFeedback" class="mt-1"></div>
       @error('referral_id')
         <small class="text-danger">{{ $message }}</small>
       @enderror
@@ -205,3 +207,28 @@
 
 </body>
 </html>
+<script>
+  document.getElementById('referralInput').addEventListener('input', function () {
+      const referralValue = this.value;
+      const feedback = document.getElementById('referralFeedback');
+  
+      if (referralValue.length < 3) {
+          feedback.innerHTML = '';
+          return;
+      }
+  
+      fetch(`/check-referral?value=${encodeURIComponent(referralValue)}`)
+          .then(response => response.json())
+          .then(data => {
+              if (data.exists) {
+                  feedback.innerHTML = `<span class="text-success"><i class="bi bi-check-circle-fill"></i> User found: ${data.name}</span>`;
+              } else {
+                  feedback.innerHTML = `<span class="text-danger"><i class="bi bi-x-circle-fill"></i> User not found</span>`;
+              }
+          })
+          .catch(() => {
+              feedback.innerHTML = `<span class="text-danger">Server error. Try again later.</span>`;
+          });
+  });
+  </script>
+  

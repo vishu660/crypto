@@ -63,7 +63,7 @@ class PackageController extends Controller
                 'referral_show_income' => $request->referral_show_income ?? null,
                 'type_of_investment_days' => $validated['type_of_investment_days'],
                 'is_active' => $request->has('is_active') ? 1 : 0,
-                'is_show_active' => $request->has('is_show_active') ? 1 : 0,
+                'is_show_active' => $request->has('is_show_active'),
                 'enableBreakDown' => $request->has('enableBreakDown') ? 1 : 0,
                 'breakdown_last_date' => $request->breakdown_last_date,
                 'daily_days' => null,
@@ -96,7 +96,7 @@ class PackageController extends Controller
     public function edit($id)
     {
         $package = Package::findOrFail($id);
-        return view('backend.pages.packageedit', compact('package'));
+        return view('backend.pages.package_edit', compact('package'));
     }
 
     public function update(Request $request, $id)
@@ -112,7 +112,7 @@ class PackageController extends Controller
             'referral_show_income' => 'nullable|numeric',
             'type_of_investment_days' => 'required|in:daily,weekly,monthly',
             'is_active' => 'nullable|boolean',
-            'is_show_active' => 'nullable|boolean',
+            'is_show_active' => $request->has('is_show_active'),
             'enableBreakDown' => 'nullable|boolean',
             'breakdown_last_date' => 'nullable|date',
             'daily_days' => 'nullable|array',
@@ -142,7 +142,7 @@ class PackageController extends Controller
             'referral_show_income' => $request->referral_show_income ?? null,
             'type_of_investment_days' => $validated['type_of_investment_days'],
             'is_active' => $request->has('is_active') ? 1 : 0,
-            'is_show_active' => $request->has('is_show_active') ? 1 : 0,
+            'is_show_active' => $request->has('is_show_active'),
             'enableBreakDown' => $request->has('enableBreakDown') ? 1 : 0,
             'breakdown_last_date' => $request->breakdown_last_date,
             'daily_days' => null,

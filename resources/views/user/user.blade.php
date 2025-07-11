@@ -90,31 +90,17 @@
         </div>
         <div class="col-xxl-4 d2c_balance_card d2c_balance_card_3">
             <!-- card item 3 -->
-            <div class="card d2c_wallet_card mb-4" style="background: linear-gradient(180deg, #fc76b7eb 0%, #6271ebd1 277.28%), url(./assets/images/triangle_bg.png);background-repeat: no-repeat;background-size: cover;">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-4">
-                                <p class="mb-1 text-white">Balance</p>
-                                <h5 class="fw-semibold">$22,321.73</h5>
-                            </div>
+            <div class="card d2c_wallet_card mb-4" style="background: linear-gradient(180deg, #fc76b7eb 0%, #6271ebd1 277.28%), url(./assets/images/triangle_bg.png);background-repeat: no-repeat;background-size: cover; min-height: 240px;">
+                <div class="card-body d-flex flex-column align-items-center justify-content-center" style="height: 100%;">
+                    <div class="mb-2 d-flex flex-column align-items-center">
+                        <div class="bg-white text-danger d-flex align-items-center justify-content-center rounded-circle mb-2" style="width: 56px; height: 56px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);">
+                            <i class="fa-solid fa-hand-holding-heart" style="font-size: 2rem;"></i>
                         </div>
-                        <div class="col-3">
-                            <div class="bg-white text-danger d-flex align-items-center justify-content-center rounded ms-auto" style="width: 40px;height: 40px;">
-                                <i class="fab fa-btc"></i>
-                            </div>
-                        </div>
+                        <h4 class="fw-bold text-white mb-3" style="letter-spacing: 1px;">Plans</h4>
                     </div>
-                    <div class="row mt-5">
-                        <div class="col">
-                            <small>Card Holder</small>
-                            <h6>Steven Howard</h6>
-                        </div>
-                        <div class="col-4">
-                            <small>Valid Thru</small>
-                            <h6>10/2023</h6>
-                        </div>
-                    </div>
+                    <a href="{{ route('user.pages.plans') }}" class="btn btn-primary d-flex align-items-center justify-content-center" style="font-size: 1.2rem; font-weight: 600; padding: 16px 36px; border-radius: 12px; min-width: 220px;">
+                        <i class="bi bi-eye me-2" style="font-size: 1.4rem;"></i> View All Plans
+                    </a>
                 </div>
             </div>
         </div>

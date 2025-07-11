@@ -22,4 +22,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- responsive css -->
     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 </head>

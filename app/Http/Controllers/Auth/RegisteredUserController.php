@@ -111,4 +111,24 @@ class RegisteredUserController extends Controller
 
     return redirect()->route('verify-otp');
 }
+
+public function checkReferral(Request $request)
+{
+    $value = $request->query('value');
+
+    $user = User::where('referral_id', $value)
+        ->orWhere('email', $value)
+        ->orWhere('mobile_no', $value)
+        ->first();
+
+    if ($user) {
+        return response()->json([
+            'exists' => true,
+            'name' => $user->full_name,
+        ]);
+    }
+
+    return response()->json(['exists' => false]);
+}
+
 }

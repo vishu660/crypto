@@ -302,6 +302,8 @@ Route::get('/user/pages/bank', function () {
     return view('user.pages.bank');
 })->name('user.pages.bank');
 Route::get('/admin/package/{id}/edit', [PackageController::class, 'edit'])->name('admin.package.edit');
+Route::resource('package', App\Http\Controllers\Admin\PackageController::class);
+Route::get('/check-referral', [RegisteredUserController::class, 'checkReferral']);
 
 Route::post('/user/bank-details', [App\Http\Controllers\Admin\UserController::class, 'saveBankDetails'])->name('user.saveBankDetails');
 Route::match(['get', 'post'], '/user/pages/kyc-step1-new', function () {
