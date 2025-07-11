@@ -298,6 +298,9 @@ public function rejectedPackageRequests()
         $user->email = $request->email;
         $user->mobile_no = $request->mobile_no;
         $user->address_id = $request->address_id;
+        if ($request->has('status')) {
+            $user->status = $request->status;
+        }
         $user->save();
 
         return back()->with('success', 'Member updated successfully!');

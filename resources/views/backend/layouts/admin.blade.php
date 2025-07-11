@@ -579,60 +579,84 @@
 
                 <!-- Fund Requests Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#fundRequestsMenu" role="button" aria-expanded="false" aria-controls="fundRequestsMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.fund-requests.*') ? 'active' : '' }}"
+                       data-bs-toggle="collapse"
+                       href="#fundRequestsMenu"
+                       role="button"
+                       aria-expanded="{{ request()->routeIs('admin.fund-requests.*') ? 'true' : 'false' }}"
+                       aria-controls="fundRequestsMenu">
                         <span><i class="bi bi-graph-up-arrow me-2"></i>Fund Requests</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
-                    <div class="collapse submenu" id="fundRequestsMenu">
-                        <a class="nav-link" href="{{ route('admin.fund-requests.all') }}">All Requests</a>
-                        <a class="nav-link" href="{{ route('admin.fund-requests.pending') }}">Pending</a>
-                        <a class="nav-link" href="{{ route('admin.fund-requests.approved') }}">Approved</a>
-                        <a class="nav-link" href="{{ route('admin.fund-requests.failed') }}">Failed/Rejected</a>
+                    <div class="collapse submenu {{ request()->routeIs('admin.fund-requests.*') ? 'show' : '' }}" id="fundRequestsMenu" data-bs-parent="#sidebarAccordion">
+                        <a class="nav-link {{ request()->routeIs('admin.fund-requests.all') ? 'active' : '' }}" href="{{ route('admin.fund-requests.all') }}">All Requests</a>
+                        <a class="nav-link {{ request()->routeIs('admin.fund-requests.pending') ? 'active' : '' }}" href="{{ route('admin.fund-requests.pending') }}">Pending</a>
+                        <a class="nav-link {{ request()->routeIs('admin.fund-requests.approved') ? 'active' : '' }}" href="{{ route('admin.fund-requests.approved') }}">Approved</a>
+                        <a class="nav-link {{ request()->routeIs('admin.fund-requests.failed') ? 'active' : '' }}" href="{{ route('admin.fund-requests.failed') }}">Failed/Rejected</a>
                     </div>
                 </li>
-                {{-- package   --}}
+                <!-- Package Requests Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#packageRequestsMenu" role="button" aria-expanded="false" aria-controls="packageRequestsMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('package-requests.*') ? 'active' : '' }}"
+                       data-bs-toggle="collapse"
+                       href="#packageRequestsMenu"
+                       role="button"
+                       aria-expanded="{{ request()->routeIs('package-requests.*') ? 'true' : 'false' }}"
+                       aria-controls="packageRequestsMenu">
                         <span><i class="bi bi-box-seam me-2"></i>Package Requests</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
-                    <div class="collapse submenu" id="packageRequestsMenu" data-bs-parent="#sidebarAccordion">
-                        <a class="nav-link" href="{{ route('package-requests.all') }}">All Requests</a>
-                        <a class="nav-link" href="{{ route('package-requests.pending') }}">Pending</a>
-                        <a class="nav-link" href="{{ route('package-requests.approved') }}">Approved</a>
-                        <a class="nav-link" href="{{ route('package-requests.rejected') }}">Failed/Rejected</a>
+                    <div class="collapse submenu {{ request()->routeIs('package-requests.*') ? 'show' : '' }}" id="packageRequestsMenu" data-bs-parent="#sidebarAccordion">
+                        <a class="nav-link {{ request()->routeIs('package-requests.all') ? 'active' : '' }}" href="{{ route('package-requests.all') }}">All Requests</a>
+                        <a class="nav-link {{ request()->routeIs('package-requests.pending') ? 'active' : '' }}" href="{{ route('package-requests.pending') }}">Pending</a>
+                        <a class="nav-link {{ request()->routeIs('package-requests.approved') ? 'active' : '' }}" href="{{ route('package-requests.approved') }}">Approved</a>
+                        <a class="nav-link {{ request()->routeIs('package-requests.rejected') ? 'active' : '' }}" href="{{ route('package-requests.rejected') }}">Failed/Rejected</a>
                     </div>
                 </li>
-                
                 <!-- Fund Deduction Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.deductions.*') || request()->routeIs('admin-deduction-report') || request()->routeIs('admin-deduct-fund') ? 'active' : '' }}" data-bs-toggle="collapse" href="#fundDeductionMenu" role="button" aria-expanded="false" aria-controls="fundDeductionMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.deductions.*') || request()->routeIs('admin-deduction-report') || request()->routeIs('admin-deduct-fund') ? 'active' : '' }}"
+                       data-bs-toggle="collapse"
+                       href="#fundDeductionMenu"
+                       role="button"
+                       aria-expanded="{{ request()->routeIs('admin.deductions.*') || request()->routeIs('admin-deduction-report') || request()->routeIs('admin-deduct-fund') ? 'true' : 'false' }}"
+                       aria-controls="fundDeductionMenu">
                         <span><i class="bi bi-slash-circle me-2"></i>Fund Deduction</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
-                    <div class="collapse submenu" id="fundDeductionMenu">
+                    <div class="collapse submenu {{ request()->routeIs('admin.deductions.*') || request()->routeIs('admin-deduction-report') || request()->routeIs('admin-deduct-fund') ? 'show' : '' }}" id="fundDeductionMenu" data-bs-parent="#sidebarAccordion">
                         <a class="nav-link {{ request()->routeIs('admin.deductions.all') || request()->routeIs('admin-deduction-report') ? 'active' : '' }}" href="{{ route('admin.deductions.all') }}">All Deductions</a>
                         <a class="nav-link {{ request()->routeIs('admin.deductions.manual') || request()->routeIs('admin-deduct-fund') ? 'active' : '' }}" href="{{ route('admin.deductions.manual') }}">Manual Deduction</a>
                     </div>
                 </li>
                 <!-- Fund Transfer Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.transfers.*') || request()->routeIs('admin-transfer-report') || request()->routeIs('admin-transfer-fund') ? 'active' : '' }}" data-bs-toggle="collapse" href="#fundTransferMenu" role="button" aria-expanded="false" aria-controls="fundTransferMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.transfers.*') || request()->routeIs('admin-transfer-report') || request()->routeIs('admin-transfer-fund') ? 'active' : '' }}"
+                       data-bs-toggle="collapse"
+                       href="#fundTransferMenu"
+                       role="button"
+                       aria-expanded="{{ request()->routeIs('admin.transfers.*') || request()->routeIs('admin-transfer-report') || request()->routeIs('admin-transfer-fund') ? 'true' : 'false' }}"
+                       aria-controls="fundTransferMenu">
                         <span><i class="bi bi-cash-coin me-2"></i>Fund Transfer</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
-                    <div class="collapse submenu" id="fundTransferMenu">
+                    <div class="collapse submenu {{ request()->routeIs('admin.transfers.*') || request()->routeIs('admin-transfer-report') || request()->routeIs('admin-transfer-fund') ? 'show' : '' }}" id="fundTransferMenu" data-bs-parent="#sidebarAccordion">
                         <a class="nav-link {{ request()->routeIs('admin.transfers.history') || request()->routeIs('admin-transfer-report') ? 'active' : '' }}" href="{{ route('admin.transfers.history') }}">Transfer History</a>
                         <a class="nav-link {{ request()->routeIs('admin.transfers.new') || request()->routeIs('admin-transfer-fund') ? 'active' : '' }}" href="{{ route('admin.transfers.new') }}">New Transfer</a>
                     </div>
                 </li>
                 <!-- Activation Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.wallet-activation') || request()->routeIs('admin.activation-report') ? 'active' : '' }}" data-bs-toggle="collapse" href="#activationMenu" role="button" aria-expanded="false" aria-controls="activationMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.wallet-activation') || request()->routeIs('admin.activation-report') ? 'active' : '' }}"
+                       data-bs-toggle="collapse"
+                       href="#activationMenu"
+                       role="button"
+                       aria-expanded="{{ request()->routeIs('admin.wallet-activation') || request()->routeIs('admin.activation-report') ? 'true' : 'false' }}"
+                       aria-controls="activationMenu">
                         <span><i class="bi bi-box-arrow-in-right me-2"></i>Activation</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
-                    <div class="collapse submenu" id="activationMenu">
+                    <div class="collapse submenu {{ request()->routeIs('admin.wallet-activation') || request()->routeIs('admin.activation-report') ? 'show' : '' }}" id="activationMenu" data-bs-parent="#sidebarAccordion">
                         <a class="nav-link {{ request()->routeIs('admin.wallet-activation') ? 'active' : '' }}" href="{{ route('admin.wallet-activation') }}">Wallet Activation</a>
                         <a class="nav-link {{ request()->routeIs('admin.activation-report') ? 'active' : '' }}" href="{{ route('admin.activation-report') }}">Activation Report</a>
                     </div>
@@ -642,25 +666,35 @@
                 </li>
                 <!-- Team Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#teamMenu" role="button" aria-expanded="false" aria-controls="teamMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.all-members') || request()->routeIs('admin.active-members') || request()->routeIs('admin.inactive-members') || request()->routeIs('admin.blocked-members') || request()->routeIs('admin.password-details') ? 'active' : '' }}"
+                       data-bs-toggle="collapse"
+                       href="#teamMenu"
+                       role="button"
+                       aria-expanded="{{ request()->routeIs('admin.all-members') || request()->routeIs('admin.active-members') || request()->routeIs('admin.inactive-members') || request()->routeIs('admin.blocked-members') || request()->routeIs('admin.password-details') ? 'true' : 'false' }}"
+                       aria-controls="teamMenu">
                         <span><i class="bi bi-people-fill me-2"></i>Team</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
-                    <div class="collapse submenu" id="teamMenu">
-                        <a class="nav-link" href="{{ route('admin.all-members') }}">All Members</a>
-                        <a class="nav-link" href="{{ route('admin.active-members') }}">Active Members</a>
-                        <a class="nav-link" href="{{ route('admin.inactive-members') }}">Inactive Members</a>
-                        <a class="nav-link" href="{{ route('admin.blocked-members') }}">Blocked Members</a>
-                        <a class="nav-link" href="{{ route('admin.password-details') }}">Password Details</a>
+                    <div class="collapse submenu {{ request()->routeIs('admin.all-members') || request()->routeIs('admin.active-members') || request()->routeIs('admin.inactive-members') || request()->routeIs('admin.blocked-members') || request()->routeIs('admin.password-details') ? 'show' : '' }}" id="teamMenu" data-bs-parent="#sidebarAccordion">
+                        <a class="nav-link {{ request()->routeIs('admin.all-members') ? 'active' : '' }}" href="{{ route('admin.all-members') }}">All Members</a>
+                        <a class="nav-link {{ request()->routeIs('admin.active-members') ? 'active' : '' }}" href="{{ route('admin.active-members') }}">Active Members</a>
+                        <a class="nav-link {{ request()->routeIs('admin.inactive-members') ? 'active' : '' }}" href="{{ route('admin.inactive-members') }}">Inactive Members</a>
+                        <a class="nav-link {{ request()->routeIs('admin.blocked-members') ? 'active' : '' }}" href="{{ route('admin.blocked-members') }}">Blocked Members</a>
+                        <a class="nav-link {{ request()->routeIs('admin.password-details') ? 'active' : '' }}" href="{{ route('admin.password-details') }}">Password Details</a>
                     </div>
                 </li>
                 <!-- Network Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.referral-list') || request()->routeIs('admin.downline-list') ? 'active' : '' }}" data-bs-toggle="collapse" href="#networkMenu" role="button" aria-expanded="false" aria-controls="networkMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.referral-list') || request()->routeIs('admin.downline-list') ? 'active' : '' }}"
+                       data-bs-toggle="collapse"
+                       href="#networkMenu"
+                       role="button"
+                       aria-expanded="{{ request()->routeIs('admin.referral-list') || request()->routeIs('admin.downline-list') ? 'true' : 'false' }}"
+                       aria-controls="networkMenu">
                         <span><i class="bi bi-rss me-2"></i>Network</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
-                    <div class="collapse submenu" id="networkMenu">
+                    <div class="collapse submenu {{ request()->routeIs('admin.referral-list') || request()->routeIs('admin.downline-list') ? 'show' : '' }}" id="networkMenu" data-bs-parent="#sidebarAccordion">
                         <a class="nav-link {{ request()->routeIs('admin.referral-list') ? 'active' : '' }}" href="{{ route('admin.referral-list') }}">Referral List</a>
                         <a class="nav-link {{ request()->routeIs('admin.downline-list') ? 'active' : '' }}" href="{{ route('admin.downline-list') }}">Downline List</a>
                     </div>
@@ -670,11 +704,16 @@
                 </li>
                 <!-- Earnings Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.total-earnings') || request()->routeIs('admin.roi-income') ? 'active' : '' }}" data-bs-toggle="collapse" href="#earningsMenu" role="button" aria-expanded="false" aria-controls="earningsMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.total-earnings') || request()->routeIs('admin.roi-income') || request()->routeIs('admin.passiveincome') || request()->routeIs('admin.directincome') || request()->routeIs('admin.royalty') || request()->routeIs('admin.rewards') ? 'active' : '' }}"
+                       data-bs-toggle="collapse"
+                       href="#earningsMenu"
+                       role="button"
+                       aria-expanded="{{ request()->routeIs('admin.total-earnings') || request()->routeIs('admin.roi-income') || request()->routeIs('admin.passiveincome') || request()->routeIs('admin.directincome') || request()->routeIs('admin.royalty') || request()->routeIs('admin.rewards') ? 'true' : 'false' }}"
+                       aria-controls="earningsMenu">
                         <span><i class="bi bi-trophy me-2"></i>Earnings</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
-                    <div class="collapse submenu" id="earningsMenu">
+                    <div class="collapse submenu {{ request()->routeIs('admin.total-earnings') || request()->routeIs('admin.roi-income') || request()->routeIs('admin.passiveincome') || request()->routeIs('admin.directincome') || request()->routeIs('admin.royalty') || request()->routeIs('admin.rewards') ? 'show' : '' }}" id="earningsMenu" data-bs-parent="#sidebarAccordion">
                         <a class="nav-link {{ request()->routeIs('admin.total-earnings') ? 'active' : '' }}" href="{{ route('admin.total-earnings') }}">Total Earnings</a>
                         <a class="nav-link {{ request()->routeIs('admin.roi-income') ? 'active' : '' }}" href="{{ route('admin.roi-income') }}">ROI Income</a>
                         <a class="nav-link {{ request()->routeIs('admin.passiveincome') ? 'active' : '' }}" href="{{ route('admin.passiveincome') }}">Passive Income</a>
@@ -685,21 +724,31 @@
                 </li>
                 <!-- Wallets Details Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#walletsMenu" role="button" aria-expanded="false" aria-controls="walletsMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.wallethistory') ? 'active' : '' }}"
+                       data-bs-toggle="collapse"
+                       href="#walletsMenu"
+                       role="button"
+                       aria-expanded="{{ request()->routeIs('admin.wallethistory') ? 'true' : 'false' }}"
+                       aria-controls="walletsMenu">
                         <span><i class="bi bi-lock me-2"></i>Wallets Details</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
-                    <div class="collapse submenu" id="walletsMenu">
+                    <div class="collapse submenu {{ request()->routeIs('admin.wallethistory') ? 'show' : '' }}" id="walletsMenu" data-bs-parent="#sidebarAccordion">
                         <a class="nav-link {{ request()->routeIs('admin.wallethistory') ? 'active' : '' }}" href="{{ route('admin.wallethistory') }}">Wallet History</a>
                     </div>
                 </li>
                 <!-- Payout Details Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#payoutMenu" role="button" aria-expanded="false" aria-controls="payoutMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.unpaidpayouts') || request()->routeIs('admin.paidpayouts') || request()->routeIs('admin.rejectedpayouts') ? 'active' : '' }}"
+                       data-bs-toggle="collapse"
+                       href="#payoutMenu"
+                       role="button"
+                       aria-expanded="{{ request()->routeIs('admin.unpaidpayouts') || request()->routeIs('admin.paidpayouts') || request()->routeIs('admin.rejectedpayouts') ? 'true' : 'false' }}"
+                       aria-controls="payoutMenu">
                         <span><i class="bi bi-cash-stack me-2"></i>Payout Details</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
-                    <div class="collapse submenu" id="payoutMenu">
+                    <div class="collapse submenu {{ request()->routeIs('admin.unpaidpayouts') || request()->routeIs('admin.paidpayouts') || request()->routeIs('admin.rejectedpayouts') ? 'show' : '' }}" id="payoutMenu" data-bs-parent="#sidebarAccordion">
                         <a class="nav-link {{ request()->routeIs('admin.unpaidpayouts') ? 'active' : '' }}" href="{{ route('admin.unpaidpayouts') }}">Unpaid Payouts</a>
                         <a class="nav-link {{ request()->routeIs('admin.paidpayouts') ? 'active' : '' }}" href="{{ route('admin.paidpayouts') }}">Paid Payouts</a>
                         <a class="nav-link {{ request()->routeIs('admin.rejectedpayouts') ? 'active' : '' }}" href="{{ route('admin.rejectedpayouts') }}">Rejected Payouts</a>
@@ -710,11 +759,16 @@
                 </li>
                 <!-- System Controls Dropdown -->
                 <li class="nav-item mb-2">
-                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#systemMenu" role="button" aria-expanded="false" aria-controls="systemMenu">
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('admin.memberincomeblock') || request()->routeIs('admin.holidays') || request()->routeIs('admin.systemsettings') || request()->routeIs('admin.payoutcontrols') || request()->routeIs('admin.news') || request()->routeIs('admin.promotionalfiles') ? 'active' : '' }}"
+                       data-bs-toggle="collapse"
+                       href="#systemMenu"
+                       role="button"
+                       aria-expanded="{{ request()->routeIs('admin.memberincomeblock') || request()->routeIs('admin.holidays') || request()->routeIs('admin.systemsettings') || request()->routeIs('admin.payoutcontrols') || request()->routeIs('admin.news') || request()->routeIs('admin.promotionalfiles') ? 'true' : 'false' }}"
+                       aria-controls="systemMenu">
                         <span><i class="bi bi-gear me-2"></i>System Controls</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
-                    <div class="collapse submenu" id="systemMenu">
+                    <div class="collapse submenu {{ request()->routeIs('admin.memberincomeblock') || request()->routeIs('admin.holidays') || request()->routeIs('admin.systemsettings') || request()->routeIs('admin.payoutcontrols') || request()->routeIs('admin.news') || request()->routeIs('admin.promotionalfiles') ? 'show' : '' }}" id="systemMenu" data-bs-parent="#sidebarAccordion">
                         <a class="nav-link {{ request()->routeIs('admin.memberincomeblock') ? 'active' : '' }}" href="{{ route('admin.memberincomeblock') }}">Member Income Block</a>
                         <a class="nav-link {{ request()->routeIs('admin.holidays') ? 'active' : '' }}" href="{{ route('admin.holidays') }}">Holidays</a>
                         <a class="nav-link {{ request()->routeIs('admin.systemsettings') ? 'active' : '' }}" href="{{ route('admin.systemsettings') }}">System Settings</a>

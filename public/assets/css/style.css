@@ -1769,3 +1769,13 @@ form input[type="file"]:hover::-webkit-file-upload-button{
     background: #e7eaff !important;
     color: #6c7ae0 !important;
 }
+/* Sidebar: show which dropdown is open (expanded) */
+.sidebar .nav-link[aria-expanded="true"] {
+    background: #181f2a !important;
+    color: #00fff7 !important;
+    border-left: 4px solid #00fff7 !important;
+    font-weight: 700;
+}
+.sidebar .nav-link[aria-expanded="true"] .bi {
+    color: #00fff7 !important;
+}

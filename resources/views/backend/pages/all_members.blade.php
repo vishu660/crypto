@@ -41,8 +41,7 @@
                     <th>Address</th>
                     <th>Mobile</th>
                     <th>Package</th>
-                    <th>referral</th>
-                    <th>referral Name</th>
+                    <th>referral By</th>
                     <th>Join Date</th>
                     <th>Action</th>
                 </tr>
@@ -51,12 +50,11 @@
                 @if($members->count() > 0)
                     @foreach($members as $member)
                     <tr>
-                        <td>{{ $member->id ?? '-' }}</td>
+                        <td>{{ $member->referral_id ?? '-' }}</td>
                         <td>{{ $member->full_name ?? '-' }}</td>
                         <td>{{ $member->address->address_key ?? '-' }}</td>
                         <td>{{ $member->mobile_no ?? '-' }}</td>
                         <td>{{ $member->package ?? ($member->status ?? '-') }}</td>
-                        <td>{{ $member->referral_id ?? '-' }}</td>
                         <td>{{ $member->referralUser->full_name ?? '-' }}</td>
                         <td>{{ $member->created_at ? $member->created_at->format('d-m-Y h:i a') : '-' }}</td>
                         <td>
