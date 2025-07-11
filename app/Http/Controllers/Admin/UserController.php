@@ -13,6 +13,7 @@ use App\Models\AdminCode;
 use App\Models\FundRequest;
 use App\Models\Epin;
 use App\Models\UserBankDetail;
+use App\Models\News;
 use Carbon\Carbon;
 use App\Helpers\RoiHelper;
 use Illuminate\Support\Facades\Auth;
@@ -167,13 +168,16 @@ class UserController extends Controller
     $depositWallet = $user->wallets->where('type', 'deposit')->sum('amount');
     $fundRequested = FundRequest::where('user_id', $user->id)->sum('amount');
 
+    $news = News::all();
+
     return view('user.user', compact(
         'packages', 'recentTransactions', 'allTransactions',
         'inrBalance', 'usdtBalance', 'totalUsdtBalance',
         'freshEpins', 'appliedEpins', 'myReferrals', 'myTeamCount',
         'earningWallet', 'depositWallet', 'fundRequested', 'user',
         'prices',       // CoinGecko Prices
-        'livePrice'     // Binance Live Prices
+        'livePrice',     // Binance Live Prices
+        'news' // <-- add 'news' here
     ));
 }
     

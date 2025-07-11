@@ -738,20 +738,12 @@
 
         <div class="card d2c_wallet_card mb-4" style="background: linear-gradient(180deg, #6271ebe0 0%, #fc76b7 373.31%), url('./assets/images/triangle_bg.png');">
             <div class="card-body">
-                <div class="mb-4">
-                    <p class="mb-1 text-white">Balance</p>
-                    <h5 class="fw-semibold">$10,208.73</h5>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <small>Card Holder</small>
-                        <h6>Esther Howard</h6>
-                    </div>
-                    <div class="col-5">
-                        <small>Valid Thru</small>
-                        <h6>08/2023</h6>
-                    </div>
-                </div>
+                <!-- ✅ News Marquee -->
+                <marquee style="color: #fff; font-weight: bold;">
+                    @foreach($news as $item)
+                        {{ $item->title }} &nbsp; | &nbsp;
+                    @endforeach
+                </marquee>
             </div>
         </div>
 
