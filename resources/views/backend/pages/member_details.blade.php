@@ -82,6 +82,15 @@
                 @endforeach
             </select>
           </div>
+          <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-control" id="status" name="status">
+                <option value="active" {{ $user->status == 'active' ? 'selected' : '' }}>Active</option>
+                <option value="inactive" {{ $user->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                <option value="banned" {{ $user->status == 'banned' ? 'selected' : '' }}>Banned</option>
+                <option value="blocked" {{ $user->status == 'blocked' ? 'selected' : '' }}>Blocked</option>
+            </select>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
