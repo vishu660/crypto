@@ -259,6 +259,50 @@ public function rejectedPackageRequests()
         $users = User::latest()->paginate(50);
         return view('backend.pages.password_details', ['users' => $users, 'members' => $users]);
     }
+
+    // 👀 Show Member Details
+    public function showMember($id)
+    {
+        $user = User::with('referralUser')->findOrFail($id);
+        $addresses = \App\Models\Address::all();
+        return view('backend.pages.member_details', compact('user', 'addresses'));
+    }
+
+    // 🚫 Block Member
+    public function blockMember(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->status === 'blocked') {
+            return back()->with('error', 'User is already blocked.');
+        }
+
+        $user->status = 'banned'; // yahi value allowed hai
+        $user->save();
+
+        return back()->with('success', 'User blocked successfully!');
+    }
+
+    public function updateMember(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'mobile_no' => 'nullable|string|max:20',
+            'address_id' => 'nullable|exists:addresses,id',
+        ]);
+
+        $user->full_name = $request->full_name;
+        $user->email = $request->email;
+        $user->mobile_no = $request->mobile_no;
+        $user->address_id = $request->address_id;
+        $user->save();
+
+        return back()->with('success', 'Member updated successfully!');
+    }
+
 }
 
  

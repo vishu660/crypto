@@ -62,7 +62,8 @@
             cursor: pointer;
             font-weight: 500;
             letter-spacing: 0.5px;
-            padding: 12px 20px;
+            padding: 8px 12px;
+            font-size: 14px;
             transition: color 0.2s, background 0.2s;
             border-left: 4px solid transparent;
         }
@@ -97,9 +98,10 @@
             background: #101820;
         }
         .sidebar .fw-bold.text-success {
-            color: #00fff7 !important;
+            color: #646464 !important;
             letter-spacing: 1px;
-            padding: 10px 20px;
+            padding: 1px 2px;
+            font-size: 11px;
         }
         .dashboard-card {
             background: #181f2a;
