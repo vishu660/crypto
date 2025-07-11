@@ -28,7 +28,7 @@ class NewsController extends Controller
 
         News::create($request->only('title', 'content'));
 
-        return redirect()->route('admin.news.index')->with('success', 'News Added!');
+        return redirect()->route('news.index')->with('success', 'News Added!');
     }
 
     public function edit($id)
@@ -42,7 +42,7 @@ class NewsController extends Controller
     {
         $news = News::findOrFail($id);
         $news->update($request->only(['title', 'content']));
-        return redirect()->route('admin.news.index')->with('success', 'News updated!');
+        return redirect()->route('news.index')->with('success', 'News updated!');
     }
 
     public function destroy(News $news)

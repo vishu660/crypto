@@ -741,7 +741,8 @@
                 <!-- ✅ News Marquee -->
                 <marquee style="color: #fff; font-weight: bold;">
                     @foreach($news as $item)
-                        {{ $item->title }} &nbsp; | &nbsp;
+                        {{ $item->title }} &nbsp; :-- &nbsp;
+                        {{ $item->content }} &nbsp; | &nbsp;
                     @endforeach
                 </marquee>
             </div>
