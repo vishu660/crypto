@@ -268,13 +268,6 @@ public function rejectedPackageRequests()
         return view('backend.pages.member_details', compact('user', 'addresses'));
     }
 
-    public function editMember($id)
-    {
-        $user = User::with('referralUser')->findOrFail($id);
-        $addresses = \App\Models\Address::all();
-        return view('backend.pages.member_details', compact('user', 'addresses'));
-    }
-
     // 🚫 Block Member
     public function blockMember(Request $request, $id)
     {
