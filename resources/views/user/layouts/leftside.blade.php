@@ -86,18 +86,7 @@
                     <!-- End:Payout Details -->
 
                     {{-- e-pin  --}}
-                    <li class="nav-item">
-                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#epinMenu" role="button" aria-expanded="false" aria-controls="epinMenu">
-                            <span>
-                                <i class="fas fa-thumbtack me-2" ></i>Epin Details
-                            </span>
-                            <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="collapse submenu" id="epinMenu">
-                            <a class="nav-link ps-5 fw-bold" href="{{ route('available_epins') }}">Available Epins</a>
-                            <a class="nav-link ps-5" href="{{ route('applied_epins') }}">Applied Epins</a>
-                        </div>
-                    </li>
+                  
                     {{-- e-pin end --}}
                     {{-- Earnings --}}
                     <li class="nav-item">
