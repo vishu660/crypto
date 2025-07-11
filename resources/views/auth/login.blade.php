@@ -108,9 +108,9 @@
 
       <!-- Email -->
       <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ old('email') }}">
-        @error('email')
+        <label for="login" class="form-label">Email / Mobile / Referral ID</label>
+        <input type="text" class="form-control" id="login" name="login" placeholder="Email / Mobile / Referral ID" value="{{ old('login') }}">
+        @error('login')
           <small class="text-danger">{{ $message }}</small>
         @enderror
       </div>
