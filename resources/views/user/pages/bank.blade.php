@@ -12,11 +12,6 @@
         </button>
         <!-- End:Offcanvas Toggler -->
     </div>
-<<<<<<< HEAD
-    <div class="col">
-        <p class="mb-0">Welcome Back</p>
-        <h4 class="text-capitalize">Blank</h4>
-=======
     <!-- Preloader End -->
     <div class="d2c_wrapper">
         <!-- Main sidebar -->
@@ -680,26 +675,40 @@
                 <div class="d2c_convert form-validation">
                     <p class="fw-semibold">Quick Transfer</p>
 
-                    <form class="form-validation" novalidate>
-                        <label for="send_email">To</label>
-                        <div class="input-group border-0 mb-3">
-                            <input type="email" class="form-control border-0" id="send_email" placeholder="Send Email" required>
+                    <form method="POST" action="{{ route('user.bank.save') }}" class="p-4" style="max-width: 600px; margin:auto;">
+                        @csrf
+
+                        <div class="mb-4">
+                            <label for="account_holder" class="form-label fw-bold">Account Holder Name</label>
+                            <input type="text" class="form-control" id="account_holder" name="account_holder" placeholder="Enter account holder name" required>
                         </div>
-                        <label for="send_amount">Amount</label>
-                        <div class="input-group border-0 mb-3">
-                            <input type="number" class="form-control border-0" id="send_amount" placeholder="0.00" required>
-                            <select class="form-select form-control border-0 pe-0" id="inputGroupSelect03">
-                                <option value="1" selected>ETH</option>
-                                <option value="2">USD</option>
-                            </select>
+
+                        <div class="mb-4">
+                            <label for="account_number" class="form-label fw-bold">Account Number</label>
+                            <input type="text" class="form-control" id="account_number" name="account_number" placeholder="Enter account number" required>
                         </div>
-                        <button type="submit" class="btn w-100 text-success bg-success bg-opacity-25">Transfer</button>
+
+                        <div class="mb-4">
+                            <label for="ifsc" class="form-label fw-bold">IFSC Code</label>
+                            <input type="text" class="form-control" id="ifsc" name="ifsc" placeholder="Enter IFSC code" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="bank_name" class="form-label fw-bold">Bank Name</label>
+                            <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Enter bank name" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="remark" class="form-label fw-bold">Remark</label>
+                            <input type="text" class="form-control" id="remark" name="remark" placeholder="Any remark (optional)">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 fw-bold" style="background: #7c3aed; border: none;">Save Bank Details</button>
                     </form>
                 </div>
             </div>
         </div>
         <!-- End:Right Sidebar -->
->>>>>>> 239f81393e778cafff8f29082385907c11a1652a
     </div>
 </div>
 <!-- End:Title -->
@@ -709,11 +718,6 @@
     <p class="mb-0 fw-semibold">© 2023 <a href="https://www.designtocodes.com/" target="_blank" class="fw-bold">DesignToCodes</a>, All rights Reserved</p>
 </div>
 
-<<<<<<< HEAD
-</div>
-<!-- End:Main Body -->
-@endsection
-=======
     <!-- Initial  Javascript -->
     <script src="{{ asset('lib/jQuery/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('lib/bootstrap_5/bootstrap.bundle.min.js') }}"></script>
@@ -772,4 +776,3 @@ function redirectToTransfer() {
     Author URL: https://www.designtocodes.com
     Text Domain: FundRows
  -->
->>>>>>> 239f81393e778cafff8f29082385907c11a1652a
