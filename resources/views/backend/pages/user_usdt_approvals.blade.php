@@ -43,12 +43,12 @@
                                     @if(!$ua->is_approved)
                                         <form action="{{ route('admin.user-addresses.approve', $ua) }}" method="POST" style="display:inline;">
                                             @csrf
-                                            <button class="btn btn-success btn-sm px-3 me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Approve"><i class="fas fa-check"></i></button>
+                                            <button class="btn btn-success btn-sm px-3 me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Approve"><i class="fas fa-check"></i>Approve</button>
                                         </form>
                                     @else
                                         <form action="{{ route('admin.user-addresses.reject', $ua) }}" method="POST" style="display:inline;">
                                             @csrf
-                                            <button class="btn btn-warning btn-sm px-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Reject"><i class="fas fa-times"></i></button>
+                                            <button class="btn btn-warning btn-sm px-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Reject"><i class="fas fa-times"></i>Reject</button>
                                         </form>
                                     @endif
                                 </td>
