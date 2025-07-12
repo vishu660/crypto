@@ -59,6 +59,9 @@ Route::get('/', function () {
 // })->name('admin-dashboard');
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+});
 
 
 Route::get('/admin-dashboard', function () {
@@ -84,8 +87,7 @@ Route::get('/admin/support', function () {
     return view('backend.pages.support');
 })->name('admin-support');
 
-Route::get('/admin/package-details', [PackageController::class, 'index'])->name('admin-package-details');
-Route::post('/packages/toggle-status/{id}', [PackageController::class, 'toggleStatus'])->name('package.toggleStatus');
+
 
 // web.php
 Route::get('user/breakdown/{id}', [PackageController::class, 'show'])->name('user.breakdown.show');
@@ -113,8 +115,13 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     
     // Alternative route naming (if you prefer consistency)
     Route::post('/package/request', [PackageController::class, 'buyWithRequest'])->name('user.package.buyWithRequest');
+     
 
 });
+
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/package-details', [PackageController::class, 'index'])->name('admin-package-details');
+Route::post('/packages/toggle-status/{id}', [PackageController::class, 'toggleStatus'])->name('package.toggleStatus');});
 
 // Admin routes for package management
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
