@@ -348,7 +348,7 @@ Route::resource('package', App\Http\Controllers\Admin\PackageController::class);
 Route::get('/check-referral', [RegisteredUserController::class, 'checkReferral']);
 Route::get('/check-recipient', [TransferController::class, 'checkRecipient']);
 Route::post('/user/transfer-request', [TransferController::class, 'transferRequest'])->name('user.transfer.request');
-
+Route::post('/user/transfer', [UserController::class, 'processTransfer'])->name('user.transfer.request');
 Route::post('/user/bank-details', [App\Http\Controllers\Admin\UserController::class, 'saveBankDetails'])->name('user.saveBankDetails');
 Route::match(['get', 'post'], '/user/pages/kyc-step1-new', function () {
     // ...handle POST data if needed...

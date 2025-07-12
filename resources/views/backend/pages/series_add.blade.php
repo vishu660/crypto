@@ -60,16 +60,22 @@
                         <label class="form-label">Level Number</label>
                         <input type="number" name="level" class="form-control" required placeholder="Enter Level Number">
                     </div>
-
+                    
                     <div class="mb-3">
-                        <label class="form-label">Amount (USDT)</label>
-                        <input type="number" step="0.01" name="amount" class="form-control" required placeholder="Enter Salary Amount">
+                        <label class="form-label">Turnover Amount (USDT)</label>
+                        <input type="number" step="0.01" name="amount" class="form-control" required placeholder="Enter Turnover Amount">
                     </div>
-
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Salary Amount (USDT)</label>
+                        <input type="number" step="0.01" name="salary_amount" class="form-control" required placeholder="Enter Salary Amount">
+                    </div>
+                    
                     <div class="mb-3">
                         <label class="form-label">Period (in Months)</label>
                         <input type="number" name="period_months" class="form-control" required placeholder="Enter Period in Months">
                     </div>
+                    
 
                     <button type="submit" class="btn btn-primary w-100">Add Series Level</button>
                 </form>

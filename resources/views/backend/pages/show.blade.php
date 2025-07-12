@@ -82,14 +82,32 @@
                     @csrf
                     @method('PUT')
                     @foreach($series_levels->sortBy('level') as $level)
-                        <div class="col-md-6 mb-3">
-                            <label>Level {{ $level->level }} Amount (USDT)</label>
+                    <div class="row">
+                        {{-- Level Number --}}
+                        <div class="col-md-3 mb-3">
+                            <label>Level Number</label>
+                            <input type="number" name="levels[{{ $level->level }}]" value="{{ $level->level }}" class="form-control" readonly>
+                        </div>
+                    
+                        {{-- Turnover Amount --}}
+                        <div class="col-md-3 mb-3">
+                            <label>Turnover Amount (USDT)</label>
                             <input type="number" name="amounts[{{ $level->level }}]" step="0.01" value="{{ $level->amount }}" class="form-control" required>
                         </div>
-                        <div class="col-md-6 mb-3">
+                    
+                        {{-- Salary Amount --}}
+                        <div class="col-md-3 mb-3">
+                            <label>Salary Amount (USDT)</label>
+                            <input type="number" name="salary_amounts[{{ $level->level }}]" step="0.01" value="{{ $level->salary_amount ?? 0 }}" class="form-control" required>
+                        </div>
+                    
+                        {{-- Period --}}
+                        <div class="col-md-3 mb-3">
                             <label>Period (Months)</label>
                             <input type="number" name="period_months[{{ $level->level }}]" step="1" value="{{ $level->period_months }}" class="form-control" required>
                         </div>
+                    </div>
+                    
                     @endforeach
                     <div class="col-md-12 mt-3">
                         <button class="btn btn-success">Update Series Salary</button>
@@ -102,10 +120,13 @@
                 <h6 class="text-white">Current Series Level Rates:</h6>
                 <ul class="p-0" style="list-style: none;">
                     @foreach($series_levels->sortBy('level') as $level)
-                        <li style="background: #101820; color: #fff; border: 2px dashed #00fff7; border-radius: 10px; margin-bottom: 14px; padding: 12px 18px;">
-                            Level {{ $level->level }}: USDT {{ number_format($level->amount, 2) }} for {{ $level->period_months }} months
-                        </li>
-                    @endforeach
+                    <li style="background: #101820; color: #fff; border: 2px dashed #00fff7; border-radius: 10px; margin-bottom: 14px; padding: 12px 18px;">
+                        Level {{ $level->level }}:
+                        <br>Turnover: USDT {{ number_format($level->amount, 2) }}
+                        <br>Salary: USDT {{ number_format($level->salary_amount ?? 0, 2) }}
+                        <br>Duration: {{ $level->period_months }} months
+                    </li>
+                @endforeach
                 </ul>
             </div>
         </div>

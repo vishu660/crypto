@@ -9,12 +9,12 @@ class SeriesLevel extends Model
     // Allow mass assignment
     protected $fillable = [
         'level',
-        'amount',
+        'amount',          // Turnover amount
+        'salary_amount',   // Salary to be given
         'period_months',
     ];
 
-    // Optionally: Add timestamps = true (default, can skip this if using timestamps)
     public $timestamps = true;
 
-    // You can add any custom methods here later, like scope, etc.
+    // You can add custom scopes or accessors later if needed
 }

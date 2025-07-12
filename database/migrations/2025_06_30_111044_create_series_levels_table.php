@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('series_levels', function (Blueprint $table) {
             $table->id();
-            $table->unsignedTinyInteger('level')->unique(); // 1 to 5
-            $table->decimal('amount', 10, 2); // Salary ₹
+            $table->unsignedTinyInteger('level')->unique();     // e.g. 1, 2, 3, 4, 5
+            $table->decimal('amount', 12, 2);                   // ← This will be the TURNOVER requirement
+            $table->decimal('salary_amount', 10, 2);            // ← This is the salary admin gives
+            $table->unsignedInteger('period_months');           // ← Salary cycle (e.g. 6, 12 months)
             $table->timestamps();
         });
     }

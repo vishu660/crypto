@@ -524,17 +524,16 @@
                     <option value="usdt">USDT Address</option>
                 </select>
         
-                <!-- ✉️ Recipient Input -->
-                <label for="recipient_input">To</label>
-                <input type="text" class="form-control mb-1" id="recipient_input" name="recipient" placeholder="Enter bank email or USDT address" required>
-                <div id="recipient_feedback" class="mb-3"></div>
-        
+               <!-- ✉️ Recipient Input (DISABLED) -->
+                    <label for="recipient_input">To</label>
+                    <input type="text" class="form-control mb-1" id="recipient_input" name="recipient" placeholder="Auto-filled based on selection" disabled>
+                    <div id="recipient_feedback" class="mb-3 text-muted" style="font-size: 0.9rem;"></div>
+                            
                 <!-- 💸 Amount Input -->
                 <label for="amount">Amount</label>
                 <div class="input-group mb-3">
                     <input type="number" class="form-control" id="amount" name="amount" placeholder="0.00" step="0.01" required>
                     <select class="form-select form-control border-0" name="currency">
-                        <option value="ETH">ETH</option>
                         <option value="INR">INR</option>
                         <option value="USDT">USDT</option>
                     </select>
@@ -543,6 +542,57 @@
                 <button type="submit" class="btn w-100 text-success bg-success bg-opacity-25">Transfer</button>
             </form>
         </div>
+        
+        <!-- ✅ JavaScript for Dynamic Behavior -->
+       <!-- 📌 Blade Template File -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const transferType = document.getElementById('transfer_type');
+        const recipientInput = document.getElementById('recipient_input');
+        const feedback = document.getElementById('recipient_feedback');
+
+        // ✅ Injected data from backend (make sure these variables are passed from controller)
+        const bankData = @json($bank);
+        const usdtList = @json($usdt_addresses);
+
+        transferType.addEventListener('change', function () {
+            const type = this.value;
+            feedback.innerHTML = '';
+            recipientInput.value = '';
+
+            if (type === 'bank') {
+                if (bankData && bankData.account_number) {
+                    const last4 = bankData.account_number.slice(-4);
+                    recipientInput.value = 'XXXX' + last4;
+                    feedback.innerHTML = '✅ Bank Detail Found';
+                } else {
+                    feedback.innerHTML = '❌ Bank Detail Not Found';
+                }
+            } else if (type === 'usdt') {
+                if (usdtList.length > 0) {
+                    let html = 'Select USDT Address: <select id="usdt_dropdown" class="form-select mt-2">';
+                    usdtList.forEach((addr, index) => {
+                        html += `<option value="${addr}">XXXX${addr.slice(-4)}</option>`;
+                    });
+                    html += '</select>';
+                    feedback.innerHTML = html;
+
+                    document.getElementById('usdt_dropdown').addEventListener('change', function () {
+                        recipientInput.value = 'XXXX' + this.value.slice(-4);
+                    });
+
+                    // Default select first address
+                    recipientInput.value = 'XXXX' + usdtList[0].slice(-4);
+                } else {
+                    feedback.innerHTML = '❌ USDT Address Not Found';
+                }
+            }
+        });
+    });
+</script>
+
+        
+        
         
     </div>
 </div>
@@ -553,26 +603,3 @@
 @endsection
 
 
-
-<script>
-    document.getElementById('recipient_input').addEventListener('blur', function () {
-        const recipient = this.value;
-        const type = document.getElementById('transfer_type').value;
-        const feedback = document.getElementById('recipient_feedback');
-    
-        if (!recipient || !type) return;
-    
-        fetch(`/check-recipient?value=${encodeURIComponent(recipient)}&type=${type}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.exists) {
-                    feedback.innerHTML = `<span class="text-success"><i class="bi bi-check-circle-fill"></i> Details verified</span>`;
-                } else {
-                    feedback.innerHTML = `<span class="text-danger"><i class="bi bi-x-circle-fill"></i> No user found for ${type}</span>`;
-                }
-            }).catch(() => {
-                feedback.innerHTML = `<span class="text-danger">Something went wrong!</span>`;
-            });
-    });
-    </script>
-    

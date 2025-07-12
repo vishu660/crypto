@@ -11,60 +11,73 @@ use Illuminate\Support\Facades\Log;
 
 class DistributeSeriesSalary extends Command
 {
+    /**
+     * Command Signature
+     */
     protected $signature = 'app:distribute-series-salary';
 
-    protected $description = 'Distribute series-level based fixed salary to qualified users';
+    /**
+     * Command Description
+     */
+    protected $description = 'Distribute fixed series-level salary to qualified users';
 
+    /**
+     * Execute the console command.
+     */
     public function handle()
     {
         $today = Carbon::today();
+
+        // Only users who haven't received series salary yet
         $users = User::where('role', 'user')
             ->where('series_level', '>', 0)
-            ->whereNull('series_salary_paid_at') // ✅ Only unpaid
+            ->whereNull('series_salary_paid_at')
             ->get();
 
         $distributedCount = 0;
 
         foreach ($users as $user) {
-            $seriesLevel = $user->series_level;
-            $levelData = SeriesLevel::where('level', $seriesLevel)->first();
+            $level = $user->series_level;
+            $levelData = SeriesLevel::where('level', $level)->first();
 
             if (!$levelData) continue;
 
+            // Months since user joined
             $joinDate = Carbon::parse($user->created_at);
             $monthsSinceJoin = $joinDate->diffInMonths($today);
 
-            // ✅ Check if user qualifies for salary
             if ($monthsSinceJoin >= $levelData->period_months) {
-                $salaryAmount = $levelData->amount;
+                $salaryAmount = $levelData->salary_amount;
 
-                // ✅ Get last balance
+                // Get last wallet balance
                 $lastBalance = Wallet::where('user_id', $user->id)
                     ->orderByDesc('id')
                     ->value('balance_after') ?? 0;
 
                 $newBalance = $lastBalance + $salaryAmount;
 
-                // ✅ Credit salary to wallet
+                // Credit wallet
                 Wallet::create([
                     'user_id' => $user->id,
                     'amount' => $salaryAmount,
                     'balance_after' => $newBalance,
                     'type' => 'credit',
-                    'currency' => 'INR',
+                    'currency' => 'USDT',
                     'source' => 'series_salary',
-                    'message' => "Series Salary credited for Level {$seriesLevel}",
+                    'message' => "Series Salary credited for Level {$level}",
                 ]);
 
-                // ✅ Mark user as paid
+                // Mark salary paid
                 $user->series_salary_paid_at = now();
                 $user->save();
 
-                Log::info("👀 Checking User #{$user->id} | Joined: {$joinDate} | Months: {$monthsSinceJoin} | Required: {$levelData->period_months}");
+                // Log info
+                Log::info("✅ Series Salary Paid: User #{$user->id} | Level: {$level} | Joined: {$joinDate} | Months Passed: {$monthsSinceJoin}");
+
                 $distributedCount++;
             }
         }
 
-        $this->info("🎉 Series Salary distributed to {$distributedCount} user(s).");
+        $this->info("🎉 Series Salary successfully distributed to {$distributedCount} user(s).");
     }
 }

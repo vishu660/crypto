@@ -28,158 +28,171 @@ use Illuminate\Support\Facades\Cache;
 class UserController extends Controller
 {
     public function dashboard()
-{
-    $user = auth()->user();
-
-    if ($user->role !== 'user') {
-        auth()->logout();
-        return redirect()->route('login')->withErrors(['email' => 'Unauthorized access.']);
-    }
-
-    $packages = Package::where('is_active', 1)->get();
-    $allTransactions = Transaction::where('user_id', $user->id)->get();
-    $recentTransactions = Transaction::where('user_id', $user->id)->latest()->take(5)->get();
-
-    $inrBalance = $user->wallets->where('currency', 'INR')->sum(fn($w) => $w->type === 'credit' ? $w->amount : -$w->amount);
-    $usdtBalance = $user->wallets->where('currency', 'USDT')->sum(fn($w) => $w->type === 'credit' ? $w->amount : -$w->amount);
-
-    // 🟡 USDT to INR Conversion Rate (from CoinGecko)
-    $usdtRate = 83; // Fallback rate
-    $totalUsdtBalance = $usdtBalance;
-
-    try {
-        $response = Http::timeout(10)->get('https://api.coingecko.com/api/v3/simple/price', [
-            'ids' => 'tether',
-            'vs_currencies' => 'inr',
-        ]);
-
-        if ($response->successful()) {
-            $body = $response->json();
-            if (isset($body['tether']['inr']) && $body['tether']['inr'] > 0) {
-                $usdtRate = $body['tether']['inr'];
-                $totalUsdtBalance = round($usdtBalance + ($inrBalance / $usdtRate), 4);
-            }
+    {
+        $user = auth()->user();
+    
+        if ($user->role !== 'user') {
+            auth()->logout();
+            return redirect()->route('login')->withErrors(['email' => 'Unauthorized access.']);
         }
-    } catch (\Exception $e) {
-        \Log::warning('USDT rate fetch failed: ' . $e->getMessage());
+    
+        $packages = Package::where('is_active', 1)->get();
+        $allTransactions = Transaction::where('user_id', $user->id)->get();
+        $recentTransactions = Transaction::where('user_id', $user->id)->latest()->take(5)->get();
+    
+        $inrBalance = $user->wallets->where('currency', 'INR')->sum(fn($w) => $w->type === 'credit' ? $w->amount : -$w->amount);
+        $usdtBalance = $user->wallets->where('currency', 'USDT')->sum(fn($w) => $w->type === 'credit' ? $w->amount : -$w->amount);
+    
+        // 🟡 USDT to INR Conversion Rate (from CoinGecko)
+        $usdtRate = 83; // Fallback rate
         $totalUsdtBalance = $usdtBalance;
-    }
-
-    // 🟢 CoinGecko Prices with Default Values
-    $prices = [
-        'bitcoin' => ['usdt' => 43000],
-        'ethereum' => ['usdt' => 2500],
-        'binancecoin' => ['usdt' => 300],
-        'monero' => ['usdt' => 150],
-    ];
-
-    try {
-        $cachedPrices = Cache::remember('crypto_prices', now()->addMinutes(5), function () {
+    
+        try {
             $response = Http::timeout(10)->get('https://api.coingecko.com/api/v3/simple/price', [
-                'ids' => 'bitcoin,ethereum,monero,binancecoin',
-                'vs_currencies' => 'usdt',
+                'ids' => 'tether',
+                'vs_currencies' => 'inr',
             ]);
-            
+    
             if ($response->successful()) {
-                $data = $response->json();
-                // Validate the structure
-                if (is_array($data) && 
-                    isset($data['bitcoin']['usdt']) && 
-                    isset($data['ethereum']['usdt']) && 
-                    isset($data['binancecoin']['usdt']) && 
-                    isset($data['monero']['usdt'])) {
-                    return $data;
+                $body = $response->json();
+                if (isset($body['tether']['inr']) && $body['tether']['inr'] > 0) {
+                    $usdtRate = $body['tether']['inr'];
+                    $totalUsdtBalance = round($usdtBalance + ($inrBalance / $usdtRate), 4);
                 }
             }
-            return null;
-        });
-        
-        if ($cachedPrices) {
-            $prices = $cachedPrices;
+        } catch (\Exception $e) {
+            \Log::warning('USDT rate fetch failed: ' . $e->getMessage());
+            $totalUsdtBalance = $usdtBalance;
         }
-    } catch (\Exception $e) {
-        \Log::warning('CoinGecko prices fetch failed: ' . $e->getMessage());
+    
+        // 🟢 CoinGecko Prices with Default Values
+        $prices = [
+            'bitcoin' => ['usdt' => 43000],
+            'ethereum' => ['usdt' => 2500],
+            'binancecoin' => ['usdt' => 300],
+            'monero' => ['usdt' => 150],
+        ];
+    
+        try {
+            $cachedPrices = Cache::remember('crypto_prices', now()->addMinutes(5), function () {
+                $response = Http::timeout(10)->get('https://api.coingecko.com/api/v3/simple/price', [
+                    'ids' => 'bitcoin,ethereum,monero,binancecoin',
+                    'vs_currencies' => 'usdt',
+                ]);
+                
+                if ($response->successful()) {
+                    $data = $response->json();
+                    // Validate the structure
+                    if (is_array($data) && 
+                        isset($data['bitcoin']['usdt']) && 
+                        isset($data['ethereum']['usdt']) && 
+                        isset($data['binancecoin']['usdt']) && 
+                        isset($data['monero']['usdt'])) {
+                        return $data;
+                    }
+                }
+                return null;
+            });
+            
+            if ($cachedPrices) {
+                $prices = $cachedPrices;
+            }
+        } catch (\Exception $e) {
+            \Log::warning('CoinGecko prices fetch failed: ' . $e->getMessage());
+        }
+    
+        // 🟢 Binance Live Prices with Change% and Default Values
+        $livePrice = [
+            'bitcoin' => ['price' => 43000, 'change' => 0, 'trend' => 'up'],
+            'ethereum' => ['price' => 2500, 'change' => 0, 'trend' => 'up'],
+            'binancecoin' => ['price' => 300, 'change' => 0, 'trend' => 'up'],
+            'monero' => ['price' => 150, 'change' => 0, 'trend' => 'up'],
+        ];
+    
+        try {
+            $responses = Http::pool(fn ($pool) => [
+                $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT'),
+                $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=ETHUSDT'),
+                $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=BNBUSDT'),
+                $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=XMRUSDT'),
+            ]);
+    
+            if ($responses[0]->successful()) {
+                $btc = $responses[0]->json();
+                $livePrice['bitcoin'] = [
+                    'price' => floatval($btc['lastPrice'] ?? 0),
+                    'change' => floatval($btc['priceChangePercent'] ?? 0),
+                    'trend' => (floatval($btc['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
+                ];
+            }
+    
+            if ($responses[1]->successful()) {
+                $eth = $responses[1]->json();
+                $livePrice['ethereum'] = [
+                    'price' => floatval($eth['lastPrice'] ?? 0),
+                    'change' => floatval($eth['priceChangePercent'] ?? 0),
+                    'trend' => (floatval($eth['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
+                ];
+            }
+    
+            if ($responses[2]->successful()) {
+                $bnb = $responses[2]->json();
+                $livePrice['binancecoin'] = [
+                    'price' => floatval($bnb['lastPrice'] ?? 0),
+                    'change' => floatval($bnb['priceChangePercent'] ?? 0),
+                    'trend' => (floatval($bnb['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
+                ];
+            }
+    
+            if ($responses[3]->successful()) {
+                $xmr = $responses[3]->json();
+                $livePrice['monero'] = [
+                    'price' => floatval($xmr['lastPrice'] ?? 0),
+                    'change' => floatval($xmr['priceChangePercent'] ?? 0),
+                    'trend' => (floatval($xmr['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
+                ];
+            }
+        } catch (\Exception $e) {
+            \Log::warning('Binance prices fetch failed: ' . $e->getMessage());
+        }
+    
+        $freshEpins = Epin::where('user_id', $user->id)->where('status', 'active')->count();
+        $appliedEpins = Epin::where('user_id', $user->id)->where('status', 'applied')->count();
+        $myReferrals = $user->directReferrals()->count();
+    
+        $downlines = collect();
+        $this->getDownlinesRecursive($user, $downlines, 1);
+        $myTeamCount = $downlines->count();
+    
+        $earningWallet = $user->wallets->where('type', 'credit')->sum('amount');
+        $depositWallet = $user->wallets->where('type', 'deposit')->sum('amount');
+        $fundRequested = FundRequest::where('user_id', $user->id)->sum('amount');
+    
+        $news = News::all();
+    
+        // 🔹 Transfer Form Data - Bank Details and USDT Addresses
+        $bank = \DB::table('user_bank_details')
+            ->where('user_id', $user->id)
+            ->first();
+    
+        $usdt_addresses = \DB::table('addresses')
+            ->where('user_id', $user->id)
+            ->where('name', 'usdt')
+            ->pluck('address_key')
+            ->toArray();
+    
+        return view('user.user', compact(
+            'packages', 'recentTransactions', 'allTransactions',
+            'inrBalance', 'usdtBalance', 'totalUsdtBalance',
+            'freshEpins', 'appliedEpins', 'myReferrals', 'myTeamCount',
+            'earningWallet', 'depositWallet', 'fundRequested', 'user',
+            'prices',       // CoinGecko Prices
+            'livePrice',     // Binance Live Prices
+            'news',          // News
+            'bank',          // 🔹 Bank Details for Transfer Form
+            'usdt_addresses' // 🔹 USDT Addresses for Transfer Form
+        ));
     }
-
-    // 🟢 Binance Live Prices with Change% and Default Values
-    $livePrice = [
-        'bitcoin' => ['price' => 43000, 'change' => 0, 'trend' => 'up'],
-        'ethereum' => ['price' => 2500, 'change' => 0, 'trend' => 'up'],
-        'binancecoin' => ['price' => 300, 'change' => 0, 'trend' => 'up'],
-        'monero' => ['price' => 150, 'change' => 0, 'trend' => 'up'],
-    ];
-
-    try {
-        $responses = Http::pool(fn ($pool) => [
-            $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT'),
-            $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=ETHUSDT'),
-            $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=BNBUSDT'),
-            $pool->timeout(10)->get('https://api.binance.com/api/v3/ticker/24hr?symbol=XMRUSDT'),
-        ]);
-
-        if ($responses[0]->successful()) {
-            $btc = $responses[0]->json();
-            $livePrice['bitcoin'] = [
-                'price' => floatval($btc['lastPrice'] ?? 0),
-                'change' => floatval($btc['priceChangePercent'] ?? 0),
-                'trend' => (floatval($btc['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
-            ];
-        }
-
-        if ($responses[1]->successful()) {
-            $eth = $responses[1]->json();
-            $livePrice['ethereum'] = [
-                'price' => floatval($eth['lastPrice'] ?? 0),
-                'change' => floatval($eth['priceChangePercent'] ?? 0),
-                'trend' => (floatval($eth['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
-            ];
-        }
-
-        if ($responses[2]->successful()) {
-            $bnb = $responses[2]->json();
-            $livePrice['binancecoin'] = [
-                'price' => floatval($bnb['lastPrice'] ?? 0),
-                'change' => floatval($bnb['priceChangePercent'] ?? 0),
-                'trend' => (floatval($bnb['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
-            ];
-        }
-
-        if ($responses[3]->successful()) {
-            $xmr = $responses[3]->json();
-            $livePrice['monero'] = [
-                'price' => floatval($xmr['lastPrice'] ?? 0),
-                'change' => floatval($xmr['priceChangePercent'] ?? 0),
-                'trend' => (floatval($xmr['priceChangePercent'] ?? 0)) >= 0 ? 'up' : 'down',
-            ];
-        }
-    } catch (\Exception $e) {
-        \Log::warning('Binance prices fetch failed: ' . $e->getMessage());
-    }
-
-    $freshEpins = Epin::where('user_id', $user->id)->where('status', 'active')->count();
-    $appliedEpins = Epin::where('user_id', $user->id)->where('status', 'applied')->count();
-    $myReferrals = $user->directReferrals()->count();
-
-    $downlines = collect();
-    $this->getDownlinesRecursive($user, $downlines, 1);
-    $myTeamCount = $downlines->count();
-
-    $earningWallet = $user->wallets->where('type', 'credit')->sum('amount');
-    $depositWallet = $user->wallets->where('type', 'deposit')->sum('amount');
-    $fundRequested = FundRequest::where('user_id', $user->id)->sum('amount');
-
-    $news = News::all();
-
-    return view('user.user', compact(
-        'packages', 'recentTransactions', 'allTransactions',
-        'inrBalance', 'usdtBalance', 'totalUsdtBalance',
-        'freshEpins', 'appliedEpins', 'myReferrals', 'myTeamCount',
-        'earningWallet', 'depositWallet', 'fundRequested', 'user',
-        'prices',       // CoinGecko Prices
-        'livePrice',     // Binance Live Prices
-        'news' // <-- add 'news' here
-    ));
-}
     
     
 
@@ -1086,6 +1099,8 @@ public function changePassword(Request $request)
 
     return back()->with('success', 'Password updated successfully.');
 }
+
+
 
 
 }
