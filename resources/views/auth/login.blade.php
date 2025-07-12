@@ -108,8 +108,8 @@
 
       <!-- Email -->
       <div class="mb-3">
-        <label for="login" class="form-label">Email / Mobile / Referral ID</label>
-        <input type="text" class="form-control" id="login" name="login" placeholder="Email / Mobile / Referral ID" value="{{ old('login') }}">
+        <label for="login" class="form-label">Email / Mobile</label>
+        <input type="text" class="form-control" id="login" name="login" placeholder="Email / Mobile " value="{{ old('login') }}">
         @error('login')
           <small class="text-danger">{{ $message }}</small>
         @enderror

@@ -418,19 +418,21 @@
             <form method="POST" action="{{ route('user.convert') }}" class="form-validation" novalidate>
                 @csrf
         
+                <!-- Amount Input -->
                 <label for="conver_amount">Amount</label>
                 <div class="input-group border-0 mb-3">
                     <input type="number" class="form-control border-0 bg-light" name="amount" id="conver_amount" placeholder="0.00" required step="0.01">
-                    <select class="form-select border-0 bg-light pe-0" name="from_currency" id="inputGroupSelect01">
+                    <select class="form-select border-0 bg-light pe-0" name="from_currency" id="from_currency">
                         <option value="USDT" selected>USDT</option>
                         <option value="INR">INR</option>
                     </select>
                 </div>
         
+                <!-- Converted Coin -->
                 <label for="convert_coin">Convert Coin</label>
                 <div class="input-group border-0 mb-3">
                     <input type="number" class="form-control border-0 bg-light" id="convert_coin" placeholder="0.00" readonly>
-                    <select class="form-select border-0 bg-light pe-0" id="inputGroupSelect02" name="to_currency">
+                    <select class="form-select border-0 bg-light pe-0" id="to_currency" name="to_currency" disabled>
                         <option value="INR">INR</option>
                         <option value="USDT">USDT</option>
                     </select>
@@ -439,6 +441,7 @@
                 <button type="submit" class="btn w-100 text-success bg-success bg-opacity-25">Convert</button>
             </form>
         
+            <!-- Show Alert -->
             @if(session('error'))
                 <div class="alert alert-danger mt-2">{{ session('error') }}</div>
             @endif
@@ -447,6 +450,65 @@
                 <div class="alert alert-success mt-2">{{ session('success') }}</div>
             @endif
         </div>
+        
+        <script>
+            let usdtRate = 83;
+        
+            async function fetchUSDTPrice() {
+                try {
+                    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=inr');
+                    const data = await res.json();
+                    usdtRate = data.tether.inr;
+                } catch (e) {
+                    console.error("USDT price fetch failed, using fallback.");
+                }
+            }
+        
+            // Call on page load
+            fetchUSDTPrice();
+        
+            function updateToCurrency() {
+                const from = document.getElementById('from_currency').value;
+                const toCurrency = document.getElementById('to_currency');
+        
+                if (from === 'USDT') {
+                    toCurrency.value = 'INR';
+                } else if (from === 'INR') {
+                    toCurrency.value = 'USDT';
+                }
+            }
+        
+            function calculateConversion() {
+                const amount = parseFloat(document.getElementById('conver_amount').value) || 0;
+                const from = document.getElementById('from_currency').value;
+                const to = document.getElementById('to_currency').value;
+        
+                let result = 0;
+                if (from === to) {
+                    result = amount;
+                } else if (from === 'USDT' && to === 'INR') {
+                    result = amount * usdtRate;
+                } else if (from === 'INR' && to === 'USDT') {
+                    result = amount / usdtRate;
+                }
+        
+                document.getElementById('convert_coin').value = result.toFixed(to === 'INR' ? 2 : 4);
+            }
+        
+            document.getElementById('from_currency').addEventListener('change', () => {
+                updateToCurrency();
+                calculateConversion();
+            });
+        
+            document.getElementById('conver_amount').addEventListener('input', calculateConversion);
+        
+            // Initialize
+            document.addEventListener('DOMContentLoaded', function () {
+                updateToCurrency();
+                calculateConversion();
+            });
+        </script>
+        
 
         <div class="d2c_convert form-validation">
             <p class="fw-semibold">Quick Transfer</p>
@@ -490,34 +552,7 @@
 
 @endsection
 
-<script>
-    let usdtRate = 83; // fallback
-    async function fetchUSDTPrice() {
-        try {
-            const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=inr');
-            const data = await res.json();
-            usdtRate = data.tether.inr;
-        } catch (e) {
-            console.error("Failed to fetch USDT price, using fallback.");
-        }
-    }
 
-    fetchUSDTPrice();
-
-    document.addEventListener('input', function () {
-        let amount = parseFloat(document.getElementById('conver_amount').value) || 0;
-        let from = document.getElementById('inputGroupSelect01').value;
-        let to = document.getElementById('inputGroupSelect02').value;
-
-        if (from === to) {
-            document.getElementById('convert_coin').value = amount;
-        } else if (from === 'USDT' && to === 'INR') {
-            document.getElementById('convert_coin').value = (amount * usdtRate).toFixed(2);
-        } else if (from === 'INR' && to === 'USDT') {
-            document.getElementById('convert_coin').value = (amount / usdtRate).toFixed(4);
-        }
-    });
-</script>
 
 <script>
     document.getElementById('recipient_input').addEventListener('blur', function () {
