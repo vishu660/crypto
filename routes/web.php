@@ -32,9 +32,19 @@ use App\Http\Controllers\NowPaymentController;
 // Route::post('/admin/login', [AuthController::class, 'login'])->name('admin-login.submit');
 
 // api route 
-Route::post('/nowpayments/payment', [NowPaymentController::class, 'createPayment'])->name('nowpayment.create');
-Route::post('/nowpayments/callback', [NowPaymentController::class, 'callback'])->name('nowpayment.callback');
+// Route::post('/crypto/payment', [NowPaymentController::class, 'createPayment'])->name('nowpayment.create');
+// Route::post('/crypto/callback', [NowPaymentController::class, 'callback'])->name('nowpayment.callback');
 
+
+// Add these routes to your routes/web.php file
+
+// NowPayments routes
+Route::middleware(['auth'])->group(function () {
+    Route::post('/nowpayment/create', [App\Http\Controllers\NowPaymentController::class, 'createPayment'])->name('nowpayment.create');
+});
+
+// Callback route (no auth middleware needed for webhooks)
+Route::post('/nowpayment/callback', [App\Http\Controllers\NowPaymentController::class, 'callback'])->name('nowpayment.callback');
 // Public Routes
 Route::get('/', function () {
     return view('index');

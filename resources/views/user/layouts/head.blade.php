@@ -8,6 +8,7 @@
     <meta name="robots" content="index, follow">
     <meta name="og:title" property="og:title" content="FundRows – Free Bootstrap Crypto Dashboard Template">
     <meta property="og:image" content="https://www.designtocodes.com/wp-content/uploads/2023/10/FundRows-%E2%80%93-Free-Bootstrap-Crypto-Dashboard-Template-Thumbnail.jpg">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- bootstrap css link -->
     <link rel="stylesheet" href="{{ asset('lib/bootstrap_5/bootstrap.min.css') }}">
