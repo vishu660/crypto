@@ -6,92 +6,104 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\UserPackage;
+use App\Models\Transaction;
+use App\Models\Epin;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
+use App\Helpers\RoiHelper;
 
 class PackageController extends Controller
 {
     public function index()
     {
         $packages = Package::latest()->paginate(10);
-        // Create an empty package object for the form
         $emptyPackage = new Package();
         return view('backend.pages.packagedetails', compact('packages', 'emptyPackage'));
     }
 
     public function store(Request $request)
-    {
-        try {
-            $validated = $request->validate([
-                'name' => 'required|string|max:255|unique:packages,name',
-                'investment_amount' => 'required|numeric|min:0',
-                'roi_percent' => 'required|numeric|min:0|max:100',
-                'validity_days' => 'required|integer|min:1',
-                'referral_income' => 'required|numeric',
-                'referral_show_income' => 'nullable|numeric',
-                'type_of_investment_days' => 'required|in:daily,weekly,monthly',
-                'is_active' => 'nullable|boolean',
-                'is_show_active' => 'nullable|boolean',
-                'enableBreakDown' => 'nullable|boolean',
-                'breakdown_last_date' => 'nullable|date',
-                'daily_days' => 'nullable|array',
-                'daily_days.*' => 'string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
-                'weekly_day' => 'nullable|string|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
-                'monthly_date' => 'nullable|integer|min:1|max:31',
-            ]);
+{
+    try {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:packages,name',
+            'investment_amount' => 'required|numeric|min:0',
+            'roi_percent' => 'required|numeric|min:0|max:100',
+            'validity_days' => 'required|integer|min:1',
+            'referral_income' => 'required|numeric',
+            'referral_show_income' => 'nullable|numeric',
+            'type_of_investment_days' => 'required|in:daily,weekly,monthly',
+            'is_active' => 'nullable|boolean',
+            'is_show_active' => 'nullable|boolean',
+            'enableBreakDown' => 'nullable|boolean',
+            'breakdown_duration' => 'nullable|integer|min:1',
+            'daily_days' => 'nullable|array',
+            'daily_days.*' => 'string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
+            'weekly_day' => 'nullable|string|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
+            'monthly_date' => 'nullable|integer|min:1|max:31',
+        ]);
 
-            if ($validated['type_of_investment_days'] === 'daily' && empty($request->daily_days)) {
-                return back()->withErrors(['daily_days' => 'Please select at least one day for daily investment.'])->withInput();
-            }
-
-            if ($validated['type_of_investment_days'] === 'weekly' && empty($request->weekly_day)) {
-                return back()->withErrors(['weekly_day' => 'Please select a day for weekly investment.'])->withInput();
-            }
-
-            if ($validated['type_of_investment_days'] === 'monthly' && empty($request->monthly_date)) {
-                return back()->withErrors(['monthly_date' => 'Please select a date for monthly investment.'])->withInput();
-            }
-
-            DB::beginTransaction();
-
-            $packageData = [
-                'name' => $validated['name'],
-                'investment_amount' => $validated['investment_amount'],
-                'roi_percent' => $validated['roi_percent'],
-                'validity_days' => $validated['validity_days'],
-                'referral_income' => $validated['referral_income'],
-                'referral_show_income' => $request->referral_show_income ?? null,
-                'type_of_investment_days' => $validated['type_of_investment_days'],
-                'is_active' => $request->has('is_active') ? 1 : 0,
-                'is_show_active' => $request->has('is_show_active'),
-                'enableBreakDown' => $request->has('enableBreakDown') ? 1 : 0,
-                'breakdown_last_date' => $request->breakdown_last_date,
-                'daily_days' => null,
-                'weekly_day' => null,
-                'monthly_date' => null,
-            ];
-
-            switch ($validated['type_of_investment_days']) {
-                case 'daily':
-                    $packageData['daily_days'] = $request->daily_days ?? [];
-                    break;
-                case 'weekly':
-                    $packageData['weekly_day'] = $request->weekly_day;
-                    break;
-                case 'monthly':
-                    $packageData['monthly_date'] = $request->monthly_date;
-                    break;
-            }
-
-            Package::create($packageData);
-            DB::commit();
-
-            return redirect()->route('admin-package-details')->with('success', 'Package created successfully.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Failed to create package: ' . $e->getMessage())->withInput();
+        // Extra validations
+        if ($validated['type_of_investment_days'] === 'daily' && empty($request->daily_days)) {
+            return back()->withErrors(['daily_days' => 'Please select at least one day for daily investment.'])->withInput();
         }
+
+        if ($validated['type_of_investment_days'] === 'weekly' && empty($request->weekly_day)) {
+            return back()->withErrors(['weekly_day' => 'Please select a day for weekly investment.'])->withInput();
+        }
+
+        if ($validated['type_of_investment_days'] === 'monthly' && empty($request->monthly_date)) {
+            return back()->withErrors(['monthly_date' => 'Please select a date for monthly investment.'])->withInput();
+        }
+
+        // Calculate breakdown_last_date from duration
+        $breakdown_last_date = null;
+        if ($request->has('breakdown_duration') && $request->breakdown_duration > 0) {
+            $breakdown_last_date = now()->addDays((int)$request->breakdown_duration)->toDateString();
+        }
+
+        DB::beginTransaction();
+
+        $packageData = [
+            'name' => $validated['name'],
+            'investment_amount' => $validated['investment_amount'],
+            'roi_percent' => $validated['roi_percent'],
+            'validity_days' => $validated['validity_days'],
+            'referral_income' => $validated['referral_income'],
+            'referral_show_income' => $request->referral_show_income ?? null,
+            'type_of_investment_days' => $validated['type_of_investment_days'],
+            'is_active' => $request->has('is_active') ? 1 : 0,
+            'is_show_active' => $request->has('is_show_active'),
+            'enableBreakDown' => $request->has('enableBreakDown') ? 1 : 0,
+            'breakdown_duration' => $request->breakdown_duration ?? null, // ✅ ADD THIS LINE
+            'breakdown_last_date' => $breakdown_last_date,
+            'daily_days' => null,
+            'weekly_day' => null,
+            'monthly_date' => null,
+        ];
+
+        switch ($validated['type_of_investment_days']) {
+            case 'daily':
+                $packageData['daily_days'] = $request->daily_days ?? [];
+                break;
+            case 'weekly':
+                $packageData['weekly_day'] = $request->weekly_day;
+                break;
+            case 'monthly':
+                $packageData['monthly_date'] = $request->monthly_date;
+                break;
+        }
+
+        Package::create($packageData);
+        DB::commit();
+
+        return redirect()->route('admin-package-details')->with('success', 'Package created successfully.');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->with('error', 'Failed to create package: ' . $e->getMessage())->withInput();
     }
+}
 
     public function edit($id)
     {
@@ -114,7 +126,7 @@ class PackageController extends Controller
             'is_active' => 'nullable|boolean',
             'is_show_active' => $request->has('is_show_active'),
             'enableBreakDown' => 'nullable|boolean',
-            'breakdown_last_date' => 'nullable|date',
+            'breakdown_duration' => 'nullable|integer|min:1',
             'daily_days' => 'nullable|array',
             'daily_days.*' => 'string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
             'weekly_day' => 'nullable|string|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
@@ -133,6 +145,11 @@ class PackageController extends Controller
             return back()->withErrors(['monthly_date' => 'Please select a date for monthly investment.'])->withInput();
         }
 
+        $breakdown_last_date = null;
+        if ($request->has('breakdown_duration') && $request->breakdown_duration > 0) {
+            $breakdown_last_date = now()->addDays((int)$request->breakdown_duration)->toDateString();
+        }
+
         $package->update([
             'name' => $validated['name'],
             'investment_amount' => $validated['investment_amount'],
@@ -144,7 +161,8 @@ class PackageController extends Controller
             'is_active' => $request->has('is_active') ? 1 : 0,
             'is_show_active' => $request->has('is_show_active'),
             'enableBreakDown' => $request->has('enableBreakDown') ? 1 : 0,
-            'breakdown_last_date' => $request->breakdown_last_date,
+            'breakdown_duration' => $request->breakdown_duration ?? null, // ✅ THIS LINE
+            'breakdown_last_date' => $breakdown_last_date,
             'daily_days' => null,
             'weekly_day' => null,
             'monthly_date' => null,
@@ -171,7 +189,6 @@ class PackageController extends Controller
     {
         $package = Package::findOrFail($id);
         $package->delete();
-
         return redirect()->route('admin-package-details')->with('success', 'Package deleted successfully.');
     }
 
@@ -179,7 +196,6 @@ class PackageController extends Controller
     {
         $package = Package::findOrFail($id);
         $user = auth()->user();
-
         $userPackage = $user->userPackages()->where('package_id', $id)->first();
 
         if (!$userPackage) {
@@ -202,9 +218,7 @@ class PackageController extends Controller
         $user = Auth::user();
         $package = Package::findOrFail($id);
 
-        $alreadyBought = $user->userPackages()->where('package_id', $id)->exists();
-
-        if ($alreadyBought) {
+        if ($user->userPackages()->where('package_id', $id)->exists()) {
             return back()->with('error', 'You have already purchased this package.');
         }
 
@@ -219,6 +233,11 @@ class PackageController extends Controller
         return back()->with('success', 'Package purchased successfully.');
     }
 
+    public function showBuyPage($id)
+    {
+        $package = Package::findOrFail($id);
+        return view('user.pages.buy_package', compact('package'));
+    }
     public function buyWithCode(Request $request)
     {
         $request->validate([
@@ -228,10 +247,9 @@ class PackageController extends Controller
 
         $epin = Epin::where('code', $request->secret_code)
             ->where('status', 'active')
-            ->where(function ($query) {
-                $query->whereNull('expiry_date')->orWhere('expiry_date', '>=', now());
-            })
-            ->first();
+            ->where(function ($q) {
+                $q->whereNull('expiry_date')->orWhere('expiry_date', '>=', now());
+            })->first();
 
         if (!$epin) {
             return back()->with('error', 'Invalid, expired, or already used E-pin.');
@@ -248,11 +266,13 @@ class PackageController extends Controller
             DB::beginTransaction();
 
             $startDate = Carbon::today();
-            $endDate = $startDate->copy()->addDays($package->validity_days - 1);
+            // Fix: Cast validity_days to integer to avoid string error
+            $validityDays = (int)$package->validity_days;
+            $endDate = $startDate->copy()->addDays($validityDays - 1);
 
             $roiDates = RoiHelper::generateRoiDates(
                 $startDate,
-                $package->validity_days,
+                $validityDays,
                 $package->type_of_investment_days,
                 [
                     'daily_days' => $package->daily_days,
@@ -300,24 +320,42 @@ class PackageController extends Controller
         $request->validate([
             'package_id' => 'required|exists:packages,id',
         ]);
-
+    
         $user = auth()->user();
         $package = Package::findOrFail($request->package_id);
-
+    
         if (UserPackage::where('user_id', $user->id)->where('package_id', $package->id)->exists()) {
             return back()->with('error', 'Package already purchased or requested.');
         }
-
+    
+        $startDate = Carbon::today();
+        $validityDays = (int) $package->validity_days;
+        $endDate = $startDate->copy()->addDays($validityDays - 1);
+    
+        $roiDates = RoiHelper::generateRoiDates(
+            $startDate,
+            $validityDays,
+            $package->type_of_investment_days,
+            [
+                'daily_days' => $package->daily_days,
+                'weekly_day' => $package->weekly_day,
+                'monthly_date' => $package->monthly_date,
+            ]
+        );
+    
         UserPackage::create([
             'user_id' => $user->id,
             'package_id' => $package->id,
             'amount' => $package->investment_amount,
-            'roi_dates' => [],
+            'start_date' => $startDate->toDateString(),
+            'end_date' => $endDate->toDateString(),
+            'roi_dates' => json_encode($roiDates),
             'total_roi_given' => 0,
-            'is_active' => false,
+            'is_active' => false, // Admin approval still needed
             'source' => 'admin',
+            'status' => 'pending', // Optional
         ]);
-
+    
         Transaction::create([
             'user_id' => $user->id,
             'amount' => $package->investment_amount,
@@ -328,7 +366,7 @@ class PackageController extends Controller
             'currency' => 'INR',
             'gateway' => 'admin',
         ]);
-
+    
         return redirect()->route('user')->with('success', 'Buy request sent to admin.');
     }
 }

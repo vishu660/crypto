@@ -32,9 +32,19 @@ use App\Http\Controllers\NowPaymentController;
 // Route::post('/admin/login', [AuthController::class, 'login'])->name('admin-login.submit');
 
 // api route 
-Route::post('/nowpayments/payment', [NowPaymentController::class, 'createPayment'])->name('nowpayment.create');
-Route::post('/nowpayments/callback', [NowPaymentController::class, 'callback'])->name('nowpayment.callback');
+// Route::post('/crypto/payment', [NowPaymentController::class, 'createPayment'])->name('nowpayment.create');
+// Route::post('/crypto/callback', [NowPaymentController::class, 'callback'])->name('nowpayment.callback');
 
+
+// Add these routes to your routes/web.php file
+
+// NowPayments routes
+Route::middleware(['auth'])->group(function () {
+    Route::post('/nowpayment/create', [App\Http\Controllers\NowPaymentController::class, 'createPayment'])->name('nowpayment.create');
+});
+
+// Callback route (no auth middleware needed for webhooks)
+Route::post('/nowpayment/callback', [App\Http\Controllers\NowPaymentController::class, 'callback'])->name('nowpayment.callback');
 // Public Routes
 Route::get('/', function () {
     return view('index');
@@ -87,9 +97,33 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/user/buy/code', [PackageController::class, 'buyWithCode'])->name('user.package.buyWithCode');
     Route::post('/user/buy/request', [PackageController::class, 'buyWithRequest'])->name('user.package.buyWithRequest');
     Route::get('/user/referrals', [ProfileController::class, 'showReferrals'])->name('user.referrals');
+
+
+
+// User routes for package operations
+Route::middleware(['auth'])->prefix('user')->group(function () {
+    // Package buy page
+    Route::get('/package/buy/{id}', [PackageController::class, 'showBuyPage'])->name('user.package.buy.page');
+    
+    // Package buy with code
+    Route::post('/package/buy/code', [PackageController::class, 'buyWithCode'])->name('user.package.buyWithCode');
+    
+    // Package buy with request (this was missing or incorrectly named)
+    Route::post('/package/buy/request', [PackageController::class, 'buyWithRequest'])->name('user.buy.request');
+    
+    // Alternative route naming (if you prefer consistency)
+    Route::post('/package/request', [PackageController::class, 'buyWithRequest'])->name('user.package.buyWithRequest');
+
 });
 
-
+// Admin routes for package management
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/packages', [PackageController::class, 'index'])->name('admin-package-details');
+    Route::post('/packages', [PackageController::class, 'store'])->name('admin.packages.store');
+    Route::get('/packages/{id}/edit', [PackageController::class, 'edit'])->name('admin.packages.edit');
+    Route::put('/packages/{id}', [PackageController::class, 'update'])->name('admin.packages.update');
+    Route::delete('/packages/{id}', [PackageController::class, 'destroy'])->name('admin.packages.destroy');
+});
 
 Route::get('/admin/all-fund-requests', [TransactionController::class, 'index'])->name('admin.fund-requests.all');
 

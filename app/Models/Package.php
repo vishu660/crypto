@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +20,8 @@ class Package extends Model
         'is_active',
         'is_show_active',
         'enableBreakDown',
-        'breakdown_last_date', // ✅ ADD THIS
+        'breakdown_duration',
+        'breakdown_last_date',
         'type_of_investment_days',
         'daily_days',
         'weekly_day',
@@ -32,17 +32,15 @@ class Package extends Model
         'daily_days' => 'array',
         'is_active' => 'boolean',
         'is_show_active' => 'boolean',
-        'enableBreackDown' => 'boolean',
-        'breakdown_last_date' => 'date', // ✅ ADD THIS
+        'enableBreakDown' => 'boolean',
+        'breakdown_duration' => 'integer',
+        'breakdown_last_date' => 'date',
         'investment_amount' => 'decimal:2',
         'roi_percent' => 'decimal:2',
         'referral_income' => 'decimal:2',
         'referral_show_income' => 'decimal:2',
     ];
 
-    /**
-     * Users who bought this package (many-to-many via user_packages)
-     */
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_packages')
@@ -50,27 +48,18 @@ class Package extends Model
                     ->withTimestamps();
     }
 
-    /**
-     * Accessor: get investment_amount as `amount`
-     */
     public function getAmountAttribute()
     {
         return $this->investment_amount;
     }
 
-    /**
-     * Scope: only active packages
-     */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
-    /**
-     * Scope: only packages with breakdown enabled
-     */
     public function scopeWithBreakdown($query)
     {
-        return $query->where('enableBreackDown', true);
+        return $query->where('enableBreakDown', true);
     }
 }

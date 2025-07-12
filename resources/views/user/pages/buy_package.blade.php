@@ -1,192 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('assets/images/logo/logo-sm.png') }}" type="image/gif" sizes="16x16">
-    <title>Package Buy</title>
-    <meta name="og:description" content="Build a user-friendly crypto dashboard with FundRows free crypto dashboard template. Enjoy full responsiveness, and customizable for your crypto projects. With FundRows, developers can create a unique crypto admin dashboard that is visually impressive.">
-    <meta name="robots" content="index, follow">
-    <meta name="og:title" property="og:title" content="FundRows - Free Bootstrap Crypto Dashboard Template">
-    <meta property="og:image" content="https://www.designtocodes.com/wp-content/uploads/2023/10/FundRows-%E2%80%93-Free-Bootstrap-Crypto-Dashboard-Template-Thumbnail.jpg">
-    <!-- bootstrap css link -->
-    <link rel="stylesheet" href="{{ asset('lib/bootstrap_5/bootstrap.min.css') }}">
-    <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="{{ asset('lib/fontawesome/css/all.min.css') }}">
-    <!-- DataTable Css -->
-    <link rel="stylesheet" href="{{ asset('lib/DataTables/datatables.min.css') }}">
-    <!-- main css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/global.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <!-- responsive css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
-</head>
-
-<body>
-    <!-- Preloader Start -->
-    <div class="preloader">
-        <img src="{{ asset('assets/images/logo/logo.png') }}" alt="DesignToCodes">
-    </div>
-    <!-- Preloader End -->
-    <div class="d2c_wrapper">
-        
-        <!-- Main sidebar -->
-        <div class="d2c_sidebar offcanvas-lg offcanvas-start px-2 py-4" tabindex="-1" id="d2c_sidebar">
-            <div class="d-flex flex-column">
-                <!-- Logo -->
-                <a href="{{ route('user') }}" class="brand-icon">
-                    <img class="navbar-brand" src="{{ asset('assets/images/logo/logo.png') }}" alt="logo">
-                </a>
-                <!-- End:Logo -->
-
-                <!-- Menu -->
-                <ul class="navbar-nav flex-grow-1">
-                    <!-- Menu Item -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('user') }}">
-                            <span class="d2c_icon">
-                                <i class="fas fa-home"></i>
-                            </span>
-                            <span> Dashboard </span>
-                        </a>
-                    </li>
-                    <!-- End:Menu Item -->
-
-              
-
-                    <!-- Menu Item -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="../pages/plans.html">
-                            <span class="d2c_icon">
-                                <i class="fas fa-coins"></i>
-                            </span>
-                            <span> Plans </span>
-                        </a>
-                    </li>
-                 
-
-                    <!-- Menu Item -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="../pages/wallet.html">
-                            <span class="d2c_icon">
-                                <i class="fas fa-wallet"></i>
-                            </span>
-                            <span> Wallet </span>
-                        </a>
-                    </li>
-                    <!-- End:Menu Item -->
-
-                    <!-- Menu Item -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('user/pages/profile') }}">
-                            <span class="d2c_icon">
-                                <i class="far fa-user"></i>
-                            </span>
-                            <span> Profile </span>
-                        </a>
-                    </li>
-                    <!-- End:Menu Item -->
-
-                    <!-- Menu Item -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="../pages/notification.html">
-                            <span class="d2c_icon">
-                                <i class="fas fa-bell"></i>
-                            </span>
-                            <span> Notifications </span>
-                        </a>
-                    </li>
-                    <!-- End:Menu Item -->
-
-                    
-                    <!-- Menu Item -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="../pages/transactions.html">
-                            <span class="d2c_icon">
-                                <i class="fas fa-hand-holding-usd"></i>
-                            </span>
-                            <span> Transaction </span>
-                        </a>
-                    </li>
-                    <!-- End:Menu Item -->
-
-                    <!-- Menu Item -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="../pages/transfer.html">
-                            <span class="d2c_icon">
-                                <i class="fas fa-random"></i>
-                            </span>
-                            <span> Transfer </span>
-                        </a>
-                    </li>
-                    <!-- End:Menu Item -->
-
-                    <!-- Menu Item -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="../pages/email.html">
-                            <span class="d2c_icon">
-                                <i class="fas fa-envelope-open-text"></i>
-                            </span>
-                            <span> Mail </span>
-                        </a>
-                    </li>
-                    <!-- End:Menu Item -->
-
-                    <!-- Menu Item -->
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('user.pages.activity') }}">
-                            <span class="d2c_icon">
-                                <i class="fas fa-recycle"></i>
-                            </span>
-                            <span> Activity </span>
-                        </a>
-                    </li>
-                
-                    <!-- End:Menu Item -->
-                    <!-- Menu Item -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span class="d2c_icon">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </span>
-                            <span> Logout </span>
-                        </a>
-                    </li>
-                    <!-- End:Menu Item -->
-                </ul>
-                <!-- End:Menu -->
-            </div>
-        </div>
-        <!-- End:Sidebar -->
-
-        <!-- Main Body-->
-        <div class="d2c_main p-4">
 
             <!-- Title -->
-          
+            @extends('user.main')
+
+            @section('content')
             <!-- End:Title -->
             <div class="container mt-5">
                 <h2>Buy Package: {{ $package->name }}</h2>
                 <p>Amount: USDT {{ $package->amount }}</p>
         
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-6 col-md-8 mb-3 offset-1">
                         <!-- Admin Request Button -->
-                        <form action="{{ route('packages.buy.with-request') }}" method="POST">
+                        <form action="{{ route('user.package.buyWithRequest') }}" method="POST">
                             @csrf
                             <input type="hidden" name="package_id" value="{{ $package->id }}">
-                            <button type="submit" class="btn btn-warning">Buy with Admin Request</button>
+                            <button type="submit" class="btn btn-warning btn-lg w-100 shadow-sm" style="font-weight:700; border-radius: 16px;">
+                                <i class="fas fa-paper-plane me-2"></i> Buy with Admin Request
+                            </button>
                         </form>
                     </div>
-                    <div class="col-md-6">
-                        <!-- Admin Code Form -->
-                        <form action="{{ route('packages.buy.with-code') }}" method="POST">
+                    <div class="col-6 col-md-8 mb-3 offset-1">
+                        <!-- Buy with Crypto Button -->
+                        <form id="crypto-buy-form">
                             @csrf
                             <input type="hidden" name="package_id" value="{{ $package->id }}">
-                            <input type="text" name="secret_code" placeholder="Enter Secret Code" class="form-control mt-2">
-                            <button type="submit" class="btn btn-success mt-2">Buy with Code</button>
+                            <input type="hidden" name="amount" value="{{ $package->amount }}">
+                            <button type="button" class="btn btn-primary btn-lg w-100 shadow-sm" style="font-weight:700; border-radius: 16px;" onclick="buyWithCrypto()">
+                                <i class="fab fa-bitcoin me-2"></i> Buy with Crypto (USDT)
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-6 col-md-8 mb-3 offset-1">
+                        <!-- Admin Code Form -->
+                        <form action="{{ route('user.package.buyWithCode') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="package_id" value="{{ $package->id }}">
+                            <input type="text" name="secret_code" placeholder="Enter Secret Code" class="form-control mt-2 mb-2" required>
+                            <button type="submit" class="btn btn-success btn-lg w-100 shadow-sm" style="font-weight:700; border-radius: 16px;">
+                                <i class="fas fa-key me-2"></i> Buy with Code
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -209,21 +62,67 @@
     <!-- End:Offcanvas Toggler -->
 
     <!-- Initial  Javascript -->
-    <script src="{{ asset('lib/jQuery/jquery-3.5.1.min.js') }}"></script>
-    <script src="{{ asset('lib/bootstrap_5/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('lib/DataTables/datatables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/datatable/script.js') }}"></script>
-    <script src="{{ asset('assets/js/main.js') }}"></script>
-</body>
+    
 
-</html>
+    <script>
+     function buyWithCrypto() {
+    const form = $('#crypto-buy-form');
+    const package_id = form.find('input[name="package_id"]').val();
+    const amount = form.find('input[name="amount"]').val();
+    
+    // Disable button to prevent multiple clicks
+    const button = form.find('button[type="button"]');
+    button.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i> Processing...');
 
-
-<!-- 
-    Template Name: FundRows – Free Bootstrap Crypto Dashboard Template
-    Template URL: https://www.designtocodes.com/product/fundrows-free-crypto-dashboard-template/
-    Description: Build a user-friendly crypto dashboard with FundRows free crypto dashboard template. Enjoy full responsiveness, and customizable for your crypto projects. With FundRows, developers can create a unique crypto admin dashboard that is visually impressive.
-    Author: DesignToCodes
-    Author URL: https://www.designtocodes.com
-    Text Domain: FundRows
- -->
+    $.ajax({
+        url: "{{ route('nowpayment.create') }}",
+        method: "POST",
+        data: {
+            _token: '{{ csrf_token() }}',
+            amount: amount,
+            package_id: package_id
+        },
+        success: function(response) {
+            if (response.success) {
+                // Show success message
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Payment Created!',
+                    text: 'Redirecting to payment page...',
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(() => {
+                    // Open payment URL in new tab
+                    window.open(response.payment_url, '_blank');
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Payment Failed',
+                    text: response.message || 'Payment creation failed'
+                });
+            }
+        },
+        error: function(xhr) {
+            let errorMessage = 'Something went wrong';
+            
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMessage = xhr.responseJSON.message;
+            } else if (xhr.responseJSON && xhr.responseJSON.errors) {
+                errorMessage = Object.values(xhr.responseJSON.errors).flat().join(', ');
+            }
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: errorMessage
+            });
+        },
+        complete: function() {
+            // Re-enable button
+            button.prop('disabled', false).html('<i class="fab fa-bitcoin me-2"></i> Buy with Crypto (USDT)');
+        }
+    });
+}
+    </script>
+@endsection

@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'nowpayments' => [
+    'api_key' => '0TQY8D8-B96MB3F-JTEMJ69-S8C70JT', // Direct hardcode for testing
+],
+
 ];

@@ -32,6 +32,7 @@
 
             <div class="col-md-6 col-xxl-4 mb-4">
                 <div class="card position-relative" style="border-radius: 20px; overflow: hidden; padding: 36px 32px 32px 32px; color: #fff; background: {{ $color }}; min-height: 520px;">
+                    
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <span style="font-size: 1.2rem; font-weight: 700;">Investment</span>
                         @if($isBreakdownDone)
@@ -72,38 +73,39 @@
                         @endif
 
                         <div><b>Status:</b> <span style="font-weight:600;">{{ $package->is_active ? 'Active' : 'Inactive' }}</span></div>
-                    </div>
 
-                    <!-- Breakdown Section -->
-                    <div class="mt-3">
-                        <b>Breakdown:</b>
-                        <span style="font-weight:600;">
-                            {{ $package->enableBreakDown ? 'Enabled' : 'Disabled' }}
-                        </span>
+                        <div><b>Breakdown:</b>
+                            <span style="font-weight:600;">
+                                {{ $package->enableBreakDown ? 'Enabled' : 'Disabled' }}
+                            </span>
+                        </div>
 
-                        @if($package->enableBreakDown && $hasPackage)
-                            @if(!$isBreakdownDone)
-                                <form method="GET" action="{{ route('user.breakdown.show', $package->id) }}" class="mt-2">
-                                    @csrf
-                                    <button type="submit" class="btn btn-warning w-100" style="border-radius: 22px; font-weight: 700;">
-                                        Breakdown
-                                    </button>
-                                </form>
-                            @else
-                                <button class="btn btn-secondary w-100 mt-2" disabled>Breakdown Done</button>
-                            @endif
+                        @if($package->enableBreakDown && $package->breakdown_last_date)
+                            <div><b>Last Breakdown:</b>
+                                <span style="font-weight:600;">{{ \Carbon\Carbon::parse($package->breakdown_last_date)->format('d M Y') }}</span>
+                            </div>
                         @endif
                     </div>
 
-                    <!-- 🆕 Buy Now Button -->
+                    <!-- Breakdown Section -->
+                    @if($package->enableBreakDown && $hasPackage)
+                        @if(!$isBreakdownDone)
+                            <form method="GET" action="{{ route('user.breakdown.show', $package->id) }}" class="mt-3">
+                                @csrf
+                                <button type="submit" class="btn btn-warning w-100" style="border-radius: 22px; font-weight: 700;">
+                                    Breakdown
+                                </button>
+                            </form>
+                        @else
+                            <button class="btn btn-secondary w-100 mt-3" disabled>Breakdown Done</button>
+                        @endif
+                    @endif
+
+                    <!-- Buy Now Button - Fixed the route name -->
                     @if(!$hasPackage)
-                    <form method="GET" action="{{ route('user.package.buy', $package->id) }}">
-                      
-                                                    @csrf
-                            <button type="submit" class="btn btn-success w-100" style="border-radius: 22px; font-weight: 700;">
-                                Buy Now
-                            </button>
-                        </form>
+                        <a href="{{ route('user.package.buy.page', $package->id) }}" class="btn btn-success w-100 mt-3" style="border-radius: 22px; font-weight: 700;">
+                            Buy Now
+                        </a>
                     @endif
 
                 </div>
