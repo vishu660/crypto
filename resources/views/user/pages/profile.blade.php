@@ -33,9 +33,11 @@
                 <!-- Profile Header -->
                 <div class="card-header border-0 bg-light text-center py-5 rounded-top-4">
                     <div class="position-relative d-inline-block mb-3">
-                        <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('assets/images/profile/profile-2.jpg') }}"
-                             alt="Profile Image"
-                             class="rounded-circle profile-avatar border border-3 border-white shadow">
+                        @if($user)
+                            <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('assets/images/profile/profile-2.jpg') }}" alt="Profile Image" class="rounded-circle profile-avatar border border-3 border-white shadow">
+                        @else
+                            <img src="{{ asset('assets/images/profile/profile-2.jpg') }}" alt="Profile Image">
+                        @endif 
                         <div class="position-absolute bottom-0 end-0 bg-primary rounded-circle avatar-overlay d-flex align-items-center justify-content-center">
                             <i class="fas fa-camera text-white"></i>
                         </div>
