@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item active text-dark fw-bold" aria-current="page">Withdraw Now</li>
             </ol>
         </nav>
-        <p class="fw-bold mb-4" style="color:#222;letter-spacing:1px;font-size:2.2rem;">Withdraw Now</p>
+        <p class="fw-bold mb-4 note-withdrowal" style="color:#222;letter-spacing:1px;font-size:1.2rem;">Withdraw Now</p>
     </div>
     <div class="offset-md-1">
         <div class="withdraw-card" style="width:100%; max-width:700px;">
@@ -155,18 +155,16 @@
 </script>
 
 <style>
+
+
 body {
     background: #f7f8fa;
     color: #222;
 }
 .withdraw-card {
     background: #fff;
-    border-radius: 24px;
-    box-shadow: 0 8px 48px #a084ee33, 0 2px 24px #38ef7d22;
-    padding: 3.5rem 2.5rem 2.5rem 2.5rem;
-    border: 1.5px solid #f0f0f0;
-    position: relative;
-    margin-bottom: 40px;
+    border-radius: 12px;
+    padding: 2rem 1rem 1rem 1rem;
 }
 .form-control {
     background: #f7f8fa;
