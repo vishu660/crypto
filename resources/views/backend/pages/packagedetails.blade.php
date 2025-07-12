@@ -266,10 +266,10 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="breakdown_last_date" class="form-label">Breakdown Valid Till</label>
-                            <input type="date" name="breakdown_last_date" class="form-control"
-                                value="{{ old('breakdown_last_date') }}">
+                            <label for="breakdown_duration" class="form-label">Breakdown Duration (in days)</label>
+                            <input type="number" name="breakdown_duration" class="form-control" min="1" value="{{ old('breakdown_duration') }}">
                         </div>
+                        
                         
 
                         <div class="mb-3">
@@ -358,6 +358,8 @@
                                 <th>Referral Show Income</th>
                                 <th>Show Active</th>
                                 <th>Breakdown</th>
+                                <th>Breakdown_duration</th>
+                                <th>Breakdown End</th> 
                                 <th>Status</th>
                                 <th>Type</th>
                                 <th>Selected Days/Date</th>
@@ -388,6 +390,12 @@
                                             {{ $package->enableBreakDown ? 'Yes' : 'No' }}
                                         </span>
                                     </td>
+                                    <td>{{ $package->breakdown_duration ?? '-' }} Days</td>
+
+                                    
+                                        <td>
+                                            {{ $package->breakdown_last_date ? \Carbon\Carbon::parse($package->breakdown_last_date)->format('d-m-Y') : '-' }}
+                                        </td>
                 
                                     <td>
                                         <span class="badge bg-{{ $package->is_active ? 'success' : 'danger' }}">

@@ -18,17 +18,25 @@ return new class extends Migration
             $table->decimal('roi_percent', 5, 2);
             $table->integer('validity_days');
 
-            $table->boolean('enableBreakDown')->default(false); // ✅ merged here
-            $table->date('breakdown_last_date')->nullable();    // ✅ merged here
+            // ✅ Breakdown related columns
+            $table->boolean('enableBreakDown')->default(false);
+            $table->integer('breakdown_duration')->nullable(); // Store number of days
+            $table->date('breakdown_last_date')->nullable();   // Calculated expiry date
 
+            // ✅ Referral & ROI
             $table->decimal('referral_income', 5, 2);
             $table->boolean('referral_show_income')->default(0);
-            $table->boolean('is_active')->default(0);
-            $table->boolean('is_show_active')->default(0);
+
+            // ✅ Investment Type (daily/weekly/monthly)
             $table->string('type_of_investment_days');
             $table->json('daily_days')->nullable();
             $table->string('weekly_day')->nullable();
             $table->integer('monthly_date')->nullable();
+
+            // ✅ Visibility
+            $table->boolean('is_active')->default(0);
+            $table->boolean('is_show_active')->default(0);
+
             $table->timestamps();
         });
     }

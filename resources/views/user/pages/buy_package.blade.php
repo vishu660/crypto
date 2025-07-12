@@ -174,18 +174,19 @@
                 <div class="row">
                     <div class="col-md-6">
                         <!-- Admin Request Button -->
-                        <form action="{{ route('packages.buy.with-request') }}" method="POST">
+                        <form action="{{ route('user.package.buyWithRequest') }}" method="POST">
                             @csrf
                             <input type="hidden" name="package_id" value="{{ $package->id }}">
                             <button type="submit" class="btn btn-warning">Buy with Admin Request</button>
                         </form>
+                        
                     </div>
                     <div class="col-md-6">
                         <!-- Admin Code Form -->
-                        <form action="{{ route('packages.buy.with-code') }}" method="POST">
+                        <form action="{{ route('user.package.buyWithCode') }}" method="POST">
                             @csrf
                             <input type="hidden" name="package_id" value="{{ $package->id }}">
-                            <input type="text" name="secret_code" placeholder="Enter Secret Code" class="form-control mt-2">
+                            <input type="text" name="secret_code" placeholder="Enter Secret Code" class="form-control mt-2" required>
                             <button type="submit" class="btn btn-success mt-2">Buy with Code</button>
                         </form>
                     </div>

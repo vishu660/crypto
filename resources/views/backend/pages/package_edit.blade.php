@@ -51,10 +51,10 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label" for="breakdown_last_date">Breakdown Valid Till</label>
-                            <input type="date" class="form-control" name="breakdown_last_date" id="breakdown_last_date"
-                                value="{{ old('breakdown_last_date', $package->breakdown_last_date) }}">
+                            <label for="breakdown_duration" class="form-label">Breakdown Duration (in days)</label>
+                            <input type="number" name="breakdown_duration" class="form-control" min="1" value="{{ old('breakdown_duration') }}">
                         </div>
+                        
 
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" name="is_active" value="1"

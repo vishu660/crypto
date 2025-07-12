@@ -75,59 +75,59 @@ class NowPaymentController extends Controller
     }
 
 
-    public function callback(Request $request)
-{
-    Log::info("NOWPayments Callback", $request->all());
+//     public function callback(Request $request)
+// {
+//     Log::info("NOWPayments Callback", $request->all());
 
-    $paymentId = $request->payment_id;
-    $status = $request->payment_status;
+//     $paymentId = $request->payment_id;
+//     $status = $request->payment_status;
 
-    if ($status === 'finished') {
-        // Prevent duplicate entries
-        $existing = CryptoPayment::where('payment_id', $paymentId)->first();
-        if ($existing) {
-            return response()->json(['message' => 'Already processed'], 200);
-        }
+//     if ($status === 'finished') {
+//         // Prevent duplicate entries
+//         $existing = CryptoPayment::where('payment_id', $paymentId)->first();
+//         if ($existing) {
+//             return response()->json(['message' => 'Already processed'], 200);
+//         }
 
-        // Extract user_id from order_id (assuming it's in format USER_{id}_{uniqid})
-        $orderId = $request->order_id;
-        $userId = null;
-        if (str_starts_with($orderId, 'USER_')) {
-            $userId = explode('_', $orderId)[1] ?? null;
-        }
+//         // Extract user_id from order_id (assuming it's in format USER_{id}_{uniqid})
+//         $orderId = $request->order_id;
+//         $userId = null;
+//         if (str_starts_with($orderId, 'USER_')) {
+//             $userId = explode('_', $orderId)[1] ?? null;
+//         }
 
-        \DB::transaction(function () use ($request, $paymentId, $userId, $orderId) {
-            // Log payment
-            CryptoPayment::create([
-                'payment_id' => $paymentId,
-                'status' => $request->payment_status,
-                'amount' => $request->pay_amount,
-                'currency' => $request->pay_currency,
-                'order_id' => $orderId,
-            ]);
+//         \DB::transaction(function () use ($request, $paymentId, $userId, $orderId) {
+//             // Log payment
+//             CryptoPayment::create([
+//                 'payment_id' => $paymentId,
+//                 'status' => $request->payment_status,
+//                 'amount' => $request->pay_amount,
+//                 'currency' => $request->pay_currency,
+//                 'order_id' => $orderId,
+//             ]);
 
-            // Find user
-            $user = User::find($userId);
-            if ($user) {
-                // Update user wallet (if you have wallet column)
-                $user->wallet += $request->pay_amount;
-                $user->save();
+//             // Find user
+//             $user = User::find($userId);
+//             if ($user) {
+//                 // Update user wallet (if you have wallet column)
+//                 $user->wallet += $request->pay_amount;
+//                 $user->save();
 
-                // Add to transactions table
-                Transaction::create([
-                    'user_id' => $user->id,
-                    'amount' => $request->pay_amount,
-                    'currency' => strtoupper($request->pay_currency),
-                    'type' => 'credit',
-                    'purpose_of_payment' => 'buy_plan_one', // or 'something_else'
-                    'status' => 'success',
-                    'gateway' => 'epin', // Or 'nowpayments' if added
-                    'message' => 'Crypto payment via NowPayments',
-                ]);
-            }
-        });
-    }
+//                 // Add to transactions table
+//                 Transaction::create([
+//                     'user_id' => $user->id,
+//                     'amount' => $request->pay_amount,
+//                     'currency' => strtoupper($request->pay_currency),
+//                     'type' => 'credit',
+//                     'purpose_of_payment' => 'buy_plan_one', // or 'something_else'
+//                     'status' => 'success',
+//                     'gateway' => 'epin', // Or 'nowpayments' if added
+//                     'message' => 'Crypto payment via NowPayments',
+//                 ]);
+//             }
+//         });
+//     }
 
-    return response()->json(['message' => 'Callback processed'], 200);
-}
+//     return response()->json(['message' => 'Callback processed'], 200);
+// }
 }

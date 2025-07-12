@@ -82,13 +82,31 @@ Route::get('user/breakdown/{id}', [PackageController::class, 'show'])->name('use
 Route::get('/user/pages/email', [\App\Http\Controllers\Admin\MailController::class, 'emailInbox'])->name('user.pages.email');
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::post('/user/buy/{id}', [PackageController::class, 'buy'])->name('user.package.buy');
-    Route::post('/user/buy/code', [PackageController::class, 'buyWithCode'])->name('user.package.buyWithCode');
-    Route::post('/user/buy/request', [PackageController::class, 'buyWithRequest'])->name('user.package.buyWithRequest');
+
+
+// User routes for package operations
+Route::middleware(['auth'])->prefix('user')->group(function () {
+    // Package buy page
+    Route::get('/package/buy/{id}', [PackageController::class, 'showBuyPage'])->name('user.package.buy.page');
+    
+    // Package buy with code
+    Route::post('/package/buy/code', [PackageController::class, 'buyWithCode'])->name('user.package.buyWithCode');
+    
+    // Package buy with request (this was missing or incorrectly named)
+    Route::post('/package/buy/request', [PackageController::class, 'buyWithRequest'])->name('user.buy.request');
+    
+    // Alternative route naming (if you prefer consistency)
+    Route::post('/package/request', [PackageController::class, 'buyWithRequest'])->name('user.package.buyWithRequest');
 });
 
-
+// Admin routes for package management
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/packages', [PackageController::class, 'index'])->name('admin-package-details');
+    Route::post('/packages', [PackageController::class, 'store'])->name('admin.packages.store');
+    Route::get('/packages/{id}/edit', [PackageController::class, 'edit'])->name('admin.packages.edit');
+    Route::put('/packages/{id}', [PackageController::class, 'update'])->name('admin.packages.update');
+    Route::delete('/packages/{id}', [PackageController::class, 'destroy'])->name('admin.packages.destroy');
+});
 
 Route::get('/admin/all-fund-requests', [TransactionController::class, 'index'])->name('admin.fund-requests.all');
 
