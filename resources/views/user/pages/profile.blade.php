@@ -33,9 +33,11 @@
                 <!-- Profile Header -->
                 <div class="card-header border-0 bg-light text-center py-5 rounded-top-4">
                     <div class="position-relative d-inline-block mb-3">
-                        <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('assets/images/profile/profile-2.jpg') }}"
-                             alt="Profile Image"
-                             class="rounded-circle profile-avatar border border-3 border-white shadow">
+                        @if($user)
+                            <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('assets/images/profile/profile-2.jpg') }}" alt="Profile Image" class="rounded-circle profile-avatar border border-3 border-white shadow">
+                        @else
+                            <img src="{{ asset('assets/images/profile/profile-2.jpg') }}" alt="Profile Image">
+                        @endif 
                         <div class="position-absolute bottom-0 end-0 bg-primary rounded-circle avatar-overlay d-flex align-items-center justify-content-center">
                             <i class="fas fa-camera text-white"></i>
                         </div>
@@ -137,43 +139,9 @@
                     <button type="button" class="btn btn-primary btn-lg rounded-3 fw-semibold px-4" data-bs-toggle="modal" data-bs-target="#updateProfileModal">
                         <i class="fas fa-edit me-2"></i>Update Profile
                     </button>
-<div class="container-fluid py-4">
-    <div class="row justify-content-start">
-        <div class="col-lg-9 col-md-10">
-            @php $user = Auth::user(); @endphp
-
-            <!-- Header with Buttons -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="fw-bold">User Profile</h3>
-                <div>
-                    <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</button>
-                    <div class="btn-group">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            Change Password
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginPasswordModal">Login Password</a></li>
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#transactionPasswordModal">Transaction Password</a></li>
-                        </ul>
-                    </div>
                 </div>
             </div>
-
-            <!-- User Info Display -->
-            <div class="row g-3">
-                <div class="col-md-3 text-center">
-                    <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('assets/images/profile/profile-2.jpg') }}"
-                         alt="Profile Image" class="rounded-circle shadow" style="width: 120px; height: 120px; object-fit: cover;">
-                </div>
-                <div class="col-md-9">
-                    <p><strong>Full Name:</strong> {{ $user->full_name }}</p>
-                    <p><strong>Email:</strong> {{ $user->email }}</p>
-                    <p><strong>Mobile:</strong> {{ $user->mobile_no }}</p>
-                    <p><strong>City:</strong> {{ $user->city }}</p>
-                    <p><strong>State:</strong> {{ $user->state }}</p>
-                    <p><strong>Country:</strong> {{ $user->country }}</p>
-                </div>
-            </div>
+            <!-- End of Profile Card -->
         </div>
     </div>
 </div>
@@ -295,6 +263,8 @@
             </div>
         </form>
     </div>
+</div>
+
 <!-- ✅ Edit Profile Modal -->
 <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
