@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 mt-4">
-            <div class="card shadow-lg p-4" style="border-radius:18px; background:#fff; max-width:800px; width:100%; margin-left:30px;">
+            <div class="shadow-lg p-4" style="border-radius:18px; background:#fff; max-width:958px; width:100%;">
                 <h2 class="fw-bold mb-4" style="font-size:1.6rem;">Fund Requests</h2>
                 <div class="table-responsive">
                     <table class="table table-sm table-hover align-middle compact-table" id="fundRequestsTable" style="min-width:600px;">
@@ -20,7 +20,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($fundRequests as $request)
+                            @forelse($fundRequests as $request)
                             <tr>
                                 <td>{{ $request->user->referral_id ?? 'N/A' }}</td>
                                 <td>{{ $request->user->full_name ?? 'N/A' }}</td>
@@ -38,7 +38,13 @@
                                     @endif
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="7" class="text-center text-secondary py-4" style="font-size:1.1rem;">
+                                    No fund requests found.
+                                </td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -56,6 +62,16 @@
     border-radius: 8px;
     overflow: hidden;
     background: #f8fafd;
+}
+.table-light th {
+    background: #bfc9d1 !important;
+    color: #222 !important;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-align: center;
+}
+.table-hover tbody tr:hover td {
+    background: #f3f7ff !important;
 }
 .card {
     max-width: 800px;

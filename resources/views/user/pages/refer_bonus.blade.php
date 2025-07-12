@@ -2,7 +2,7 @@
 @extends('user.main')
 
 @section('content')
-<div class="container" style="max-width:1100px; margin-top:40px; margin-left:0;">
+<div class="container" style="max-width:60rem; margin-top:40px; margin-left:0;">
     <div class="row mb-3">
         <div class="col-12">
             <nav aria-label="breadcrumb">
@@ -22,24 +22,24 @@
                     <table class="table table-borderless align-middle mb-0" style="font-size:0.97rem; min-width:700px; max-width:1050px; margin:auto;">
                         <thead style="background:#bfc9d1;">
                             <tr>
-                                <th class="fw-bold" style="font-size:1rem;">Member ID</th>
-                                <th class="fw-bold" style="font-size:1rem;">Name</th>
-                                <th class="fw-bold" style="font-size:1rem;">Info</th>
-                                <th class="fw-bold" style="font-size:1rem;">Refer Bonus</th>
-                                <th class="fw-bold" style="font-size:1rem;">Date</th>
+                                <th class="fw-bold" style="font-size:0.8rem; width: 144px;">Member ID</th>
+                                <th class="fw-bold" style="font-size:0.8rem; width: 144px;">Name</th>
+                                <th class="fw-bold" style="font-size:0.8rem; width: 144px;">Info</th>
+                                <th class="fw-bold" style="font-size:0.8rem; width: 144px;">Refer Bonus</th>
+                                <th class="fw-bold" style="font-size:0.8rem; width: 144px;">Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($referBonuses as $bonus)
                                 <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
-                                    <td class="fw-semibold">{{ $bonus->member_id }}</td>
-                                    <td class="fw-semibold">{{ $bonus->name }}</td>
-                                    <td class="fw-semibold">
+                                    <td class="fw-semibold" style="font-size: 0.5rem;">{{ $bonus->member_id }}</td>
+                                    <td class="fw-semibold" style="font-size: 0.5rem;">{{ $bonus->name }}</td>
+                                    <td class="fw-semibold" style="font-size: 0.5rem;">
                                         Referral ID: {{ $bonus->referral_id }}<br>
                                         Package: {{ $bonus->package_amount }}
                                     </td>
-                                    <td class="fw-semibold">{{ $bonus->refer_bonus }}</td>
-                                    <td class="fw-semibold">{{ $bonus->date ? \Carbon\Carbon::parse($bonus->date)->format('d-m-Y h:i:a') : '' }}</td>
+                                    <td class="fw-semibold" style="font-size: 0.5rem;">{{ $bonus->refer_bonus }}</td>
+                                    <td class="fw-semibold" style="font-size: 0.5rem;">{{ $bonus->date ? \Carbon\Carbon::parse($bonus->date)->format('d-m-Y h:i:a') : '' }}</td>
                                 </tr>
                             @empty
                                 <tr>

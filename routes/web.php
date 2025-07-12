@@ -86,6 +86,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/user/buy/{id}', [PackageController::class, 'buy'])->name('user.package.buy');
     Route::post('/user/buy/code', [PackageController::class, 'buyWithCode'])->name('user.package.buyWithCode');
     Route::post('/user/buy/request', [PackageController::class, 'buyWithRequest'])->name('user.package.buyWithRequest');
+    Route::get('/user/referrals', [ProfileController::class, 'showReferrals'])->name('user.referrals');
 });
 
 
