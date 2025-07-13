@@ -210,7 +210,7 @@
 <!-- Login Password Modal -->
 <div class="modal fade" id="loginPasswordModal" tabindex="-1" aria-labelledby="loginPasswordModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="{{ route('user.change.password') }}" method="POST" class="modal-content border-0 shadow-lg rounded-4">
+        <form id="loginPasswordForm" action="{{ route('user.change.password') }}" method="POST" class="modal-content border-0 shadow-lg rounded-4">
             @csrf
             <div class="modal-header bg-primary text-white border-0 rounded-top-4">
                 <h5 class="modal-title fw-bold">
@@ -221,11 +221,12 @@
             <div class="modal-body p-4">
                 <div class="mb-3">
                     <label class="form-label fw-semibold text-dark">New Password</label>
-                    <input type="password" name="password" class="form-control border-2 rounded-3 py-2" required>
+                    <input type="password" name="password" id="loginPassword" class="form-control border-2 rounded-3 py-2" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-semibold text-dark">Confirm Password</label>
-                    <input type="password" name="password_confirmation" class="form-control border-2 rounded-3 py-2" required>
+                    <input type="password" name="password_confirmation" id="loginPasswordConfirm" class="form-control border-2 rounded-3 py-2" required>
+                    <div class="invalid-feedback" id="loginPasswordError">Passwords do not match.</div>
                 </div>
             </div>
             <div class="modal-footer border-0 p-4">
@@ -239,7 +240,7 @@
 <!-- Transaction Password Modal -->
 <div class="modal fade" id="transactionPasswordModal" tabindex="-1" aria-labelledby="transactionPasswordModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="{{ route('user.change.txnpassword') }}" method="POST" class="modal-content border-0 shadow-lg rounded-4">
+        <form id="txnPasswordForm" action="{{ route('user.change.txnpassword') }}" method="POST" class="modal-content border-0 shadow-lg rounded-4">
             @csrf
             <div class="modal-header bg-primary text-white border-0 rounded-top-4">
                 <h5 class="modal-title fw-bold">
@@ -250,11 +251,12 @@
             <div class="modal-body p-4">
                 <div class="mb-3">
                     <label class="form-label fw-semibold text-dark">New Transaction Password</label>
-                    <input type="password" name="transaction_password" class="form-control border-2 rounded-3 py-2" required>
+                    <input type="password" name="transaction_password" id="txnPassword" class="form-control border-2 rounded-3 py-2" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-semibold text-dark">Confirm Transaction Password</label>
-                    <input type="password" name="transaction_password_confirmation" class="form-control border-2 rounded-3 py-2" required>
+                    <input type="password" name="transaction_password_confirmation" id="txnPasswordConfirm" class="form-control border-2 rounded-3 py-2" required>
+                    <div class="invalid-feedback" id="txnPasswordError">Passwords do not match.</div>
                 </div>
             </div>
             <div class="modal-footer border-0 p-4">
@@ -264,6 +266,43 @@
         </form>
     </div>
 </div>
+
+<script>
+// Login Password Modal Validation
+const loginForm = document.getElementById('loginPasswordForm');
+if (loginForm) {
+    loginForm.addEventListener('submit', function(e) {
+        const pass = document.getElementById('loginPassword').value;
+        const confirm = document.getElementById('loginPasswordConfirm').value;
+        const error = document.getElementById('loginPasswordError');
+        if (pass !== confirm) {
+            error.style.display = 'block';
+            document.getElementById('loginPasswordConfirm').classList.add('is-invalid');
+            e.preventDefault();
+        } else {
+            error.style.display = 'none';
+            document.getElementById('loginPasswordConfirm').classList.remove('is-invalid');
+        }
+    });
+}
+// Transaction Password Modal Validation
+const txnForm = document.getElementById('txnPasswordForm');
+if (txnForm) {
+    txnForm.addEventListener('submit', function(e) {
+        const pass = document.getElementById('txnPassword').value;
+        const confirm = document.getElementById('txnPasswordConfirm').value;
+        const error = document.getElementById('txnPasswordError');
+        if (pass !== confirm) {
+            error.style.display = 'block';
+            document.getElementById('txnPasswordConfirm').classList.add('is-invalid');
+            e.preventDefault();
+        } else {
+            error.style.display = 'none';
+            document.getElementById('txnPasswordConfirm').classList.remove('is-invalid');
+        }
+    });
+}
+</script>
 
 <!-- ✅ Edit Profile Modal -->
 <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
