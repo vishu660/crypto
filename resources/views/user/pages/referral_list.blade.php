@@ -2,7 +2,7 @@
 @extends('user.main')
 
 @section('content')
-<div class="container" style="max-width:950px; margin-top:40px; margin-left:0;">
+<div class="container" style="max-width:959px; margin-top:40px; margin-left:0;">
     <div class="row mb-3">
         <div class="col-12">
             <nav aria-label="breadcrumb">
@@ -22,25 +22,25 @@
                     <table class="table table-borderless align-middle mb-0" style="font-size:0.93rem; min-width:700px; max-width:900px; margin:auto;">
                         <thead style="background:#bfc9d1;">
                             <tr>
-                                <th class="fw-bold" style="font-size:1rem;">Member ID</th>
-                                <th class="fw-bold" style="font-size:1rem;">Name</th>
-                                <th class="fw-bold" style="font-size:1rem;">Referral ID</th>
-                                <th class="fw-bold" style="font-size:1rem;">Name</th>
-                                <th class="fw-bold" style="font-size:1rem;">Package</th>
-                                <th class="fw-bold" style="font-size:1rem;">Join Date</th>
-                                <th class="fw-bold" style="font-size:1rem;">Activation Date</th>
+                                <th class="fw-bold" style="font-size:0.8rem;">Member ID</th>
+                                <th class="fw-bold" style="font-size:0.8rem;">Name</th>
+                                <th class="fw-bold" style="font-size:0.8rem;">Referral ID</th>
+                                <th class="fw-bold" style="font-size:0.8rem;">Name</th>
+                                <th class="fw-bold" style="font-size:0.8rem;">Package</th>
+                                <th class="fw-bold" style="font-size:0.8rem;">Join Date</th>
+                                <th class="fw-bold" style="font-size:0.8rem;">Activation Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($referrals as $ref)
                                 <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
-                                    <td class="fw-semibold">{{ $ref->member_id }}</td>
-                                    <td class="fw-semibold">{{ $ref->name }}</td>
-                                    <td class="fw-semibold">{{ $ref->referral_id }}</td>
-                                    <td class="fw-semibold">{{ $ref->referrer_name }}</td>
-                                    <td class="fw-semibold">{{ $ref->package ?? 'Inactive' }}</td>
-                                    <td class="fw-semibold">{{ $ref->join_date ? \Carbon\Carbon::parse($ref->join_date)->format('d-m-Y h:i:a') : '' }}</td>
-                                    <td class="fw-semibold">{{ $ref->activation_date ? \Carbon\Carbon::parse($ref->activation_date)->format('d-m-Y h:i:a') : '----' }}</td>
+                                    <td class="fw-semibold" style="font-size:0.8rem;">{{ $ref->member_id }}</td>
+                                    <td class="fw-semibold" style="font-size:0.8rem;">{{ $ref->name }}</td>
+                                    <td class="fw-semibold" style="font-size:0.8rem;">{{ $ref->referral_id }}</td>
+                                    <td class="fw-semibold" style="font-size:0.8rem;">{{ $ref->referrer_name }}</td>
+                                    <td class="fw-semibold" style="font-size:0.8rem;">{{ $ref->package ?? 'Inactive' }}</td>
+                                    <td class="fw-semibold" style="font-size:0.8rem;">{{ $ref->join_date ? \Carbon\Carbon::parse($ref->join_date)->format('d-m-Y h:i:a') : '' }}</td>
+                                    <td class="fw-semibold" style="font-size:0.8rem;">{{ $ref->activation_date ? \Carbon\Carbon::parse($ref->activation_date)->format('d-m-Y h:i:a') : '----' }}</td>
                                 </tr>
                             @empty
                                 <tr>

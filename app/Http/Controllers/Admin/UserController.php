@@ -1070,7 +1070,7 @@ public function userTransactions()
     $transactions = \App\Models\Transaction::where('user_id', $user->id)->latest()->get();
     $activities = $transactions->map(function($txn) {
         return [
-            'asset' => $txn->asset ?? 'INR', // Adjust as needed
+            'asset' => $txn->asset ?? 'INR',
             'type' => $txn->type ?? '-',
             'amount' => $txn->amount ?? 0,
             'transaction_id' => $txn->id ?? '-',
@@ -1079,7 +1079,7 @@ public function userTransactions()
             'fee' => $txn->fee ?? 0,
         ];
     });
-    return view('user.pages.activity', compact('activities'));
+    return view('user.pages.transactions', compact('transactions'));
 }
 
 public function changePassword(Request $request)
@@ -1098,6 +1098,26 @@ public function changePassword(Request $request)
     $user->save();
 
     return back()->with('success', 'Password updated successfully.');
+}
+
+public function levelBonus()
+{
+    $user = auth()->user();
+    $levelBonuses = \App\Models\Transaction::where('user_id', $user->id)
+        ->where('type', 'level_bonus')
+        ->latest()
+        ->get()
+        ->map(function($txn) use ($user) {
+            return (object)[
+                'member_id' => $user->username ?? $user->id,
+                'name' => $user->full_name ?? $user->name,
+                'downline_id' => $txn->downline_id ?? '-',
+                'level' => $txn->level ?? '-',
+                'level_bonus' => $txn->amount,
+                'date' => $txn->created_at,
+            ];
+        });
+    return view('user.pages.level_bonus', compact('levelBonuses'));
 }
 
 

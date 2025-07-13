@@ -43,12 +43,12 @@
                                 <table class="table align-middle" id="d2c_all_activity_table">
                                     <thead>
                                         <tr>
-                                            <th style="min-width: 100px">Asset</th>
+                                            <th style="min-width: 50px">Asset</th>
                                             <th style="min-width: 50px">Type</th>
-                                            <th style="min-width: 150px">Amount</th>
-                                            <th style="min-width: 150px">Transaction Id</th>
-                                            <th style="min-width: 210px">Date</th>
-                                            <th style="min-width: 120px">Available</th>
+                                            <th style="min-width: 50px">Amount</th>
+                                            <th style="min-width: 120px">Transaction Id</th>
+                                            <th style="min-width: 50px">Date</th>
+                                            <th style="min-width: 50px">Available</th>
                                             <th style="min-width: 100px">Fee</th>
                                         </tr>
                                     </thead>

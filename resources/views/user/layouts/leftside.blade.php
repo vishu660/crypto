@@ -152,24 +152,40 @@
 
                     <!-- Profile Collapsible Menu -->
                     <li class="nav-item mb-2">
-                        <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('user.pages.bank') || request()->routeIs('user.pages.profile') || request()->routeIs('user.pages.verification_to_kyc') || request()->routeIs('user.create.usdt') || request()->routeIs('user.view.usdt') || request()->routeIs('user.pages.activity') ? 'active' : '' }}"
+                        <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('user.pages.bank') || request()->routeIs('user.pages.profile') || request()->routeIs('user.pages.verification_to_kyc') || request()->routeIs('user.pages.activity') ? 'active' : '' }}"
                         data-bs-toggle="collapse"
                         href="#profileMenu"
                         role="button"
-                        aria-expanded="{{ request()->routeIs('user.pages.bank') || request()->routeIs('user.pages.profile') || request()->routeIs('user.pages.verification_to_kyc') || request()->routeIs('user.create.usdt') || request()->routeIs('user.view.usdt') || request()->routeIs('user.pages.activity') ? 'true' : 'false' }}"
+                        aria-expanded="{{ request()->routeIs('user.pages.bank') || request()->routeIs('user.pages.profile') || request()->routeIs('user.pages.verification_to_kyc') || request()->routeIs('user.pages.activity') ? 'true' : 'false' }}"
                         aria-controls="profileMenu">
                     <span>
-                        <i class="far fa-user me-2"></i>Profile
+                        <i class="bi bi-person-circle me-2"></i>Profile
                     </span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
-                        <div class="collapse submenu {{ request()->routeIs('user.pages.bank') || request()->routeIs('user.pages.profile') || request()->routeIs('user.pages.verification_to_kyc') || request()->routeIs('user.create.usdt') || request()->routeIs('user.view.usdt') || request()->routeIs('user.pages.activity') ? 'show' : '' }}" id="profileMenu" data-bs-parent="#sidebarAccordion">
+                        <div class="collapse submenu {{ request()->routeIs('user.pages.bank') || request()->routeIs('user.pages.profile') || request()->routeIs('user.pages.verification_to_kyc') || request()->routeIs('user.pages.activity') ? 'show' : '' }}" id="profileMenu" data-bs-parent="#sidebarAccordion">
                             <a class="nav-link {{ request()->routeIs('user.pages.bank') ? 'active' : '' }}" href="{{ route('user.pages.bank') }}">Bank Details</a>
                             <a class="nav-link {{ request()->routeIs('user.pages.profile') ? 'active' : '' }}" href="{{ route('user.pages.profile') }}">Personal Details</a>
                             <a class="nav-link {{ request()->routeIs('user.pages.verification_to_kyc') ? 'active' : '' }}" href="{{ route('user.pages.verification_to_kyc') }}">Identification</a>
-                            <a class="nav-link {{ request()->routeIs('user.create.usdt') ? 'active' : '' }}" href="{{ route('user.create.usdt') }}">Add USDT Address</a>
-                            <a class="nav-link {{ request()->routeIs('user.view.usdt') ? 'active' : '' }}" href="{{ route('user.view.usdt') }}">My USDT Addresses</a>
                             <a class="nav-link {{ request()->routeIs('user.pages.activity') ? 'active' : '' }}" href="{{ route('user.pages.activity') }}">Activity</a>
+                        </div>
+                    </li>
+                    <!-- USDT Addresses Collapsible Menu as separate main menu -->
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex justify-content-between align-items-center {{ request()->routeIs('user.create.usdt') || request()->routeIs('user.view.usdt') ? 'active' : '' }}"
+                            data-bs-toggle="collapse"
+                            href="#usdtMenu"
+                            role="button"
+                            aria-expanded="{{ request()->routeIs('user.create.usdt') || request()->routeIs('user.view.usdt') ? 'true' : 'false' }}"
+                            aria-controls="usdtMenu">
+                            <span>
+                                <i class="bi bi-currency-dollar me-2"></i>USDT Addresses
+                            </span>
+                            <i class="bi bi-chevron-down"></i>
+                        </a>
+                        <div class="collapse submenu {{ request()->routeIs('user.create.usdt') || request()->routeIs('user.view.usdt') ? 'show' : '' }}" id="usdtMenu" data-bs-parent="#sidebarAccordion">
+                            <a class="nav-link {{ request()->routeIs('user.create.usdt') ? 'active' : '' }}" href="{{ route('user.create.usdt') }}">Add</a>
+                            <a class="nav-link {{ request()->routeIs('user.view.usdt') ? 'active' : '' }}" href="{{ route('user.view.usdt') }}">LIST</a>
                         </div>
                     </li>
                     <!-- End:Profile Collapsible Menu -->
