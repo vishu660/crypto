@@ -24,7 +24,11 @@ class AddressController extends Controller
             'address_key' => 'required',
         ]);
     
-        Address::create($request->only(['name', 'address_key']));
+        Address::create([
+            'name' => $request->name,
+            'address_key' => $request->address_key,
+            'user_id' => auth()->id(), // ya $request->user_id agar admin kisi aur user ke liye add kar raha hai
+        ]);
     
         return redirect()->route('admin.addresses.index')->with('success', 'Address Added');
     }

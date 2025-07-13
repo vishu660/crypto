@@ -62,7 +62,7 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                </form>
+            </form>
             </div>
         </div>
     </div>
@@ -91,13 +91,13 @@
                     <div class="branch-line left-line"></div>
                     <div class="branch-line right-line"></div>
                 </div>
-            </div>
+                </div>
 
             <!-- Level 1 Nodes -->
             <div class="tree-level level-1">
                 <!-- Left Child -->
                 <div class="tree-node child-node left-child" data-tooltip="Left Branch">
-                    @if($left_user)
+                        @if($left_user)
                         <div class="node-avatar left-avatar">
                             <i class="fas fa-user"></i>
                         </div>
@@ -115,7 +115,7 @@
                         </div>
                         <div class="node-status empty"></div>
                     @endif
-                </div>
+                            </div>
 
                 <!-- Right Child -->
                 <div class="tree-node child-node right-child" data-tooltip="Right Branch">
@@ -126,17 +126,17 @@
                         <div class="node-content">
                             <h6>{{ $right_user->full_name }}</h6>
                             <p>{{ $right_user->username }}</p>
-                        </div>
+                                    </div>
                         <div class="node-status online"></div>
-                    @else
+                                @else
                         <div class="node-avatar empty-avatar">
                             <i class="fas fa-user-plus"></i>
                         </div>
                         <div class="node-content">
                             <p>Available</p>
-                        </div>
+                                    </div>
                         <div class="node-status empty"></div>
-                    @endif
+                                @endif
                 </div>
             </div>
 
@@ -148,17 +148,17 @@
                         <div class="sub-branches">
                             <div class="sub-branch-line"></div>
                             <div class="sub-branch-line"></div>
-                        </div>
-                    </div>
+                                </div>
+                            </div>
                     <div class="sub-branch right-sub">
                         <div class="sub-line"></div>
                         <div class="sub-branches">
                             <div class="sub-branch-line"></div>
                             <div class="sub-branch-line"></div>
-                        </div>
+                            </div>
                     </div>
                 </div>
-            </div>
+                            </div>
 
             <!-- Level 2 Nodes -->
             <div class="tree-level level-2">
@@ -167,22 +167,22 @@
                     @if($left_left_user)
                         <div class="node-avatar left-avatar">
                             <i class="fas fa-user"></i>
-                        </div>
+                                </div>
                         <div class="node-content">
                             <h6>{{ $left_left_user->full_name }}</h6>
                             <p>{{ $left_left_user->username }}</p>
-                        </div>
+                                    </div>
                         <div class="node-status online"></div>
-                    @else
+                                @else
                         <div class="node-avatar empty-avatar">
                             <i class="fas fa-user-plus"></i>
                         </div>
                         <div class="node-content">
                             <p>Available</p>
-                        </div>
+                                    </div>
                         <div class="node-status empty"></div>
-                    @endif
-                </div>
+                                @endif
+                            </div>
 
                 <!-- Left-Right Child (Empty) -->
                 <div class="tree-node grandchild-node" data-tooltip="Left-Right Branch">
@@ -199,7 +199,7 @@
                 <div class="tree-node grandchild-node" data-tooltip="Right-Left Branch">
                     <div class="node-avatar empty-avatar">
                         <i class="fas fa-user-plus"></i>
-                    </div>
+                            </div>
                     <div class="node-content">
                         <p>Available</p>
                     </div>

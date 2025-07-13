@@ -512,7 +512,7 @@
 
         <div class="d2c_convert form-validation">
             <p class="fw-semibold">Quick Transfer</p>
-        
+
             <form id="transferForm" method="POST" action="{{ route('user.transfer.request') }}">
                 @csrf
         

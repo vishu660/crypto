@@ -5,10 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-12">
             @if(Auth::check())
-                @php $user = Auth::user(); @endphp
-            @else
-                <div class="alert alert-danger">You are not logged in.</div>
-            @endif
+    @php $user = Auth::user(); @endphp
+@else
+    <div class="alert alert-danger">You are not logged in.</div>
+@endif
 
             <!-- Header Section -->
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
@@ -116,16 +116,16 @@
                                                 <span class="fw-semibold text-dark">{{ $user->state }}</span>
                                             </div>
                                         </div>
-                                    </div>
+                                        </div>
                                     <div class="col-12">
                                         <div class="d-flex align-items-center p-3 bg-light rounded-3 border detail-item">
                                             <div class="bg-primary rounded-3 p-2 me-3 detail-icon">
                                                 <i class="fas fa-globe text-white"></i>
-                                            </div>
+                                        </div>
                                             <div class="flex-grow-1">
                                                 <small class="text-muted d-block mb-1">Country</small>
                                                 <span class="fw-semibold text-dark">{{ $user->country }}</span>
-                                            </div>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -362,22 +362,22 @@ if (txnForm) {
 <!-- 🔐 Login Password Modal -->
 <div class="modal fade" id="loginPasswordModal" tabindex="-1">
   <div class="modal-dialog">
-    <form action="{{ route('user.change.password') }}" method="POST" class="modal-content">
-      @csrf
-      <div class="modal-body">
-        <div class="mb-3">
-          <label>New Password</label>
-          <input type="password" name="password" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label>Confirm Password</label>
-          <input type="password" name="password_confirmation" class="form-control" required>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Update</button>
-      </div>
-    </form>
+  <form action="{{ route('user.change.password') }}" method="POST" class="modal-content">
+  @csrf
+  <div class="modal-body">
+    <div class="mb-3">
+      <label>New Password</label>
+      <input type="password" name="password" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Confirm Password</label>
+      <input type="password" name="password_confirmation" class="form-control" required>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">Update</button>
+  </div>
+</form>
   </div>
 </div>
 
@@ -391,14 +391,14 @@ if (txnForm) {
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <div class="mb-3">
-          <label>New Transaction Password</label>
-          <input type="password" name="transaction_password" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label>Confirm Transaction Password</label>
-          <input type="password" name="transaction_password_confirmation" class="form-control" required>
-        </div>
+          <div class="mb-3">
+              <label>New Transaction Password</label>
+              <input type="password" name="transaction_password" class="form-control" required>
+          </div>
+          <div class="mb-3">
+              <label>Confirm Transaction Password</label>
+              <input type="password" name="transaction_password_confirmation" class="form-control" required>
+          </div>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-warning">Update</button>
