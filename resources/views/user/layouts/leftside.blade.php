@@ -235,14 +235,14 @@
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="{{ route('user.pages.activity')}}">
                             <span class="d2c_icon">
                                 <i class="fas fa-recycle"></i>
                             </span>
                             <span> Activity </span>
                         </a>
-                    </li>
+                    </li> -->
                     <!-- End:Menu Item -->
 
                     <!-- Menu Item -->
