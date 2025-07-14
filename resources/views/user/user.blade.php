@@ -546,49 +546,61 @@
         <!-- ✅ JavaScript for Dynamic Behavior -->
        <!-- 📌 Blade Template File -->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const transferType = document.getElementById('transfer_type');
-        const recipientInput = document.getElementById('recipient_input');
-        const feedback = document.getElementById('recipient_feedback');
+  document.addEventListener('DOMContentLoaded', function () {
+    const transferType = document.getElementById('transfer_type');
+    const recipientInput = document.getElementById('recipient_input');
+    const feedback = document.getElementById('recipient_feedback');
 
-        // ✅ Injected data from backend (make sure these variables are passed from controller)
-        const bankData = @json($bank);
-        const usdtList = @json($usdt_addresses);
+    // ✅ Injected data from backend (make sure these variables are passed from controller)
+    const bankData = @json($bank);
+    const usdtList = @json($usdt_addresses);
 
-        transferType.addEventListener('change', function () {
-            const type = this.value;
-            feedback.innerHTML = '';
-            recipientInput.value = '';
+    transferType.addEventListener('change', function () {
+        const type = this.value;
+        feedback.innerHTML = '';
+        recipientInput.value = '';
 
-            if (type === 'bank') {
-                if (bankData && bankData.account_number) {
-                    const last4 = bankData.account_number.slice(-4);
-                    recipientInput.value = 'XXXX' + last4;
-                    feedback.innerHTML = '✅ Bank Detail Found';
-                } else {
-                    feedback.innerHTML = '❌ Bank Detail Not Found';
-                }
-            } else if (type === 'usdt') {
-                if (usdtList.length > 0) {
-                    let html = 'Select USDT Address: <select id="usdt_dropdown" class="form-select mt-2">';
-                    usdtList.forEach((addr, index) => {
-                        html += `<option value="${addr}">XXXX${addr.slice(-4)}</option>`;
-                    });
-                    html += '</select>';
-                    feedback.innerHTML = html;
-
-                    document.getElementById('usdt_dropdown').addEventListener('change', function () {
-                        recipientInput.value = 'XXXX' + this.value.slice(-4);
-                    });
-
-                    // Default select first address
-                    recipientInput.value = 'XXXX' + usdtList[0].slice(-4);
-                } else {
-                    feedback.innerHTML = '❌ USDT Address Not Found';
-                }
+        if (type === 'bank') {
+            if (bankData && bankData.account_number) {
+                // ✅ Fixed: Extract only the last 4 digits (numbers only)
+                const accountNumber = bankData.account_number.toString();
+                const digitsOnly = accountNumber.replace(/\D/g, ''); // Remove all non-digits
+                const last4 = digitsOnly.slice(-4); // Get last 4 digits
+                recipientInput.value = 'XXXXXX' + last4;
+                feedback.innerHTML = '<span class="text-success">✅ Bank Detail Found</span>';
+            } else {
+                feedback.innerHTML = '<span class="text-danger">❌ Bank Detail Not Found</span>';
             }
-        });
+        } else if (type === 'usdt') {
+            if (usdtList.length > 0) {
+                let html = 'Select USDT Address: <select id="usdt_dropdown" class="form-select mt-2">';
+                usdtList.forEach((addr, index) => {
+                    // ✅ Fixed: Extract only digits for USDT addresses too
+                    const digitsOnly = addr.replace(/\D/g, '');
+                    const last4 = digitsOnly.slice(-4);
+                    const maskedAddr = 'XXXXXX' + last4;
+                    html += `<option value="${addr}">${maskedAddr}</option>`;
+                });
+                html += '</select>';
+                feedback.innerHTML = html;
+
+                document.getElementById('usdt_dropdown').addEventListener('change', function () {
+                    // ✅ Fixed: Extract only digits for selected USDT address
+                    const digitsOnly = this.value.replace(/\D/g, '');
+                    const last4 = digitsOnly.slice(-4);
+                    recipientInput.value = 'XXXXXX' + last4;
+                });
+
+                // Default select first address with proper masking
+                const firstAddrDigits = usdtList[0].replace(/\D/g, '');
+                const firstLast4 = firstAddrDigits.slice(-4);
+                recipientInput.value = 'XXXXXX' + firstLast4;
+            } else {
+                feedback.innerHTML = '<span class="text-danger">❌ USDT Address Not Found</span>';
+            }
+        }
     });
+});
 </script>
 
         

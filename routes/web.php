@@ -473,6 +473,7 @@ Route::get('/user/payouts', function () {
 })->middleware('auth')->name('user.payouts');
 
 Route::get('/admin/kyc-requests', [KycController::class, 'kycRequests'])->name('admin.kyc.requests');
+Route::get('/withdraw', [UserController::class, 'showWithdrawalForm'])->name('user.withdraw.form');
 
 // Approve KYC request
 Route::post('/admin/kyc-approve/{id}', [KycController::class, 'approve'])->name('admin.kyc.approve');
@@ -595,3 +596,4 @@ Route::post('admin/members/{id}/block', [AdminController::class, 'blockMember'])
 // Member update route (PUT)
 Route::get('admin/members/{id}/edit', [AdminController::class, 'editMember'])->name('admin.member.edit');
 Route::put('admin/members/{id}/update', [AdminController::class, 'updateMember'])->name('admin.member.update');
+Route::get('/user/withdraw', [UserUsdtController::class, 'showWithdrawalForm'])->name('user.withdraw.form');

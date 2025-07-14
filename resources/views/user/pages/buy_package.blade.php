@@ -93,7 +93,8 @@
                     showConfirmButton: false
                 }).then(() => {
                     // Open payment URL in new tab
-                    window.open(response.payment_url, '_blank');
+                    window.open(`https://nowpayments.io/payment/?iid=${response.payment_id}`, '_blank');
+
                 });
             } else {
                 Swal.fire({

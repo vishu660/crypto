@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserUsdtController extends Controller
 {
@@ -47,4 +48,19 @@ class UserUsdtController extends Controller
         $addresses = UserAddress::where('user_id', auth()->id())->with('address')->get();
         return view('user.pages.userusdt_list', compact('addresses'));
     }
+    
+    public function showWithdrawalForm()
+    {
+        // "usdt" के लिए सिर्फ address_key get करो
+        $usdtKey = Address::where('name', 'usdt')
+                    ->pluck('address_key')   // सिर्फ address_key कॉलम
+                    ->unique()               // डुप्लिकेट हटाओ (optional)
+                    ->values()               // index reset करो (optional)
+                    ->toArray();             // Array में convert करो
+    
+        return view('user.pages.withdrawal', compact('usdtKey'));
+    }
+
+    
+    
 }

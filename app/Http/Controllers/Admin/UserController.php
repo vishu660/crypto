@@ -185,7 +185,7 @@ class UserController extends Controller
             'packages', 'recentTransactions', 'allTransactions',
             'inrBalance', 'usdtBalance', 'totalUsdtBalance',
             'freshEpins', 'appliedEpins', 'myReferrals', 'myTeamCount',
-            'earningWallet', 'depositWallet', 'fundRequested', 'user',
+            'earningWalletx', 'depositWallet', 'fundRequested', 'user',
             'prices',       // CoinGecko Prices
             'livePrice',     // Binance Live Prices
             'news',          // News
@@ -412,14 +412,14 @@ public function convert(Request $request)
         return view('user.pages.wallet', compact('wallets', 'balance', 'afterBalance'));
     }
 
-    public function blank()
-    {
-        $user = auth()->user();
-        $balance = $user->wallets->sum(function ($wallet) {
-            return $wallet->type === 'credit' ? $wallet->amount : -$wallet->amount;
-        });
-        return view('user.pages.blank', compact('balance'));
-    }
+    // public function blank()
+    // {
+    //     $user = auth()->user();
+    //     $balance = $user->wallets->sum(function ($wallet) {
+    //         return $wallet->type === 'credit' ? $wallet->amount : -$wallet->amount;
+    //     });
+    //     return view('user.pages.blank', compact('balance'));
+    // }
 
     public function transfer(Request $request)
     {
@@ -581,11 +581,11 @@ public function convert(Request $request)
         return back()->with('success', 'KYC documents uploaded! Status: Pending');
     }
 
-    public function kycForm()
-    {
-        $user = Auth::user();
-        return view('user.pages.kyc', compact('user'));
-    }
+    // public function kycForm()
+    // {
+    //     $user = Auth::user();
+    //     return view('user.pages.kyc', compact('user'));
+    // }
 
     public function kycSubmit(Request $request)
     {
@@ -674,12 +674,30 @@ public function convert(Request $request)
 
 //     return view('backend.pages.bankdetail', compact('banks'));
 // }
-public function showWithdrawalForm()
-{
-    $user = Auth::user();
-    $bankDetail = \App\Models\UserBankDetail::where('user_id', $user->id)->first();
-    return view('user.pages.withdrawal', compact('bankDetail'));
-    }
+// public function showWithdrawalForm()
+// {
+    
+//     $user = Auth::user();
+
+//     $bankDetail = \App\Models\UserBankDetail::where('user_id', $user->id)->first();
+
+//     // 🟢 Get all USDT network addresses of the user
+//     $usdtKey = \DB::table('addresses')
+//         ->where('name', 'usdt')
+//         ->pluck('address_key') // Will return: ['TRC20', 'ERC20', 'BEP20']
+//         ->unique()             // Optional: To remove duplicates
+//         ->values()             // Re-index array (0, 1, 2...)
+//         ->toArray();
+        
+       
+//         dd($usdtKey);
+
+       
+
+//     return view('user.pages.withdrawal', compact('bankDetail', 'usdtKey'));
+// }
+
+
     public function approveBank($id)
     {
         $bank = UserBankDetail::findOrFail($id);
@@ -689,6 +707,7 @@ public function showWithdrawalForm()
 
         return redirect()->back()->with('success', 'Bank detail approved successfully.');
     }
+
 
 public function withdrawSubmit(Request $request)
     {

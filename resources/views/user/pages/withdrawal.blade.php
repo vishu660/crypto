@@ -69,25 +69,25 @@
                 <!-- Bank Fields -->
                 <div id="bank-fields" style="display: none;">
                     <div class="form-group mb-3">
-                        <label class="fw-bold">Account Holder Name</label>
+                        <label class="fw-bold">Account Holder Name <span class="text-danger">*</span></label>
                         <input type="text" name="account_holder" class="form-control"
                             value="{{ old('account_holder', $bankDetail->account_holder ?? '') }}"
                             {{ $bankDetail ? 'readonly' : '' }}>
                     </div>
                     <div class="form-group mb-3">
-                        <label class="fw-bold">Account Number</label>
+                        <label class="fw-bold">Account Number <span class="text-danger">*</span></label>
                         <input type="text" name="bank_account" class="form-control"
                             value="{{ old('bank_account', $bankDetail->account_number ?? '') }}"
                             {{ $bankDetail ? 'readonly' : '' }}>
                     </div>
                     <div class="form-group mb-3">
-                        <label class="fw-bold">IFSC Code</label>
+                        <label class="fw-bold">IFSC Code <span class="text-danger">*</span></label>
                         <input type="text" name="ifsc_code" class="form-control"
                             value="{{ old('ifsc_code', $bankDetail->ifsc_code ?? '') }}"
                             {{ $bankDetail ? 'readonly' : '' }}>
                     </div>
                     <div class="form-group mb-3">
-                        <label class="fw-bold">Bank Name</label>
+                        <label class="fw-bold">Bank Name <span class="text-danger">*</span></label>
                         <input type="text" name="bank_name" class="form-control"
                             value="{{ old('bank_name', $bankDetail->bank_name ?? '') }}"
                             {{ $bankDetail ? 'readonly' : '' }}>
@@ -95,21 +95,36 @@
                 </div>
 
                 <!-- USDT Fields -->
-               <!-- USDT Fields -->
-            <div id="usdt-fields" style="display: none;">
-                <div class="form-group mb-3">
-                    <label class="fw-bold">USDT Address</label>
-                    <input type="text" name="usdt_address" class="form-control" placeholder="Enter USDT Wallet Address" value="{{ old('usdt_address') }}">
-                </div>
-                <div class="form-group mb-3">
-                    <label class="fw-bold">Network</label>
-                    <select name="usdt_network" class="form-control">
-                        <option value="TRC20" {{ old('usdt_network') == 'TRC20' ? 'selected' : '' }}>TRC20</option>
-                        <option value="ERC20" {{ old('usdt_network') == 'ERC20' ? 'selected' : '' }}>ERC20</option>
-                        <option value="BEP20" {{ old('usdt_network') == 'BEP20' ? 'selected' : '' }}>BEP20</option>
-                    </select>
-                </div>
-            </div>
+                <!-- USDT Withdrawal Fields Only -->
+<!-- USDT Fields -->
+<div id="usdt-fields" style="display: none;">
+    <div class="form-group mb-3">
+        <label class="fw-bold">USDT Address</label>
+        <input type="text" name="usdt_address" class="form-control" placeholder="Enter USDT Wallet Address" value="{{ old('usdt_address') }}">
+    </div>
+
+    <div class="form-group mb-3">
+        <label class="fw-bold">Network <span class="text-danger">*</span></label>
+        @if(!empty($usdtKey) && count($usdtKey) > 0)
+            <select name="usdt_network" class="form-control" required>
+                <option value="" disabled {{ old('usdt_network') ? '' : 'selected' }}>Select Network</option>
+                @foreach($usdtKey as $network)
+                    <option value="{{ $network }}" {{ old('usdt_network') == $network ? 'selected' : '' }}>
+                        {{ strtoupper($network) }}
+                    </option>
+                @endforeach
+            </select>
+        @else
+            <select class="form-control" disabled>
+                <option>No USDT Network Found</option>
+            </select>
+        @endif
+    </div>
+</div>
+
+
+
+              
 
                 <div class="form-group mb-4">
                     <label class="fw-bold">Remark</label>
@@ -133,30 +148,66 @@
         const bankFields = document.getElementById('bank-fields');
         const usdtFields = document.getElementById('usdt-fields');
 
-        // Check if elements exist before adding event listeners
         if (methodSelect && bankFields && usdtFields) {
-            methodSelect.addEventListener('change', function () {
-                const selected = this.value;
-                bankFields.style.display = selected === 'bank' ? 'block' : 'none';
-                usdtFields.style.display = selected === 'usdt' ? 'block' : 'none';
+            // Function to toggle fields and required attributes
+            function toggleFields(selectedMethod) {
+                const bankInputs = bankFields.querySelectorAll('input');
+                const usdtInputs = usdtFields.querySelectorAll('input, select');
+
+                if (selectedMethod === 'bank') {
+                    bankFields.style.display = 'block';
+                    usdtFields.style.display = 'none';
+                    
+                    // Make bank fields required
+                    bankInputs.forEach(input => {
+                        if (input.name !== 'remark') {
+                            input.setAttribute('required', 'required');
+                        }
+                    });
+                    
+                    // Remove required from USDT fields
+                    usdtInputs.forEach(input => {
+                        input.removeAttribute('required');
+                    });
+                    
+                } else if (selectedMethod === 'usdt') {
+                    bankFields.style.display = 'none';
+                    usdtFields.style.display = 'block';
+                    
+                    // Make USDT fields required
+                    usdtInputs.forEach(input => {
+                        if (input.name !== 'remark') {
+                            input.setAttribute('required', 'required');
+                        }
+                    });
+                    
+                    // Remove required from bank fields
+                    bankInputs.forEach(input => {
+                        input.removeAttribute('required');
+                    });
+                    
+                } else {
+                    bankFields.style.display = 'none';
+                    usdtFields.style.display = 'none';
+                    
+                    // Remove required from all conditional fields
+                    bankInputs.forEach(input => input.removeAttribute('required'));
+                    usdtInputs.forEach(input => input.removeAttribute('required'));
+                }
+            }
+
+            // Listen for changes
+            methodSelect.addEventListener('change', function() {
+                toggleFields(this.value);
             });
 
-            // Show appropriate fields on page load
-            const selectedMethod = methodSelect.value;
-            if (selectedMethod === 'bank') {
-                bankFields.style.display = 'block';
-                usdtFields.style.display = 'none';
-            } else if (selectedMethod === 'usdt') {
-                bankFields.style.display = 'none';
-                usdtFields.style.display = 'block';
-            }
+            // Initialize on page load
+            toggleFields(methodSelect.value);
         }
     });
 </script>
 
 <style>
-
-
 body {
     background: #f7f8fa;
     color: #222;
@@ -165,6 +216,7 @@ body {
     background: #fff;
     border-radius: 12px;
     padding: 2rem 1rem 1rem 1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 .form-control {
     background: #f7f8fa;
@@ -172,6 +224,11 @@ body {
     border: 1.5px solid #a084ee;
     border-radius: 12px;
     padding: 1rem 1.2rem;
+    transition: border-color 0.3s ease;
+}
+.form-control:focus {
+    border-color: #8e8dfa;
+    box-shadow: 0 0 0 0.2rem rgba(142, 141, 250, 0.25);
 }
 .btn-gradient {
     background: linear-gradient(90deg, #8e8dfa 0%, #38ef7d 100%);
@@ -181,9 +238,19 @@ body {
     border-radius: 12px;
     padding: 1rem 0;
     margin-top: 0.5rem;
+    transition: all 0.3s ease;
 }
 .btn-gradient:hover {
     background: linear-gradient(90deg, #38ef7d 0%, #8e8dfa 100%);
+    transform: translateY(-2px);
+}
+.alert {
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+    color: #6c757d;
 }
 </style>
 @endsection
