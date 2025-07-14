@@ -2,7 +2,7 @@
 @extends('user.main')
 
 @section('content')
-<div class="container" style="max-width:1100px; margin-top:40px; margin-left:0;">
+<div class="container" style="max-width: 985px; margin-top:40px; margin-left:0;">
     <div class="row mb-3">
         <div class="col-12">
             <nav aria-label="breadcrumb">

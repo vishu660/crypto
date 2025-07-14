@@ -28,14 +28,16 @@ class UserUsdtController extends Controller
             'user_id' => auth()->id(),
             'address_id' => $request->address_id,
             'usdt_address' => $request->usdt_address,
-            'is_approved' => false, // 👈 auto pending by default
+            'is_approved' => false, // auto pending by default
         ];
 
         if ($request->hasFile('qr_code')) {
             $file = $request->file('qr_code');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public/qr_codes', $filename); // storage/app/public/qr_codes
-            $data['qr_code'] = 'qr_codes/' . $filename; // save relative path only
+            
+            // Store in public directory instead
+            $file->move(public_path('uploads/qr_codes'), $filename);
+            $data['qr_code'] = 'uploads/qr_codes/' . $filename;
         }
 
         UserAddress::create($data);

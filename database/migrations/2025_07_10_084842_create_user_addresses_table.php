@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->foreignId('address_id')->constrained('addresses')->onDelete('cascade');
             $table->string('usdt_address');
             $table->string('qr_code')->nullable();
+            $table->boolean('is_approved')->default(false); // 👈 This was missing!
             $table->timestamps();
         });
     }

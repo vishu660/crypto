@@ -336,7 +336,7 @@ Route::get('/user/pages/notification', function () { return view('user.pages.not
 Route::get('/user/pages/profile', [UserController::class, 'profile'])->name('user.pages.profile');
 Route::get('/user/pages/profile/{role}', [UserController::class, 'getUsersByRole'])->name('user.pages.profile.by.role');
 Route::get('/user/pages/support', function () { return view('user.pages.support'); })->name('user.pages.support');
-Route::get('/user/pages/transactions', [UserController::class, 'userTransactions'])->name('user.pages.transactions');
+Route::get('/user/pages/transactions', [UserController::class, 'transactionsPage'])->name('user.pages.transactions');
 Route::get('/user/pages/transfer', [UserController::class, 'transfer'])->name('user.pages.transfer');
 Route::get('/user/pages/wallet', [UserController::class, 'wallet'])->name('user.pages.wallet')->middleware('auth');
 Route::get('/user/pages/activation', [UserController::class, 'activation'])->name('user.pages.activation');
