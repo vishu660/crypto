@@ -1066,8 +1066,10 @@ public function fundRequests()
 
 public function userTransactions()
 {
-    $user = auth()->user();
+    $user = Auth::user();
     $transactions = \App\Models\Transaction::where('user_id', $user->id)->latest()->get();
+
+    // Activity ke liye summary/array banao
     $activities = $transactions->map(function($txn) {
         return [
             'asset' => $txn->asset ?? 'INR',
@@ -1079,6 +1081,15 @@ public function userTransactions()
             'fee' => $txn->fee ?? 0,
         ];
     });
+
+    return view('user.pages.activity', compact('activities'));
+}
+
+public function transactionsPage()
+{
+    $user = Auth::user();
+    $transactions = \App\Models\Transaction::where('user_id', $user->id)->latest()->get();
+
     return view('user.pages.transactions', compact('transactions'));
 }
 
